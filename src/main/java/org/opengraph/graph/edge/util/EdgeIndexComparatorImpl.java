@@ -16,7 +16,7 @@ public class EdgeIndexComparatorImpl implements EdgeIndexComparator {
     public int compare(Integer e1, Integer e2) {
         int c = e1.compareTo(e2);
         if (descending) {
-            c *= -1;
+            return -c;
         }
         return c;
     }

@@ -20,7 +20,7 @@ public class EdgeWeightComparator implements EdgeIndexComparator {
         float w2 = weigher.getEdgeWeight(e2);
         int c = ((Float) w1).compareTo(w2);
         if (descending) {
-            c *= -1;
+            return -c;
         }
         return c;
     }
