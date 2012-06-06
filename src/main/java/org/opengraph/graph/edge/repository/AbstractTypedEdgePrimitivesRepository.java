@@ -35,7 +35,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository
 
     private final AtomicInteger maxId;
     private final IntArrayList removedEdges;
-    private final EdgeVectorIndex edgeVectorIndex;
+    private final EdgeVectorRepository edgeVectorIndex;
     private final EdgeType edgeType;
 
     private final List<ReentrantLock> locks;
@@ -50,7 +50,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository
             lockList.add(new ReentrantLock());
         }
         this.locks = Collections.unmodifiableList(lockList);
-        this.edgeVectorIndex = new ShardedEdgeVectorIndex(nofLocks);
+        this.edgeVectorIndex = new ShardedEdgeVectorRepository(nofLocks);
     }
 
     protected EdgeId generateEdgeId() {
