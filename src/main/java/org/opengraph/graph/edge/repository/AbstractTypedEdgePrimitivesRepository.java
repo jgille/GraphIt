@@ -214,7 +214,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository
 
             @Override
             public boolean apply(int edgeIndex) {
-                removedEdges.add(edgeIndex);
+                removeEdge(new EdgeId(getEdgeType(), edgeIndex));
                 return true;
             }
         });
@@ -249,7 +249,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository
 
             @Override
             public boolean apply(int edgeIndex) {
-                removedEdges.add(edgeIndex);
+                removeEdge(new EdgeId(getEdgeType(), edgeIndex));
                 return true;
             }
         });

@@ -688,6 +688,33 @@ public class PropertyGraphImplTest {
         assertThat(e2.getVertex(Direction.IN).getId(), Matchers.is((Object) p3));
     }
 
+    @Test
+    public void testRemoveNode() {
+        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")
+            .buy("u1", "p1", "p2", "p3").buy("u2", "p3").view("u1", "p2").similar("p1", "p2", 10);
+
+        NodeId p2 = new NodeId(PRODUCT, "p2");
+        graph.removeNode(p2);
+
+        NodeId u1 = new NodeId(USER, "u1");
+        NodeId p1 = new NodeId(PRODUCT, "p1");
+
+        List<Node> u1Bought = asList(graph.getNeighbors(u1, BOUGHT, EdgeDirection.OUTGOING));
+        assertThat(u1Bought.size(), Matchers.is(2));
+        assertThat(u1Bought.get(0).getNodeId().getId(), Matchers.is("p1"));
+        assertThat(u1Bought.get(1).getNodeId().getId(), Matchers.is("p3"));
+
+        List<Node> u1Viewed = asList(graph.getNeighbors(u1, VIEWED, EdgeDirection.OUTGOING));
+        assertThat(u1Viewed.size(), Matchers.is(0));
+
+        List<Node> p1Similar = asList(graph.getNeighbors(p1, SIMILAR, EdgeDirection.OUTGOING));
+        assertThat(p1Similar.size(), Matchers.is(0));
+
+        Node node = graph.getNode(p2);
+        assertThat(node, Matchers.nullValue());
+    }
+
     private <E> List<E> asList(Iterable<E> it) {
         List<E> list = new ArrayList<E>();
         for (E value : it) {
