@@ -1,0 +1,27 @@
+== OpenGraph ==
+
+Author: Jon Ivmark
+Date: 2012-06-06
+Licence: To be decided
+Requries: Java SDK 6+
+
+
+1. Description
+===============================================================================================
+
+OpenGraph is intended to be an easy to use, fast, RAM only (or mostly)
+property graph database.
+
+2. Installation
+===============================================================================================
+
+mvn install (in the root directory)
+
+3. Usage
+===============================================================================================
+
+TODO: Fill me in.
+
+4. Dependencies
+
+TODO: Fill me in.
