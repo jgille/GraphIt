@@ -15,6 +15,7 @@ import org.opengraph.graph.edge.domain.EdgeVector;
 import org.opengraph.graph.edge.domain.EdgeVectorImpl;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
+import org.opengraph.graph.repository.AbstractGraphRepository;
 
 /**
  * Base implementation of an {@link TypedEdgePrimitivesRepository}.
@@ -30,7 +31,7 @@ import org.opengraph.graph.edge.util.EdgeIndexComparator;
  * @author jon
  *
  */
-public abstract class AbstractTypedEdgePrimitivesRepository
+public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGraphRepository
     implements TypedEdgePrimitivesRepository {
 
     private final AtomicInteger maxId;

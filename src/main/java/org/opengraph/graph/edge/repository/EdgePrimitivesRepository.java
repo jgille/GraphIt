@@ -4,8 +4,9 @@ import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgePrimitive;
 import org.opengraph.graph.edge.domain.EdgeVector;
 import org.opengraph.graph.edge.schema.EdgeType;
+import org.opengraph.graph.repository.GraphRepository;
 
-public interface EdgePrimitivesRepository {
+public interface EdgePrimitivesRepository extends GraphRepository {
 
     /**
      * Adds an edge an returns the id of the new edge.

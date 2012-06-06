@@ -5,6 +5,7 @@ import org.opengraph.graph.edge.domain.EdgePrimitive;
 import org.opengraph.graph.edge.domain.EdgeVector;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeWeigher;
+import org.opengraph.graph.repository.GraphRepository;
 
 /**
  * Repository containing {@link EdgePrimitive}s for all edges of an
@@ -13,7 +14,7 @@ import org.opengraph.graph.edge.util.EdgeWeigher;
  * @author jon
  *
  */
-public interface TypedEdgePrimitivesRepository extends EdgeWeigher {
+public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphRepository {
 
     EdgeType getEdgeType();
 

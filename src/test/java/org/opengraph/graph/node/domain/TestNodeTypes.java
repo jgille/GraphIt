@@ -34,10 +34,4 @@ public class TestNodeTypes implements NodeTypes {
     public int size() {
         return elements.size();
     }
-
-    @Override
-    public String getGraphName() {
-        return "test";
-    }
-
 }

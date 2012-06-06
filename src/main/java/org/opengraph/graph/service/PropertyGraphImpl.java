@@ -1,5 +1,7 @@
 package org.opengraph.graph.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -20,6 +22,7 @@ import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.node.domain.NodeImpl;
 import org.opengraph.graph.node.repository.NodeIdRepository;
 import org.opengraph.graph.node.repository.NodeIdRepositoryImpl;
+import org.opengraph.graph.repository.AbstractGraphRepository;
 import org.opengraph.graph.schema.GraphMetadata;
 import org.opengraph.properties.domain.MapProperties;
 import org.opengraph.properties.domain.Properties;
@@ -31,7 +34,7 @@ import org.springframework.util.Assert;
 
 import com.tinkerpop.blueprints.Graph;
 
-public class PropertyGraphImpl implements PropertyGraph {
+public class PropertyGraphImpl extends AbstractGraphRepository implements PropertyGraph {
 
     private final GraphMetadata metadata;
 
@@ -44,7 +47,7 @@ public class PropertyGraphImpl implements PropertyGraph {
     public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
         this.nodeRepo = new NodeIdRepositoryImpl();
-        this.edgeRepo = new ByteBufferEdgePrimitivesRepository(metadata);
+        this.edgeRepo = new ByteBufferEdgePrimitivesRepository(metadata.getEdgeTypes());
         this.nodePropertiesRepo = new AlwaysEmptyPropertiesRepository<NodeId>();
         this.edgePropertiesRepo = new AlwaysEmptyPropertiesRepository<EdgeId>();
     }
@@ -282,11 +285,6 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     @Override
-    public void shutdown() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void setNodeProperties(NodeId nodeId, Properties properties) {
         nodePropertiesRepo.saveProperties(nodeId, properties);
     }
@@ -295,4 +293,38 @@ public class PropertyGraphImpl implements PropertyGraph {
     public void setEdgeProperties(EdgeId edgeId, Properties properties) {
         edgePropertiesRepo.saveProperties(edgeId, properties);
     }
+
+    @Override
+    public void init() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void shutdown() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public String getDirectory() {
+        return getBaseDirectory();
+    }
+
+    @Override
+    protected String getFileName() {
+        return "metadata.json";
+    }
+
+    @Override
+    public void dump(File out) throws IOException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void restore(File in) throws IOException {
+        // TODO Auto-generated method stub
+
+    }
+
 }

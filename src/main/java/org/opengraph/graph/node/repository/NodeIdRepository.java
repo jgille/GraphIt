@@ -1,8 +1,9 @@
 package org.opengraph.graph.node.repository;
 
 import org.opengraph.graph.node.domain.NodeId;
+import org.opengraph.graph.repository.GraphRepository;
 
-public interface NodeIdRepository {
+public interface NodeIdRepository extends GraphRepository {
 
     int getNodeIndex(NodeId nodeId);
 

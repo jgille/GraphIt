@@ -6,6 +6,7 @@ import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.node.domain.Node;
 import org.opengraph.graph.node.domain.NodeId;
+import org.opengraph.graph.repository.GraphRepository;
 import org.opengraph.graph.schema.GraphMetadata;
 import org.opengraph.properties.domain.Properties;
 import org.springframework.core.convert.converter.Converter;
@@ -19,7 +20,7 @@ import com.tinkerpop.blueprints.Graph;
  * @author jon
  *
  */
-public interface PropertyGraph {
+public interface PropertyGraph extends GraphRepository {
 
     /**
      * Gets metadata describing the valid nodes and edges for this graph.
@@ -109,10 +110,5 @@ public interface PropertyGraph {
      * Gets a blueprints compatible view of this graph.
      */
     Graph asBlueprintsGraph();
-
-    /**
-     * Performs a shutdown of this service.
-     */
-    void shutdown();
 
 }

@@ -4,5 +4,4 @@ import org.opengraph.common.enumeration.DynamicEnumerationSet;
 
 public interface EdgeTypes extends DynamicEnumerationSet<EdgeType> {
 
-    String getGraphName();
 }

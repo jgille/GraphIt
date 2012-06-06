@@ -36,9 +36,4 @@ public class TestEdgeTypes implements EdgeTypes {
         return elements.size();
     }
 
-    @Override
-    public String getGraphName() {
-        return "test";
-    }
-
 }

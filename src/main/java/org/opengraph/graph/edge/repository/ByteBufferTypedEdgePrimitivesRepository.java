@@ -1,15 +1,22 @@
 package org.opengraph.graph.edge.repository;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgePrimitive;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.EdgeWeigher;
+import org.opengraph.graph.repository.GraphRepositoryExporter;
 import org.springframework.util.Assert;
 
 /**
@@ -245,6 +252,49 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         public float getEdgeWeight(int edgeId) {
             return repo.getEdgeWeight(edgeId);
         }
+    }
+
+    @Override
+    public void init() {
+        // TODO Auto-generated method stub
+
+    }
+    @Override
+    public void shutdown() {
+        try {
+            new GraphRepositoryExporter(this).export(getDirectory(), getFileName());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to export nodes.", e);
+        }
+    }
+
+    @Override
+    public synchronized void dump(File out) throws IOException {
+        Writer writer = new FileWriter(out);
+        try {
+            for (ByteBuffer buffer : shards) {
+                byte[] arr = buffer.array();
+                IOUtils.write(arr, writer, "UTF8");
+            }
+        } finally {
+            writer.close();
+        }
+    }
+
+    @Override
+    public void restore(File in) throws IOException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    protected String getDirectory() {
+        return FilenameUtils.concat(getBaseDirectory(), "edges");
+    }
+
+    @Override
+    protected String getFileName() {
+        return String.format("%s.bin", getEdgeType().name());
     }
 
 }

@@ -4,5 +4,4 @@ public interface DynamicEnumerableElement {
 
     String name();
 
-    int ordinal();
 }
