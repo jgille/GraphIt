@@ -78,4 +78,6 @@ public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphReposit
      * Removes all edges connected to a node.
      */
     void removeNode(int nodeIndex);
+
+    void setBaseDirectory(String directory);
 }

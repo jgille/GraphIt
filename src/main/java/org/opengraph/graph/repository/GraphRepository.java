@@ -5,8 +5,6 @@ import java.io.IOException;
 
 public interface GraphRepository {
 
-    void setBaseDirectory(String directory);
-
     void init();
 
     void shutdown();

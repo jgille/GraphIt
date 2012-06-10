@@ -12,7 +12,6 @@ public abstract class AbstractGraphRepository implements GraphRepository {
         return directory;
     }
 
-    @Override
     public void setBaseDirectory(String directory) {
         this.directory = directory;
     }

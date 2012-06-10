@@ -7,15 +7,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.util.StringUtils;
 
-public class GraphRepositoryExporter {
+public class GraphRepositoryFileUtils {
 
-    private final GraphRepository repo;
-
-    public GraphRepositoryExporter(GraphRepository repo) {
-        this.repo = repo;
-    }
-
-    public void export(String dir, String fileName) throws IOException {
+    public static void persist(GraphRepository repo, String dir, String fileName)
+        throws IOException {
         if (!StringUtils.hasText(dir)) {
             return;
         }

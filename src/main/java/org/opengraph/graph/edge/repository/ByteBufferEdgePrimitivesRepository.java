@@ -143,6 +143,7 @@ public class ByteBufferEdgePrimitivesRepository extends AbstractGraphRepository 
         repo.addEdge(0, 3, foo);
         repo.addWeightedEdge(0, 1, bar, 1);
         repo.addWeightedEdge(0, 2, bar, 2);
+        System.out.println("Done.");
         repo.shutdown();
     }
 }

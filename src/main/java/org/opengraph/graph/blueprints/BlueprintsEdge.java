@@ -20,7 +20,7 @@ public class BlueprintsEdge extends AbstractElement<EdgeId> implements Edge {
     }
 
     @Override
-    public Vertex getVertex(Direction direction) throws IllegalArgumentException {
+    public Vertex getVertex(Direction direction) {
         switch (direction) {
         case OUT:
             return startNode;

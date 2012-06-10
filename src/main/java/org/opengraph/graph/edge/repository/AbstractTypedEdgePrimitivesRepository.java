@@ -34,8 +34,8 @@ import org.opengraph.graph.repository.AbstractGraphRepository;
 public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGraphRepository
     implements TypedEdgePrimitivesRepository {
 
-    private final AtomicInteger maxId;
-    private final IntArrayList removedEdges;
+    protected final AtomicInteger maxId;
+    protected final IntArrayList removedEdges;
     private final EdgeVectorRepository edgeVectorIndex;
     private final EdgeType edgeType;
 
@@ -44,7 +44,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
     protected AbstractTypedEdgePrimitivesRepository(EdgeType edgeType) {
         this.edgeType = edgeType;
         this.removedEdges = new IntArrayList();
-        this.maxId = new AtomicInteger();
+        this.maxId = new AtomicInteger(-1);
         int nofLocks = Runtime.getRuntime().availableProcessors() * 2;
         List<ReentrantLock> lockList = new ArrayList<ReentrantLock>(nofLocks);
         for (int i = 0; i < nofLocks; i++) {
@@ -64,7 +64,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
             }
         }
         if (id < 0) {
-            id = maxId.getAndIncrement();
+            id = maxId.incrementAndGet();
         }
         return new EdgeId(edgeType, id);
     }

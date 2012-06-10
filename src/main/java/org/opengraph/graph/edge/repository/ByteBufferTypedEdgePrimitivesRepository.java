@@ -1,23 +1,26 @@
 package org.opengraph.graph.edge.repository;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
+import org.apache.mahout.math.function.IntProcedure;
+import org.apache.mahout.math.list.IntArrayList;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgePrimitive;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.EdgeWeigher;
-import org.opengraph.graph.repository.GraphRepositoryExporter;
+import org.opengraph.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * {@link TypedEdgePrimitivesRepository} that stores the edges in a collection of
@@ -90,7 +93,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         return shard;
     }
 
-    private int getIndexInShard(int edgeId) {
+    private int getOffsetInShard(int edgeId) {
         return (edgeId % numEdgesPerShard) * getBytesPerEdge();
     }
 
@@ -124,7 +127,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         Assert.isTrue(endNodeIndex >= 0, "Node indexes must not be negative.");
         int id = edgeId.getIndex();
         ByteBuffer shard = getOrAddShard(id);
-        int index = getIndexInShard(id);
+        int index = getOffsetInShard(id);
         boolean newEdge;
         synchronized (shard) {
             int ps = shard.getInt(index);
@@ -157,18 +160,26 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         if (shard == null) {
             return null;
         }
-        int index = getIndexInShard(id);
+        int offset = getOffsetInShard(id);
+        synchronized (shard) {
+            return getEdge(edgeId.getIndex(), offset, shard);
+        }
+    }
+
+    private EdgePrimitive getEdge(int index, int offset, ByteBuffer shard) {
         int startNodeId, endNodeId;
         float weight;
-        synchronized (shard) {
-            startNodeId = shard.getInt(index);
-            endNodeId = shard.getInt(index + 4);
-            weight = getEdgeType().isWeighted() ? shard.getFloat(index + 8) : 0;
+        if (offset > shard.capacity() - getBytesPerEdge()) {
+            throw new IllegalStateException("Index out of bounds: " + offset + " >= "
+                + shard.capacity());
         }
+        startNodeId = shard.getInt(offset);
+        endNodeId = shard.getInt(offset + 4);
+        weight = getEdgeType().isWeighted() ? shard.getFloat(offset + 8) : 0;
         if (startNodeId < 0) {
             return null;
         }
-        return new EdgePrimitive(edgeId, startNodeId, endNodeId, weight);
+        return new EdgePrimitive(new EdgeId(getEdgeType(), index), startNodeId, endNodeId, weight);
     }
 
     @Override
@@ -182,7 +193,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
             return null;
         }
 
-        int index = getIndexInShard(id);
+        int index = getOffsetInShard(id);
         int startNodeId, endNodeId;
         float weight;
         synchronized (shard) {
@@ -222,7 +233,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
             return 0;
         }
         ByteBuffer shard = getShard(edgeId);
-        int index = getIndexInShard(edgeId);
+        int index = getOffsetInShard(edgeId);
         float weight;
         synchronized (shard) {
             weight = shard.getFloat(index + 8);
@@ -256,13 +267,25 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
-
+        String dir = getDirectory();
+        if (!StringUtils.hasText(dir)) {
+            return;
+        }
+        File file = new File(FilenameUtils.concat(getDirectory(), getFileName()));
+        if (!file.exists()) {
+            return;
+        }
+        try {
+            restore(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to restore edges.", e);
+        }
     }
+
     @Override
     public void shutdown() {
         try {
-            new GraphRepositoryExporter(this).export(getDirectory(), getFileName());
+            GraphRepositoryFileUtils.persist(this, getDirectory(), getFileName());
         } catch (IOException e) {
             throw new RuntimeException("Failed to export nodes.", e);
         }
@@ -270,31 +293,75 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     @Override
     public synchronized void dump(File out) throws IOException {
-        Writer writer = new FileWriter(out);
+        OutputStream os = new FileOutputStream(out);
         try {
             for (ByteBuffer buffer : shards) {
                 byte[] arr = buffer.array();
-                IOUtils.write(arr, writer, "UTF8");
+                os.write(arr);
             }
         } finally {
-            writer.close();
+            os.close();
         }
     }
 
-    @Override
-    public void restore(File in) throws IOException {
-        // TODO Auto-generated method stub
+    private byte[] read(File in) throws IOException {
+        return FileUtils.readFileToByteArray(in);
+    }
 
+    @Override
+    public synchronized void restore(File in) throws IOException {
+        Assert.isTrue(shards.isEmpty(), "Can not restore a non empty repo.");
+        byte[] data = read(in);
+        ByteBuffer buffer = ByteBuffer.wrap(data);
+        int index = 0;
+
+        IntArrayList nullEdges = new IntArrayList();
+        int maxNonNullIndex = 0;
+        int max = data.length / getBytesPerEdge();
+        EdgeType type = getEdgeType();
+        boolean isWeighted = type.isWeighted();
+
+        while (index < max) {
+            getOrAddShard(index);
+            EdgePrimitive edge = getEdge(index, index * getBytesPerEdge(), buffer);
+            if (edge == null) {
+                nullEdges.add(index);
+                edge = new EdgePrimitive(new EdgeId(getEdgeType(), index), -1, -1, -1);
+            } else {
+                maxNonNullIndex = index;
+            }
+            ByteBuffer shard = getOrAddShard(index);
+            int shardIndex = getOffsetInShard(index);
+            shard.putInt(shardIndex, edge.getStartNodeId());
+            shard.putInt(shardIndex + 4, edge.getEndNodeId());
+            if (isWeighted) {
+                shard.putFloat(shardIndex + 8, edge.getWeight());
+            }
+            index++;
+        }
+
+        maxId.set(maxNonNullIndex);
+        nullEdges.forEach(new IntProcedure() {
+
+            @Override
+            public boolean apply(int edgeIndex) {
+                if (edgeIndex <= maxId.get()) {
+                    removedEdges.add(edgeIndex);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     protected String getDirectory() {
-        return FilenameUtils.concat(getBaseDirectory(), "edges");
+        return FilenameUtils.concat(getBaseDirectory(), "edges/primitives");
     }
 
     @Override
     protected String getFileName() {
-        return String.format("%s.bin", getEdgeType().name());
+        return String.format("%s.edges", getEdgeType().name());
     }
 
 }

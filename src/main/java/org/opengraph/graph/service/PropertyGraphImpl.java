@@ -46,7 +46,7 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
 
     public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
-        this.nodeRepo = new NodeIdRepositoryImpl();
+        this.nodeRepo = new NodeIdRepositoryImpl(metadata.getNodeTypes());
         this.edgeRepo = new ByteBufferEdgePrimitivesRepository(metadata.getEdgeTypes());
         this.nodePropertiesRepo = new AlwaysEmptyPropertiesRepository<NodeId>();
         this.edgePropertiesRepo = new AlwaysEmptyPropertiesRepository<EdgeId>();

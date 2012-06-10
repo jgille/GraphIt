@@ -3,6 +3,7 @@ package org.opengraph.graph.node.repository;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
@@ -11,19 +12,26 @@ import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.node.domain.NodePrimitive;
+import org.opengraph.graph.node.schema.DynamicNodeTypes;
 import org.opengraph.graph.node.schema.NodeType;
+import org.opengraph.graph.node.schema.NodeTypeImpl;
+import org.opengraph.graph.node.schema.NodeTypes;
 import org.opengraph.graph.repository.AbstractGraphRepository;
-import org.opengraph.graph.repository.GraphRepositoryExporter;
+import org.opengraph.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 public class NodeIdRepositoryImpl extends AbstractGraphRepository implements NodeIdRepository {
 
+    private final NodeTypes nodeTypes;
     private final AbstractObjectIntMap<NodeId> nodeMap;
     private final ArrayList<NodeId> nodes;
 
-    public NodeIdRepositoryImpl() {
+    public NodeIdRepositoryImpl(NodeTypes nodeTypes) {
+        this.nodeTypes = nodeTypes;
         this.nodeMap = new OpenObjectIntHashMap<NodeId>();
         this.nodes = new ArrayList<NodeId>();
     }
@@ -81,8 +89,28 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
+        String dir = getDirectory();
+        if (!StringUtils.hasText(dir)) {
+            return;
+        }
+        File file = new File(FilenameUtils.concat(getDirectory(), getFileName()));
+        if (!file.exists()) {
+            return;
+        }
+        try {
+            restore(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to restore nodes.", e);
+        }
+    }
 
+    @Override
+    public synchronized void shutdown() {
+        try {
+            GraphRepositoryFileUtils.persist(this, getDirectory(), getFileName());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to persist nodes.", e);
+        }
     }
 
     @Override
@@ -103,14 +131,23 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     }
 
     @Override
-    public void restore(File in) throws IOException {
-        // TODO Auto-generated method stub
-
+    public synchronized void restore(File in) throws IOException {
+        Assert.isTrue(nodes.isEmpty(), "Can not restore a non empty repo.");
+        ObjectMapper mapper = new ObjectMapper();
+        List<NodePrimitive> primitives =
+            mapper.readValue(in, new TypeReference<List<NodePrimitive>>() {
+        });
+        for (NodePrimitive np : primitives) {
+            int index = np.getIndex();
+            NodeType nodeType = nodeTypes.valueOf(np.getType());
+            NodeId nodeId = new NodeId(nodeType, np.getId());
+            insert(index, nodeId);
+        }
     }
 
     @Override
     public String getDirectory() {
-        return FilenameUtils.concat(getBaseDirectory(), "nodes");
+        return FilenameUtils.concat(getBaseDirectory(), "nodes/primitives");
     }
 
     @Override
@@ -118,42 +155,13 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
         return "nodes.json";
     }
 
-    @Override
-    public synchronized void shutdown() {
-        try {
-            new GraphRepositoryExporter(this).export(getDirectory(), getFileName());
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to export nodes.", e);
-        }
-    }
-
     public static void main(String[] args) {
-        NodeIdRepositoryImpl repo = new NodeIdRepositoryImpl();
+        NodeType product = new NodeTypeImpl("Product");
+        NodeType user = new NodeTypeImpl("User");
+        NodeTypes nodeTypes = new DynamicNodeTypes().add(product).add(user);
+        NodeIdRepositoryImpl repo = new NodeIdRepositoryImpl(nodeTypes);
         repo.setBaseDirectory("/tmp/opengraph");
         repo.init();
-
-        NodeType product = new NodeType() {
-
-            @Override
-            public String name() {
-                return "PRODUCT";
-            }
-        };
-        NodeType user = new NodeType() {
-
-            @Override
-            public String name() {
-                return "USER";
-            }
-        };
-
-        repo.insert(new NodeId(product, "p1"));
-        repo.insert(new NodeId(product, "p2"));
-        repo.insert(new NodeId(product, "p3"));
-
-        repo.insert(new NodeId(user, "u1"));
-        repo.insert(new NodeId(user, "u2"));
-
         repo.shutdown();
     }
 }
