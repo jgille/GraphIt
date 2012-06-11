@@ -11,43 +11,66 @@ import org.opengraph.graph.edge.schema.EdgeType;
 public class EdgePrimitive {
 
     private final EdgeId edgeId;
-    private final int startNodeId;
-    private final int endNodeId;
+    private final int startNodeIndex;
+    private final int endNodeIndex;
     private final float weight;
 
-    public EdgePrimitive(EdgeId edgeId, int startNodeId, int endNodeId, float weight) {
+    public EdgePrimitive(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight) {
         this.edgeId = edgeId;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
+        this.startNodeIndex = startNodeIndex;
+        this.endNodeIndex = endNodeIndex;
         this.weight = weight;
     }
 
-    public int getId() {
+    /**
+     * Gets the edge index.
+     */
+    public int getIndex() {
         return edgeId.getIndex();
     }
 
+    /**
+     * Gets the edge type.
+     */
     public EdgeType getEdgeType() {
         return edgeId.getEdgeType();
     }
 
+    /**
+     * Gets the edge id.
+     */
     public EdgeId getEdgeId() {
         return edgeId;
     }
 
-    public int getStartNodeId() {
-        return startNodeId;
+    /**
+     * Gets index of the start node.
+     */
+    public int getStartNodeIndex() {
+        return startNodeIndex;
     }
 
-    public int getEndNodeId() {
-        return endNodeId;
+    /**
+     * Gets index of the end node.
+     */
+    public int getEndNodeIndex() {
+        return endNodeIndex;
     }
 
+    /**
+     * Gets the edge weight.
+     */
     public float getWeight() {
         return weight;
     }
 
+    /**
+     * Returns a reversed copy of the edge, i.e. A -> B will become B -> A.
+     *
+     * @return
+     */
     public EdgePrimitive reverse() {
-        return new EdgePrimitive(edgeId, endNodeId, startNodeId, weight);
+        return new EdgePrimitive(edgeId, endNodeIndex, startNodeIndex, weight);
     }
 
     @Override
@@ -72,8 +95,9 @@ public class EdgePrimitive {
 
     @Override
     public String toString() {
-        return "InternalEdge [edgeId=" + edgeId + ", startNodeId=" + startNodeId + ", endNodeId="
-            + endNodeId + ", weight=" + weight + "]";
+        return "InternalEdge [edgeId=" + edgeId + ", startNodeId=" + startNodeIndex
+            + ", endNodeId="
+            + endNodeIndex + ", weight=" + weight + "]";
     }
 
 }

@@ -14,10 +14,24 @@ import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.util.DefaultQuery;
 
+/**
+ * A {@link Vertex} implementation.
+ *
+ * @author jon
+ *
+ */
 class BlueprintsNode extends AbstractElement<NodeId> implements Vertex {
 
     private final BlueprintsEdgesRepository edgesRepo;
 
+    /**
+     * Constructs a new {@link BlueprintsNode}.
+     *
+     * @param node
+     *            The wrapped node.
+     * @param edgesRepo
+     *            A repo for getting connected edges and neighbors of this node.
+     */
     BlueprintsNode(Node node, BlueprintsEdgesRepository edgesRepo) {
         super(node.getNodeId(), node);
         this.edgesRepo = edgesRepo;

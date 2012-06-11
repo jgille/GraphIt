@@ -6,6 +6,12 @@ import org.opengraph.graph.edge.domain.EdgeVector;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.repository.GraphRepository;
 
+/**
+ * A repo containing methods related to storing {@link EdgePrimitive}s.
+ * 
+ * @author jon
+ * 
+ */
 public interface EdgePrimitivesRepository extends GraphRepository {
 
     /**

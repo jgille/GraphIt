@@ -172,7 +172,7 @@ public class EdgeVectorImpl implements EdgeVector {
             + ", rootNodeId=" + rootNodeId + ", edgeType=" + edgeType + ", edges=" + edges + "]";
     }
 
-    private static class EdgeIterator<T> implements Iterator<T> {
+    private static final class EdgeIterator<T> implements Iterator<T> {
 
         private final EdgeType edgeType;
         private final IntArrayList edgeIds;

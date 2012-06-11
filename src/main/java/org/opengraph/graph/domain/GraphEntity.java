@@ -2,6 +2,14 @@ package org.opengraph.graph.domain;
 
 import org.opengraph.properties.domain.Properties;
 
+/**
+ * An entity in a graph, e.g. a node or an edge.
+ *
+ * @author jon
+ *
+ * @param <T>
+ *            The generic type of the entity type.
+ */
 public interface GraphEntity<T> extends Properties {
 
     /**

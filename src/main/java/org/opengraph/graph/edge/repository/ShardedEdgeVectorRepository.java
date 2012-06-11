@@ -7,6 +7,11 @@ import org.apache.mahout.math.map.AbstractIntObjectMap;
 import org.apache.mahout.math.map.OpenIntObjectHashMap;
 import org.opengraph.graph.edge.domain.EdgeVector;
 
+/**
+ * An {@link EdgeVectorRepository} that is split into multiple shards for better
+ * concurrency.
+ * 
+ */
 public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
 
     private final int nofShards;

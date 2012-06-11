@@ -15,6 +15,7 @@ import org.apache.mahout.math.function.IntProcedure;
 import org.apache.mahout.math.list.IntArrayList;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgePrimitive;
+import org.opengraph.graph.edge.domain.EdgeVector;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.EdgeWeigher;
@@ -56,6 +57,10 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         this.edgeComparator = getEdgeType().getEdgeComparator(new ByteBufferEdgeWeigher(this));
     }
 
+    /**
+     * Sets the {@link EdgeIndexComparator} to use to keep {@link EdgeVector}s
+     * sorted.
+     */
     public void setEdgeComparator(EdgeIndexComparator edgeComparator) {
         this.edgeComparator = edgeComparator;
     }
@@ -217,8 +222,8 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     public void setEdgeWeight(EdgeId edgeId, float weight) {
         EdgePrimitive edge = getEdge(edgeId);
         Assert.notNull(edge);
-        upsert(edgeId, edge.getStartNodeId(), edge.getEndNodeId(), weight);
-        reindex(new EdgePrimitive(edgeId, edge.getStartNodeId(), edge.getEndNodeId(), weight));
+        upsert(edgeId, edge.getStartNodeIndex(), edge.getEndNodeIndex(), weight);
+        reindex(new EdgePrimitive(edgeId, edge.getStartNodeIndex(), edge.getEndNodeIndex(), weight));
     }
 
     @Override
@@ -332,8 +337,8 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
             }
             ByteBuffer shard = getOrAddShard(index);
             int shardIndex = getOffsetInShard(index);
-            shard.putInt(shardIndex, edge.getStartNodeId());
-            shard.putInt(shardIndex + 4, edge.getEndNodeId());
+            shard.putInt(shardIndex, edge.getStartNodeIndex());
+            shard.putInt(shardIndex + 4, edge.getEndNodeIndex());
             if (isWeighted) {
                 shard.putFloat(shardIndex + 8, edge.getWeight());
             }

@@ -55,8 +55,8 @@ public class ByteBufferEdgePrimitivesRepositoryTest {
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertThat(edge, Matchers.notNullValue());
         assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-        assertThat(edge.getStartNodeId(), Matchers.is(1));
-        assertThat(edge.getEndNodeId(), Matchers.is(2));
+        assertThat(edge.getStartNodeIndex(), Matchers.is(1));
+        assertThat(edge.getEndNodeIndex(), Matchers.is(2));
         assertThat(edge.getWeight(), Matchers.is(100f));
     }
 
@@ -69,8 +69,8 @@ public class ByteBufferEdgePrimitivesRepositoryTest {
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertThat(edge, Matchers.notNullValue());
         assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-        assertThat(edge.getStartNodeId(), Matchers.is(1));
-        assertThat(edge.getEndNodeId(), Matchers.is(2));
+        assertThat(edge.getStartNodeIndex(), Matchers.is(1));
+        assertThat(edge.getEndNodeIndex(), Matchers.is(2));
         assertThat(edge.getWeight(), Matchers.is(0f));
     }
 
@@ -103,8 +103,8 @@ public class ByteBufferEdgePrimitivesRepositoryTest {
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertThat(edge, Matchers.notNullValue());
         assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-        assertThat(edge.getStartNodeId(), Matchers.is(1));
-        assertThat(edge.getEndNodeId(), Matchers.is(2));
+        assertThat(edge.getStartNodeIndex(), Matchers.is(1));
+        assertThat(edge.getEndNodeIndex(), Matchers.is(2));
         assertThat(edge.getWeight(), Matchers.is(0f));
     }
 
@@ -222,8 +222,8 @@ public class ByteBufferEdgePrimitivesRepositoryTest {
             EdgePrimitive edge = repo.getEdge(edgeId);
             assertThat(edge, Matchers.notNullValue());
             assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-            assertThat(edge.getStartNodeId(), Matchers.is(startNodeId));
-            assertThat(edge.getEndNodeId(), Matchers.is(endNodeId));
+            assertThat(edge.getStartNodeIndex(), Matchers.is(startNodeId));
+            assertThat(edge.getEndNodeIndex(), Matchers.is(endNodeId));
             assertThat(edge.getWeight(), Matchers.is(weight));
         }
     }
@@ -243,8 +243,8 @@ public class ByteBufferEdgePrimitivesRepositoryTest {
             EdgePrimitive edge = repo.getEdge(edgeId);
             assertThat(edge, Matchers.notNullValue());
             assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-            assertThat(edge.getStartNodeId(), Matchers.is(startNodeId));
-            assertThat(edge.getEndNodeId(), Matchers.is(endNodeId));
+            assertThat(edge.getStartNodeIndex(), Matchers.is(startNodeId));
+            assertThat(edge.getEndNodeIndex(), Matchers.is(endNodeId));
         }
     }
 

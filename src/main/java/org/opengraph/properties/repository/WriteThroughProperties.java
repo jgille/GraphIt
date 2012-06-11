@@ -6,6 +6,15 @@ import java.util.Set;
 import org.opengraph.properties.domain.MapProperties;
 import org.opengraph.properties.domain.Properties;
 
+/**
+ * A {@link Properties} implementation that will notify a
+ * {@link PropertiesRepository} of all changes.
+ *
+ * @author jon
+ *
+ * @param <T>
+ *            The generic type of the id of this instance.
+ */
 public class WriteThroughProperties<T> implements Properties {
 
     private final T id;

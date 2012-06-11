@@ -3,6 +3,15 @@ package org.opengraph.properties.repository;
 import org.opengraph.properties.domain.MapProperties;
 import org.opengraph.properties.domain.Properties;
 
+/**
+ * A {@link PropertiesRepository} that will always return empty
+ * {@link Properties} instances.
+ *
+ * @author jon
+ *
+ * @param <T>
+ *            The generic type of the id of each entry in this repo.
+ */
 public class AlwaysEmptyPropertiesRepository<T> implements PropertiesRepository<T> {
 
     @Override

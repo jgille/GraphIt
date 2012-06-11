@@ -14,6 +14,13 @@ import org.opengraph.graph.edge.schema.EdgeTypes;
 import org.opengraph.graph.repository.AbstractGraphRepository;
 import org.springframework.util.Assert;
 
+/**
+ * An {@link EdgePrimitivesRepository} backed by a collection of
+ * {@link ByteBufferTypedEdgePrimitivesRepository} instances.
+ *
+ * @author jon
+ *
+ */
 public class ByteBufferEdgePrimitivesRepository extends AbstractGraphRepository implements
     EdgePrimitivesRepository {
 

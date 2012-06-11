@@ -2,6 +2,13 @@ package org.opengraph.graph.edge.repository;
 
 import org.opengraph.graph.edge.domain.EdgeVector;
 
+/**
+ * A repo containg methods relating to querying/modifying the {@link EdgeVector}
+ * (outgoing or incoming) for a node.
+ * 
+ * @author jon
+ * 
+ */
 public interface EdgeVectorRepository {
 
     /**

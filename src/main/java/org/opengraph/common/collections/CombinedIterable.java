@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * An {@link Iterable} that combines a collection of {@link Iterable}s, i.e. [1,
+ * 2, 3] + [4, 5] -> [1, 2, 3, 4, 5].
+ * 
+ * @author jon
+ * 
+ * @param <T>
+ *            The generic type of the elements in the {@link Iterable}.
+ */
 public class CombinedIterable<T> implements Iterable<T> {
 
     private final List<Iterable<T>> iterables;
@@ -21,7 +30,7 @@ public class CombinedIterable<T> implements Iterable<T> {
         return new CombinedIterator<T>(iterators);
     }
 
-    private static class CombinedIterator<T> implements Iterator<T> {
+    private static final class CombinedIterator<T> implements Iterator<T> {
 
         private final List<Iterator<T>> iterators;
         private int current = 0;

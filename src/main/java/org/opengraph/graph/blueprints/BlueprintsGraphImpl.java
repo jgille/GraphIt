@@ -15,6 +15,12 @@ import com.tinkerpop.blueprints.Features;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
+/**
+ * A {@link Graph} implementation wrapping a {@link PropertyGraph}.
+ *
+ * @author jon
+ *
+ */
 public class BlueprintsGraphImpl implements Graph {
 
     private final PropertyGraph graphService;
@@ -27,10 +33,17 @@ public class BlueprintsGraphImpl implements Graph {
         this.edgesRepo = new BlueprintsEdgesRepositoryImpl(this);
     }
 
-    EdgeType getEdgeType(String edgeLabel) {
+    /**
+     * Converts an edge label to an edge type.
+     */
+    private EdgeType getEdgeType(String edgeLabel) {
         return graphService.getMetadata().getEdgeTypes().valueOf(edgeLabel);
     }
 
+    /**
+     * Converts a {@link Direction} to an {@link EdgeDirection}.
+     *
+     */
     EdgeDirection getEdgeDirection(Direction direction) {
         switch (direction) {
         case OUT:
@@ -146,7 +159,7 @@ public class BlueprintsGraphImpl implements Graph {
         return "BlueprintsGraphImpl [graphService=" + graphService + "]";
     }
 
-    private static class BlueprintsEdgesRepositoryImpl implements BlueprintsEdgesRepository {
+    private static final class BlueprintsEdgesRepositoryImpl implements BlueprintsEdgesRepository {
 
         private final BlueprintsGraphImpl graph;
         private final Converter<org.opengraph.graph.edge.domain.Edge, Edge> edgeConverter;
@@ -180,7 +193,7 @@ public class BlueprintsGraphImpl implements Graph {
         }
     }
 
-    private static class EdgeConverter implements
+    private static final class EdgeConverter implements
         Converter<org.opengraph.graph.edge.domain.Edge, Edge> {
 
         private final BlueprintsGraphImpl graph;
@@ -200,7 +213,7 @@ public class BlueprintsGraphImpl implements Graph {
 
     }
 
-    private static class VertexConverter implements Converter<Node, Vertex> {
+    private static final class VertexConverter implements Converter<Node, Vertex> {
 
         private final BlueprintsGraphImpl graph;
 

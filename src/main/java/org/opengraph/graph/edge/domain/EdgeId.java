@@ -3,21 +3,42 @@ package org.opengraph.graph.edge.domain;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.springframework.util.Assert;
 
+/**
+ * A unique identifier for an edge in a graph. Should normally never be
+ * constructed manually.
+ *
+ * @author jon
+ *
+ */
 public class EdgeId {
 
     private final EdgeType edgeType;
     private final int index;
 
+    /**
+     * Constructs a new edge id.
+     * 
+     * @param edgeType
+     *            The type of the edge.
+     * @param index
+     *            The index of the edge.
+     */
     public EdgeId(EdgeType edgeType, int index) {
         Assert.isTrue(index >= 0, "Index must not be negative.");
         this.edgeType = edgeType;
         this.index = index;
     }
 
+    /**
+     * Gets the type of the edge.
+     */
     public EdgeType getEdgeType() {
         return edgeType;
     }
 
+    /**
+     * Gets the index of the edge.
+     */
     public int getIndex() {
         return index;
     }

@@ -82,6 +82,10 @@ public interface EdgeVector {
      */
     boolean isEmpty();
 
+    /**
+     * Returns an iterable of this vector, converting each element with the
+     * provided {@link Converter}.
+     */
     <T> Iterable<T> iterable(Converter<EdgeId, T> converter);
 
 }

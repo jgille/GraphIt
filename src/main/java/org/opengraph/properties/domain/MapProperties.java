@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A {@link Properties} implementation backed by a {@link HashMap}.
+ * 
+ * @author jon
+ * 
+ */
 public class MapProperties implements Properties {
 
     private final Map<String, Object> properties;

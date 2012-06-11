@@ -3,6 +3,12 @@ package org.opengraph.properties.domain;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A set of key/value properties.
+ *
+ * @author jon
+ *
+ */
 public interface Properties {
 
     /**

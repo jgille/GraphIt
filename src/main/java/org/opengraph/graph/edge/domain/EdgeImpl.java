@@ -58,23 +58,35 @@ public class EdgeImpl implements Edge {
         return weight;
     }
 
+    /**
+     * Sets the edge start node.
+     */
     public EdgeImpl setStartNode(Node startNode) {
         Assert.notNull(startNode, "Null start node for edge: " + this);
         this.startNode = startNode;
         return this;
     }
 
+    /**
+     * Sets the edge end node.
+     */
     public EdgeImpl setEndNode(Node endNode) {
         Assert.notNull(endNode, "Null end node for edge: " + this);
         this.endNode = endNode;
         return this;
     }
 
+    /**
+     * Sets the edge weight.
+     */
     public EdgeImpl setWeight(float weight) {
         this.weight = weight;
         return this;
     }
 
+    /**
+     * Sets the edge properties.
+     */
     public EdgeImpl setProperties(Properties properties) {
         this.properties = properties;
         return this;

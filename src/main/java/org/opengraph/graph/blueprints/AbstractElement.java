@@ -6,12 +6,29 @@ import org.opengraph.properties.domain.Properties;
 
 import com.tinkerpop.blueprints.Element;
 
-public abstract class AbstractElement<K> implements Element {
+/**
+ * Base implementation of a blueprints {@link Element}.
+ * 
+ * @author jon
+ * 
+ * @param <T>
+ *            The generic type of the element id.
+ */
+public abstract class AbstractElement<T> implements Element {
 
-    private final K id;
+    private final T id;
     private final Properties properties;
 
-    protected AbstractElement(K id, Properties properties) {
+    /**
+     * Constructs an element.
+     *
+     * @param id
+     *            The id of this element.
+     * @param properties
+     *            The properties of this element.
+     *
+     */
+    protected AbstractElement(T id, Properties properties) {
         this.id = id;
         this.properties = properties;
     }
@@ -37,7 +54,7 @@ public abstract class AbstractElement<K> implements Element {
     }
 
     @Override
-    public K getId() {
+    public T getId() {
         return id;
     }
 

@@ -203,10 +203,10 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         if (edgePrimitive == null) {
             return null;
         }
-        Node startNode = getNode(edgePrimitive.getStartNodeId());
-        Node endNode = getNode(edgePrimitive.getEndNodeId());
+        Node startNode = getNode(edgePrimitive.getStartNodeIndex());
+        Node endNode = getNode(edgePrimitive.getEndNodeIndex());
         Properties properties = edgePropertiesRepo.getProperties(edgeId);
-        EdgeImpl edge = new EdgeImpl(edgePrimitive.getId(), edgePrimitive.getEdgeType());
+        EdgeImpl edge = new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType());
 
         edge.setStartNode(startNode)
             .setEndNode(endNode)
@@ -257,10 +257,10 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         if (edgePrimitive == null) {
             return null;
         }
-        Node startNode = getNode(edgePrimitive.getStartNodeId());
-        Node endNode = getNode(edgePrimitive.getEndNodeId());
+        Node startNode = getNode(edgePrimitive.getStartNodeIndex());
+        Node endNode = getNode(edgePrimitive.getEndNodeIndex());
         Properties properties = edgePropertiesRepo.removeProperties(edgeId);
-        EdgeImpl edge = new EdgeImpl(edgePrimitive.getId(), edgePrimitive.getEdgeType());
+        EdgeImpl edge = new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType());
 
         edge.setStartNode(startNode)
             .setEndNode(endNode)
