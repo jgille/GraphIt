@@ -17,12 +17,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.opengraph.graph.edge.domain.EdgeDirection;
 import org.opengraph.graph.edge.domain.EdgeVector;
 import org.opengraph.graph.edge.domain.EdgeVectorImpl;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.TestEdgeType;
+import org.opengraph.graph.traversal.EdgeDirection;
 
 /**
  * Junit tests for {@link DeprecatedEdgeVector}.

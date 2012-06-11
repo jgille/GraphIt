@@ -14,7 +14,6 @@ import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.opengraph.graph.edge.domain.Edge;
-import org.opengraph.graph.edge.domain.EdgeDirection;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.node.domain.Node;
@@ -23,6 +22,7 @@ import org.opengraph.graph.node.schema.NodeType;
 import org.opengraph.graph.schema.TestGraphMetadata;
 import org.opengraph.graph.service.PropertyGraph;
 import org.opengraph.graph.service.PropertyGraphImpl;
+import org.opengraph.graph.traversal.EdgeDirection;
 import org.springframework.core.convert.converter.Converter;
 
 import com.tinkerpop.blueprints.Direction;

@@ -7,6 +7,7 @@ import org.apache.mahout.math.list.IntArrayList;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.UnsortedEdgeIndexComparator;
+import org.opengraph.graph.traversal.EdgeDirection;
 import org.springframework.core.convert.converter.Converter;
 
 /**

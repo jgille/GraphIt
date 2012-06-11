@@ -1,13 +1,13 @@
 package org.opengraph.graph.service;
 
 import org.opengraph.graph.edge.domain.Edge;
-import org.opengraph.graph.edge.domain.EdgeDirection;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.node.domain.Node;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.repository.GraphRepository;
 import org.opengraph.graph.schema.GraphMetadata;
+import org.opengraph.graph.traversal.EdgeDirection;
 import org.opengraph.properties.domain.Properties;
 import org.springframework.core.convert.converter.Converter;
 

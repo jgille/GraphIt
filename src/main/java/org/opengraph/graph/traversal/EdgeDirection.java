@@ -1,4 +1,4 @@
-package org.opengraph.graph.edge.domain;
+package org.opengraph.graph.traversal;
 
 public enum EdgeDirection {
 

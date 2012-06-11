@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.mahout.math.function.IntProcedure;
 import org.apache.mahout.math.list.IntArrayList;
-import org.opengraph.graph.edge.domain.EdgeDirection;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgePrimitive;
 import org.opengraph.graph.edge.domain.EdgeVector;
@@ -16,6 +15,7 @@ import org.opengraph.graph.edge.domain.EdgeVectorImpl;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.repository.AbstractGraphRepository;
+import org.opengraph.graph.traversal.EdgeDirection;
 
 /**
  * Base implementation of an {@link TypedEdgePrimitivesRepository}.

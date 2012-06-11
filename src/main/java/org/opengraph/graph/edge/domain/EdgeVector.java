@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.mahout.math.function.IntProcedure;
 import org.opengraph.graph.edge.schema.EdgeType;
+import org.opengraph.graph.traversal.EdgeDirection;
 import org.springframework.core.convert.converter.Converter;
 
 /**

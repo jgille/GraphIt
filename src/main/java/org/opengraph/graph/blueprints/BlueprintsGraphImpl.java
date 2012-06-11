@@ -1,11 +1,11 @@
 package org.opengraph.graph.blueprints;
 
-import org.opengraph.graph.edge.domain.EdgeDirection;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.node.domain.Node;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.service.PropertyGraph;
+import org.opengraph.graph.traversal.EdgeDirection;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
 
