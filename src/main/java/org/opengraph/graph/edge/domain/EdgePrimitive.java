@@ -15,6 +15,9 @@ public class EdgePrimitive {
     private final int endNodeIndex;
     private final float weight;
 
+    /**
+     * Constructs a new primitive.
+     */
     public EdgePrimitive(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight) {
         this.edgeId = edgeId;
         this.startNodeIndex = startNodeIndex;

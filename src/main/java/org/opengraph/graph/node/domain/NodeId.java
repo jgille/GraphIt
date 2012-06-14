@@ -3,11 +3,20 @@ package org.opengraph.graph.node.domain;
 import org.opengraph.graph.node.schema.NodeType;
 import org.springframework.util.Assert;
 
+/**
+ * Identifies a node in a graph.
+ *
+ * @author jon
+ *
+ */
 public class NodeId {
 
     private final NodeType type;
     private final String id;
 
+    /**
+     * Created a new instance.
+     */
     public NodeId(NodeType type, String id) {
         Assert.notNull(type, "A node type must be provided");
         Assert.notNull(id, "A node id must be provided");
@@ -16,10 +25,16 @@ public class NodeId {
         this.id = id;
     }
 
+    /**
+     * Gets the node type.
+     */
     public NodeType getNodeType() {
         return type;
     }
 
+    /**
+     * Gets the node id.
+     */
     public String getId() {
         return id;
     }

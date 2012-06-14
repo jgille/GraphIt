@@ -7,8 +7,20 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.util.StringUtils;
 
+/**
+ * Utility methods for reading/writing graph repositories from/to disk.
+ *
+ * @author jon
+ *
+ */
 public class GraphRepositoryFileUtils {
 
+    /**
+     * Dumps the repo to disk. This method will first dump the repo to a
+     * temporary stage file. If this goes ok, the master file (if any) is
+     * renamed and moved to a versions directory. The stage file is then renamed
+     * to be the new master.
+     */
     public static void persist(GraphRepository repo, String dir, String fileName)
         throws IOException {
         if (!StringUtils.hasText(dir)) {

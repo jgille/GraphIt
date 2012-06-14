@@ -7,9 +7,7 @@ import java.util.Map;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgePrimitive;
 import org.opengraph.graph.edge.domain.EdgeVector;
-import org.opengraph.graph.edge.schema.DynamicEdgeTypes;
 import org.opengraph.graph.edge.schema.EdgeType;
-import org.opengraph.graph.edge.schema.EdgeTypeImpl;
 import org.opengraph.graph.edge.schema.EdgeTypes;
 import org.opengraph.graph.repository.AbstractGraphRepository;
 import org.springframework.util.Assert;
@@ -26,6 +24,9 @@ public class ByteBufferEdgePrimitivesRepository extends AbstractGraphRepository 
 
     private final Map<EdgeType, TypedEdgePrimitivesRepository> repos;
 
+    /**
+     * Constructs a new repo for the provided edge types.
+     */
     public ByteBufferEdgePrimitivesRepository(EdgeTypes edgeTypes) {
         this.repos = new HashMap<EdgeType, TypedEdgePrimitivesRepository>(edgeTypes.size(), 1f);
         for (EdgeType edgeType : edgeTypes.elements()) {
@@ -136,21 +137,5 @@ public class ByteBufferEdgePrimitivesRepository extends AbstractGraphRepository 
     @Override
     public void restore(File in) {
         // Ignore
-    }
-
-    public static void main(String[] args) {
-        EdgeType foo = new EdgeTypeImpl("foo");
-        EdgeType bar = new EdgeTypeImpl("bar", true);
-        DynamicEdgeTypes edgeTypes = new DynamicEdgeTypes().add(foo).add(bar);
-        ByteBufferEdgePrimitivesRepository repo = new ByteBufferEdgePrimitivesRepository(edgeTypes);
-        repo.setBaseDirectory("/tmp/opengraph");
-        repo.init();
-        repo.addEdge(0, 1, foo);
-        repo.addEdge(0, 2, foo);
-        repo.addEdge(0, 3, foo);
-        repo.addWeightedEdge(0, 1, bar, 1);
-        repo.addWeightedEdge(0, 2, bar, 2);
-        System.out.println("Done.");
-        repo.shutdown();
     }
 }

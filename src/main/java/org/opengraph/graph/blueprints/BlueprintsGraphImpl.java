@@ -27,6 +27,12 @@ public class BlueprintsGraphImpl implements Graph {
     private final Features features;
     private final BlueprintsEdgesRepository edgesRepo;
 
+    /**
+     * Creates a new instance.
+     * 
+     * @param graphService
+     *            The wrapped property graph.
+     */
     public BlueprintsGraphImpl(PropertyGraph graphService) {
         this.graphService = graphService;
         this.features = new Features(); // TODO: Set features fields

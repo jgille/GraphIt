@@ -1,39 +1,75 @@
 package org.opengraph.graph.node.domain;
 
+import org.opengraph.properties.domain.Properties;
+
+/**
+ * Describes a node, minus it's {@link Properties}. Primarily used to dump and
+ * restore nodes to/from disk.
+ *
+ * @author jon
+ *
+ */
 public class NodePrimitive {
 
     private int index;
     private String type;
     private String id;
 
+    /**
+     * Creates a new node primitive.
+     */
     public NodePrimitive(int index, NodeId nodeId) {
         this.index = index;
         this.type = nodeId.getNodeType().name();
         this.id = nodeId.getId();
     }
 
+    /**
+     * Creates a new node primitive. Used when deserializing nodes using
+     * jackson. Note that index, type and id MUST be set for a primitive to be
+     * valid.
+     */
     public NodePrimitive() {
     }
 
+    /**
+     * Gets the index of this node primitive.
+     */
     public int getIndex() {
         return index;
     }
 
+    /**
+     * Sets the index of this node primitive.
+     */
     public void setIndex(int index) {
         this.index = index;
     }
 
+    /**
+     * Gets the name of the type for this node primitive.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Sets the name of the type for this node primitive.
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Gets the id of this node primitive.
+     */
     public String getId() {
         return id;
     }
+
+    /**
+     * Sets the id of this node primitive.
+     */
 
     public void setId(String id) {
         this.id = id;

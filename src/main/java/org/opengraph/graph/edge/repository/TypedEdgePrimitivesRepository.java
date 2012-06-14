@@ -16,6 +16,9 @@ import org.opengraph.graph.repository.GraphRepository;
  */
 public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphRepository {
 
+    /**
+     * Gets the type of the edges in this repo.
+     */
     EdgeType getEdgeType();
 
     /**
@@ -79,5 +82,9 @@ public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphReposit
      */
     void removeNode(int nodeIndex);
 
+    /**
+     * Sets the base directory for the graph, under which this repo might
+     * persist edges to disk.
+     */
     void setBaseDirectory(String directory);
 }

@@ -1,7 +1,16 @@
 package org.opengraph.graph.edge.util;
 
+/**
+ * Provides edge weight given an edge index
+ *
+ * @author jon
+ *
+ */
 public interface EdgeWeigher {
 
-    float getEdgeWeight(int edgeId);
+    /**
+     * Gets the weight of an edge.
+     */
+    float getEdgeWeight(int edgeIndex);
 
 }

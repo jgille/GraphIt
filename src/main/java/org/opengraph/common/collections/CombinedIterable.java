@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * An {@link Iterable} that combines a collection of {@link Iterable}s, i.e. [1,
  * 2, 3] + [4, 5] -> [1, 2, 3, 4, 5].
- * 
+ *
  * @author jon
- * 
+ *
  * @param <T>
  *            The generic type of the elements in the {@link Iterable}.
  */
@@ -17,6 +17,9 @@ public class CombinedIterable<T> implements Iterable<T> {
 
     private final List<Iterable<T>> iterables;
 
+    /**
+     * Constructs a new instance combining the provided iterables.
+     */
     public CombinedIterable(List<Iterable<T>> iterables) {
         this.iterables = iterables;
     }
@@ -35,6 +38,9 @@ public class CombinedIterable<T> implements Iterable<T> {
         private final List<Iterator<T>> iterators;
         private int current = 0;
 
+        /**
+         * Creates a new iterator instance.
+         */
         public CombinedIterator(List<Iterator<T>> iterators) {
             this.iterators = iterators;
         }

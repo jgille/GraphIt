@@ -7,11 +7,11 @@ import org.opengraph.properties.domain.MapProperties;
 import org.opengraph.properties.domain.Properties;
 
 /**
- * A {@link Properties} implementation that will notify a
- * {@link PropertiesRepository} of all changes.
- *
+ * A {@link Properties} implementation that will propagate all changes to a
+ * {@link PropertiesRepository}.
+ * 
  * @author jon
- *
+ * 
  * @param <T>
  *            The generic type of the id of this instance.
  */
@@ -21,6 +21,16 @@ public class WriteThroughProperties<T> implements Properties {
     private final Properties properties;
     private final PropertiesRepository<T> repo;
 
+    /**
+     * Creates a new instance.
+     *
+     * @param id
+     *            The id of this instance.
+     * @param properties
+     *            The initial properties.
+     * @param repo
+     *            A repo to propagate writes to.
+     */
     public WriteThroughProperties(T id, Properties properties, PropertiesRepository<T> repo) {
         this.id = id;
         this.properties = properties == null ? new MapProperties() : properties;

@@ -4,16 +4,29 @@ import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.EdgeWeigher;
 import org.opengraph.graph.edge.util.UnsortedEdgeIndexComparator;
 
+/**
+ * Basic {@link EdgeType} implementation. Defaults to being unweighted and
+ * unsorted.
+ *
+ * @author jon
+ *
+ */
 public class EdgeTypeImpl implements EdgeType {
 
     private final String name;
     private final boolean isWeighted;
     private EdgeIndexComparator edgeComparator = new UnsortedEdgeIndexComparator();
 
+    /**
+     * Creates an unweighted edge type.
+     */
     public EdgeTypeImpl(String name) {
         this(name, false);
     }
 
+    /**
+     * Creates a weighted or unweighted edge type.
+     */
     public EdgeTypeImpl(String name, boolean isWeighted) {
         this.name = name;
         this.isWeighted = isWeighted;

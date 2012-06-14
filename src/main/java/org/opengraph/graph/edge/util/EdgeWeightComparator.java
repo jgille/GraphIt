@@ -1,14 +1,28 @@
 package org.opengraph.graph.edge.util;
 
+/**
+ * An {@link EdgeIndexComparator} that sorts edges on edge weight.
+ *
+ * @author jon
+ *
+ */
 public class EdgeWeightComparator implements EdgeIndexComparator {
 
     private final EdgeWeigher weigher;
     private final boolean descending;
 
+    /**
+     * Creates an ascending comparator, using the provided weigher to get edge
+     * weights.
+     */
     public EdgeWeightComparator(EdgeWeigher weigher) {
         this(weigher, false);
     }
 
+    /**
+     * Creates an ascending or descending comparator, using the provided weigher
+     * to get edge weights.
+     */
     public EdgeWeightComparator(EdgeWeigher weigher, boolean descending) {
         this.weigher = weigher;
         this.descending = descending;

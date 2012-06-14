@@ -15,21 +15,28 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.node.domain.NodePrimitive;
-import org.opengraph.graph.node.schema.DynamicNodeTypes;
 import org.opengraph.graph.node.schema.NodeType;
-import org.opengraph.graph.node.schema.NodeTypeImpl;
 import org.opengraph.graph.node.schema.NodeTypes;
 import org.opengraph.graph.repository.AbstractGraphRepository;
 import org.opengraph.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+/**
+ * {@link NodeIdRepository} implementation storing everything in RAM.
+ * 
+ * @author jon
+ * 
+ */
 public class NodeIdRepositoryImpl extends AbstractGraphRepository implements NodeIdRepository {
 
     private final NodeTypes nodeTypes;
     private final AbstractObjectIntMap<NodeId> nodeMap;
     private final ArrayList<NodeId> nodes;
 
+    /**
+     * Creates a new repo for the provided set of node types.
+     */
     public NodeIdRepositoryImpl(NodeTypes nodeTypes) {
         this.nodeTypes = nodeTypes;
         this.nodeMap = new OpenObjectIntHashMap<NodeId>();
@@ -153,15 +160,5 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     @Override
     protected String getFileName() {
         return "nodes.json";
-    }
-
-    public static void main(String[] args) {
-        NodeType product = new NodeTypeImpl("Product");
-        NodeType user = new NodeTypeImpl("User");
-        NodeTypes nodeTypes = new DynamicNodeTypes().add(product).add(user);
-        NodeIdRepositoryImpl repo = new NodeIdRepositoryImpl(nodeTypes);
-        repo.setBaseDirectory("/tmp/opengraph");
-        repo.init();
-        repo.shutdown();
     }
 }

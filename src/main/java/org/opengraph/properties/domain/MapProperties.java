@@ -6,18 +6,24 @@ import java.util.Set;
 
 /**
  * A {@link Properties} implementation backed by a {@link HashMap}.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class MapProperties implements Properties {
 
     private final Map<String, Object> properties;
 
+    /**
+     * Crates a new instance with a default initial capacity.
+     */
     public MapProperties() {
         this(10);
     }
 
+    /**
+     * Crates a new instance with the provided initial capacity.
+     */
     public MapProperties(int capacity) {
         this.properties = new HashMap<String, Object>(capacity);
     }

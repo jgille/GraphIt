@@ -28,6 +28,10 @@ public interface Edge extends GraphEntity<EdgeType> {
      */
     Node getEndNode();
 
+    /**
+     * Gets the opposite node from the provided node. Throws an exception if the
+     * provided node is neither start or end node of this edge.
+     */
     Node getOppositeNode(NodeId nodeId);
 
     /**

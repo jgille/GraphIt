@@ -24,8 +24,16 @@ public class EdgeImpl implements Edge {
     private float weight;
     private Properties properties;
 
-    public EdgeImpl(int id, EdgeType edgeType) {
-        this.edgeId = new EdgeId(edgeType, id);
+    /**
+     * Creates an edge.
+     * 
+     * @param index
+     *            The edge index.
+     * @param edgeType
+     *            The edge type.
+     */
+    public EdgeImpl(int index, EdgeType edgeType) {
+        this.edgeId = new EdgeId(edgeType, index);
     }
 
     @Override

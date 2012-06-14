@@ -29,10 +29,30 @@ public class EdgeVectorImpl implements EdgeVector {
     private final EdgeType edgeType;
     private final IntArrayList edges;
 
+    /**
+     * Creates an edge vector with a default initial capacity rooted at
+     * rootNodeId.
+     *
+     * @param rootNodeId
+     *            The root node.
+     * @param edgeType
+     *            The type of edges in this vector.
+     */
     public EdgeVectorImpl(int rootNodeId, EdgeType edgeType) {
         this(rootNodeId, edgeType, DEFAULT_CAPACITY);
     }
 
+    /**
+     * Creates an edge vector with the provided initial capacity rooted at
+     * rootNodeId.
+     * 
+     * @param rootNodeId
+     *            The root node.
+     * @param edgeType
+     *            The type of edges in this vector.
+     * @param capacity
+     *            The initial capacity of the vector.
+     */
     public EdgeVectorImpl(int rootNodeId, EdgeType edgeType, int capacity) {
         this(rootNodeId, edgeType, new IntArrayList(capacity));
     }

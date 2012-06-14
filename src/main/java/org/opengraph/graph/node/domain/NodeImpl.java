@@ -5,11 +5,20 @@ import org.opengraph.properties.domain.Properties;
 import org.opengraph.properties.domain.PropertiesProxy;
 import org.springframework.util.Assert;
 
+/**
+ * Standard {@link Node} implementation.
+ *
+ * @author jon
+ *
+ */
 public class NodeImpl extends PropertiesProxy implements Node {
 
     private final int nodeIndex;
     private final NodeId nodeId;
 
+    /**
+     * Creates a new node.
+     */
     public NodeImpl(int nodeIndex, NodeId nodeId, Properties properties) {
         this(nodeIndex, nodeId, properties, true);
     }
@@ -36,6 +45,9 @@ public class NodeImpl extends PropertiesProxy implements Node {
         return nodeId;
     }
 
+    /**
+     * Returns an immutable copy of this node.
+     */
     public Node immutableNode() {
         return new NodeImpl(nodeIndex, nodeId, getProperties(), false);
     }

@@ -44,10 +44,16 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     private EdgeIndexComparator edgeComparator;
 
+    /**
+     * Creates a new repo for the provided edge type with a default shard size.
+     */
     public ByteBufferTypedEdgePrimitivesRepository(EdgeType edgeType) {
         this(edgeType, DEFAULT_NUM_EDGES_PER_SHARD);
     }
 
+    /**
+     * Creates a new repo for the provided edge type and shard size.
+     */
     public ByteBufferTypedEdgePrimitivesRepository(EdgeType edgeType, int numEdgesPerShards) {
         super(edgeType);
         this.numEdgesPerShard = numEdgesPerShards;

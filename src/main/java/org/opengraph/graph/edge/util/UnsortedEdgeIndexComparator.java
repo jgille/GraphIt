@@ -1,5 +1,11 @@
 package org.opengraph.graph.edge.util;
 
+/**
+ * An {@link EdgeIndexComparator} to use when edges are not to be kept sorted.
+ * 
+ * @author jon
+ * 
+ */
 public class UnsortedEdgeIndexComparator implements EdgeIndexComparator {
 
     @Override

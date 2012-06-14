@@ -1,13 +1,25 @@
 package org.opengraph.graph.edge.util;
 
+/**
+ * An {@link EdgeIndexComparator} that compares the actual indexes.
+ *
+ * @author jon
+ *
+ */
 public class EdgeIndexComparatorImpl implements EdgeIndexComparator {
 
     private final boolean descending;
 
+    /**
+     * Creates an ascending comparator.
+     */
     public EdgeIndexComparatorImpl() {
         this(false);
     }
 
+    /**
+     * Creates an ascending or descending comparator.
+     */
     public EdgeIndexComparatorImpl(boolean descending) {
         this.descending = descending;
     }

@@ -10,7 +10,7 @@ import org.opengraph.graph.edge.domain.EdgeVector;
 /**
  * An {@link EdgeVectorRepository} that is split into multiple shards for better
  * concurrency.
- * 
+ *
  */
 public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
 
@@ -18,6 +18,9 @@ public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
     private final List<AbstractIntObjectMap<EdgeVector>> outgoingShards;
     private final List<AbstractIntObjectMap<EdgeVector>> incomingShards;
 
+    /**
+     * Creates a new repo with the provided number of shards.
+     */
     public ShardedEdgeVectorRepository(int nofShards) {
         this.nofShards = nofShards;
         this.outgoingShards = new ArrayList<AbstractIntObjectMap<EdgeVector>>(nofShards);

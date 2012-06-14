@@ -10,5 +10,8 @@ package org.opengraph.common.predicates;
  */
 public interface Predicate<T> {
 
+    /**
+     * Applies the predicate.
+     */
     boolean accepts(T value);
 }

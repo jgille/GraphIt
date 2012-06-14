@@ -34,6 +34,12 @@ import org.springframework.util.Assert;
 
 import com.tinkerpop.blueprints.Graph;
 
+/**
+ * {@link PropertyGraph} implementation.
+ *
+ * @author jon
+ *
+ */
 public class PropertyGraphImpl extends AbstractGraphRepository implements PropertyGraph {
 
     private final GraphMetadata metadata;
@@ -44,26 +50,42 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     private EdgePrimitivesRepository edgeRepo;
     private PropertiesRepository<EdgeId> edgePropertiesRepo;
 
+    /**
+     * Creates a new graph.
+     */
     public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
         this.nodeRepo = new NodeIdRepositoryImpl(metadata.getNodeTypes());
         this.edgeRepo = new ByteBufferEdgePrimitivesRepository(metadata.getEdgeTypes());
+        // TODO: Use real repos
         this.nodePropertiesRepo = new AlwaysEmptyPropertiesRepository<NodeId>();
         this.edgePropertiesRepo = new AlwaysEmptyPropertiesRepository<EdgeId>();
     }
 
+    /**
+     * Sets a custom repo used to handle node ids and indexes.
+     */
     public void setNodeRepo(NodeIdRepository nodeRepo) {
         this.nodeRepo = nodeRepo;
     }
 
+    /**
+     * Sets a custom repo used to handle edge primitives.
+     */
     public void setEdgeRepo(EdgePrimitivesRepository edgeRepo) {
         this.edgeRepo = edgeRepo;
     }
 
+    /**
+     * Sets a custom repo used to handle node properties.
+     */
     public void setNodePropertiesRepo(PropertiesRepository<NodeId> nodePropertiesRepo) {
         this.nodePropertiesRepo = nodePropertiesRepo;
     }
 
+    /**
+     * Sets a custom repo used to handle edge properties.
+     */
     public void setEdgePropertiesRepo(PropertiesRepository<EdgeId> edgePropertiesRepo) {
         this.edgePropertiesRepo = edgePropertiesRepo;
     }
@@ -296,13 +318,12 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
-
+        // TODO; Implement
     }
 
     @Override
     public void shutdown() {
-        // TODO Auto-generated method stub
+        // TODO; Implement
     }
 
     @Override
@@ -317,14 +338,12 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
 
     @Override
     public void dump(File out) throws IOException {
-        // TODO Auto-generated method stub
-
+        // TODO; Implement
     }
 
     @Override
     public void restore(File in) throws IOException {
-        // TODO Auto-generated method stub
-
+        // TODO; Implement
     }
 
 }
