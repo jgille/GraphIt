@@ -7,7 +7,6 @@ import java.util.Collections;
 
 import org.opengraph.common.collections.CombinedIterable;
 import org.opengraph.common.converters.IdentityConverter;
-import org.opengraph.graph.blueprints.BlueprintsGraphImpl;
 import org.opengraph.graph.edge.domain.Edge;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgeImpl;
@@ -31,8 +30,6 @@ import org.opengraph.properties.repository.PropertiesRepository;
 import org.opengraph.properties.repository.WriteThroughProperties;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
-
-import com.tinkerpop.blueprints.Graph;
 
 /**
  * {@link PropertyGraph} implementation.
@@ -299,11 +296,6 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     @Override
     public String toString() {
         return "PropertyGraphImpl [metadata=" + metadata + "]";
-    }
-
-    @Override
-    public Graph asBlueprintsGraph() {
-        return new BlueprintsGraphImpl(this);
     }
 
     @Override

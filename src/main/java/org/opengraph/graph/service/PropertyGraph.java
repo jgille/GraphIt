@@ -11,8 +11,6 @@ import org.opengraph.graph.traversal.EdgeDirection;
 import org.opengraph.properties.domain.Properties;
 import org.springframework.core.convert.converter.Converter;
 
-import com.tinkerpop.blueprints.Graph;
-
 /**
  * A graph containing nodes connected by edges. Both nodes and edges can have
  * properties associated with them.
@@ -105,10 +103,5 @@ public interface PropertyGraph extends GraphRepository {
      * Sets properties for an edge. Any previous properties will be removed.
      */
     void setEdgeProperties(EdgeId edgeId, Properties properties);
-
-    /**
-     * Gets a blueprints compatible view of this graph.
-     */
-    Graph asBlueprintsGraph();
 
 }

@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.opengraph.graph.blueprints.BlueprintsGraphImpl;
 import org.opengraph.graph.edge.domain.Edge;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.schema.EdgeType;
@@ -665,7 +666,7 @@ public class PropertyGraphImplTest {
         PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2", "p3").buy("u1", "p1", "p3")
             .view("u1", "p2");
-        Graph blueprintsGraph = graph.asBlueprintsGraph();
+        Graph blueprintsGraph = new BlueprintsGraphImpl(graph);
         assertThat(blueprintsGraph, Matchers.notNullValue());
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
