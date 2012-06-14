@@ -2,6 +2,7 @@ package org.opengraph.graph.edge.domain;
 
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.mahout.math.function.IntProcedure;
 import org.apache.mahout.math.list.IntArrayList;
 import org.opengraph.graph.edge.schema.EdgeType;

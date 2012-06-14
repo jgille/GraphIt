@@ -15,7 +15,6 @@ import org.apache.mahout.math.function.IntProcedure;
 import org.apache.mahout.math.list.IntArrayList;
 import org.opengraph.graph.edge.domain.EdgeId;
 import org.opengraph.graph.edge.domain.EdgePrimitive;
-import org.opengraph.graph.edge.domain.EdgeVector;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.EdgeWeigher;
@@ -37,6 +36,12 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     private static final int DEFAULT_NUM_EDGES_PER_SHARD = 50000;
 
+    /**
+     * The number of bytes used to store an entity, e.g. a start/end node index
+     * (int) or an edge weight (float).
+     */
+    private static final int BYTES_PER_ENTITY = 4;
+
     private final int numEdgesPerShard;
     private final List<ByteBuffer> shards;
     private final int[] initial;
@@ -57,7 +62,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         super(edgeType);
         this.numEdgesPerShard = numEdgesPerShards;
         this.shards = new ArrayList<ByteBuffer>();
-        this.initial = new int[getShardSize() / 4];
+        this.initial = new int[getShardSize() / BYTES_PER_ENTITY];
         Arrays.fill(initial, -1);
         this.edgeComparator = getEdgeType().getEdgeComparator(new ByteBufferEdgeWeigher(this));
     }
@@ -71,7 +76,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     }
 
     private int getBytesPerEdge() {
-        return getEdgeType().isWeighted() ? 12 : 8;
+        return getEdgeType().isWeighted() ? BYTES_PER_ENTITY * 3 : BYTES_PER_ENTITY * 2;
     }
 
     private int getShardSize() {
@@ -141,7 +146,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         boolean newEdge;
         synchronized (shard) {
             int ps = shard.getInt(index);
-            int es = shard.getInt(index + 4);
+            int es = shard.getInt(index + BYTES_PER_ENTITY);
             newEdge = ps < 0;
             if (!newEdge) {
                 Assert.isTrue(ps == startNodeIndex);
@@ -150,7 +155,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
             shard.putInt(index, startNodeIndex);
             shard.putInt(index + 4, endNodeIndex);
             if (getEdgeType().isWeighted()) {
-                shard.putFloat(index + 8, weight);
+                shard.putFloat(index + BYTES_PER_ENTITY * 2, weight);
             }
         }
         EdgePrimitive edge =
@@ -184,8 +189,8 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
                 + shard.capacity());
         }
         startNodeId = shard.getInt(offset);
-        endNodeId = shard.getInt(offset + 4);
-        weight = getEdgeType().isWeighted() ? shard.getFloat(offset + 8) : 0;
+        endNodeId = shard.getInt(offset + BYTES_PER_ENTITY);
+        weight = getEdgeType().isWeighted() ? shard.getFloat(offset + BYTES_PER_ENTITY * 2) : 0;
         if (startNodeId < 0) {
             return null;
         }
@@ -208,10 +213,10 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         float weight;
         synchronized (shard) {
             startNodeId = shard.getInt(index);
-            endNodeId = shard.getInt(index + 4);
-            weight = getEdgeType().isWeighted() ? shard.getFloat(index + 8) : 0;
+            endNodeId = shard.getInt(index + BYTES_PER_ENTITY);
+            weight = getEdgeType().isWeighted() ? shard.getFloat(index + BYTES_PER_ENTITY * 2) : 0;
             // Delete by setting start and end node id to -1
-            shard.putInt(index, -1).putInt(index + 4, -1);
+            shard.putInt(index, -1).putInt(index + BYTES_PER_ENTITY, -1);
         }
         if (startNodeId < 0) {
             return null;
@@ -246,7 +251,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         int index = getOffsetInShard(edgeId);
         float weight;
         synchronized (shard) {
-            weight = shard.getFloat(index + 8);
+            weight = shard.getFloat(index + BYTES_PER_ENTITY * 2);
         }
         return weight;
     }
@@ -259,20 +264,6 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     @Override
     public String toString() {
         return "ShardedByteBufferInternalEdgesRepository [edgeType=" + getEdgeType() + "]";
-    }
-
-    private static class ByteBufferEdgeWeigher implements EdgeWeigher {
-
-        private final ByteBufferTypedEdgePrimitivesRepository repo;
-
-        private ByteBufferEdgeWeigher(ByteBufferTypedEdgePrimitivesRepository repo) {
-            this.repo = repo;
-        }
-
-        @Override
-        public float getEdgeWeight(int edgeId) {
-            return repo.getEdgeWeight(edgeId);
-        }
     }
 
     @Override
@@ -331,9 +322,9 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
             ByteBuffer shard = getOrAddShard(index);
             int shardIndex = getOffsetInShard(index);
             shard.putInt(shardIndex, edge.getStartNodeIndex());
-            shard.putInt(shardIndex + 4, edge.getEndNodeIndex());
+            shard.putInt(shardIndex + BYTES_PER_ENTITY, edge.getEndNodeIndex());
             if (isWeighted) {
-                shard.putFloat(shardIndex + 8, edge.getWeight());
+                shard.putFloat(shardIndex + BYTES_PER_ENTITY * 2, edge.getWeight());
             }
             index++;
         }
@@ -360,6 +351,20 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     @Override
     protected String getFileName() {
         return String.format("%s.edges", getEdgeType().name());
+    }
+
+    private static final class ByteBufferEdgeWeigher implements EdgeWeigher {
+
+        private final ByteBufferTypedEdgePrimitivesRepository repo;
+
+        private ByteBufferEdgeWeigher(ByteBufferTypedEdgePrimitivesRepository repo) {
+            this.repo = repo;
+        }
+
+        @Override
+        public float getEdgeWeight(int edgeId) {
+            return repo.getEdgeWeight(edgeId);
+        }
     }
 
 }

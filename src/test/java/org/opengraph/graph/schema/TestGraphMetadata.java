@@ -4,7 +4,6 @@ import org.opengraph.graph.edge.domain.TestEdgeTypes;
 import org.opengraph.graph.edge.schema.EdgeTypes;
 import org.opengraph.graph.node.domain.TestNodeTypes;
 import org.opengraph.graph.node.schema.NodeTypes;
-import org.opengraph.graph.schema.GraphMetadata;
 
 public class TestGraphMetadata implements GraphMetadata {
 

@@ -21,8 +21,6 @@ import org.opengraph.graph.node.domain.Node;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.node.schema.NodeType;
 import org.opengraph.graph.schema.TestGraphMetadata;
-import org.opengraph.graph.service.PropertyGraph;
-import org.opengraph.graph.service.PropertyGraphImpl;
 import org.opengraph.graph.traversal.EdgeDirection;
 import org.springframework.core.convert.converter.Converter;
 
