@@ -1,6 +1,6 @@
 package org.opengraph.graph.node.domain;
 
-import org.opengraph.properties.domain.Properties;
+import org.springframework.util.Assert;
 
 /**
  * Describes a node, minus it's {@link Properties}. Primarily used to dump and
@@ -11,7 +11,7 @@ import org.opengraph.properties.domain.Properties;
  */
 public class NodePrimitive {
 
-    private int index;
+    private int index = -1;
     private String type;
     private String id;
 
@@ -82,12 +82,19 @@ public class NodePrimitive {
 
     @Override
     public int hashCode() {
+        validate();
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + id.hashCode();
         result = prime * result + index;
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + type.hashCode();
         return result;
+    }
+
+    private void validate() {
+        Assert.notNull(id);
+        Assert.notNull(type);
+        Assert.isTrue(index >= 0);
     }
 
     @Override
@@ -95,31 +102,14 @@ public class NodePrimitive {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        validate();
         NodePrimitive other = (NodePrimitive) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        if (index != other.index) {
-            return false;
-        }
-        if (type == null) {
-            if (other.type != null) {
-                return false;
-            }
-        } else if (!type.equals(other.type)) {
-            return false;
-        }
-        return true;
+        other.validate();
+        return other.getIndex() == index && other.getId().equals(id)
+            && other.getType().equals(type);
     }
 
 }

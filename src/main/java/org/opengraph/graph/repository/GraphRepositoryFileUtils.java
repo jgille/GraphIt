@@ -13,7 +13,10 @@ import org.springframework.util.StringUtils;
  * @author jon
  *
  */
-public class GraphRepositoryFileUtils {
+public final class GraphRepositoryFileUtils {
+
+    private GraphRepositoryFileUtils() {
+    }
 
     /**
      * Dumps the repo to disk. This method will first dump the repo to a
@@ -40,11 +43,11 @@ public class GraphRepositoryFileUtils {
             && !master.renameTo(new File(versionDir, String.format("%s.%d",
                                                                    fileName,
                                                                    System.currentTimeMillis())))) {
-            throw new RuntimeException(String.format("Failed to version %s.", fileName));
+            throw new IOException(String.format("Failed to version %s.", fileName));
         }
 
         if (!stageFile.renameTo(master)) {
-            throw new RuntimeException("Failed to make new file master.");
+            throw new IOException("Failed to make new file master.");
         }
 
         FileUtils.forceDelete(stageDir);
@@ -53,7 +56,8 @@ public class GraphRepositoryFileUtils {
     /**
      * Restores a graph repo from file.
      */
-    public static void restore(GraphRepository repo, String dir, String fileName) {
+    public static void restore(GraphRepository repo, String dir, String fileName)
+        throws IOException {
         if (!StringUtils.hasText(dir)) {
             return;
         }
@@ -61,12 +65,7 @@ public class GraphRepositoryFileUtils {
         if (!file.exists()) {
             return;
         }
-        try {
-            repo.restore(file);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to restore nodes.", e);
-        }
-
+        repo.restore(file);
     }
 
 }

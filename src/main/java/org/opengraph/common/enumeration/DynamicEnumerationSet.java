@@ -1,7 +1,6 @@
 package org.opengraph.common.enumeration;
 
 import java.util.Collection;
-import java.util.EnumSet;
 
 /**
  * Used to mimic an {@link EnumSet} with dynamic content.

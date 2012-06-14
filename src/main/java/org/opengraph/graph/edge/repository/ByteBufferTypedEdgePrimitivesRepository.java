@@ -18,6 +18,7 @@ import org.opengraph.graph.edge.domain.EdgePrimitive;
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.EdgeWeigher;
+import org.opengraph.graph.exception.OpenGraphException;
 import org.opengraph.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
 
@@ -268,7 +269,11 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     @Override
     public void init() {
-        GraphRepositoryFileUtils.restore(this, getDirectory(), getFileName());
+        try {
+            GraphRepositoryFileUtils.restore(this, getDirectory(), getFileName());
+        } catch (IOException e) {
+            throw new OpenGraphException("Failed to restore edges.", e);
+        }
     }
 
     @Override
@@ -276,7 +281,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         try {
             GraphRepositoryFileUtils.persist(this, getDirectory(), getFileName());
         } catch (IOException e) {
-            throw new RuntimeException("Failed to export nodes.", e);
+            throw new OpenGraphException("Failed to export edges.", e);
         }
     }
 

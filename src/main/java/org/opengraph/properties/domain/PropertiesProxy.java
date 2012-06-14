@@ -19,7 +19,7 @@ public abstract class PropertiesProxy implements Properties {
 
     /**
      * Creates a new instance.
-     * 
+     *
      * @param properties
      *            The underlying properties.
      * @param mutable
@@ -29,7 +29,7 @@ public abstract class PropertiesProxy implements Properties {
     public PropertiesProxy(Properties properties, boolean mutable) {
         Assert.notNull(properties);
         this.properties = properties;
-        this.mutable = true;
+        this.mutable = mutable;
     }
 
     protected Properties getProperties() {

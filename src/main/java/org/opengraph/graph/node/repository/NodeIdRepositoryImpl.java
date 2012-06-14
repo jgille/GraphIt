@@ -13,6 +13,7 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.opengraph.graph.exception.OpenGraphException;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.node.domain.NodePrimitive;
 import org.opengraph.graph.node.schema.NodeType;
@@ -31,7 +32,7 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
 
     private final NodeTypes nodeTypes;
     private final AbstractObjectIntMap<NodeId> nodeMap;
-    private final ArrayList<NodeId> nodes;
+    private final List<NodeId> nodes;
 
     /**
      * Creates a new repo for the provided set of node types.
@@ -95,7 +96,11 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
 
     @Override
     public void init() {
+        try {
         GraphRepositoryFileUtils.restore(this, getDirectory(), getFileName());
+        } catch (IOException e) {
+            throw new OpenGraphException("Failed to restore nodes.", e);
+        }
     }
 
     @Override
@@ -103,7 +108,7 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
         try {
             GraphRepositoryFileUtils.persist(this, getDirectory(), getFileName());
         } catch (IOException e) {
-            throw new RuntimeException("Failed to persist nodes.", e);
+            throw new OpenGraphException("Failed to persist nodes.", e);
         }
     }
 
