@@ -20,13 +20,12 @@ import org.opengraph.graph.node.schema.NodeTypes;
 import org.opengraph.graph.repository.AbstractGraphRepository;
 import org.opengraph.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class NodeIdRepositoryImpl extends AbstractGraphRepository implements NodeIdRepository {
 
@@ -96,19 +95,7 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
 
     @Override
     public void init() {
-        String dir = getDirectory();
-        if (!StringUtils.hasText(dir)) {
-            return;
-        }
-        File file = new File(FilenameUtils.concat(getDirectory(), getFileName()));
-        if (!file.exists()) {
-            return;
-        }
-        try {
-            restore(file);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to restore nodes.", e);
-        }
+        GraphRepositoryFileUtils.restore(this, getDirectory(), getFileName());
     }
 
     @Override

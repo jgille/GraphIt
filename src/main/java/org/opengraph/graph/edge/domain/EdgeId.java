@@ -71,5 +71,4 @@ public class EdgeId {
         EdgeId other = (EdgeId) obj;
         return index == other.index && edgeType.equals(other.edgeType);
     }
-
 }

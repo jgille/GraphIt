@@ -21,7 +21,6 @@ import org.opengraph.graph.edge.util.EdgeIndexComparator;
 import org.opengraph.graph.edge.util.EdgeWeigher;
 import org.opengraph.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * {@link TypedEdgePrimitivesRepository} that stores the edges in a collection of
@@ -278,19 +277,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     @Override
     public void init() {
-        String dir = getDirectory();
-        if (!StringUtils.hasText(dir)) {
-            return;
-        }
-        File file = new File(FilenameUtils.concat(getDirectory(), getFileName()));
-        if (!file.exists()) {
-            return;
-        }
-        try {
-            restore(file);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to restore edges.", e);
-        }
+        GraphRepositoryFileUtils.restore(this, getDirectory(), getFileName());
     }
 
     @Override

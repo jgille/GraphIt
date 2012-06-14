@@ -86,10 +86,7 @@ public class EdgePrimitive {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || obj.getClass() != getClass()) {
             return false;
         }
         EdgePrimitive other = (EdgePrimitive) obj;

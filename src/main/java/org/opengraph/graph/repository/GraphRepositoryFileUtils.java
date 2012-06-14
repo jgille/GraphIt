@@ -50,4 +50,23 @@ public class GraphRepositoryFileUtils {
         FileUtils.forceDelete(stageDir);
     }
 
+    /**
+     * Restores a graph repo from file.
+     */
+    public static void restore(GraphRepository repo, String dir, String fileName) {
+        if (!StringUtils.hasText(dir)) {
+            return;
+        }
+        File file = new File(FilenameUtils.concat(dir, fileName));
+        if (!file.exists()) {
+            return;
+        }
+        try {
+            repo.restore(file);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to restore nodes.", e);
+        }
+
+    }
+
 }

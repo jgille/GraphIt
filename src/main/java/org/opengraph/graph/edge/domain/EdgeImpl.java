@@ -1,12 +1,10 @@
 package org.opengraph.graph.edge.domain;
 
-import java.util.Map;
-import java.util.Set;
-
 import org.opengraph.graph.edge.schema.EdgeType;
 import org.opengraph.graph.node.domain.Node;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.properties.domain.Properties;
+import org.opengraph.properties.domain.PropertiesProxy;
 import org.springframework.util.Assert;
 
 /**
@@ -16,23 +14,25 @@ import org.springframework.util.Assert;
  *
  * @author jon
  */
-public class EdgeImpl implements Edge {
+public class EdgeImpl extends PropertiesProxy implements Edge {
 
     private final EdgeId edgeId;
     private Node startNode;
     private Node endNode;
     private float weight;
-    private Properties properties;
 
     /**
      * Creates an edge.
-     * 
+     *
      * @param index
      *            The edge index.
      * @param edgeType
      *            The edge type.
+     * @param properties
+     *            The edge properties.
      */
-    public EdgeImpl(int index, EdgeType edgeType) {
+    public EdgeImpl(int index, EdgeType edgeType, Properties properties) {
+        super(properties, true);
         this.edgeId = new EdgeId(edgeType, index);
     }
 
@@ -92,14 +92,6 @@ public class EdgeImpl implements Edge {
         return this;
     }
 
-    /**
-     * Sets the edge properties.
-     */
-    public EdgeImpl setProperties(Properties properties) {
-        this.properties = properties;
-        return this;
-    }
-
     @Override
     public int hashCode() {
         return edgeId.hashCode();
@@ -110,10 +102,7 @@ public class EdgeImpl implements Edge {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || obj.getClass() != getClass()) {
             return false;
         }
         EdgeImpl other = (EdgeImpl) obj;
@@ -123,37 +112,7 @@ public class EdgeImpl implements Edge {
     @Override
     public String toString() {
         return "EdgeImpl [edgeId=" + edgeId + ", startNode=" + startNode + ", endNode=" + endNode
-            + ", weight=" + weight + ", properties=" + properties + "]";
-    }
-
-    @Override
-    public Object getProperty(String key) {
-        return properties.getProperty(key);
-    }
-
-    @Override
-    public void setProperty(String key, Object value) {
-        properties.setProperty(key, value);
-    }
-
-    @Override
-    public Object removeProperty(String key) {
-        return properties.removeProperty(key);
-    }
-
-    @Override
-    public boolean containsProperty(String key) {
-        return properties.containsProperty(key);
-    }
-
-    @Override
-    public Set<String> getPropertyKeys() {
-        return properties.getPropertyKeys();
-    }
-
-    @Override
-    public Map<String, Object> asPropertyMap() {
-        return properties.asPropertyMap();
+            + ", weight=" + weight + ", properties=" + asPropertyMap() + "]";
     }
 
     @Override

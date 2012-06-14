@@ -225,13 +225,13 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         Node startNode = getNode(edgePrimitive.getStartNodeIndex());
         Node endNode = getNode(edgePrimitive.getEndNodeIndex());
         Properties properties = edgePropertiesRepo.getProperties(edgeId);
-        EdgeImpl edge = new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType());
+        EdgeImpl edge = new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType(),
+                                     new WriteThroughProperties<EdgeId>(edgeId, properties,
+                                                                        edgePropertiesRepo));
 
         edge.setStartNode(startNode)
             .setEndNode(endNode)
-            .setWeight(edgePrimitive.getWeight())
-            .setProperties(new WriteThroughProperties<EdgeId>(edgeId, properties,
-                                                              edgePropertiesRepo));
+            .setWeight(edgePrimitive.getWeight());
         return edge;
     }
 
@@ -260,13 +260,14 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         } else {
             edgeId = edgeRepo.addEdge(startNode.getIndex(), endNode.getIndex(), edgeType);
         }
-        EdgeImpl edge = new EdgeImpl(edgeId.getIndex(), edgeType);
+        EdgeImpl edge =
+            new EdgeImpl(edgeId.getIndex(), edgeType,
+                         new WriteThroughProperties<EdgeId>(edgeId, new MapProperties(),
+                                                            edgePropertiesRepo));
 
         edge.setStartNode(startNode)
             .setEndNode(endNode)
-            .setWeight(weight)
-            .setProperties(new WriteThroughProperties<EdgeId>(edgeId, new MapProperties(),
-                                                              edgePropertiesRepo));
+            .setWeight(weight);
         return edge;
     }
 
@@ -276,15 +277,9 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         if (edgePrimitive == null) {
             return null;
         }
-        Node startNode = getNode(edgePrimitive.getStartNodeIndex());
-        Node endNode = getNode(edgePrimitive.getEndNodeIndex());
         Properties properties = edgePropertiesRepo.removeProperties(edgeId);
-        EdgeImpl edge = new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType());
-
-        edge.setStartNode(startNode)
-            .setEndNode(endNode)
-            .setWeight(edgePrimitive.getWeight())
-            .setProperties(properties);
+        EdgeImpl edge =
+            new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType(), properties);
         return edge;
     }
 
