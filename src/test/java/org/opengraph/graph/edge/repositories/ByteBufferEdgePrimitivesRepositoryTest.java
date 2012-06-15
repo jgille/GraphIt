@@ -229,7 +229,7 @@ public class ByteBufferEdgePrimitivesRepositoryTest {
     }
 
     @Test
-    public void testExpandBufferLisUnweightedEdges() {
+    public void testExpandBufferListUnweightedEdges() {
         ByteBufferTypedEdgePrimitivesRepository repo =
             new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
         int edgeCount = 20;

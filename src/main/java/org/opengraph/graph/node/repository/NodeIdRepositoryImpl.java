@@ -13,6 +13,7 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.opengraph.graph.exception.DuplicateKeyException;
 import org.opengraph.graph.exception.OpenGraphException;
 import org.opengraph.graph.node.domain.NodeId;
 import org.opengraph.graph.node.domain.NodePrimitive;
@@ -53,8 +54,10 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
 
     @Override
     public synchronized NodeId getNodeId(int nodeIndex) {
-        Assert.isTrue(nodeIndex >= 0 && nodeIndex < nodes.size(), "Illegal node index: "
-            + nodeIndex);
+        Assert.isTrue(nodeIndex >= 0, "Illegal node index: " + nodeIndex);
+        if (nodeIndex >= nodes.size()) {
+            return null;
+        }
         return nodes.get(nodeIndex);
     }
 
@@ -72,7 +75,9 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
         while (nodes.size() <= nodeIndex) {
             nodes.add(null);
         }
-        Assert.isNull(nodes.get(nodeIndex), "Duplicate node index: " + nodeIndex);
+        if (nodes.get(nodeIndex) != null) {
+            throw new DuplicateKeyException(nodeIndex);
+        }
         nodes.set(nodeIndex, nodeId);
         nodeMap.put(nodeId, nodeIndex);
     }
@@ -80,7 +85,8 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     @Override
     public synchronized NodeId remove(int nodeIndex) {
         NodeId nodeId;
-        if (nodeIndex < 0 && nodeIndex >= nodes.size()) {
+        Assert.isTrue(nodeIndex >= 0, "Illegal node index: " + nodeIndex);
+        if (nodeIndex >= nodes.size()) {
             return null;
         }
         nodeId = nodes.get(nodeIndex);
