@@ -107,7 +107,7 @@ public class ByteBufferEdgePrimitivesRepository extends AbstractGraphRepository 
     @Override
     public void init() {
         for (TypedEdgePrimitivesRepository repo : repos.values()) {
-            repo.setBaseDirectory(getBaseDirectory());
+            repo.setRootDataDirectory(getRootDataDirectory());
             repo.init();
         }
     }
@@ -120,7 +120,7 @@ public class ByteBufferEdgePrimitivesRepository extends AbstractGraphRepository 
     }
 
     @Override
-    public String getDirectory() {
+    public String getDataDirectory() {
         return null;
     }
 

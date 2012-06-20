@@ -8,13 +8,13 @@ package org.opengraph.graph.repository;
  */
 public abstract class AbstractGraphRepository implements GraphRepository {
 
-    private String baseDirectory;
+    private String dataDirectory;
 
     /**
      * Gets the data directory used by this repo, e.g.
      * /usr/local/opengraph/data/somegraph/edges/primitives.
      */
-    protected abstract String getDirectory();
+    protected abstract String getDataDirectory();
 
     /**
      * Gets the name of the file in which this repo stores it's data. e.g.
@@ -22,16 +22,21 @@ public abstract class AbstractGraphRepository implements GraphRepository {
      */
     protected abstract String getFileName();
 
-    protected String getBaseDirectory() {
-        return baseDirectory;
+    /**
+     * Gets the root directory for the graph, under which this repo might store
+     * data.
+     */
+
+    protected String getRootDataDirectory() {
+        return dataDirectory;
     }
 
     /**
-     * Sets the base directory for the graph, under which this repo might store
+     * Sets the root directory for the graph, under which this repo might store
      * data.
      */
-    public void setBaseDirectory(String directory) {
-        this.baseDirectory = directory;
+    public void setRootDataDirectory(String directory) {
+        this.dataDirectory = directory;
     }
 
 

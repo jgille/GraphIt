@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
@@ -29,6 +30,9 @@ public final class GraphRepositoryFileUtils {
         if (!StringUtils.hasText(dir)) {
             return;
         }
+
+        Assert.isTrue(StringUtils.hasText(fileName));
+
         File stageDir = new File(FilenameUtils.concat(dir, "stage"));
         FileUtils.forceMkdir(stageDir);
         String stageFileName = String.format("%s.%d", fileName, System.currentTimeMillis());

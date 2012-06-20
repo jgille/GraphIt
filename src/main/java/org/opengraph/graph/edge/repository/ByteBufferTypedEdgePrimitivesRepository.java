@@ -270,7 +270,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     @Override
     public void init() {
         try {
-            GraphRepositoryFileUtils.restore(this, getDirectory(), getFileName());
+            GraphRepositoryFileUtils.restore(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
             throw new OpenGraphException("Failed to restore edges.", e);
         }
@@ -279,7 +279,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     @Override
     public void shutdown() {
         try {
-            GraphRepositoryFileUtils.persist(this, getDirectory(), getFileName());
+            GraphRepositoryFileUtils.persist(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
             throw new OpenGraphException("Failed to export edges.", e);
         }
@@ -349,8 +349,8 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     }
 
     @Override
-    protected String getDirectory() {
-        return FilenameUtils.concat(getBaseDirectory(), "edges/primitives");
+    protected String getDataDirectory() {
+        return FilenameUtils.concat(getRootDataDirectory(), "edges/primitives");
     }
 
     @Override

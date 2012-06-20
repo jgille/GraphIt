@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
@@ -22,6 +21,7 @@ import org.opengraph.graph.node.schema.NodeTypes;
 import org.opengraph.graph.repository.AbstractGraphRepository;
 import org.opengraph.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.
@@ -34,6 +34,9 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     private final NodeTypes nodeTypes;
     private final AbstractObjectIntMap<NodeId> nodeMap;
     private final List<NodeId> nodes;
+
+    private boolean isInited = false;
+    private boolean isShutdown = false;
 
     /**
      * Creates a new repo for the provided set of node types.
@@ -101,21 +104,23 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     }
 
     @Override
-    public void init() {
+    public synchronized void init() {
         try {
-        GraphRepositoryFileUtils.restore(this, getDirectory(), getFileName());
+        GraphRepositoryFileUtils.restore(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
             throw new OpenGraphException("Failed to restore nodes.", e);
         }
+        this.isInited = true;
     }
 
     @Override
     public synchronized void shutdown() {
         try {
-            GraphRepositoryFileUtils.persist(this, getDirectory(), getFileName());
+            GraphRepositoryFileUtils.persist(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
             throw new OpenGraphException("Failed to persist nodes.", e);
         }
+        this.isShutdown = true;
     }
 
     @Override
@@ -151,12 +156,28 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     }
 
     @Override
-    public String getDirectory() {
-        return FilenameUtils.concat(getBaseDirectory(), "nodes/primitives");
+    public String getDataDirectory() {
+        String baseDir = getRootDataDirectory();
+        if (!StringUtils.hasText(baseDir)) {
+            return null;
+        }
+        return FilenameUtils.concat(getRootDataDirectory(), "nodes/primitives");
     }
 
     @Override
     protected String getFileName() {
         return "nodes.json";
+    }
+
+    synchronized List<NodeId> getNodeIds() {
+        return new ArrayList<NodeId>(nodes);
+    }
+
+    boolean isInited() {
+        return isInited;
+    }
+
+    boolean isShutdown() {
+        return isShutdown;
     }
 }

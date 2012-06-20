@@ -314,8 +314,8 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     }
 
     @Override
-    public String getDirectory() {
-        return getBaseDirectory();
+    public String getDataDirectory() {
+        return getRootDataDirectory();
     }
 
     @Override

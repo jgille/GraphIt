@@ -86,5 +86,5 @@ public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphReposit
      * Sets the base directory for the graph, under which this repo might
      * persist edges to disk.
      */
-    void setBaseDirectory(String directory);
+    void setRootDataDirectory(String directory);
 }
