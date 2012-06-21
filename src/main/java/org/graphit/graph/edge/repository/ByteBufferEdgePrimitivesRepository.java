@@ -86,13 +86,6 @@ public class ByteBufferEdgePrimitivesRepository extends AbstractGraphRepository 
     }
 
     @Override
-    public void removeNode(int nodeIndex) {
-        for (TypedEdgePrimitivesRepository repo : repos.values()) {
-            repo.removeNode(nodeIndex);
-        }
-    }
-
-    @Override
     public void setEdgeWeight(EdgeId edgeId, float weight) {
         EdgeType edgeType = edgeId.getEdgeType();
         Assert.isTrue(edgeType.isWeighted(), edgeType + " edges are unweighted.");

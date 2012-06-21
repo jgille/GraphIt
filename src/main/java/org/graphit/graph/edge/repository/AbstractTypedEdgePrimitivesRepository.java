@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.mahout.math.function.IntProcedure;
 import org.apache.mahout.math.list.IntArrayList;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
@@ -221,25 +220,6 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
         return edgeVectorIndex.getOutgoingEdges(startNodeIndex);
     }
 
-    /**
-     * Removes all outgoing edges for a node.
-     */
-    protected EdgeVector removeOutgoingEdges(int startNodeIndex) {
-        EdgeVector edges = edgeVectorIndex.removeOutgoingEdges(startNodeIndex);
-        if (edges == null) {
-            edges = new EdgeVectorImpl(startNodeIndex, edgeType);
-        }
-        edges.forEachEdgeId(new IntProcedure() {
-
-            @Override
-            public boolean apply(int edgeIndex) {
-                removeEdge(new EdgeId(getEdgeType(), edgeIndex));
-                return true;
-            }
-        });
-        return edges;
-    }
-
     private void setOutgoingEdges(int startNodeIndex, EdgeVector outgoingEdges) {
         edgeVectorIndex.setOutgoingEdges(startNodeIndex, outgoingEdges);
     }
@@ -256,26 +236,6 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
 
     private EdgeVector findIncomingEdges(int endNodeIndex) {
         return edgeVectorIndex.getIncomingEdges(endNodeIndex);
-    }
-
-    /**
-     * Removes all incoming edges for a node.
-     */
-    protected EdgeVector removeIncomingEdges(int endNodeIndex) {
-        EdgeVector edges = edgeVectorIndex.removeIncomingEdges(endNodeIndex);
-        if (edges == null) {
-            edges = new EdgeVectorImpl(endNodeIndex, edgeType);
-            ((EdgeVectorImpl) edges).setEdgeDirection(EdgeDirection.INCOMING);
-        }
-        edges.forEachEdgeId(new IntProcedure() {
-
-            @Override
-            public boolean apply(int edgeIndex) {
-                removeEdge(new EdgeId(getEdgeType(), edgeIndex));
-                return true;
-            }
-        });
-        return edges;
     }
 
     private void setIncomingEdges(int endNodeIndex, EdgeVector incomingEdges) {

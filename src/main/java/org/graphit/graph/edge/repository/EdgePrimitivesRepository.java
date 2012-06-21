@@ -61,11 +61,6 @@ public interface EdgePrimitivesRepository extends GraphRepository {
     void setEdgeWeight(EdgeId edge, float weight);
 
     /**
-     * Removes all edges connected to a node.
-     */
-    void removeNode(int nodeIndex);
-
-    /**
      * Gets the outgoing edges for a node.
      */
     EdgeVector getOutgoingEdges(int startNodeIndex, EdgeType edgeType);

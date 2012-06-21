@@ -218,7 +218,6 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         if (index < 0) {
             return null;
         }
-        edgeRepo.removeNode(index);
         nodeRepo.remove(index);
         Properties properties;
         properties = nodePropertiesRepo.removeProperties(nodeId);

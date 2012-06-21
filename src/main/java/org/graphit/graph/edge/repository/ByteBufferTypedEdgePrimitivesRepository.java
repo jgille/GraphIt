@@ -238,12 +238,6 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     }
 
     @Override
-    public void removeNode(int nodeIndex) {
-        removeOutgoingEdges(nodeIndex);
-        removeIncomingEdges(nodeIndex);
-    }
-
-    @Override
     public float getEdgeWeight(int edgeId) {
         if (!getEdgeType().isWeighted()) {
             return 0;
