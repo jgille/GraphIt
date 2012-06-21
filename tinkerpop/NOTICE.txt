@@ -1,0 +1,2 @@
+GraphIt implements the Blueprints interfaces making it support Blueprints-enabled applications.
+Please see: http://http://tinkerpop.com and the license found in LICENSES.txt in this directory.
