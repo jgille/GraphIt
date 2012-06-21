@@ -13,7 +13,7 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.graphit.graph.exception.DuplicateKeyException;
-import org.graphit.graph.exception.OpenGraphException;
+import org.graphit.graph.exception.GraphException;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodePrimitive;
 import org.graphit.graph.node.schema.NodeType;
@@ -108,7 +108,7 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
         try {
         GraphRepositoryFileUtils.restore(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
-            throw new OpenGraphException("Failed to restore nodes.", e);
+            throw new GraphException("Failed to restore nodes.", e);
         }
         this.isInited = true;
     }
@@ -118,7 +118,7 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
         try {
             GraphRepositoryFileUtils.persist(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
-            throw new OpenGraphException("Failed to persist nodes.", e);
+            throw new GraphException("Failed to persist nodes.", e);
         }
         this.isShutdown = true;
     }

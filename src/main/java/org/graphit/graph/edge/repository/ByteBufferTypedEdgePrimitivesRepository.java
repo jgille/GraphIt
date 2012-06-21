@@ -18,7 +18,7 @@ import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
 import org.graphit.graph.edge.util.EdgeWeigher;
-import org.graphit.graph.exception.OpenGraphException;
+import org.graphit.graph.exception.GraphException;
 import org.graphit.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
 
@@ -272,7 +272,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         try {
             GraphRepositoryFileUtils.restore(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
-            throw new OpenGraphException("Failed to restore edges.", e);
+            throw new GraphException("Failed to restore edges.", e);
         }
     }
 
@@ -281,7 +281,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         try {
             GraphRepositoryFileUtils.persist(this, getDataDirectory(), getFileName());
         } catch (IOException e) {
-            throw new OpenGraphException("Failed to export edges.", e);
+            throw new GraphException("Failed to export edges.", e);
         }
     }
 

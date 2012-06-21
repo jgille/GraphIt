@@ -1,4 +1,4 @@
-== OpenGraph ==
+== GraphIt ==
 
 Author: Jon Ivmark
 Date: 2012-06-06
@@ -9,7 +9,7 @@ Requries: Java SDK 6+
 1. Description
 ===============================================================================================
 
-OpenGraph is intended to be an easy to use, fast, RAM only (or mostly)
+GraphIt is intended to be an easy to use, fast, RAM only (or mostly)
 property graph database.
 
 2. Installation
