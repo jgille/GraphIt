@@ -82,9 +82,6 @@ public final class GraphRepositoryFileUtils {
             return;
         }
         File file = new File(FilenameUtils.concat(dir, fileName));
-        if (!file.exists()) {
-            return;
-        }
         repo.restore(file);
     }
 

@@ -158,6 +158,7 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
 
     @Override
     public synchronized void restore(File in) throws IOException {
+        Assert.isTrue(in.exists());
         Assert.isTrue(nodes.isEmpty(), "Can not restore a non empty repo.");
         ObjectMapper mapper = new ObjectMapper();
         List<NodePrimitive> primitives =

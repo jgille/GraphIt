@@ -17,6 +17,7 @@
 package org.graphit.graph.edge.repository;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.mahout.math.function.IntProcedure;
 import org.apache.mahout.math.list.IntArrayList;
 import org.graphit.graph.edge.domain.EdgeId;
@@ -61,7 +63,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     private final int numEdgesPerShard;
     private final List<ByteBuffer> shards;
-    private final int[] initial;
+    private final byte[] initial;
 
     private EdgeIndexComparator edgeComparator;
 
@@ -79,8 +81,17 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         super(edgeType);
         this.numEdgesPerShard = numEdgesPerShards;
         this.shards = new ArrayList<ByteBuffer>();
-        this.initial = new int[getShardSize() / BYTES_PER_ENTITY];
-        Arrays.fill(initial, -1);
+        this.initial = new byte[getShardSize()];
+
+        ByteBuffer temp = ByteBuffer.wrap(initial);
+        ByteBuffer edgeBuffer = ByteBuffer.allocate(getBytesPerEdge());
+        edgeBuffer.putInt(-1).putInt(-1);
+        if (edgeType.isWeighted()) {
+            edgeBuffer.putFloat(-1f);
+        }
+        for (int i = 0; i < numEdgesPerShards; i++) {
+            temp.put(edgeBuffer.array());
+        }
         this.edgeComparator = getEdgeType().getEdgeComparator(new ByteBufferEdgeWeigher(this));
     }
 
@@ -115,8 +126,8 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         ByteBuffer shard;
         synchronized (shards) {
             if (shardIndex >= shards.size()) {
-                shard = ByteBuffer.allocate(getShardSize());
-                shard.asIntBuffer().put(initial);
+                shard = ByteBuffer.allocate(initial.length);
+                shard.put(initial);
                 shards.add(shard);
             } else {
                 shard = shards.get(shardIndex);
@@ -308,40 +319,49 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         }
     }
 
-    private byte[] read(File in) throws IOException {
-        return FileUtils.readFileToByteArray(in);
-    }
-
     @Override
     public synchronized void restore(File in) throws IOException {
+        Assert.isTrue(in.exists());
         Assert.isTrue(shards.isEmpty(), "Can not restore a non empty repo.");
-        byte[] data = read(in);
-        ByteBuffer buffer = ByteBuffer.wrap(data);
         int index = 0;
-
         IntArrayList nullEdges = new IntArrayList();
         int maxNonNullIndex = 0;
-        int max = data.length / getBytesPerEdge();
         EdgeType type = getEdgeType();
         boolean isWeighted = type.isWeighted();
 
-        while (index < max) {
-            getOrAddShard(index);
-            EdgePrimitive edge = getEdge(index, index * getBytesPerEdge(), buffer);
-            if (edge == null) {
-                nullEdges.add(index);
-                edge = new EdgePrimitive(new EdgeId(getEdgeType(), index), -1, -1, -1);
-            } else {
-                maxNonNullIndex = index;
+        FileInputStream is = FileUtils.openInputStream(in);
+        try {
+            int read;
+            byte[] arr = new byte[numEdgesPerShard * getBytesPerEdge()];
+            int bytesPerEdge = getBytesPerEdge();
+
+            while ((read = is.read(arr)) > 0) {
+                ByteBuffer buffer = ByteBuffer.wrap(arr);
+                int size = read / bytesPerEdge;
+                for (int i = 0; i < size; i++) {
+                    getOrAddShard(index);
+                    EdgePrimitive edge = getEdge(index, i * bytesPerEdge, buffer);
+                    if (edge == null) {
+                        nullEdges.add(index);
+                        edge = new EdgePrimitive(new EdgeId(getEdgeType(), index), -1, -1, -1);
+                    } else {
+                        maxNonNullIndex = index;
+                        addEdge(edge);
+                    }
+                    ByteBuffer shard = getOrAddShard(index);
+                    int shardIndex = getOffsetInShard(index);
+                    shard.putInt(shardIndex, edge.getStartNodeIndex());
+                    shard.putInt(shardIndex + BYTES_PER_ENTITY, edge.getEndNodeIndex());
+                    if (isWeighted) {
+                        shard.putFloat(shardIndex + BYTES_PER_ENTITY * 2, edge.getWeight());
+                    }
+                    index++;
+                }
+                Arrays.fill(arr, (byte) -1);
+
             }
-            ByteBuffer shard = getOrAddShard(index);
-            int shardIndex = getOffsetInShard(index);
-            shard.putInt(shardIndex, edge.getStartNodeIndex());
-            shard.putInt(shardIndex + BYTES_PER_ENTITY, edge.getEndNodeIndex());
-            if (isWeighted) {
-                shard.putFloat(shardIndex + BYTES_PER_ENTITY * 2, edge.getWeight());
-            }
-            index++;
+        } finally {
+            IOUtils.closeQuietly(is);
         }
 
         maxId.set(maxNonNullIndex);
