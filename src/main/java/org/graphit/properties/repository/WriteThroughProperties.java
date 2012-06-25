@@ -25,17 +25,31 @@ import org.graphit.properties.domain.Properties;
 /**
  * A {@link Properties} implementation that will propagate all changes to a
  * {@link PropertiesRepository}.
- * 
+ *
  * @author jon
- * 
+ *
  * @param <T>
  *            The generic type of the id of this instance.
  */
 public class WriteThroughProperties<T> implements Properties {
 
     private final T id;
-    private final Properties properties;
+    private Properties properties;
     private final PropertiesRepository<T> repo;
+
+    /**
+     * Creates a new lazy instance, i.e. it will load properties from the repo
+     * on first request.
+     * 
+     * @param id
+     *            The id of this instance.
+     * @param repo
+     *            A repo to propagate writes to.
+     */
+    public WriteThroughProperties(T id, PropertiesRepository<T> repo) {
+        this.id = id;
+        this.repo = repo;
+    }
 
     /**
      * Creates a new instance.
@@ -55,35 +69,35 @@ public class WriteThroughProperties<T> implements Properties {
 
     @Override
     public Object getProperty(String key) {
-        return properties.getProperty(key);
+        return loadOrGetProperties().getProperty(key);
     }
 
     @Override
     public void setProperty(String key, Object value) {
-        properties.setProperty(key, value);
+        loadOrGetProperties().setProperty(key, value);
         repo.setProperty(id, key, value);
     }
 
     @Override
     public Object removeProperty(String key) {
-        Object property = properties.removeProperty(key);
+        Object property = loadOrGetProperties().removeProperty(key);
         repo.removeProperty(id, key);
         return property;
     }
 
     @Override
     public boolean containsProperty(String key) {
-        return properties.containsProperty(key);
+        return loadOrGetProperties().containsProperty(key);
     }
 
     @Override
     public Set<String> getPropertyKeys() {
-        return properties.getPropertyKeys();
+        return loadOrGetProperties().getPropertyKeys();
     }
 
     @Override
     public Map<String, Object> asPropertyMap() {
-        return properties.asPropertyMap();
+        return loadOrGetProperties().asPropertyMap();
     }
 
     @Override
@@ -91,4 +105,14 @@ public class WriteThroughProperties<T> implements Properties {
         return "WriteThroughProperties [id=" + id + ", properties=" + properties + "]";
     }
 
+    private Properties loadOrGetProperties() {
+        if (properties != null) {
+            return properties;
+        }
+        properties = repo.getProperties(id);
+        if (properties == null) {
+            properties = new MapProperties();
+        }
+        return properties;
+    }
 }

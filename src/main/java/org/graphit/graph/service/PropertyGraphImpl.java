@@ -39,7 +39,6 @@ import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
 import org.graphit.graph.repository.AbstractGraphRepository;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.graphit.properties.domain.MapProperties;
 import org.graphit.properties.domain.Properties;
 import org.graphit.properties.repository.AlwaysEmptyPropertiesRepository;
 import org.graphit.properties.repository.PropertiesRepository;
@@ -202,7 +201,7 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     public Node addNode(NodeId nodeId) {
         int index = nodeRepo.insert(nodeId);
         Properties properties =
-            new WriteThroughProperties<NodeId>(nodeId, new MapProperties(), nodePropertiesRepo);
+            new WriteThroughProperties<NodeId>(nodeId, nodePropertiesRepo);
         return new NodeImpl(index, nodeId, properties);
     }
 
@@ -212,8 +211,7 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         if (index < 0) {
             return null;
         }
-        Properties properties = nodePropertiesRepo.getProperties(nodeId);
-        return new NodeImpl(index, nodeId, new WriteThroughProperties<NodeId>(nodeId, properties,
+        return new NodeImpl(index, nodeId, new WriteThroughProperties<NodeId>(nodeId,
                                                                               nodePropertiesRepo));
     }
 
@@ -223,8 +221,7 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         if (nodeId == null) {
             return null;
         }
-        Properties properties = nodePropertiesRepo.getProperties(nodeId);
-        return new NodeImpl(index, nodeId, new WriteThroughProperties<NodeId>(nodeId, properties,
+        return new NodeImpl(index, nodeId, new WriteThroughProperties<NodeId>(nodeId,
                                                                               nodePropertiesRepo));
     }
 
@@ -252,9 +249,8 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         if (startNode == null || endNode == null) {
             return null;
         }
-        Properties properties = edgePropertiesRepo.getProperties(edgeId);
         EdgeImpl edge = new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType(),
-                                     new WriteThroughProperties<EdgeId>(edgeId, properties,
+                                     new WriteThroughProperties<EdgeId>(edgeId,
                                                                         edgePropertiesRepo));
 
         edge.setStartNode(startNode)
@@ -290,7 +286,7 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         }
         EdgeImpl edge =
             new EdgeImpl(edgeId.getIndex(), edgeType,
-                         new WriteThroughProperties<EdgeId>(edgeId, new MapProperties(),
+                         new WriteThroughProperties<EdgeId>(edgeId,
                                                             edgePropertiesRepo));
 
         edge.setStartNode(startNode)
