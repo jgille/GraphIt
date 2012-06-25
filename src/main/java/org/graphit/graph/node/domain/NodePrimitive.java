@@ -107,7 +107,7 @@ public class NodePrimitive {
         return result;
     }
 
-    private void validate() {
+    void validate() {
         Assert.notNull(id);
         Assert.notNull(type);
         Assert.isTrue(index >= 0);

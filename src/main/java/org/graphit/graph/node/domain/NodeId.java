@@ -18,6 +18,7 @@ package org.graphit.graph.node.domain;
 
 import org.graphit.graph.node.schema.NodeType;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * Identifies a node in a graph.
@@ -35,8 +36,7 @@ public class NodeId {
      */
     public NodeId(NodeType type, String id) {
         Assert.notNull(type, "A node type must be provided");
-        Assert.notNull(id, "A node id must be provided");
-        Assert.isTrue(!id.isEmpty(), "A node id must be provided");
+        Assert.isTrue(StringUtils.hasText(id), "A node id must be provided");
         this.type = type;
         this.id = id;
     }
