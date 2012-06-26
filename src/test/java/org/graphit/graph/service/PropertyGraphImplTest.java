@@ -358,7 +358,7 @@ public class PropertyGraphImplTest {
         assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p1));
 
         assertThat(edge1.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p3));
+        assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p4));
 
         Edge edge2 = edges.get(1);
 
@@ -368,7 +368,7 @@ public class PropertyGraphImplTest {
         assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p1));
 
         assertThat(edge2.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge2.getEndNode().getNodeId(), Matchers.is(p4));
+        assertThat(edge2.getEndNode().getNodeId(), Matchers.is(p3));
 
         Edge edge3 = edges.get(2);
 
@@ -400,7 +400,7 @@ public class PropertyGraphImplTest {
         assertThat(edge1.getType(), Matchers.is((EdgeType) SIMILAR));
 
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p3));
+        assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p4));
 
         assertThat(edge1.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p2));
@@ -410,7 +410,7 @@ public class PropertyGraphImplTest {
         assertThat(edge2.getType(), Matchers.is((EdgeType) SIMILAR));
 
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p4));
+        assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p3));
 
         assertThat(edge2.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge2.getEndNode().getNodeId(), Matchers.is(p2));
@@ -633,27 +633,6 @@ public class PropertyGraphImplTest {
             asList(graph.getEdges(new NodeId(PRODUCT, "p1"), SIMILAR, EdgeDirection.OUTGOING));
         assertThat(modifiedEdges.size(), Matchers.is(2));
         assertThat(modifiedEdges, Matchers.is(Arrays.asList(e1, e3)));
-    }
-
-    @Test
-    public void testSetEdgeWeightForWeightedEdgeType() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
-        new GraphBuilder(graph).addProducts("p1", "p2", "p3", "p4")
-            .similar("p1", "p2", 2).similar("p1", "p3", 3).similar("p1", "p4", 1);
-
-        List<Edge> edges =
-            asList(graph.getEdges(new NodeId(PRODUCT, "p1"), SIMILAR, EdgeDirection.OUTGOING));
-        assertThat(edges.size(), Matchers.is(3));
-
-        Edge e1 = edges.get(0);
-        Edge e2 = edges.get(1);
-        Edge e3 = edges.get(2);
-
-        graph.setEdgeWeight(e2.getEdgeId(), 5);
-        List<Edge> modifiedEdges =
-            asList(graph.getEdges(new NodeId(PRODUCT, "p1"), SIMILAR, EdgeDirection.OUTGOING));
-        assertThat(modifiedEdges.size(), Matchers.is(3));
-        assertThat(modifiedEdges, Matchers.is(Arrays.asList(e2, e1, e3)));
     }
 
     @Test

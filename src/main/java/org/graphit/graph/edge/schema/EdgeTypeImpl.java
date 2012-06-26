@@ -17,7 +17,6 @@
 package org.graphit.graph.edge.schema;
 
 import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.edge.util.EdgeWeigher;
 import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 
 /**
@@ -63,7 +62,7 @@ public class EdgeTypeImpl implements EdgeType {
     }
 
     @Override
-    public EdgeIndexComparator getEdgeComparator(EdgeWeigher edgeWeigher) {
+    public EdgeIndexComparator getEdgeComparator() {
         return edgeComparator;
     }
 

@@ -192,7 +192,8 @@ public class ByteBufferTypedEdgePrimitivesRepositoryTest {
         EdgeVector edges = repo.getOutgoingEdges(1);
         assertThat(edges, Matchers.notNullValue());
         assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId3.getIndex(), edgeId1.getIndex(), edgeId4.getIndex())));
+                   Matchers.is(Arrays.asList(edgeId4.getIndex(), edgeId3.getIndex(),
+                                             edgeId1.getIndex())));
     }
 
     @Test
@@ -222,7 +223,8 @@ public class ByteBufferTypedEdgePrimitivesRepositoryTest {
         EdgeVector edges = repo.getIncomingEdges(1);
         assertThat(edges, Matchers.notNullValue());
         assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId3.getIndex(), edgeId1.getIndex(), edgeId4.getIndex())));
+                   Matchers.is(Arrays.asList(edgeId4.getIndex(), edgeId3.getIndex(),
+                                             edgeId1.getIndex())));
     }
 
     @Test

@@ -92,7 +92,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         for (int i = 0; i < numEdgesPerShards; i++) {
             temp.put(edgeBuffer.array());
         }
-        this.edgeComparator = getEdgeType().getEdgeComparator(new ByteBufferEdgeWeigher(this));
+        this.edgeComparator = getEdgeType().getEdgeComparator();
     }
 
     /**

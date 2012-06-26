@@ -49,6 +49,11 @@ public class CombinedIterable<T> implements Iterable<T> {
         return new CombinedIterator<T>(iterators);
     }
 
+    @Override
+    public String toString() {
+        return "CombinedIterable [iterables=" + iterables + "]";
+    }
+
     private static final class CombinedIterator<T> implements Iterator<T> {
 
         private final List<Iterator<T>> iterators;
