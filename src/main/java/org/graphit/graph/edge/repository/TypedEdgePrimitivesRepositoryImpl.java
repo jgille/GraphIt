@@ -18,12 +18,23 @@ package org.graphit.graph.edge.repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.codehaus.jackson.JsonEncoding;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.exception.DuplicateKeyException;
+import org.graphit.graph.exception.GraphException;
 import org.springframework.util.Assert;
 
 /**
@@ -114,7 +125,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
         validate(edgeId);
         EdgePrimitive edge = buffer.remove(edgeId.getIndex());
         if (edge != null) {
-            removeEdge(edge);
+            delete(edge);
         }
         return edge;
     }
@@ -140,23 +151,64 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
     }
 
     @Override
-    public void init() {
-        // TODO: Implement
-    }
-
-    @Override
-    public void shutdown() {
-        // TODO: Implement
-    }
-
-    @Override
     public void dump(File out) throws IOException {
-        // TODO: Implement
+        JsonFactory jsonFactory = new JsonFactory(new ObjectMapper());
+        final JsonGenerator generator = jsonFactory.createJsonGenerator(out, JsonEncoding.UTF8);
+        try {
+            generator.writeStartArray();
+            buffer.forEach(new Procedure<EdgePrimitive>() {
+
+                @Override
+                public boolean apply(EdgePrimitive edge) {
+                    dumpEdge(generator, edge);
+                    return true;
+                }
+            });
+            generator.writeEndArray();
+        } finally {
+            generator.close();
+        }
+    }
+
+    private void dumpEdge(JsonGenerator generator, EdgePrimitive edge) {
+        // TODO: Avoid creating a map just to generate json
+        Map<String, Object> map = new HashMap<String, Object>(3);
+        map.put("i", edge.getIndex());
+        map.put("s", edge.getStartNodeIndex());
+        map.put("e", edge.getEndNodeIndex());
+        if (getEdgeType().isWeighted()) {
+            map.put("w", edge.getWeight());
+        }
+        try {
+            generator.writeObject(map);
+        } catch (JsonProcessingException e) {
+            throw new GraphException("Unable to dump edges.", e);
+        } catch (IOException e) {
+            throw new GraphException("Unable to dump edges.", e);
+        }
     }
 
     @Override
     public void restore(File in) throws IOException {
-        // TODO: Implement
+        Assert.isTrue(in.exists());
+        Assert.isTrue(buffer.size() == 0, "Can not restore a non empty repo.");
+        ObjectMapper mapper = new ObjectMapper();
+        // TODO: Use a dedicated domain object instead of a map
+        List<Map<String, Object>> edges =
+            mapper.readValue(in, new TypeReference<List<Map<String, Object>>>() {
+            });
+        EdgeType edgeType = getEdgeType();
+        for (Map<String, Object> map : edges) {
+            EdgeId edgeId = new EdgeId(edgeType, (Integer) map.get("i"));
+            int startNodeIndex = (Integer) map.get("s");
+            int endNodeIndex = (Integer) map.get("e");
+            if (edgeType.isWeighted()) {
+                float weight = ((Double) map.get("w")).floatValue();
+                addWeightedEdge(edgeId, startNodeIndex, endNodeIndex, weight);
+            } else {
+                addEdge(edgeId, startNodeIndex, endNodeIndex);
+            }
+        }
     }
 
     @Override
@@ -166,11 +218,15 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
 
     @Override
     protected String getFileName() {
-        return String.format("%s.prim", getEdgeType().name());
+        return String.format("%s.json", getEdgeType().name());
     }
 
     private void validate(EdgeId edgeId) {
         Assert.isTrue(getEdgeType().equals(edgeId.getEdgeType()), "Illegal edge type for: "
             + edgeId);
+    }
+
+    public int size() {
+        return buffer.size();
     }
 }

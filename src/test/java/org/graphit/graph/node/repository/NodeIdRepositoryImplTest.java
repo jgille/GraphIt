@@ -301,7 +301,6 @@ public class NodeIdRepositoryImplTest {
                 .trim();
 
         assertEquals(expected, json);
-
     }
 
     private NodeId newUser(String id) {

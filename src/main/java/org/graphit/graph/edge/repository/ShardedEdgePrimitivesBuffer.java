@@ -18,7 +18,9 @@ package org.graphit.graph.edge.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
@@ -116,6 +118,30 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
     @Override
     public EdgeType getEdgeType() {
         return edgeType;
+    }
+
+    @Override
+    public synchronized void forEach(final Procedure<EdgePrimitive> procedure) {
+        final AtomicInteger shardIndex = new AtomicInteger(0);
+        final int nShards = shards.size();
+        for (EdgePrimitivesBuffer buffer : shards) {
+            buffer.forEach(new Procedure<EdgePrimitive>() {
+
+                @Override
+                public boolean apply(EdgePrimitive edge) {
+                    int index = edge.getIndex();
+                    int convertedIndex = index * nShards + shardIndex.get();
+                    EdgePrimitive converted =
+                        new EdgePrimitive(new EdgeId(edge.getEdgeType(),
+                                                     convertedIndex),
+                                          edge.getStartNodeIndex(),
+                                          edge.getEndNodeIndex(),
+                                          edge.getWeight());
+                    return procedure.apply(converted);
+                }
+            });
+            shardIndex.incrementAndGet();
+        }
     }
 
 }

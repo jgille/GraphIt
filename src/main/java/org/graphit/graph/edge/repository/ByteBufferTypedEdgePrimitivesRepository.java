@@ -35,8 +35,6 @@ import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.exception.DuplicateKeyException;
-import org.graphit.graph.exception.GraphException;
-import org.graphit.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -246,7 +244,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
         EdgePrimitive edge =
             new EdgePrimitive(edgeId, startNodeId, endNodeId, weight);
-        removeEdge(edge);
+        delete(edge);
         return edge;
     }
 
@@ -281,25 +279,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     }
 
     @Override
-    public void init() {
-        try {
-            GraphRepositoryFileUtils.restore(this, getDataDirectory(), getFileName());
-        } catch (IOException e) {
-            throw new GraphException("Failed to restore edges.", e);
-        }
-    }
-
-    @Override
-    public void shutdown() {
-        try {
-            GraphRepositoryFileUtils.persist(this, getDataDirectory(), getFileName());
-        } catch (IOException e) {
-            throw new GraphException("Failed to export edges.", e);
-        }
-    }
-
-    @Override
-    public synchronized void dump(File out) throws IOException {
+    public void dump(File out) throws IOException {
         OutputStream os = new FileOutputStream(out);
         try {
             for (ByteBuffer buffer : shards) {
@@ -312,7 +292,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     }
 
     @Override
-    public synchronized void restore(File in) throws IOException {
+    public void restore(File in) throws IOException {
         Assert.isTrue(in.exists());
         Assert.isTrue(shards.isEmpty(), "Can not restore a non empty repo.");
         int index = 0;

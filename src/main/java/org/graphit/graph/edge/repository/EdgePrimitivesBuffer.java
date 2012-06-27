@@ -16,6 +16,7 @@
 
 package org.graphit.graph.edge.repository;
 
+import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
 
@@ -54,5 +55,11 @@ public interface EdgePrimitivesBuffer {
      * Gets the type of the edges in this buffer.
      */
     EdgeType getEdgeType();
+
+    /**
+     * Applies the procedure for each edge in this buffer. Breaks iteration if
+     * the procedure return false.
+     */
+    void forEach(Procedure<EdgePrimitive> procedure);
 
 }
