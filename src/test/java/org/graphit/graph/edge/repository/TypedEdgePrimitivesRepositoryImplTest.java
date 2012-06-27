@@ -17,28 +17,17 @@
 package org.graphit.graph.edge.repository;
 
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.schema.EdgeTypes;
 
 /**
- *
- * An {@link EdgePrimitivesRepository} backed by
- * {@link ByteBufferTypedEdgePrimitivesRepository} instances.
- *
  * @author jon
  *
  */
-public class ByteBufferEdgePrimitivesRepository extends AbstractEdgePrimitivesRepository {
-
-    /**
-     * Contructs a bew repo.
-     */
-    public ByteBufferEdgePrimitivesRepository(EdgeTypes edgeTypes) {
-        super(edgeTypes);
-    }
+public class TypedEdgePrimitivesRepositoryImplTest extends
+    AbstractTypedEdgePrimitivesRepositoryTest {
 
     @Override
-    protected ByteBufferTypedEdgePrimitivesRepository createRepo(EdgeType edgeType) {
-        return new ByteBufferTypedEdgePrimitivesRepository(edgeType);
+    protected TypedEdgePrimitivesRepository createRepo(EdgeType edgeType, int initialCapacity) {
+        return new TypedEdgePrimitivesRepositoryImpl(edgeType, initialCapacity);
     }
 
 }

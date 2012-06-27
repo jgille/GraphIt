@@ -34,8 +34,7 @@ import org.apache.mahout.math.list.IntArrayList;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.edge.util.EdgeWeigher;
+import org.graphit.graph.exception.DuplicateKeyException;
 import org.graphit.graph.exception.GraphException;
 import org.graphit.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
@@ -65,8 +64,6 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     private final List<ByteBuffer> shards;
     private final byte[] initial;
 
-    private EdgeIndexComparator edgeComparator;
-
     /**
      * Creates a new repo for the provided edge type with a default shard size.
      */
@@ -92,15 +89,6 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         for (int i = 0; i < numEdgesPerShards; i++) {
             temp.put(edgeBuffer.array());
         }
-        this.edgeComparator = getEdgeType().getEdgeComparator();
-    }
-
-    /**
-     * Sets the {@link EdgeIndexComparator} to use to keep {@link EdgeVector}s
-     * sorted.
-     */
-    public void setEdgeComparator(EdgeIndexComparator edgeComparator) {
-        this.edgeComparator = edgeComparator;
     }
 
     private int getBytesPerEdge() {
@@ -149,6 +137,9 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     @Override
     public void addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex) {
+        if (getEdge(edgeId) != null) {
+            throw new DuplicateKeyException(edgeId);
+        }
         upsert(edgeId, startNodeIndex, endNodeIndex, 0);
     }
 
@@ -162,6 +153,9 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
     @Override
     public void addWeightedEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight) {
         Assert.isTrue(getEdgeType().isWeighted(), "The edges in this repo are unweighted.");
+        if (getEdge(edgeId) != null) {
+            throw new DuplicateKeyException(edgeId);
+        }
         upsert(edgeId, startNodeIndex, endNodeIndex, weight);
     }
 
@@ -189,7 +183,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
         EdgePrimitive edge =
             new EdgePrimitive(edgeId, startNodeIndex, endNodeIndex, weight);
         if (newEdge) {
-            addEdge(edge);
+            insert(edge);
         }
         return edgeId;
     }
@@ -270,17 +264,15 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
             return 0;
         }
         ByteBuffer shard = getShard(edgeId);
+        if (shard == null) {
+            return -1;
+        }
         int index = getOffsetInShard(edgeId);
         float weight;
         synchronized (shard) {
             weight = shard.getFloat(index + BYTES_PER_ENTITY * 2);
         }
         return weight;
-    }
-
-    @Override
-    protected EdgeIndexComparator getEdgeComparator() {
-        return edgeComparator;
     }
 
     @Override
@@ -346,7 +338,7 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
                         edge = new EdgePrimitive(new EdgeId(getEdgeType(), index), -1, -1, -1);
                     } else {
                         maxNonNullIndex = index;
-                        addEdge(edge);
+                        insert(edge);
                     }
                     ByteBuffer shard = getOrAddShard(index);
                     int shardIndex = getOffsetInShard(index);
@@ -385,21 +377,6 @@ public class ByteBufferTypedEdgePrimitivesRepository extends AbstractTypedEdgePr
 
     @Override
     protected String getFileName() {
-        return String.format("%s.edges", getEdgeType().name());
+        return String.format("%s.bb", getEdgeType().name());
     }
-
-    private static final class ByteBufferEdgeWeigher implements EdgeWeigher {
-
-        private final ByteBufferTypedEdgePrimitivesRepository repo;
-
-        private ByteBufferEdgeWeigher(ByteBufferTypedEdgePrimitivesRepository repo) {
-            this.repo = repo;
-        }
-
-        @Override
-        public float getEdgeWeight(int edgeId) {
-            return repo.getEdgeWeight(edgeId);
-        }
-    }
-
 }

@@ -16,7 +16,6 @@
 
 package org.graphit.graph.edge.repository;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
@@ -35,259 +33,26 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
-import org.graphit.graph.edge.domain.EdgeVector;
-import org.graphit.graph.edge.repository.ByteBufferTypedEdgePrimitivesRepository;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.TestEdgeType;
 import org.graphit.graph.exception.GraphException;
-import org.hamcrest.Matchers;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
-public class ByteBufferTypedEdgePrimitivesRepositoryTest {
+/**
+ * @author jon
+ *
+ */
+public class ByteBufferTypedEdgePrimitivesRepositoryTest extends
+    AbstractTypedEdgePrimitivesRepositoryTest {
 
-    @Rule
-    public TemporaryFolder out = new TemporaryFolder();
-
-    @Test
-    public void testAddSingleWeightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        EdgeId edgeId = repo.addWeightedEdge(1, 2, 100);
-        assertThat(edgeId, Matchers.notNullValue());
-        assertThat(edgeId.getEdgeType(), Matchers.is((EdgeType) TestEdgeType.SIMILAR));
-        assertThat(edgeId.getIndex(), Matchers.is(0));
-    }
-
-    @Test
-    public void testAddSingleUnweightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
-        EdgeId edgeId = repo.addEdge(1, 2);
-        assertThat(edgeId, Matchers.notNullValue());
-        assertThat(edgeId.getEdgeType(), Matchers.is((EdgeType) TestEdgeType.BOUGHT));
-        assertThat(edgeId.getIndex(), Matchers.is(0));
-    }
-
-    @Test
-    public void testAddSingleUnweightedEdgeForWeightedEdgeType() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        EdgeId edgeId = repo.addEdge(1, 2);
-        assertThat(edgeId, Matchers.notNullValue());
-        assertThat(edgeId.getEdgeType(), Matchers.is((EdgeType) TestEdgeType.SIMILAR));
-        assertThat(edgeId.getIndex(), Matchers.is(0));
-    }
-
-    @Test
-    public void testGetWeightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        EdgeId edgeId = repo.addWeightedEdge(1, 2, 100);
-
-        EdgePrimitive edge = repo.getEdge(edgeId);
-        assertThat(edge, Matchers.notNullValue());
-        assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-        assertThat(edge.getStartNodeIndex(), Matchers.is(1));
-        assertThat(edge.getEndNodeIndex(), Matchers.is(2));
-        assertThat(edge.getWeight(), Matchers.is(100f));
-    }
-
-    @Test
-    public void testGetUnweightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
-        EdgeId edgeId = repo.addEdge(1, 2);
-
-        EdgePrimitive edge = repo.getEdge(edgeId);
-        assertThat(edge, Matchers.notNullValue());
-        assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-        assertThat(edge.getStartNodeIndex(), Matchers.is(1));
-        assertThat(edge.getEndNodeIndex(), Matchers.is(2));
-        assertThat(edge.getWeight(), Matchers.is(0f));
-    }
-
-    @Test
-    public void testGetNonExistingWeightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        repo.addWeightedEdge(1, 2, 100);
-
-        assertThat(repo.getEdge(new EdgeId(TestEdgeType.SIMILAR, 7)), Matchers.nullValue());
-        assertThat(repo.getEdge(new EdgeId(TestEdgeType.SIMILAR, 17)), Matchers.nullValue());
-    }
-
-    @Test
-    public void testGetNonExistingUnweightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
-        repo.addEdge(1, 2);
-
-        assertThat(repo.getEdge(new EdgeId(TestEdgeType.BOUGHT, 7)), Matchers.nullValue());
-        assertThat(repo.getEdge(new EdgeId(TestEdgeType.BOUGHT, 17)), Matchers.nullValue());
-    }
-
-    @Test
-    public void testGetUnweightedEdgeForWeightedEdgeType() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        EdgeId edgeId = repo.addEdge(1, 2);
-
-        EdgePrimitive edge = repo.getEdge(edgeId);
-        assertThat(edge, Matchers.notNullValue());
-        assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-        assertThat(edge.getStartNodeIndex(), Matchers.is(1));
-        assertThat(edge.getEndNodeIndex(), Matchers.is(2));
-        assertThat(edge.getWeight(), Matchers.is(0f));
-    }
-
-    @Test
-    public void testRemoveWeightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        EdgeId edgeId = repo.addWeightedEdge(1, 2, 100);
-
-        EdgePrimitive edge = repo.getEdge(edgeId);
-        assertThat(edge, Matchers.notNullValue());
-
-        repo.removeEdge(edgeId);
-        edge = repo.getEdge(edgeId);
-        assertThat(edge, Matchers.nullValue());
-    }
-
-    @Test
-    public void testRemoveUnWeightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
-        EdgeId edgeId = repo.addEdge(1, 2);
-
-        EdgePrimitive edge = repo.getEdge(edgeId);
-        assertThat(edge, Matchers.notNullValue());
-
-        repo.removeEdge(edgeId);
-        edge = repo.getEdge(edgeId);
-        assertThat(edge, Matchers.nullValue());
-    }
-
-    @Test
-    public void testRemoveNonExistingWeightedEdge() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        repo.addWeightedEdge(1, 2, 100);
-
-        assertThat(repo.removeEdge(new EdgeId(TestEdgeType.SIMILAR, 7)), Matchers.nullValue());
-        assertThat(repo.removeEdge(new EdgeId(TestEdgeType.SIMILAR, 17)), Matchers.nullValue());
-    }
-
-    @Test
-    public void testGetOutgoingWeightedEdgesForNode() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        EdgeId edgeId1 = repo.addWeightedEdge(1, 2, 100);
-        repo.addWeightedEdge(2, 4, 10);
-        EdgeId edgeId3 = repo.addWeightedEdge(1, 3, 101);
-        EdgeId edgeId4 = repo.addWeightedEdge(1, 4, 10);
-
-        EdgeVector edges = repo.getOutgoingEdges(1);
-        assertThat(edges, Matchers.notNullValue());
-        assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId4.getIndex(), edgeId3.getIndex(),
-                                             edgeId1.getIndex())));
-    }
-
-    @Test
-    public void testGetOutgoingUnweightedEdgesForNode() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
-        EdgeId edgeId1 = repo.addEdge(1, 2);
-        repo.addEdge(2, 4);
-        EdgeId edgeId3 = repo.addEdge(1, 3);
-        EdgeId edgeId4 = repo.addEdge(1, 4);
-
-        EdgeVector edges = repo.getOutgoingEdges(1);
-        assertThat(edges, Matchers.notNullValue());
-        assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId1.getIndex(), edgeId3.getIndex(), edgeId4.getIndex())));
-    }
-
-    @Test
-    public void testGetIncomingWeightedEdgesForNode() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        EdgeId edgeId1 = repo.addWeightedEdge(2, 1, 100);
-        repo.addWeightedEdge(4, 2, 10);
-        EdgeId edgeId3 = repo.addWeightedEdge(3, 1, 101);
-        EdgeId edgeId4 = repo.addWeightedEdge(4, 1, 10);
-
-        EdgeVector edges = repo.getIncomingEdges(1);
-        assertThat(edges, Matchers.notNullValue());
-        assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId4.getIndex(), edgeId3.getIndex(),
-                                             edgeId1.getIndex())));
-    }
-
-    @Test
-    public void testGetIncomingUnweightedEdgesForNode() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
-        EdgeId edgeId1 = repo.addEdge(2, 1);
-        repo.addEdge(4, 2);
-        EdgeId edgeId3 = repo.addEdge(3, 1);
-        EdgeId edgeId4 = repo.addEdge(4, 1);
-
-        EdgeVector edges = repo.getIncomingEdges(1);
-        assertThat(edges, Matchers.notNullValue());
-        assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId1.getIndex(), edgeId3.getIndex(), edgeId4.getIndex())));
-    }
-
-    @Test
-    public void testExpandBufferListWeightedEdges() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 10);
-        int edgeCount = 20;
-        Random random = new Random(1);
-        for (int i = 0; i < edgeCount; i++) {
-            int startNodeId = Math.abs(random.nextInt());
-            int endNodeId = Math.abs(random.nextInt());
-            float weight = random.nextFloat();
-            EdgeId edgeId =
-                repo.addWeightedEdge(startNodeId, endNodeId, weight);
-            assertThat(edgeId, Matchers.notNullValue());
-            EdgePrimitive edge = repo.getEdge(edgeId);
-            assertThat(edge, Matchers.notNullValue());
-            assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-            assertThat(edge.getStartNodeIndex(), Matchers.is(startNodeId));
-            assertThat(edge.getEndNodeIndex(), Matchers.is(endNodeId));
-            assertThat(edge.getWeight(), Matchers.is(weight));
-        }
-    }
-
-    @Test
-    public void testExpandBufferListUnweightedEdges() {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10);
-        int edgeCount = 20;
-        Random random = new Random(1);
-        for (int i = 0; i < edgeCount; i++) {
-            int startNodeId = Math.abs(random.nextInt());
-            int endNodeId = Math.abs(random.nextInt());
-            EdgeId edgeId =
-                repo.addEdge(startNodeId, endNodeId);
-            assertThat(edgeId, Matchers.notNullValue());
-            EdgePrimitive edge = repo.getEdge(edgeId);
-            assertThat(edge, Matchers.notNullValue());
-            assertThat(edge.getEdgeId(), Matchers.is(edgeId));
-            assertThat(edge.getStartNodeIndex(), Matchers.is(startNodeId));
-            assertThat(edge.getEndNodeIndex(), Matchers.is(endNodeId));
-        }
+    @Override
+    protected TypedEdgePrimitivesRepository createRepo(EdgeType edgeType, int initialCapacity) {
+        return new ByteBufferTypedEdgePrimitivesRepository(edgeType, initialCapacity);
     }
 
     @Test
     public void testDumpUnweighted() throws IOException {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 3);
+        TypedEdgePrimitivesRepository repo = createRepo(TestEdgeType.BOUGHT, 3);
         repo.addEdge(2, 1);
         repo.addEdge(4, 2);
         repo.addEdge(3, 1);
@@ -310,8 +75,7 @@ public class ByteBufferTypedEdgePrimitivesRepositoryTest {
 
     @Test
     public void testDumpWeighted() throws IOException {
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.SIMILAR, 3);
+        TypedEdgePrimitivesRepository repo = createRepo(TestEdgeType.SIMILAR, 3);
         repo.addWeightedEdge(2, 1, 1f);
         repo.addWeightedEdge(4, 2, 2f);
         repo.addWeightedEdge(3, 1, 3f);
@@ -352,8 +116,7 @@ public class ByteBufferTypedEdgePrimitivesRepositoryTest {
 
         FileUtils.writeByteArrayToFile(file, bytes);
 
-        ByteBufferTypedEdgePrimitivesRepository repo =
-            new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 3);
+        TypedEdgePrimitivesRepository repo = createRepo(TestEdgeType.BOUGHT, 3);
         repo.restore(file);
 
         EdgePrimitive ep0 = repo.getEdge(new EdgeId(TestEdgeType.BOUGHT, 0));
@@ -394,12 +157,12 @@ public class ByteBufferTypedEdgePrimitivesRepositoryTest {
     @Test
     public void testInitWithoutDataDir() {
         final AtomicReference<String> restoredFrom = new AtomicReference<String>();
-        ByteBufferTypedEdgePrimitivesRepository repo =
+        TypedEdgePrimitivesRepository repo =
             new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10) {
                 @Override
                 public void restore(File in) {
                     restoredFrom.set(in.getAbsolutePath());
-            }
+                }
             };
         repo.init();
         assertNull(restoredFrom.get());
@@ -425,7 +188,7 @@ public class ByteBufferTypedEdgePrimitivesRepositoryTest {
     @Test
     public void testShutdownWithoutDataDir() {
         final AtomicReference<String> dumpedTo = new AtomicReference<String>();
-        ByteBufferTypedEdgePrimitivesRepository repo =
+        TypedEdgePrimitivesRepository repo =
             new ByteBufferTypedEdgePrimitivesRepository(TestEdgeType.BOUGHT, 10) {
                 @Override
                 public void dump(File out) {
@@ -462,4 +225,5 @@ public class ByteBufferTypedEdgePrimitivesRepositoryTest {
         assertTrue(fileNamePattern.matcher(dumpedTo.get()).matches());
 
     }
+
 }

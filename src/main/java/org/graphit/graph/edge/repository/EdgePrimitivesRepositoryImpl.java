@@ -22,23 +22,23 @@ import org.graphit.graph.edge.schema.EdgeTypes;
 /**
  *
  * An {@link EdgePrimitivesRepository} backed by
- * {@link ByteBufferTypedEdgePrimitivesRepository} instances.
- *
+ * {@link TypedEdgePrimitivesRepositoryImpl} instances.
+ * 
  * @author jon
- *
+ * 
  */
-public class ByteBufferEdgePrimitivesRepository extends AbstractEdgePrimitivesRepository {
+public class EdgePrimitivesRepositoryImpl extends AbstractEdgePrimitivesRepository {
 
     /**
      * Contructs a bew repo.
      */
-    public ByteBufferEdgePrimitivesRepository(EdgeTypes edgeTypes) {
+    public EdgePrimitivesRepositoryImpl(EdgeTypes edgeTypes) {
         super(edgeTypes);
     }
 
     @Override
-    protected ByteBufferTypedEdgePrimitivesRepository createRepo(EdgeType edgeType) {
-        return new ByteBufferTypedEdgePrimitivesRepository(edgeType);
+    protected TypedEdgePrimitivesRepositoryImpl createRepo(EdgeType edgeType) {
+        return new TypedEdgePrimitivesRepositoryImpl(edgeType);
     }
 
 }

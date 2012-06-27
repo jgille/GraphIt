@@ -16,29 +16,43 @@
 
 package org.graphit.graph.edge.repository;
 
+import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.schema.EdgeTypes;
 
 /**
  *
- * An {@link EdgePrimitivesRepository} backed by
- * {@link ByteBufferTypedEdgePrimitivesRepository} instances.
+ * A buffer of edge primitives.
  *
  * @author jon
  *
  */
-public class ByteBufferEdgePrimitivesRepository extends AbstractEdgePrimitivesRepository {
+public interface EdgePrimitivesBuffer {
 
     /**
-     * Contructs a bew repo.
+     * Gets the size of this buffer
+     *
+     * @return
      */
-    public ByteBufferEdgePrimitivesRepository(EdgeTypes edgeTypes) {
-        super(edgeTypes);
-    }
+    int size();
 
-    @Override
-    protected ByteBufferTypedEdgePrimitivesRepository createRepo(EdgeType edgeType) {
-        return new ByteBufferTypedEdgePrimitivesRepository(edgeType);
-    }
+    /**
+     * Adds an edge primitive to the buffer at a given index.
+     */
+    void upsert(int index, int startNode, int endNode, float weight);
+
+    /**
+     * Gets an edge primitive.
+     */
+    EdgePrimitive get(int index);
+
+    /**
+     * Gets and removes an edge primitive.
+     */
+    EdgePrimitive remove(int index);
+
+    /**
+     * Gets the type of the edges in this buffer.
+     */
+    EdgeType getEdgeType();
 
 }

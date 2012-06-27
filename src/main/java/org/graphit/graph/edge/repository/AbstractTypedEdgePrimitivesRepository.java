@@ -53,6 +53,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
     protected final IntArrayList removedEdges;
     private final EdgeVectorRepository edgeVectorIndex;
     private final EdgeType edgeType;
+    private EdgeIndexComparator edgeComparator;
 
     private final List<ReentrantLock> locks;
 
@@ -67,6 +68,15 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
         }
         this.locks = Collections.unmodifiableList(lockList);
         this.edgeVectorIndex = new ShardedEdgeVectorRepository(nofLocks);
+        this.edgeComparator = edgeType.getEdgeComparator();
+    }
+
+    /**
+     * Sets the {@link EdgeIndexComparator} to use to keep {@link EdgeVector}s
+     * sorted.
+     */
+    public void setEdgeComparator(EdgeIndexComparator edgeComparator) {
+        this.edgeComparator = edgeComparator;
     }
 
     /**
@@ -95,7 +105,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
             if (outgoingEdges == null) {
                 EdgeVectorImpl edgeVector = new EdgeVectorImpl(startNodeId, edgeType);
                 edgeVector.setEdgeDirection(EdgeDirection.OUTGOING);
-                edgeVector.setEdgeComparator(getEdgeComparator());
+                edgeVector.setEdgeComparator(edgeComparator);
                 outgoingEdges = edgeVector;
             }
             EdgeVector outCopy = outgoingEdges.copy();
@@ -116,7 +126,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
             if (incomingEdges == null) {
                 EdgeVectorImpl edgeVector = new EdgeVectorImpl(endNodeId, edgeType);
                 edgeVector.setEdgeDirection(EdgeDirection.INCOMING);
-                edgeVector.setEdgeComparator(getEdgeComparator());
+                edgeVector.setEdgeComparator(edgeComparator);
                 incomingEdges = edgeVector;
             }
             EdgeVector inCopy = incomingEdges.copy();
@@ -132,53 +142,18 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
      * Adds an edge, adding it to the {@link EdgeVector} of the start and end
      * node.
      */
-    protected void addEdge(EdgePrimitive edge) {
+    protected void insert(EdgePrimitive edge) {
         // Add the undirected edge as an outgoing edge from both the start
         // and end node
         addOutgoingEdge(edge);
         addIncomingEdge(edge);
     }
 
-    private void removeOutgoingEdge(EdgePrimitive edge) {
-        int startNodeId = edge.getStartNodeIndex();
-        ReentrantLock lock = lockNode(startNodeId);
-        try {
-            EdgeVector outgoingEdges = findOutgoingEdges(startNodeId);
-            if (outgoingEdges != null) {
-                EdgeVector outCopy = outgoingEdges.copy();
-                int edgeId = edge.getIndex();
-                outCopy.remove(edgeId);
-                setOutgoingEdges(startNodeId, outCopy);
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    private void removeIncomingEdge(EdgePrimitive edge) {
-        int endNodeId = edge.getEndNodeIndex();
-        ReentrantLock lock = lockNode(endNodeId);
-        try {
-            EdgeVector incomingEdges = findIncomingEdges(endNodeId);
-            if (incomingEdges != null) {
-                EdgeVector inCopy = incomingEdges.copy();
-                int edgeId = edge.getIndex();
-                inCopy.remove(edgeId);
-                setIncomingEdges(endNodeId, inCopy);
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
-
     /**
-     * Removes an edge, removing it fromthe {@link EdgeVector} of the start and
-     * end node and making the id eligable for reuse.
+     * Removes an edge, making the id eligable for reuse.
      */
     protected void removeEdge(EdgePrimitive edge) {
         int edgeId = edge.getIndex();
-        removeOutgoingEdge(edge);
-        removeIncomingEdge(edge);
         synchronized (removedEdges) {
             removedEdges.add(edgeId);
         }
@@ -270,9 +245,4 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
         return lock;
     }
 
-    /**
-     * Gets an {@link EdgeIndexComparator} used to keep {@link EdgeVector}s
-     * sorted.
-     */
-    protected abstract EdgeIndexComparator getEdgeComparator();
 }

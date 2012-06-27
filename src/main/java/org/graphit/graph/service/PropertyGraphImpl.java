@@ -28,8 +28,8 @@ import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgeImpl;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
-import org.graphit.graph.edge.repository.ByteBufferEdgePrimitivesRepository;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepository;
+import org.graphit.graph.edge.repository.EdgePrimitivesRepositoryImpl;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
@@ -68,7 +68,7 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
         this.nodeRepo = new NodeIdRepositoryImpl(metadata.getNodeTypes());
-        this.edgeRepo = new ByteBufferEdgePrimitivesRepository(metadata.getEdgeTypes());
+        this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
         // TODO: Use real repos
         this.nodePropertiesRepo = new AlwaysEmptyPropertiesRepository<NodeId>();
         this.edgePropertiesRepo = new AlwaysEmptyPropertiesRepository<EdgeId>();
