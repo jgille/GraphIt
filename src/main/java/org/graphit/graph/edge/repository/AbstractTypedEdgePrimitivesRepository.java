@@ -176,11 +176,9 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
         ReentrantLock lock = lockNode(startNodeId);
         try {
             EdgeVector outgoingEdges = findOutgoingEdges(startNodeId);
-            if (outgoingEdges != null) {
-                EdgeVector outCopy = outgoingEdges.copy();
-                outCopy.reindex(edge.getEdgeId().getIndex());
-                setOutgoingEdges(startNodeId, outCopy);
-            }
+            EdgeVector outCopy = outgoingEdges.copy();
+            outCopy.reindex(edge.getEdgeId().getIndex());
+            setOutgoingEdges(startNodeId, outCopy);
         } finally {
             lock.unlock();
         }
@@ -191,11 +189,9 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
         ReentrantLock lock = lockNode(endNodeId);
         try {
             EdgeVector incomingEdges = findIncomingEdges(endNodeId);
-            if (incomingEdges != null) {
-                EdgeVector inCopy = incomingEdges.copy();
-                inCopy.reindex(edge.getEdgeId().getIndex());
-                setIncomingEdges(endNodeId, inCopy);
-            }
+            EdgeVector inCopy = incomingEdges.copy();
+            inCopy.reindex(edge.getEdgeId().getIndex());
+            setIncomingEdges(endNodeId, inCopy);
         } finally {
             lock.unlock();
         }

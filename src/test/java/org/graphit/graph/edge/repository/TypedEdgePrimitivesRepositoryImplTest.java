@@ -254,7 +254,6 @@ public class TypedEdgePrimitivesRepositoryImplTest extends
             FileUtils.readFileToString(resource.getFile()).trim();
 
         assertEquals(expected, json);
-
     }
 
 }
