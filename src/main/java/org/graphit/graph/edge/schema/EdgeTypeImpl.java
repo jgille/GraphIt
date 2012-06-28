@@ -16,21 +16,22 @@
 
 package org.graphit.graph.edge.schema;
 
+import org.graphit.common.schema.AbstractGraphType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
+import org.graphit.graph.edge.util.EdgeWeigher;
 import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
-import org.graphit.graph.schema.AbstractGraphType;
 
 /**
  * Basic {@link EdgeType} implementation. Defaults to being unweighted and
  * unsorted.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
 
     private final boolean isWeighted;
-    private EdgeIndexComparator edgeComparator = new UnsortedEdgeIndexComparator();
+    private final EdgeIndexComparator edgeComparator = new UnsortedEdgeIndexComparator();
 
     /**
      * Creates an unweighted edge type.
@@ -47,17 +48,13 @@ public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
         this.isWeighted = isWeighted;
     }
 
-    public void setEdgeComparator(EdgeIndexComparator edgeComparator) {
-        this.edgeComparator = edgeComparator;
-    }
-
     @Override
     public boolean isWeighted() {
         return isWeighted;
     }
 
     @Override
-    public EdgeIndexComparator getEdgeComparator() {
+    public EdgeIndexComparator getEdgeComparator(EdgeWeigher weigher) {
         return edgeComparator;
     }
 

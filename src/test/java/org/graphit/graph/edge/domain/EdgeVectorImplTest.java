@@ -28,8 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.mahout.math.function.IntProcedure;
-import org.graphit.graph.edge.domain.EdgeVector;
-import org.graphit.graph.edge.domain.EdgeVectorImpl;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
 import org.graphit.graph.edge.util.TestEdgeType;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.graphit.graph.schema;
+package org.graphit.common.schema;
 
 import org.graphit.common.enumeration.DynamicEnumerableElement;
 

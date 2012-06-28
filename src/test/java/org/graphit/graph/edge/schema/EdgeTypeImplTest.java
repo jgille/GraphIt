@@ -20,8 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.edge.util.EdgeIndexComparatorImpl;
 import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 import org.junit.Test;
 
@@ -32,12 +30,9 @@ import org.junit.Test;
 public class EdgeTypeImplTest {
 
     @Test
-    public void testSetGetEdgeIndexComparator() {
+    public void testGetEdgeIndexComparator() {
         EdgeTypeImpl edgeType = new EdgeTypeImpl("A");
-        assertTrue(edgeType.getEdgeComparator().getClass() == UnsortedEdgeIndexComparator.class);
-        EdgeIndexComparator comparator = new EdgeIndexComparatorImpl();
-        edgeType.setEdgeComparator(comparator);
-        assertEquals(comparator, edgeType.getEdgeComparator());
+        assertTrue(edgeType.getEdgeComparator(null).getClass() == UnsortedEdgeIndexComparator.class);
     }
 
     @Test

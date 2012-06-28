@@ -71,7 +71,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
         }
         this.locks = Collections.unmodifiableList(lockList);
         this.edgeVectorIndex = new ShardedEdgeVectorRepository(nofLocks);
-        this.edgeComparator = edgeType.getEdgeComparator();
+        this.edgeComparator = edgeType.getEdgeComparator(this);
     }
 
     /**

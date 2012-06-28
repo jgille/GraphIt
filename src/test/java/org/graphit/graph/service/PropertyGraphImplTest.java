@@ -377,7 +377,7 @@ public class PropertyGraphImplTest {
         assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p1));
 
         assertThat(edge1.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p4));
+        assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p3));
 
         Edge edge2 = edges.get(1);
 
@@ -387,7 +387,7 @@ public class PropertyGraphImplTest {
         assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p1));
 
         assertThat(edge2.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge2.getEndNode().getNodeId(), Matchers.is(p3));
+        assertThat(edge2.getEndNode().getNodeId(), Matchers.is(p4));
 
         Edge edge3 = edges.get(2);
 
@@ -419,7 +419,7 @@ public class PropertyGraphImplTest {
         assertThat(edge1.getType(), Matchers.is((EdgeType) SIMILAR));
 
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p4));
+        assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p3));
 
         assertThat(edge1.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p2));
@@ -429,7 +429,7 @@ public class PropertyGraphImplTest {
         assertThat(edge2.getType(), Matchers.is((EdgeType) SIMILAR));
 
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p3));
+        assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p4));
 
         assertThat(edge2.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge2.getEndNode().getNodeId(), Matchers.is(p2));
@@ -513,14 +513,14 @@ public class PropertyGraphImplTest {
         Edge edge1 = edges.get(1);
         assertThat(edge1.getType(), Matchers.is((EdgeType) SIMILAR));
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p2));
+        assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p3));
         assertThat(edge1.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p1));
 
         Edge edge2 = edges.get(2);
         assertThat(edge2.getType(), Matchers.is((EdgeType) SIMILAR));
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p3));
+        assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p2));
         assertThat(edge2.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge2.getEndNode().getNodeId(), Matchers.is(p1));
     }

@@ -16,7 +16,7 @@
 
 package org.graphit.graph.node.schema;
 
-import org.graphit.graph.schema.AbstractGraphType;
+import org.graphit.common.schema.AbstractGraphType;
 
 /**
  * Standard {@link NodeType} implementation.

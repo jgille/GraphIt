@@ -19,18 +19,11 @@ package org.graphit.graph.edge.util;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
 import org.graphit.graph.edge.util.EdgeIndexComparatorImpl;
-import org.graphit.graph.edge.util.EdgeWeigher;
 import org.graphit.graph.edge.util.EdgeWeightComparator;
 
 public enum TestEdgeType implements EdgeType {
 
     SIMILAR {
-
-        private final EdgeWeigher edgeWeigher = new EdgeWeigher() {
-            public float getEdgeWeight(int edgeIndex) {
-                return Float.valueOf(edgeIndex);
-            }
-        };
 
         @Override
         public boolean isWeighted() {
@@ -38,8 +31,8 @@ public enum TestEdgeType implements EdgeType {
         }
 
         @Override
-        public EdgeIndexComparator getEdgeComparator() {
-            return new EdgeWeightComparator(edgeWeigher, true);
+        public EdgeIndexComparator getEdgeComparator(EdgeWeigher weigher) {
+            return new EdgeWeightComparator(weigher, true);
         }
     },
     BOUGHT {
@@ -50,7 +43,7 @@ public enum TestEdgeType implements EdgeType {
         }
 
         @Override
-        public EdgeIndexComparator getEdgeComparator() {
+        public EdgeIndexComparator getEdgeComparator(EdgeWeigher ignored) {
             return new EdgeIndexComparatorImpl();
         }
     },
@@ -62,7 +55,7 @@ public enum TestEdgeType implements EdgeType {
         }
 
         @Override
-        public EdgeIndexComparator getEdgeComparator() {
+        public EdgeIndexComparator getEdgeComparator(EdgeWeigher ignored) {
             return new EdgeIndexComparatorImpl();
         }
     };

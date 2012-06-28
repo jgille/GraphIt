@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Random;
+
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
@@ -202,8 +203,8 @@ public abstract class AbstractTypedEdgePrimitivesRepositoryTest {
         edges = repo.getOutgoingEdges(1);
         assertThat(edges, Matchers.notNullValue());
         assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId4.getIndex(), edgeId3.getIndex(),
-                                             edgeId1.getIndex())));
+                   Matchers.is(Arrays.asList(edgeId3.getIndex(), edgeId1.getIndex(),
+                                             edgeId4.getIndex())));
     }
 
     @Test
@@ -237,8 +238,8 @@ public abstract class AbstractTypedEdgePrimitivesRepositoryTest {
         edges = repo.getIncomingEdges(1);
         assertThat(edges, Matchers.notNullValue());
         assertThat(edges.asList(),
-                   Matchers.is(Arrays.asList(edgeId4.getIndex(), edgeId3.getIndex(),
-                                             edgeId1.getIndex())));
+                   Matchers.is(Arrays.asList(edgeId3.getIndex(), edgeId1.getIndex(),
+                                             edgeId4.getIndex())));
     }
 
     @Test
