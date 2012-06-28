@@ -2,27 +2,80 @@
 
 Author: Jon Ivmark
 Date: 2012-06-06
-Licence: To be decided
+Licence: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 Requries: Java SDK 6+
 
 
 1. Description
 ===============================================================================================
 
-GraphIt is intended to be an easy to use, fast, RAM only (or mostly)
-property graph database.
+GraphIt is an easy to use, fast, RAM only (or mostly) property graph database.
 
 2. Installation
 ===============================================================================================
 
-mvn install (in the root directory)
+Build from the root directory using:
+
+mvn install -DskiptTests
 
 3. Usage
 ===============================================================================================
 
-TODO: Fill me in.
+A simple example:
+
+        // Set up metadata describing the valid node and edge types in the graph
+        DynamicGraphMetadata metadata = new DynamicGraphMetadata("persons");
+        metadata.addNodeType("person")
+            .addNodeType("interest")
+            .addEdgeType("interestedIn")
+            .addEdgeType("friendsWith");
+
+        // Create an empty graph
+        PropertyGraph graph = new PropertyGraphImpl(metadata);
+
+        // Get the node and edge types where interersted in
+        NodeType person = metadata.getNodeTypes().valueOf("person");
+        NodeType interest = metadata.getNodeTypes().valueOf("interest");
+        EdgeType interestedIn = metadata.getEdgeTypes().valueOf("interestedIn");
+        EdgeType friendsWith = metadata.getEdgeTypes().valueOf("friendsWith");
+
+        // Create a bunch of persons
+        Node p1 = graph.addNode(new NodeId(person, "p1"));
+        p1.setProperty("name", "James");
+        Node p2 = graph.addNode(new NodeId(person, "p2"));
+        p2.setProperty("name", "Beth");
+        Node p3 = graph.addNode(new NodeId(person, "p3"));
+        p2.setProperty("name", "Humperdink");
+
+        // And some interests
+        Node sports = graph.addNode(new NodeId(interest, "sports"));
+        Node music = graph.addNode(new NodeId(interest, "music"));
+
+        // Add some "friends with" edges. Note that all edges are directed,
+        // so if two people are friends we actually need two edges for that
+        // friendship.
+        graph.addEdge(p1.getNodeId(), p2.getNodeId(), friendsWith);
+        graph.addEdge(p2.getNodeId(), p1.getNodeId(), friendsWith);
+        graph.addEdge(p2.getNodeId(), p3.getNodeId(), friendsWith);
+        graph.addEdge(p3.getNodeId(), p2.getNodeId(), friendsWith);
+
+        // Add some "interested in" edges. Note that edges, just as nodes, can
+        // have properties.
+        Edge ei1 = graph.addEdge(p1.getNodeId(), sports.getNodeId(), interestedIn);
+        ei1.setProperty("plays", true);
+        graph.addEdge(p1.getNodeId(), music.getNodeId(), interestedIn);
+        graph.addEdge(p3.getNodeId(), music.getNodeId(), interestedIn);
+
+        // Get all of James's friends
+        Iterable<Node> friends =
+            graph.getNeighbors(p1.getNodeId(), friendsWith, EdgeDirection.OUTGOING);
+
+        // Get all "interersted in music" edges
+        Iterable<Edge> musicInterests =
+            graph.getEdges(music.getNodeId(), interestedIn, EdgeDirection.INCOMING);
+
 
 4. Dependencies
 ===============================================================================================
 
-TODO: Fill me in.
+All required third party libraries are included in the project jar file.

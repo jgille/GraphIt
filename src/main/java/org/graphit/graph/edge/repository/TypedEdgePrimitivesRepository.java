@@ -98,4 +98,9 @@ public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphReposit
      * persist edges to disk.
      */
     void setRootDataDirectory(String directory);
+
+    /**
+     * Gets the number of edges in this repo.
+     */
+    int size();
 }

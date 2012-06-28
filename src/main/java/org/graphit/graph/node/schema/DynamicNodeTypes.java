@@ -65,4 +65,13 @@ public class DynamicNodeTypes implements NodeTypes {
         return this;
     }
 
+    /**
+     * Adds a {@link NodeType} to the set.
+     */
+    public DynamicNodeTypes add(String nodeTypeName) {
+        NodeType nodeType = new NodeTypeImpl(nodeTypeName);
+        nodeTypes.put(nodeType.name(), nodeType);
+        return this;
+    }
+
 }

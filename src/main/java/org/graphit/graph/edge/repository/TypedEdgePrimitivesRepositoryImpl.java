@@ -226,6 +226,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
             + edgeId);
     }
 
+    @Override
     public int size() {
         return buffer.size();
     }

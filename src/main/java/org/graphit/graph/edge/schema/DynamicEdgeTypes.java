@@ -66,4 +66,18 @@ public class DynamicEdgeTypes implements EdgeTypes {
         return this;
     }
 
+    /**
+     * Adds an unweighted edge type to this edge type set.
+     */
+    public DynamicEdgeTypes add(String edgeTypeName) {
+        return add(edgeTypeName, false);
+    }
+
+    /**
+     * Adds an edge type to this edge type set.
+     */
+    public DynamicEdgeTypes add(String edgeTypeName, boolean weighted) {
+        return add(new EdgeTypeImpl(edgeTypeName, weighted));
+    }
+
 }
