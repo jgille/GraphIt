@@ -78,14 +78,6 @@ public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
         }
     }
 
-    private EdgeVector remove(AbstractIntObjectMap<EdgeVector> map, int nodeIndex) {
-        synchronized (map) {
-            EdgeVector res = map.get(nodeIndex);
-            map.removeKey(nodeIndex);
-            return res;
-        }
-    }
-
     @Override
     public EdgeVector getOutgoingEdges(int startNodeIndex) {
         return get(getOutgoingShard(startNodeIndex), startNodeIndex);
@@ -105,16 +97,6 @@ public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
     @Override
     public void setIncomingEdges(int endNodeIndex, EdgeVector edges) {
         put(getIncomingShard(endNodeIndex), endNodeIndex, edges);
-    }
-
-    @Override
-    public EdgeVector removeOutgoingEdges(int startNodeIndex) {
-        return remove(getOutgoingShard(startNodeIndex), startNodeIndex);
-    }
-
-    @Override
-    public EdgeVector removeIncomingEdges(int endNodeIndex) {
-        return remove(getIncomingShard(endNodeIndex), endNodeIndex);
     }
 
 }

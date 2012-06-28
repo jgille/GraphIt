@@ -24,9 +24,9 @@ import org.graphit.graph.repository.GraphRepository;
 
 /**
  * A repo containing methods related to storing {@link EdgePrimitive}s.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public interface EdgePrimitivesRepository extends GraphRepository {
 
@@ -36,30 +36,9 @@ public interface EdgePrimitivesRepository extends GraphRepository {
     EdgeId addEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType);
 
     /**
-     * Adds an edge an returns the id of the new edge.
-     *
-     * Note: This method should normally not be used, it's intended usage is
-     * replaying operations from file.
-     *
-     * Use {@link #addEdge(int, int, EdgeType)} instead.
-     */
-    void addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, EdgeType edgeType);
-
-    /**
      * Adds a weighted edge an returns the id of the new edge.
      */
     EdgeId addWeightedEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType, float weight);
-
-    /**
-     * Adds a weighted edge an returns the id of the new edge.
-     *
-     * Note: This method should normally not be used, it's intended usage is
-     * replaying operations from file.
-     *
-     * Use {@link #addWeightedEdge(int, int, EdgeType, float)} instead.
-     */
-    void addWeightedEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, EdgeType edgeType,
-                         float weight);
 
     /**
      * Gets the edge with the provided id.

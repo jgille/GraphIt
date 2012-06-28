@@ -63,21 +63,11 @@ public abstract class AbstractEdgePrimitivesRepository
     }
 
     @Override
-    public void addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, EdgeType edgeType) {
-        getRepository(edgeType).addEdge(edgeId, startNodeIndex, endNodeIndex);
-    }
-
-    @Override
     public EdgeId addWeightedEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType,
                                   float weight) {
         return getRepository(edgeType).addWeightedEdge(startNodeIndex, endNodeIndex, weight);
     }
 
-    @Override
-    public void addWeightedEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex,
-                                EdgeType edgeType, float weight) {
-        getRepository(edgeType).addWeightedEdge(edgeId, startNodeIndex, endNodeIndex, weight);
-    }
 
     @Override
     public EdgePrimitive getEdge(EdgeId edgeId) {
@@ -122,6 +112,7 @@ public abstract class AbstractEdgePrimitivesRepository
     @Override
     public synchronized void shutdown() {
         for (TypedEdgePrimitivesRepository repo : repos.values()) {
+            repo.setRootDataDirectory(getRootDataDirectory());
             repo.shutdown();
         }
     }

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.apache.commons.io.FilenameUtils;
 import org.graphit.common.collections.CombinedIterable;
 import org.graphit.common.converters.IdentityConverter;
 import org.graphit.graph.edge.domain.Edge;
@@ -82,10 +83,24 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     }
 
     /**
+     * Gets the repo used to handle node ids and indexes.
+     */
+    NodeIdRepository getNodeRepo() {
+        return nodeRepo;
+    }
+
+    /**
      * Sets a custom repo used to handle edge primitives.
      */
     public void setEdgeRepo(EdgePrimitivesRepository edgeRepo) {
         this.edgeRepo = edgeRepo;
+    }
+
+    /**
+     * Gets the repo used to handle edge primitives.
+     */
+    EdgePrimitivesRepository getEdgeRepo() {
+        return edgeRepo;
     }
 
     /**
@@ -96,10 +111,24 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     }
 
     /**
+     * Gets the repo used to handle node properties.
+     */
+    PropertiesRepository<NodeId> getNodePropertiesRepo() {
+        return nodePropertiesRepo;
+    }
+
+    /**
      * Sets a custom repo used to handle edge properties.
      */
     public void setEdgePropertiesRepo(PropertiesRepository<EdgeId> edgePropertiesRepo) {
         this.edgePropertiesRepo = edgePropertiesRepo;
+    }
+
+    /**
+     * Gets the repo used to handle edge properties.
+     */
+    PropertiesRepository<EdgeId> getEdgePropertiesRepo() {
+        return edgePropertiesRepo;
     }
 
     @Override
@@ -329,17 +358,17 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
 
     @Override
     public void init() {
-        // TODO; Implement
+        // TODO: Implement
     }
 
     @Override
     public void shutdown() {
-        // TODO; Implement
+        // TODO: Implement
     }
 
     @Override
     public String getDataDirectory() {
-        return getRootDataDirectory();
+        return FilenameUtils.concat(getRootDataDirectory(), metadata.getGraphName());
     }
 
     @Override
@@ -349,12 +378,12 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
 
     @Override
     public void dump(File out) throws IOException {
-        // TODO; Implement
+        // TODO: Implement
     }
 
     @Override
     public void restore(File in) throws IOException {
-        // TODO; Implement
+        // TODO: Implement
     }
 
 }

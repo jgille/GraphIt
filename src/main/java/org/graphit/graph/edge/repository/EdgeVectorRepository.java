@@ -47,14 +47,4 @@ public interface EdgeVectorRepository {
      */
     void setIncomingEdges(int endNodeIndex, EdgeVector edges);
 
-    /**
-     * Removes the outgoing edges for a node.
-     */
-    EdgeVector removeOutgoingEdges(int startNodeIndex);
-
-    /**
-     * Removes the outgoing edges for a node.
-     */
-    EdgeVector removeIncomingEdges(int endNodeIndex);
-
 }
