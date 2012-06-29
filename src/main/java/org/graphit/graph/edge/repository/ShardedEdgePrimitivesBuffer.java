@@ -42,12 +42,12 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 
     /**
      * Creates a new buffer.
-     *
+     * 
      * @param edgeType
      *            The type of the edges in this buffer.
      * @param nShards
-     *            The number of shards to use (should typically be 1 or 2 x the
-     *            number of processors or so).
+     *            The number of shards to use (typically related to the number
+     *            of processors) .
      * @param inititalCapacity
      *            The initial capaicity, i.e. an estimation of how many edges
      *            this buffer will contain.

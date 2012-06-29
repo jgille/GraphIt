@@ -41,7 +41,7 @@ import org.graphit.graph.repository.AbstractGraphRepository;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
-import org.graphit.properties.repository.AlwaysEmptyPropertiesRepository;
+import org.graphit.properties.repository.ConcurrentHashMapPropertiesRepository;
 import org.graphit.properties.repository.PropertiesRepository;
 import org.graphit.properties.repository.WriteThroughProperties;
 import org.springframework.core.convert.converter.Converter;
@@ -54,6 +54,9 @@ import org.springframework.util.Assert;
  *
  */
 public class PropertyGraphImpl extends AbstractGraphRepository implements PropertyGraph {
+
+    private static final int DEFAULT_NODE_CAPACITY = 16;
+    private static final int DEFAULT_EDGE_CAPACITY = 16;
 
     private final GraphMetadata metadata;
 
@@ -70,9 +73,10 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
         this.metadata = metadata;
         this.nodeRepo = new NodeIdRepositoryImpl(metadata.getNodeTypes());
         this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
-        // TODO: Use real repos
-        this.nodePropertiesRepo = new AlwaysEmptyPropertiesRepository<NodeId>();
-        this.edgePropertiesRepo = new AlwaysEmptyPropertiesRepository<EdgeId>();
+        this.nodePropertiesRepo =
+            new ConcurrentHashMapPropertiesRepository<NodeId>(DEFAULT_NODE_CAPACITY);
+        this.edgePropertiesRepo =
+            new ConcurrentHashMapPropertiesRepository<EdgeId>(DEFAULT_EDGE_CAPACITY);
     }
 
     /**

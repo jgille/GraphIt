@@ -51,9 +51,9 @@ import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.schema.TestGraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.graphit.properties.domain.MapProperties;
+import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
-import org.graphit.properties.repository.AlwaysEmptyPropertiesRepository;
+import org.graphit.properties.repository.ConcurrentHashMapPropertiesRepository;
 import org.graphit.properties.repository.PropertiesRepository;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -788,9 +788,9 @@ public class PropertyGraphImplTest {
         EdgePrimitivesRepository edgeRepo =
             new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
         PropertiesRepository<NodeId> nodePropertiesRepo =
-            new AlwaysEmptyPropertiesRepository<NodeId>();
+            new ConcurrentHashMapPropertiesRepository<NodeId>(1);
         PropertiesRepository<EdgeId> edgePropertiesRepo =
-            new AlwaysEmptyPropertiesRepository<EdgeId>();
+            new ConcurrentHashMapPropertiesRepository<EdgeId>(1);
 
         graph.setNodeRepo(nodeRepo);
         graph.setNodePropertiesRepo(nodePropertiesRepo);
@@ -827,7 +827,7 @@ public class PropertyGraphImplTest {
 
         NodeId u1 = new NodeId(TestNodeType.USER, "u1");
 
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("foo", "bar");
         graph.setNodeProperties(u1, properties);
 
@@ -862,7 +862,7 @@ public class PropertyGraphImplTest {
 
         Edge edge = graph.addEdge(u1, p1, BOUGHT);
 
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("foo", "bar");
         graph.setEdgeProperties(edge.getEdgeId(), properties);
 

@@ -26,21 +26,21 @@ import java.util.Set;
  * @author jon
  *
  */
-public class MapProperties implements Properties {
+public class HashMapProperties implements Properties {
 
     private final Map<String, Object> properties;
 
     /**
      * Crates a new instance with a default initial capacity.
      */
-    public MapProperties() {
+    public HashMapProperties() {
         this(10);
     }
 
     /**
      * Crates a new instance with the provided initial capacity.
      */
-    public MapProperties(int capacity) {
+    public HashMapProperties(int capacity) {
         this.properties = new HashMap<String, Object>(capacity);
     }
 

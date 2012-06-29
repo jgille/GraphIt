@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Map;
 import java.util.Set;
 
-import org.graphit.properties.domain.MapProperties;
+import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
 import org.junit.Test;
 
@@ -33,28 +33,28 @@ public class NodeImplTest {
     @Test
     public void testGetNodeId() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        NodeImpl node = new NodeImpl(0, nodeId, new MapProperties());
+        NodeImpl node = new NodeImpl(0, nodeId, new HashMapProperties());
         assertEquals(nodeId, node.getNodeId());
     }
 
     @Test
     public void testGetNodeIndex() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        NodeImpl node = new NodeImpl(1, nodeId, new MapProperties());
+        NodeImpl node = new NodeImpl(1, nodeId, new HashMapProperties());
         assertEquals(1, node.getIndex());
     }
 
     @Test
     public void testGetType() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        NodeImpl node = new NodeImpl(0, nodeId, new MapProperties());
+        NodeImpl node = new NodeImpl(0, nodeId, new HashMapProperties());
         assertEquals(nodeId.getNodeType(), node.getType());
     }
 
     @Test
     public void testGetProperty() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         NodeImpl node = new NodeImpl(0, nodeId, properties);
         assertEquals("B", node.getProperty("A"));
@@ -64,7 +64,7 @@ public class NodeImplTest {
     @Test
     public void testRemoveProperty() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         NodeImpl node = new NodeImpl(0, nodeId, properties);
         assertEquals("B", node.removeProperty("A"));
@@ -74,7 +74,7 @@ public class NodeImplTest {
     @Test
     public void testSetProperty() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         NodeImpl node = new NodeImpl(0, nodeId, properties);
         assertEquals("B", node.getProperty("A"));
@@ -83,7 +83,7 @@ public class NodeImplTest {
     @Test
     public void testContainsProperty() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         properties.setProperty("B", null);
 
@@ -96,7 +96,7 @@ public class NodeImplTest {
     @Test
     public void testNullKey() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty(null, "B");
         NodeImpl node = new NodeImpl(0, nodeId, properties);
         assertEquals("B", node.getProperty(null));
@@ -112,7 +112,7 @@ public class NodeImplTest {
     @Test
     public void testGetPropertyKeys() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         NodeImpl node = new NodeImpl(0, nodeId, properties);
 
@@ -124,7 +124,7 @@ public class NodeImplTest {
     @Test
     public void testAsPropertyMap() {
         NodeId nodeId = new NodeId(TestNodeType.PRODUCT, "foo");
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         NodeImpl node = new NodeImpl(0, nodeId, properties);
 
@@ -137,14 +137,14 @@ public class NodeImplTest {
 
     @Test
     public void testEquals() {
-        NodeImpl n1 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new MapProperties());
-        NodeImpl n2 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new MapProperties());
-        NodeImpl n3 = new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new MapProperties());
-        NodeImpl n4 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new MapProperties());
-        NodeImpl n5 = new NodeImpl(1, new NodeId(TestNodeType.USER, "foo"), new MapProperties());
+        NodeImpl n1 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n2 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n3 = new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n4 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new HashMapProperties());
+        NodeImpl n5 = new NodeImpl(1, new NodeId(TestNodeType.USER, "foo"), new HashMapProperties());
         NodeImpl n6 = null;
         NodeImpl n7 =
-            new NodeImpl(1, null, new MapProperties());
+            new NodeImpl(1, null, new HashMapProperties());
 
         assertEquals(n1, n1);
         assertEquals(n1, n2);
@@ -160,11 +160,11 @@ public class NodeImplTest {
 
     @Test
     public void testHashCode() {
-        NodeImpl n1 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new MapProperties());
-        NodeImpl n2 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new MapProperties());
-        NodeImpl n3 = new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new MapProperties());
-        NodeImpl n4 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new MapProperties());
-        NodeImpl n5 = new NodeImpl(1, null, new MapProperties());
+        NodeImpl n1 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n2 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n3 = new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n4 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new HashMapProperties());
+        NodeImpl n5 = new NodeImpl(1, null, new HashMapProperties());
 
         assertTrue(n1.hashCode() == n2.hashCode());
         assertTrue(n1.hashCode() == n3.hashCode());
@@ -177,7 +177,7 @@ public class NodeImplTest {
     public void testNegativeIndex() {
         boolean exception = false;
         try {
-            new NodeImpl(-1, new NodeId(TestNodeType.PRODUCT, "foo"), new MapProperties());
+            new NodeImpl(-1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
         } catch (IllegalArgumentException e) {
             exception = true;
         }

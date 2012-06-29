@@ -16,40 +16,34 @@
 
 package org.graphit.properties.repository;
 
-import org.graphit.properties.domain.MapProperties;
-import org.graphit.properties.domain.Properties;
+import java.io.File;
+import java.io.IOException;
 
 /**
- * A {@link PropertiesRepository} that will always return empty
- * {@link Properties} instances.
+ * Base implementation of a properties repo.
  *
  * @author jon
  *
- * @param <T>
- *            The generic type of the id of each entry in this repo.
  */
-public class AlwaysEmptyPropertiesRepository<T> implements PropertiesRepository<T> {
+public abstract class AbstractPropertiesRepository<T> implements PropertiesRepository<T> {
 
     @Override
-    public Properties getProperties(T id) {
-        return new MapProperties();
+    public void init() {
+        // Ignored
     }
 
     @Override
-    public void saveProperties(T id, Properties properties) {
+    public void shutdown() {
+        // Ignored
     }
 
     @Override
-    public Properties removeProperties(T id) {
-        return new MapProperties();
+    public void dump(File out) throws IOException {
+        // Ignored
     }
 
     @Override
-    public void setProperty(T id, String key, Object value) {
+    public void restore(File in) throws IOException {
+        // Ignored
     }
-
-    @Override
-    public void removeProperty(T id, String key) {
-    }
-
 }

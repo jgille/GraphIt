@@ -65,7 +65,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
     public TypedEdgePrimitivesRepositoryImpl(EdgeType edgeType, int initialCapacity) {
         this(edgeType,
              new ShardedEdgePrimitivesBuffer(edgeType,
-                                             Runtime.getRuntime().availableProcessors() * 2,
+                                             Runtime.getRuntime().availableProcessors() * 4,
                                              initialCapacity));
     }
 

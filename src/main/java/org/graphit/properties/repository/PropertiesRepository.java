@@ -16,6 +16,7 @@
 
 package org.graphit.properties.repository;
 
+import org.graphit.graph.repository.GraphRepository;
 import org.graphit.properties.domain.Properties;
 
 /**
@@ -26,7 +27,7 @@ import org.graphit.properties.domain.Properties;
  * @param <T>
  *            The generic type of the id of each entry in this repo.
  */
-public interface PropertiesRepository<T> {
+public interface PropertiesRepository<T> extends GraphRepository {
 
     /**
      * Gets all properties for an entry.

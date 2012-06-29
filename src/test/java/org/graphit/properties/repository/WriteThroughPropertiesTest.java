@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.graphit.properties.domain.MapProperties;
+import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testGetProperty() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, properties, repo);
@@ -62,7 +62,7 @@ public class WriteThroughPropertiesTest {
     public void testLazyGetProperty() {
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, repo);
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         when(repo.getProperties(1)).thenReturn(properties);
         assertEquals("B", wtProperties.getProperty("A"));
@@ -71,7 +71,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testSetProperty() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, properties, repo);
         final AtomicReference<Integer> id = new AtomicReference<Integer>();
@@ -120,7 +120,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testRemoveProperty() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
 
         WriteThroughProperties<Integer> wtProperties =
@@ -144,7 +144,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testLazyRemoveProperty() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
 
         WriteThroughProperties<Integer> wtProperties =
@@ -172,7 +172,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testContainsProperty() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, properties, repo);
@@ -182,7 +182,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testLazyContainsProperty() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, repo);
@@ -195,7 +195,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testGetPropertyKeys() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, properties, repo);
@@ -206,7 +206,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testLazyGetPropertyKeys() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, repo);
@@ -220,7 +220,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testAsPropertyMap() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, properties, repo);
@@ -233,7 +233,7 @@ public class WriteThroughPropertiesTest {
 
     @Test
     public void testLazyAsPropertyMap() {
-        Properties properties = new MapProperties();
+        Properties properties = new HashMapProperties();
         properties.setProperty("A", "B");
         WriteThroughProperties<Integer> wtProperties =
             new WriteThroughProperties<Integer>(1, repo);

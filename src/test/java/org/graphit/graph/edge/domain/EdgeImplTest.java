@@ -29,7 +29,7 @@ import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
 import org.graphit.graph.node.domain.TestNodeType;
-import org.graphit.properties.domain.MapProperties;
+import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class EdgeImplTest {
 
     @Test
     public void testGettersAndSetters() {
-        Properties props = new MapProperties();
+        Properties props = new HashMapProperties();
         props.setProperty("A", "B");
         EdgeImpl edge = new EdgeImpl(0, TestEdgeType.BOUGHT, props);
         assertEquals(0, edge.getIndex());
@@ -59,12 +59,12 @@ public class EdgeImplTest {
         assertEquals("C", edge.getProperty("B"));
 
         Node startNode =
-            new NodeImpl(0, new NodeId(TestNodeType.USER, "u1"), new MapProperties());
+            new NodeImpl(0, new NodeId(TestNodeType.USER, "u1"), new HashMapProperties());
         edge.setStartNode(startNode);
         assertEquals(startNode, edge.getStartNode());
 
         Node endNode =
-            new NodeImpl(0, new NodeId(TestNodeType.PRODUCT, "p1"), new MapProperties());
+            new NodeImpl(0, new NodeId(TestNodeType.PRODUCT, "p1"), new HashMapProperties());
         edge.setEndNode(endNode);
         assertEquals(endNode, edge.getEndNode());
 
@@ -74,13 +74,13 @@ public class EdgeImplTest {
 
     @Test
     public void testGetOppositeNode() {
-        EdgeImpl edge = new EdgeImpl(0, TestEdgeType.BOUGHT, new MapProperties());
+        EdgeImpl edge = new EdgeImpl(0, TestEdgeType.BOUGHT, new HashMapProperties());
         Node startNode =
-            new NodeImpl(0, new NodeId(TestNodeType.USER, "u1"), new MapProperties());
+            new NodeImpl(0, new NodeId(TestNodeType.USER, "u1"), new HashMapProperties());
         edge.setStartNode(startNode);
 
         Node endNode =
-            new NodeImpl(0, new NodeId(TestNodeType.PRODUCT, "p1"), new MapProperties());
+            new NodeImpl(0, new NodeId(TestNodeType.PRODUCT, "p1"), new HashMapProperties());
         edge.setEndNode(endNode);
 
         assertEquals(startNode, edge.getOppositeNode(endNode.getNodeId()));
@@ -97,9 +97,9 @@ public class EdgeImplTest {
 
     @Test
     public void testEquals() {
-        EdgeImpl edge1 = new EdgeImpl(0, TestEdgeType.BOUGHT, new MapProperties());
-        EdgeImpl edge2 = new EdgeImpl(0, TestEdgeType.BOUGHT, new MapProperties());
-        EdgeImpl edge3 = new EdgeImpl(1, TestEdgeType.BOUGHT, new MapProperties());
+        EdgeImpl edge1 = new EdgeImpl(0, TestEdgeType.BOUGHT, new HashMapProperties());
+        EdgeImpl edge2 = new EdgeImpl(0, TestEdgeType.BOUGHT, new HashMapProperties());
+        EdgeImpl edge3 = new EdgeImpl(1, TestEdgeType.BOUGHT, new HashMapProperties());
 
         assertEquals(edge1, edge1);
         assertEquals(edge1, edge2);

@@ -19,7 +19,7 @@ package org.graphit.properties.repository;
 import java.util.Map;
 import java.util.Set;
 
-import org.graphit.properties.domain.MapProperties;
+import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
 
 /**
@@ -63,7 +63,7 @@ public class WriteThroughProperties<T> implements Properties {
      */
     public WriteThroughProperties(T id, Properties properties, PropertiesRepository<T> repo) {
         this.id = id;
-        this.properties = properties == null ? new MapProperties() : properties;
+        this.properties = properties == null ? new HashMapProperties() : properties;
         this.repo = repo;
     }
 
@@ -111,7 +111,7 @@ public class WriteThroughProperties<T> implements Properties {
         }
         properties = repo.getProperties(id);
         if (properties == null) {
-            properties = new MapProperties();
+            properties = new HashMapProperties();
         }
         return properties;
     }
