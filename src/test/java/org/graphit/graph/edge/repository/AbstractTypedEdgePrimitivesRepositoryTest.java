@@ -328,11 +328,17 @@ public abstract class AbstractTypedEdgePrimitivesRepositoryTest {
     @Test
     public void testSetEdgeWeight() {
         TypedEdgePrimitivesRepository repo = createRepo(TestEdgeType.SIMILAR, 10);
-        repo.addWeightedEdge(2, 1, 1.5f);
-        EdgeId edgeId2 = repo.addWeightedEdge(3, 1, 2.5f);
-        repo.addWeightedEdge(2, 1, 0.5f);
+        EdgeId edgeId1 = repo.addWeightedEdge(2, 1, 1.5f);
+        EdgeId edgeId2 = repo.addWeightedEdge(2, 3, 0.25f);
+        EdgeId edgeId3 = repo.addWeightedEdge(2, 4, 0.5f);
+        assertEquals(Arrays.asList(edgeId1.getIndex(), edgeId3.getIndex(), edgeId2.getIndex()),
+                     repo.getOutgoingEdges(2).asList());
+
         repo.setEdgeWeight(edgeId2, 4.5f);
         assertEquals(4.5f, repo.getEdgeWeight(edgeId2.getIndex()), 0.000001f);
         assertEquals(4.5f, repo.getEdge(edgeId2).getWeight(), 0.000001f);
+
+        assertEquals(Arrays.asList(edgeId2.getIndex(), edgeId1.getIndex(), edgeId3.getIndex()),
+                     repo.getOutgoingEdges(2).asList());
     }
 }

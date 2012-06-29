@@ -30,6 +30,7 @@ public class NodeId {
 
     private final NodeType type;
     private final String id;
+    private final int hc;
 
     /**
      * Created a new instance.
@@ -39,6 +40,7 @@ public class NodeId {
         Assert.isTrue(StringUtils.hasText(id), "A node id must be provided");
         this.type = type;
         this.id = id;
+        this.hc = computeHashCode();
     }
 
     /**
@@ -60,13 +62,17 @@ public class NodeId {
         return "NodeId [type=" + type + ", id=" + id + "]";
     }
 
-    @Override
-    public int hashCode() {
+    private int computeHashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + type.hashCode();
         result = prime * result + id.hashCode();
         return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return hc;
     }
 
     @Override

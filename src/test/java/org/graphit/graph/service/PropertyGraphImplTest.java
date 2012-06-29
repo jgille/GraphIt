@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.graphit.graph.blueprints.BlueprintsGraphImpl;
+import org.graphit.graph.blueprints.BlueprintsGraph;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepository;
@@ -716,7 +716,7 @@ public class PropertyGraphImplTest {
         PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2", "p3").buy("u1", "p1", "p3")
             .view("u1", "p2");
-        Graph blueprintsGraph = new BlueprintsGraphImpl(graph);
+        Graph blueprintsGraph = new BlueprintsGraph(graph);
         assertThat(blueprintsGraph, Matchers.notNullValue());
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
