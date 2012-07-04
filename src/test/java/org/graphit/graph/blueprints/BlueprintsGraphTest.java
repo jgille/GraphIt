@@ -55,13 +55,10 @@ public class BlueprintsGraphTest extends GraphTest {
 
     @Override
     public void doTestSuite(final TestSuite testSuite) throws Exception {
-        String doTest = System.getProperty("testTinkerGraph");
-        if (doTest == null || doTest.equals("true")) {
-            for (Method method : testSuite.getClass().getDeclaredMethods()) {
-                if (method.getName().startsWith("test")) {
-                    System.out.println("Testing " + method.getName() + "...");
-                    method.invoke(testSuite);
-                }
+        for (Method method : testSuite.getClass().getDeclaredMethods()) {
+            if (method.getName().startsWith("test")) {
+                System.out.println("Testing " + method.getName() + "...");
+                method.invoke(testSuite);
             }
         }
     }

@@ -94,8 +94,7 @@ public class BlueprintsGraph implements Graph {
         features.supportsKeyIndices = Boolean.FALSE;
         features.supportsVertexKeyIndex = Boolean.FALSE;
         features.supportsEdgeKeyIndex = Boolean.FALSE;
-        features.supportsEdgeIteration = Boolean.FALSE; // TODO: Soon it
-                                                        // should..
+        features.supportsEdgeIteration = Boolean.TRUE;
         features.supportsVertexIteration = Boolean.TRUE;
         features.supportsTransactions = Boolean.FALSE;
         features.supportsThreadedTransactions = Boolean.FALSE;
