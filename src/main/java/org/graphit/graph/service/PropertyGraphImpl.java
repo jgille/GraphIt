@@ -17,10 +17,9 @@
 package org.graphit.graph.service;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
 
-import org.graphit.common.collections.CombinedIterable;
+import org.graphit.common.collections.CombinedIterables;
 import org.graphit.common.converters.IdentityConverter;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
@@ -196,7 +195,6 @@ public class PropertyGraphImpl implements PropertyGraph {
         return edge != null;
     }
 
-    @SuppressWarnings("unchecked")
     private <T> Iterable<T> getAndConvert(NodeId node, EdgeType edgeType,
                                           EdgeDirection direction,
                                           Converter<EdgeId, T> converter) {
@@ -212,7 +210,7 @@ public class PropertyGraphImpl implements PropertyGraph {
             EdgeVector incoming = edgeRepo.getIncomingEdges(nodeIndex, edgeType);
             Iterable<T> outIterable = outgoing.iterable(converter);
             Iterable<T> inIterable = incoming.iterable(converter);
-            iterable = new CombinedIterable<T>(Arrays.asList(outIterable, inIterable));
+            iterable = new CombinedIterables<T>().add(outIterable).add(inIterable).iterable();
             break;
         case OUTGOING:
             EdgeVector oEdges =
@@ -398,12 +396,12 @@ public class PropertyGraphImpl implements PropertyGraph {
     @Override
     public Iterable<Edge> getEdges() {
         Iterable<NodeId> nodeIds = nodeRepo.getNodes();
-        CombinedIterable<Edge> edges = new CombinedIterable<Edge>();
+        CombinedIterables<Edge> edges = new CombinedIterables<Edge>();
         for (NodeId nodeId : nodeIds) {
             for (EdgeType edgeType : metadata.getEdgeTypes().elements()) {
                 edges.add(getEdges(nodeId, edgeType, EdgeDirection.OUTGOING));
             }
         }
-        return edges;
+        return edges.iterable();
     }
 }

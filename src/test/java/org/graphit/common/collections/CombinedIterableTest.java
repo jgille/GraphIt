@@ -31,8 +31,8 @@ public class CombinedIterableTest {
     @Test
     public void testNoIterators() {
         List<Iterable<String>> iterables = new ArrayList<Iterable<String>>();
-        CombinedIterable<String> it = new CombinedIterable<String>(iterables);
-        List<String> list = asList(it);
+        CombinedIterables<String> it = new CombinedIterables<String>(iterables);
+        List<String> list = asList(it.iterable());
         assertTrue(list.isEmpty());
     }
 
@@ -40,8 +40,8 @@ public class CombinedIterableTest {
     public void testOneIterator() {
         List<Iterable<String>> iterables = new ArrayList<Iterable<String>>();
         iterables.add(Arrays.asList("A", "B"));
-        CombinedIterable<String> it = new CombinedIterable<String>(iterables);
-        List<String> list = asList(it);
+        CombinedIterables<String> it = new CombinedIterables<String>(iterables);
+        List<String> list = asList(it.iterable());
         assertEquals(list.size(), 2);
         assertEquals(Arrays.asList("A", "B"), list);
     }
@@ -52,8 +52,8 @@ public class CombinedIterableTest {
         iterables.add(Arrays.asList("A", "B"));
         iterables.add(Arrays.asList("C"));
 
-        CombinedIterable<String> it = new CombinedIterable<String>(iterables);
-        List<String> list = asList(it);
+        CombinedIterables<String> it = new CombinedIterables<String>(iterables);
+        List<String> list = asList(it.iterable());
         assertEquals(list.size(), 3);
         assertEquals(Arrays.asList("A", "B", "C"), list);
     }
@@ -64,10 +64,12 @@ public class CombinedIterableTest {
         iterables.add(Arrays.asList("A", "B"));
         iterables.add(Arrays.asList("C"));
 
-        CombinedIterable<String> it = new CombinedIterable<String>(iterables);
+        CombinedIterables<String> it = new CombinedIterables<String>(iterables);
         boolean exception = false;
+        Iterator<String> iterator = it.iterable().iterator();
         try {
-            it.iterator().remove();
+            iterator.next();
+            iterator.remove();
         } catch (UnsupportedOperationException e) {
             exception = true;
         }

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.graphit.common.collections.CombinedIterable;
+import org.graphit.common.collections.CombinedIterables;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import com.tinkerpop.blueprints.Direction;
@@ -65,7 +65,7 @@ class BlueprintsNode extends AbstractElement<BlueprintsNodeId> implements Vertex
             Iterable<Edge> edges = edgesRepo.getEdges(nodeId, direction, label);
             iterables.add(edges);
         }
-        return new CombinedIterable<Edge>(iterables);
+        return new CombinedIterables<Edge>(iterables).iterable();
     }
 
     @Override
@@ -80,7 +80,7 @@ class BlueprintsNode extends AbstractElement<BlueprintsNodeId> implements Vertex
                 edgesRepo.getNeighbors(nodeId, direction, label);
             iterables.add(neighbors);
         }
-        return new CombinedIterable<Vertex>(iterables);
+        return new CombinedIterables<Vertex>(iterables).iterable();
     }
 
     private String[] getLabels(String... labels) {
