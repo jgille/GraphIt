@@ -18,7 +18,6 @@ package org.graphit.graph.edge.repository;
 
 import org.apache.mahout.math.list.FloatArrayList;
 import org.apache.mahout.math.list.LongArrayList;
-import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
@@ -149,16 +148,4 @@ public class EdgePrimitivesBufferImpl implements EdgePrimitivesBuffer {
             + weights + ", numInserted=" + numInserted + ", numRemoved=" + numRemoved + "]";
     }
 
-    @Override
-    public synchronized void forEach(Procedure<EdgePrimitive> procedure) {
-        for (int i = 0; i < edges.size(); i++) {
-            EdgePrimitive edge = get(i);
-            if (edge == null) {
-                continue;
-            }
-            if (!procedure.apply(edge)) {
-                break;
-            }
-        }
-    }
 }
