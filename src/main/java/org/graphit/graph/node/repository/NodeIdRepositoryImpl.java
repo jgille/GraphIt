@@ -16,28 +16,19 @@
 
 package org.graphit.graph.node.repository;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.io.FilenameUtils;
+
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
-import org.codehaus.jackson.JsonEncoding;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
+import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.exception.DuplicateKeyException;
-import org.graphit.graph.exception.GraphException;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodePrimitive;
-import org.graphit.graph.node.schema.NodeType;
-import org.graphit.graph.node.schema.NodeTypes;
-import org.graphit.graph.repository.AbstractGraphRepository;
-import org.graphit.graph.repository.GraphRepositoryFileUtils;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.
@@ -45,20 +36,15 @@ import org.springframework.util.StringUtils;
  * @author jon
  *
  */
-public class NodeIdRepositoryImpl extends AbstractGraphRepository implements NodeIdRepository {
+public class NodeIdRepositoryImpl implements NodeIdRepository {
 
-    private final NodeTypes nodeTypes;
     private final AbstractObjectIntMap<NodeId> nodeMap;
     private final List<NodeId> nodes;
 
-    private boolean isInited = false;
-    private boolean isShutdown = false;
-
     /**
-     * Creates a new repo for the provided set of node types.
+     * Creates a new repo.
      */
-    public NodeIdRepositoryImpl(NodeTypes nodeTypes) {
-        this.nodeTypes = nodeTypes;
+    public NodeIdRepositoryImpl() {
         this.nodeMap = new OpenObjectIntHashMap<NodeId>();
         this.nodes = new ArrayList<NodeId>();
     }
@@ -91,7 +77,7 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     public synchronized void insert(int nodeIndex, NodeId nodeId) {
         Assert.isTrue(nodeIndex >= 0, "Illegal node index.");
         Assert.isTrue(!nodeMap.containsKey(nodeId), "Duplicate node id: " + nodeId);
-        while (nodes.size() <= nodeIndex) {
+        for (int i = nodes.size(); i <= nodeIndex; i++) {
             nodes.add(null);
         }
         if (nodes.get(nodeIndex) != null) {
@@ -115,86 +101,35 @@ public class NodeIdRepositoryImpl extends AbstractGraphRepository implements Nod
     }
 
     @Override
-    public String toString() {
-        return "NodeIndexImpl [size: " + nodes.size() + "]";
+    public synchronized int size() {
+        return nodeMap.size();
     }
 
     @Override
-    public synchronized void init() {
-        try {
-        GraphRepositoryFileUtils.restore(this, getDataDirectory(), getFileName());
-        } catch (IOException e) {
-            throw new GraphException("Failed to restore nodes.", e);
-        }
-        this.isInited = true;
-    }
-
-    @Override
-    public synchronized void shutdown() {
-        try {
-            GraphRepositoryFileUtils.persist(this, getDataDirectory(), getFileName());
-        } catch (IOException e) {
-            throw new GraphException("Failed to persist nodes.", e);
-        }
-        this.isShutdown = true;
-    }
-
-    @Override
-    public synchronized void dump(File file) throws IOException {
-        JsonFactory jsonFactory = new JsonFactory(new ObjectMapper());
-        JsonGenerator generator = jsonFactory.createJsonGenerator(file, JsonEncoding.UTF8);
-        try {
-            generator.writeStartArray();
-            for (NodeId nodeId : nodes) {
-                int index = nodeMap.get(nodeId);
-                NodePrimitive primitive = new NodePrimitive(index, nodeId);
-                generator.writeObject(primitive);
+    public void forEach(Procedure<NodePrimitive> procedure) {
+        Iterable<NodeId> iterable = getNodes();
+        for (NodeId nodeId : iterable) {
+            int index = getNodeIndex(nodeId);
+            if (index < 0) {
+                continue;
             }
-            generator.writeEndArray();
-        } finally {
-            generator.close();
+            NodePrimitive nodePrimitive = new NodePrimitive(index, nodeId);
+            if (!procedure.apply(nodePrimitive)) {
+                break;
+            }
         }
     }
 
     @Override
-    public synchronized void restore(File in) throws IOException {
-        Assert.isTrue(in.exists());
-        Assert.isTrue(nodes.isEmpty(), "Can not restore a non empty repo.");
-        ObjectMapper mapper = new ObjectMapper();
-        List<NodePrimitive> primitives =
-            mapper.readValue(in, new TypeReference<List<NodePrimitive>>() {
+    public synchronized Iterable<NodeId> getNodes() {
+        List<NodeId> copy = new ArrayList<NodeId>(nodes);
+        Iterable<NodeId> notNull = Iterables.filter(copy, new Predicate<NodeId>() {
+
+            @Override
+            public boolean apply(NodeId input) {
+                return input != null;
+            }
         });
-        for (NodePrimitive np : primitives) {
-            int index = np.getIndex();
-            NodeType nodeType = nodeTypes.valueOf(np.getType());
-            NodeId nodeId = new NodeId(nodeType, np.getId());
-            insert(index, nodeId);
-        }
-    }
-
-    @Override
-    public String getDataDirectory() {
-        String baseDir = getRootDataDirectory();
-        if (!StringUtils.hasText(baseDir)) {
-            return null;
-        }
-        return FilenameUtils.concat(getRootDataDirectory(), "nodes/primitives");
-    }
-
-    @Override
-    protected String getFileName() {
-        return "nodes.json";
-    }
-
-    synchronized List<NodeId> getNodeIds() {
-        return new ArrayList<NodeId>(nodes);
-    }
-
-    boolean isInited() {
-        return isInited;
-    }
-
-    boolean isShutdown() {
-        return isShutdown;
+        return notNull;
     }
 }

@@ -784,7 +784,7 @@ public class PropertyGraphImplTest {
     public void testSetCustomRepos() {
         GraphMetadata metadata = new TestGraphMetadata();
         PropertyGraphImpl graph = new PropertyGraphImpl(metadata);
-        NodeIdRepository nodeRepo = new NodeIdRepositoryImpl(metadata.getNodeTypes());
+        NodeIdRepository nodeRepo = new NodeIdRepositoryImpl();
         EdgePrimitivesRepository edgeRepo =
             new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
         PropertiesRepository<NodeId> nodePropertiesRepo =

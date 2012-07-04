@@ -17,11 +17,9 @@
 package org.graphit.graph.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.apache.commons.io.FilenameUtils;
 import org.graphit.common.collections.CombinedIterable;
 import org.graphit.common.converters.IdentityConverter;
 import org.graphit.graph.edge.domain.Edge;
@@ -37,7 +35,6 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
 import org.graphit.graph.node.repository.NodeIdRepository;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
-import org.graphit.graph.repository.AbstractGraphRepository;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
@@ -53,7 +50,7 @@ import org.springframework.util.Assert;
  * @author jon
  *
  */
-public class PropertyGraphImpl extends AbstractGraphRepository implements PropertyGraph {
+public class PropertyGraphImpl implements PropertyGraph {
 
     private static final int DEFAULT_NODE_CAPACITY = 16;
     private static final int DEFAULT_EDGE_CAPACITY = 16;
@@ -71,7 +68,7 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
      */
     public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
-        this.nodeRepo = new NodeIdRepositoryImpl(metadata.getNodeTypes());
+        this.nodeRepo = new NodeIdRepositoryImpl();
         this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
         this.nodePropertiesRepo =
             new ConcurrentHashMapPropertiesRepository<NodeId>(DEFAULT_NODE_CAPACITY);
@@ -371,23 +368,12 @@ public class PropertyGraphImpl extends AbstractGraphRepository implements Proper
     }
 
     @Override
-    public String getDataDirectory() {
-        return FilenameUtils.concat(getRootDataDirectory(), metadata.getGraphName());
-    }
-
-    @Override
-    protected String getFileName() {
-        return "metadata.json";
-    }
-
-    @Override
-    public void dump(File out) throws IOException {
+    public void exportJson(File out, boolean includeProperties) {
         // TODO: Implement
     }
 
     @Override
-    public void restore(File in) throws IOException {
+    public void importJson(File in) {
         // TODO: Implement
     }
-
 }

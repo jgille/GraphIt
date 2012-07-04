@@ -16,8 +16,9 @@
 
 package org.graphit.graph.node.repository;
 
+import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.node.domain.NodeId;
-import org.graphit.graph.repository.GraphRepository;
+import org.graphit.graph.node.domain.NodePrimitive;
 
 /**
  * A repo containing a mapping between node index and {@link NodeId}.
@@ -25,7 +26,7 @@ import org.graphit.graph.repository.GraphRepository;
  * @author jon
  *
  */
-public interface NodeIdRepository extends GraphRepository {
+public interface NodeIdRepository {
 
     /**
      * Gets the index of a node given it's id.
@@ -53,9 +54,23 @@ public interface NodeIdRepository extends GraphRepository {
 
     /**
      * Removes a node given it's index.
-     * 
+     *
      * @return The id removed node id.
      */
     NodeId remove(int nodeIndex);
 
+    /**
+     * Gets the number of nodes in this repo.
+     */
+    int size();
+
+    /**
+     * Applies the procedure for each node in this repo.
+     */
+    void forEach(Procedure<NodePrimitive> procedure);
+
+    /**
+     * Returns all nodes currently in this repo.
+     */
+    Iterable<NodeId> getNodes();
 }

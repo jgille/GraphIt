@@ -29,9 +29,4 @@ public interface PropertiesFactory {
      */
     Properties createEmptyProperties();
 
-    /**
-     * Parses a json string into a {@link Properties} instance.
-     */
-    Properties parseJson(String json);
-
 }

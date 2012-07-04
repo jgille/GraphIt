@@ -16,12 +16,13 @@
 
 package org.graphit.graph.service;
 
+import java.io.File;
+
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
-import org.graphit.graph.repository.GraphRepository;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
@@ -34,7 +35,17 @@ import org.springframework.core.convert.converter.Converter;
  * @author jon
  *
  */
-public interface PropertyGraph extends GraphRepository {
+public interface PropertyGraph {
+
+    /**
+     * Initiates the graph.
+     */
+    void init();
+
+    /**
+     * Shuts the graph down.
+     */
+    void shutdown();
 
     /**
      * Gets metadata describing the valid nodes and edges for this graph.
@@ -120,4 +131,13 @@ public interface PropertyGraph extends GraphRepository {
      */
     void setEdgeProperties(EdgeId edgeId, Properties properties);
 
+    /**
+     * Exports the graph to file as json.
+     */
+    void exportJson(File out, boolean includeProperties);
+
+    /**
+     * Imports the graph from a json file.
+     */
+    void importJson(File in);
 }

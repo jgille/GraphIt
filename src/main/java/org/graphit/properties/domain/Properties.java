@@ -53,6 +53,16 @@ public interface Properties {
     Set<String> getPropertyKeys();
 
     /**
+     * Gets the number of entries in this instance.
+     */
+    int size();
+
+    /**
+     * Returns if this instance has no entries.
+     */
+    boolean isEmpty();
+
+    /**
      * Gets properties as a map.
      */
     Map<String, Object> asPropertyMap();

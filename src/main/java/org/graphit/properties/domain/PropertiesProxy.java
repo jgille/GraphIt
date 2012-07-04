@@ -84,4 +84,14 @@ public abstract class PropertiesProxy implements Properties {
         return properties.asPropertyMap();
     }
 
+    @Override
+    public int size() {
+        return properties.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return properties.isEmpty();
+    }
+
 }

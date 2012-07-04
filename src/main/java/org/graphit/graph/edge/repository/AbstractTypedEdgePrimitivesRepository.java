@@ -16,7 +16,6 @@
 
 package org.graphit.graph.edge.repository;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,9 +29,6 @@ import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.domain.EdgeVectorImpl;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.exception.GraphException;
-import org.graphit.graph.repository.AbstractGraphRepository;
-import org.graphit.graph.repository.GraphRepositoryFileUtils;
 import org.graphit.graph.traversal.EdgeDirection;
 
 /**
@@ -49,8 +45,8 @@ import org.graphit.graph.traversal.EdgeDirection;
  * @author jon
  *
  */
-public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGraphRepository
-    implements TypedEdgePrimitivesRepository {
+public abstract class AbstractTypedEdgePrimitivesRepository implements
+    TypedEdgePrimitivesRepository {
 
     protected final AtomicInteger maxId;
     protected final IntArrayList removedEdges;
@@ -242,24 +238,6 @@ public abstract class AbstractTypedEdgePrimitivesRepository extends AbstractGrap
         ReentrantLock lock = locks.get(index);
         lock.lock();
         return lock;
-    }
-
-    @Override
-    public void init() {
-        try {
-            GraphRepositoryFileUtils.restore(this, getDataDirectory(), getFileName());
-        } catch (IOException e) {
-            throw new GraphException("Failed to restore edges.", e);
-        }
-    }
-
-    @Override
-    public void shutdown() {
-        try {
-            GraphRepositoryFileUtils.persist(this, getDataDirectory(), getFileName());
-        } catch (IOException e) {
-            throw new GraphException("Failed to export edges.", e);
-        }
     }
 
 }

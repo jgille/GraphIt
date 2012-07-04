@@ -52,11 +52,20 @@
       <version>2.1</version>
     </dependency>
 
+    <!-- Jackson json lib -->
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
       <version>1.9.5</version>
     </dependency>
+    
+    <!-- Google collections -->
+    <dependency>
+    	<groupId>com.google.guava</groupId>
+        <artifactId>guava-collections</artifactId>
+        <version>r03</version>
+    </dependency>
+
 
     <!-- Test -->
 

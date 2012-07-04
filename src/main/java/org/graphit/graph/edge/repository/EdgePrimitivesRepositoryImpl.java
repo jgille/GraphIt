@@ -23,9 +23,9 @@ import org.graphit.graph.edge.schema.EdgeTypes;
  *
  * An {@link EdgePrimitivesRepository} backed by
  * {@link TypedEdgePrimitivesRepositoryImpl} instances.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class EdgePrimitivesRepositoryImpl extends AbstractEdgePrimitivesRepository {
 
@@ -40,5 +40,4 @@ public class EdgePrimitivesRepositoryImpl extends AbstractEdgePrimitivesReposito
     protected TypedEdgePrimitivesRepositoryImpl createRepo(EdgeType edgeType) {
         return new TypedEdgePrimitivesRepositoryImpl(edgeType);
     }
-
 }

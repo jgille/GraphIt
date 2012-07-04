@@ -78,4 +78,14 @@ public class HashMapProperties implements Properties {
     public String toString() {
         return "MapProperties [properties=" + properties + "]";
     }
+
+    @Override
+    public int size() {
+        return properties.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return properties.isEmpty();
+    }
 }

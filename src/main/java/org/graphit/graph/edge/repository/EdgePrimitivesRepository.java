@@ -20,7 +20,6 @@ import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.repository.GraphRepository;
 
 /**
  * A repo containing methods related to storing {@link EdgePrimitive}s.
@@ -28,7 +27,7 @@ import org.graphit.graph.repository.GraphRepository;
  * @author jon
  *
  */
-public interface EdgePrimitivesRepository extends GraphRepository {
+public interface EdgePrimitivesRepository {
 
     /**
      * Adds an edge an returns the id of the new edge.
@@ -64,4 +63,5 @@ public interface EdgePrimitivesRepository extends GraphRepository {
      * Gets the outgoing edges for a node.
      */
     EdgeVector getIncomingEdges(int endNodeIndex, EdgeType edgeType);
+
 }

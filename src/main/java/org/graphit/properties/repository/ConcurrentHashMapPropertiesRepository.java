@@ -16,8 +16,6 @@
 
 package org.graphit.properties.repository;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.graphit.properties.domain.HashMapPropertiesFactory;
@@ -30,13 +28,19 @@ import org.graphit.properties.domain.PropertiesFactory;
  * @author jon
  *
  */
-public class ConcurrentHashMapPropertiesRepository<T> implements PropertiesRepository<T> {
+public class ConcurrentHashMapPropertiesRepository<T>
+    implements PropertiesRepository<T> {
 
     private static final float LOAD_FACTOR = 0.75f;
 
     private final ConcurrentHashMap<T, Properties> repo;
     private PropertiesFactory propertiesFactory;
 
+    /**
+     * Creates an empty repo with the specified initial capacity.
+     * 
+     * @param initalCapacity
+     */
     public ConcurrentHashMapPropertiesRepository(int initalCapacity) {
         this.repo =
             new ConcurrentHashMap<T, Properties>(initalCapacity, LOAD_FACTOR, Runtime.getRuntime()
@@ -56,26 +60,6 @@ public class ConcurrentHashMapPropertiesRepository<T> implements PropertiesRepos
      */
     public void setPropertiesFactory(PropertiesFactory propertiesFactory) {
         this.propertiesFactory = propertiesFactory;
-    }
-
-    @Override
-    public void init() {
-        // TODO: Implement
-    }
-
-    @Override
-    public void shutdown() {
-        // TODO: Implement
-    }
-
-    @Override
-    public void dump(File out) throws IOException {
-        // TODO: Implement
-    }
-
-    @Override
-    public void restore(File in) throws IOException {
-        // TODO: Implement
     }
 
     @Override

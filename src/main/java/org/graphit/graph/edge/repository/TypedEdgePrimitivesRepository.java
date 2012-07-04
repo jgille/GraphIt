@@ -21,7 +21,6 @@ import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeWeigher;
-import org.graphit.graph.repository.GraphRepository;
 
 /**
  * Repository containing {@link EdgePrimitive}s for all edges of an
@@ -30,7 +29,7 @@ import org.graphit.graph.repository.GraphRepository;
  * @author jon
  *
  */
-public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphRepository {
+public interface TypedEdgePrimitivesRepository extends EdgeWeigher {
 
     /**
      * Gets the type of the edges in this repo.
@@ -92,12 +91,6 @@ public interface TypedEdgePrimitivesRepository extends EdgeWeigher, GraphReposit
      * Gets incoming edges for a node.
      */
     EdgeVector getIncomingEdges(int endNodeIndex);
-
-    /**
-     * Sets the base directory for the graph, under which this repo might
-     * persist edges to disk.
-     */
-    void setRootDataDirectory(String directory);
 
     /**
      * Gets the number of edges in this repo.

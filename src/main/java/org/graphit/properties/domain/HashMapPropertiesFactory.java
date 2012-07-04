@@ -28,11 +28,4 @@ public class HashMapPropertiesFactory implements PropertiesFactory {
     public Properties createEmptyProperties() {
         return new HashMapProperties();
     }
-
-    @Override
-    public Properties parseJson(String json) {
-        // TODO: Implement
-        throw new UnsupportedOperationException();
-    }
-
 }

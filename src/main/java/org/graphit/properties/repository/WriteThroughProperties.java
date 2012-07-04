@@ -40,7 +40,7 @@ public class WriteThroughProperties<T> implements Properties {
     /**
      * Creates a new lazy instance, i.e. it will load properties from the repo
      * on first request.
-     * 
+     *
      * @param id
      *            The id of this instance.
      * @param repo
@@ -114,5 +114,15 @@ public class WriteThroughProperties<T> implements Properties {
             properties = new HashMapProperties();
         }
         return properties;
+    }
+
+    @Override
+    public int size() {
+        return loadOrGetProperties().size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return loadOrGetProperties().isEmpty();
     }
 }

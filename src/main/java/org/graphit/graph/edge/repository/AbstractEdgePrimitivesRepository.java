@@ -16,7 +16,6 @@
 
 package org.graphit.graph.edge.repository;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +24,6 @@ import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
-import org.graphit.graph.repository.AbstractGraphRepository;
 import org.springframework.util.Assert;
 
 /**
@@ -35,8 +33,7 @@ import org.springframework.util.Assert;
  * @author jon
  *
  */
-public abstract class AbstractEdgePrimitivesRepository
-    extends AbstractGraphRepository implements EdgePrimitivesRepository {
+public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitivesRepository {
 
     private final Map<EdgeType, TypedEdgePrimitivesRepository> repos;
 
@@ -99,41 +96,5 @@ public abstract class AbstractEdgePrimitivesRepository
     @Override
     public String toString() {
         return "ByteBufferEdgeIndex [repos=" + repos + "]";
-    }
-
-    @Override
-    public void init() {
-        for (TypedEdgePrimitivesRepository repo : repos.values()) {
-            repo.setRootDataDirectory(getRootDataDirectory());
-            repo.init();
-        }
-    }
-
-    @Override
-    public synchronized void shutdown() {
-        for (TypedEdgePrimitivesRepository repo : repos.values()) {
-            repo.setRootDataDirectory(getRootDataDirectory());
-            repo.shutdown();
-        }
-    }
-
-    @Override
-    public String getDataDirectory() {
-        return null;
-    }
-
-    @Override
-    protected String getFileName() {
-        return null;
-    }
-
-    @Override
-    public void dump(File out) {
-        // Ignore
-    }
-
-    @Override
-    public void restore(File in) {
-        // Ignore
     }
 }
