@@ -21,9 +21,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
-import org.graphit.common.predicates.Predicate;
-import org.graphit.common.procedures.CollectorProcedure;
 import org.junit.Test;
+
+import com.google.common.base.Predicate;
 
 /**
  * @author jon
@@ -47,7 +47,7 @@ public class CollectorProcedureTest {
         Predicate<String> pred = new Predicate<String>() {
 
             @Override
-            public boolean accepts(String value) {
+            public boolean apply(String value) {
                 return value == null || !value.equals("B");
             }
         };

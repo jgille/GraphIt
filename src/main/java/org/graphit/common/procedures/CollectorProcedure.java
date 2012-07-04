@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.graphit.common.predicates.Predicate;
+import com.google.common.base.Predicate;
 
 /**
  * A {@link Procedure} that collects processed elements in a list.
@@ -42,7 +42,7 @@ public class CollectorProcedure<T> implements Procedure<T> {
         this(new Predicate<T>() {
 
             @Override
-            public boolean accepts(T element) {
+            public boolean apply(T element) {
                 return true;
             }
         });
@@ -50,7 +50,7 @@ public class CollectorProcedure<T> implements Procedure<T> {
 
     /**
      * Creates a new filtered procedure.
-     * 
+     *
      * @param predicate
      *            A predicate used to decide whether or not to collect an
      *            element.
@@ -61,7 +61,7 @@ public class CollectorProcedure<T> implements Procedure<T> {
 
     @Override
     public boolean apply(T element) {
-        if (!predicate.accepts(element)) {
+        if (!predicate.apply(element)) {
             return false;
         }
         elements.add(element);
@@ -70,7 +70,7 @@ public class CollectorProcedure<T> implements Procedure<T> {
 
     /**
      * Gets all collected elements.
-     * 
+     *
      */
     public List<T> getElements() {
         return Collections.unmodifiableList(elements);
