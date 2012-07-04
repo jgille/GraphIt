@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.graphit.graph.blueprints.BlueprintsGraph;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepository;
@@ -48,8 +47,7 @@ import org.graphit.graph.node.domain.TestNodeType;
 import org.graphit.graph.node.repository.NodeIdRepository;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
 import org.graphit.graph.node.schema.NodeType;
-import org.graphit.graph.schema.GraphMetadata;
-import org.graphit.graph.schema.TestGraphMetadata;
+import org.graphit.graph.schema.GraphMetadataImpl;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
@@ -61,15 +59,11 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.core.convert.converter.Converter;
 
-import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.Vertex;
-
 public class PropertyGraphImplTest {
 
     @Test
     public void testAddSingleEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
 
         NodeId u1 = new NodeId(USER, "u1");
         graph.addNode(u1);
@@ -89,7 +83,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testAddDuplicateNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
 
         NodeId u1 = new NodeId(USER, "u1");
         graph.addNode(u1);
@@ -105,7 +99,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testAddEdgeWithNonExistingStartNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
 
         NodeId u1 = new NodeId(USER, "u1");
 
@@ -123,7 +117,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testAddEdgeWithNonExistingEndNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
 
         NodeId u1 = new NodeId(USER, "u1");
         graph.addNode(u1);
@@ -141,7 +135,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testGetExistingNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         NodeId u1 = new NodeId(USER, "u1");
@@ -155,7 +149,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testGetNonExistingNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         NodeId u2 = new NodeId(USER, "u2");
@@ -166,7 +160,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testGetExistingEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
 
         NodeId u1 = new NodeId(USER, "u1");
         graph.addNode(u1);
@@ -199,7 +193,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testGetNonExistingEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
 
         NodeId u1 = new NodeId(USER, "u1");
         graph.addNode(u1);
@@ -225,7 +219,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateOutgoingEdgesForNonExistingNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         NodeId u2 = new NodeId(USER, "u2");
@@ -236,7 +230,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateIncomingEdgesForNonExistingNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         NodeId u2 = new NodeId(USER, "u2");
@@ -247,7 +241,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleOutgoingEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         NodeId u1 = new NodeId(USER, "u1");
@@ -268,7 +262,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleIncomingEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         NodeId u1 = new NodeId(USER, "u1");
@@ -289,7 +283,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testMultipleUnsortedOutgoingEdges() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2")
             .buy("u1", "p1", "p2");
 
@@ -323,7 +317,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testMultipleUnsortedIncomingEdges() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1", "u2").addProducts("p1", "p2")
             .buy("u1", "p1", "p2").buy("u2", "p1");
 
@@ -357,7 +351,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testMultipleSortedOutgoingEdges() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3", "p4")
             .similar("p1", "p2", 1).similar("p1", "p3", 3).similar("p1", "p4", 2);
 
@@ -402,7 +396,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testMultipleSortedIncomingEdges() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3", "p4")
             .similar("p1", "p2", 1).similar("p3", "p2", 3).similar("p4", "p2", 2);
 
@@ -447,7 +441,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testMultipleOutgoingEdgeTypes() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2").buy("u1", "p1")
             .view("u1", "p2");
 
@@ -469,7 +463,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testMultipleIncomingEdgeTypes() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2").buy("u1", "p1")
             .view("u1", "p2");
 
@@ -491,7 +485,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateBothDirections() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").similar("p1", "p2", 0.5f)
             .similar("p3", "p1", 1.5f).similar("p2", "p1", 0.25f);
 
@@ -527,7 +521,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleOutgoingConvertedEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         Converter<Edge, Node> converter = new Converter<Edge, Node>() {
@@ -551,7 +545,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleOutgoingNeighbor() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
@@ -566,7 +560,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleOutgoingConvertedNeighbor() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         Converter<Node, String> converter = new Converter<Node, String>() {
@@ -588,7 +582,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleIncomingConvertedEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         Converter<Edge, Node> converter = new Converter<Edge, Node>() {
@@ -612,7 +606,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleIncomingNeighbor() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         NodeId u1 = new NodeId(USER, "u1");
@@ -628,7 +622,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testIterateSingleIncomingConvertedNeighbor() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
 
         Converter<Node, String> converter = new Converter<Node, String>() {
@@ -650,7 +644,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testRemoveUnsortedEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")
             .buy("u1", "p1", "p2", "p3").buy("u2", "p3");
 
@@ -671,7 +665,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testRemoveSortedEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3", "p4")
             .similar("p1", "p2", 2).similar("p1", "p3", 3).similar("p1", "p4", 1);
 
@@ -692,7 +686,7 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testSetEdgeWeightForUnweightedEdgeType() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")
             .buy("u1", "p1", "p2", "p3").buy("u2", "p3");
 
@@ -712,36 +706,8 @@ public class PropertyGraphImplTest {
     }
 
     @Test
-    public void testAsBlueprintsGraph() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
-        new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2", "p3").buy("u1", "p1", "p3")
-            .view("u1", "p2");
-        Graph blueprintsGraph = new BlueprintsGraph(graph);
-        assertThat(blueprintsGraph, Matchers.notNullValue());
-        NodeId u1 = new NodeId(USER, "u1");
-        NodeId p1 = new NodeId(PRODUCT, "p1");
-        NodeId p3 = new NodeId(PRODUCT, "p3");
-
-        Vertex v1 = blueprintsGraph.getVertex(u1);
-        assertThat(v1, Matchers.notNullValue());
-        assertThat(v1.getId(), Matchers.is((Object) u1));
-
-        List<com.tinkerpop.blueprints.Edge> edges =
-            asList(v1.getEdges(Direction.OUT, BOUGHT.name()));
-        assertThat(edges.size(), Matchers.is(2));
-
-        com.tinkerpop.blueprints.Edge e1 = edges.get(0);
-        assertThat(e1.getVertex(Direction.OUT).getId(), Matchers.is((Object) u1));
-        assertThat(e1.getVertex(Direction.IN).getId(), Matchers.is((Object) p1));
-
-        com.tinkerpop.blueprints.Edge e2 = edges.get(1);
-        assertThat(e2.getVertex(Direction.OUT).getId(), Matchers.is((Object) u1));
-        assertThat(e2.getVertex(Direction.IN).getId(), Matchers.is((Object) p3));
-    }
-
-    @Test
     public void testRemoveNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")
             .buy("u1", "p1", "p2", "p3").buy("u2", "p3").view("u1", "p2").similar("p1", "p2", 10);
 
@@ -768,21 +734,21 @@ public class PropertyGraphImplTest {
 
     @Test
     public void testNonExistingRemoveNode() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         NodeId p = new NodeId(PRODUCT, "p");
         assertNull(graph.removeNode(p));
     }
 
     @Test
     public void testNonExistingRemoveEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new TestGraphMetadata());
+        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         EdgeId e = new EdgeId(TestEdgeType.BOUGHT, 0);
         assertNull(graph.removeEdge(e));
     }
 
     @Test
     public void testSetCustomRepos() {
-        GraphMetadata metadata = new TestGraphMetadata();
+        GraphMetadataImpl metadata = new GraphMetadataImpl("test");
         PropertyGraphImpl graph = new PropertyGraphImpl(metadata);
         NodeIdRepository nodeRepo = new NodeIdRepositoryImpl();
         EdgePrimitivesRepository edgeRepo =
@@ -806,7 +772,7 @@ public class PropertyGraphImplTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testSetNodeProperties() {
-        GraphMetadata metadata = new TestGraphMetadata();
+        GraphMetadataImpl metadata = new GraphMetadataImpl("test");
         PropertyGraphImpl graph = new PropertyGraphImpl(metadata);
         PropertiesRepository<NodeId> nodePropertiesRepo = mock(PropertiesRepository.class);
         graph.setNodePropertiesRepo(nodePropertiesRepo);
@@ -838,7 +804,7 @@ public class PropertyGraphImplTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testSetEdgeProperties() {
-        GraphMetadata metadata = new TestGraphMetadata();
+        GraphMetadataImpl metadata = new GraphMetadataImpl("test");
         PropertyGraphImpl graph = new PropertyGraphImpl(metadata);
         PropertiesRepository<EdgeId> edgePropertiesRepo = mock(PropertiesRepository.class);
         graph.setEdgePropertiesRepo(edgePropertiesRepo);

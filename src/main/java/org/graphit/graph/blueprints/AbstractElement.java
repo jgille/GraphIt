@@ -24,9 +24,9 @@ import com.tinkerpop.blueprints.Element;
 
 /**
  * Base implementation of a blueprints {@link Element}.
- * 
+ *
  * @author jon
- * 
+ *
  * @param <T>
  *            The generic type of the element id.
  */
@@ -61,6 +61,9 @@ public abstract class AbstractElement<T> implements Element {
 
     @Override
     public void setProperty(String key, Object value) {
+        if (key.equalsIgnoreCase("id")) {
+            throw new IllegalArgumentException("Reserved key: " + key);
+        }
         properties.setProperty(key, value);
     }
 

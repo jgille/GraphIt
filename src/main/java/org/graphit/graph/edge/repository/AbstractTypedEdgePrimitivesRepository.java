@@ -48,8 +48,8 @@ import org.graphit.graph.traversal.EdgeDirection;
 public abstract class AbstractTypedEdgePrimitivesRepository implements
     TypedEdgePrimitivesRepository {
 
-    protected final AtomicInteger maxId;
-    protected final IntArrayList removedEdges;
+    private final AtomicInteger maxId;
+    private final IntArrayList removedEdges;
     private final EdgeVectorRepository edgeVectorIndex;
     private final EdgeType edgeType;
     private EdgeIndexComparator edgeComparator;

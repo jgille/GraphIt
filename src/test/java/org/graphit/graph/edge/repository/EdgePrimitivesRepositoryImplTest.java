@@ -19,15 +19,12 @@ package org.graphit.graph.edge.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Arrays;
 
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.domain.TestEdgeTypes;
-import org.graphit.graph.edge.schema.EdgeTypeImpl;
 import org.graphit.graph.edge.util.TestEdgeType;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,17 +45,6 @@ public class EdgePrimitivesRepositoryImplTest {
     @Test
     public void testGetNonExistingEdge() {
         assertNull(repo.getEdge(new EdgeId(TestEdgeType.BOUGHT, 0)));
-    }
-
-    @Test
-    public void testGetInvalidEdgeType() {
-        boolean exception = false;
-        try {
-            repo.getEdge(new EdgeId(new EdgeTypeImpl("foo"), 0));
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
     }
 
     @Test

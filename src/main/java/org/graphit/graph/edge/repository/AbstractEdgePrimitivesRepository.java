@@ -16,8 +16,8 @@
 
 package org.graphit.graph.edge.repository;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
@@ -41,7 +41,7 @@ public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitives
      * Constructs a new repo for the provided edge types.
      */
     public AbstractEdgePrimitivesRepository(EdgeTypes edgeTypes) {
-        this.repos = new HashMap<EdgeType, TypedEdgePrimitivesRepository>(edgeTypes.size(), 1f);
+        this.repos = new ConcurrentHashMap<EdgeType, TypedEdgePrimitivesRepository>();
         for (EdgeType edgeType : edgeTypes.elements()) {
             repos.put(edgeType, createRepo(edgeType));
         }
@@ -49,48 +49,51 @@ public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitives
 
     protected abstract TypedEdgePrimitivesRepository createRepo(EdgeType edgeType);
 
-    private TypedEdgePrimitivesRepository getRepository(EdgeType edgeType) {
-        Assert.isTrue(repos.containsKey(edgeType), "Invalid edge type");
+    private TypedEdgePrimitivesRepository getOrCreateRepository(EdgeType edgeType) {
+        if (!repos.containsKey(edgeType)) {
+            TypedEdgePrimitivesRepository repo = createRepo(edgeType);
+            repos.put(edgeType, repo);
+            return repo;
+        }
         return repos.get(edgeType);
     }
 
     @Override
     public EdgeId addEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType) {
-        return getRepository(edgeType).addEdge(startNodeIndex, endNodeIndex);
+        return getOrCreateRepository(edgeType).addEdge(startNodeIndex, endNodeIndex);
     }
 
     @Override
     public EdgeId addWeightedEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType,
                                   float weight) {
-        return getRepository(edgeType).addWeightedEdge(startNodeIndex, endNodeIndex, weight);
+        return getOrCreateRepository(edgeType).addWeightedEdge(startNodeIndex, endNodeIndex, weight);
     }
-
 
     @Override
     public EdgePrimitive getEdge(EdgeId edgeId) {
-        return getRepository(edgeId.getEdgeType()).getEdge(edgeId);
+        return getOrCreateRepository(edgeId.getEdgeType()).getEdge(edgeId);
     }
 
     @Override
     public EdgePrimitive removeEdge(EdgeId edgeId) {
-        return getRepository(edgeId.getEdgeType()).removeEdge(edgeId);
+        return getOrCreateRepository(edgeId.getEdgeType()).removeEdge(edgeId);
     }
 
     @Override
     public EdgeVector getOutgoingEdges(int startNodeIndex, EdgeType edgeType) {
-        return getRepository(edgeType).getOutgoingEdges(startNodeIndex);
+        return getOrCreateRepository(edgeType).getOutgoingEdges(startNodeIndex);
     }
 
     @Override
     public EdgeVector getIncomingEdges(int endNodeIndex, EdgeType edgeType) {
-        return getRepository(edgeType).getIncomingEdges(endNodeIndex);
+        return getOrCreateRepository(edgeType).getIncomingEdges(endNodeIndex);
     }
 
     @Override
     public void setEdgeWeight(EdgeId edgeId, float weight) {
         EdgeType edgeType = edgeId.getEdgeType();
         Assert.isTrue(edgeType.isWeighted(), edgeType + " edges are unweighted.");
-        getRepository(edgeType).setEdgeWeight(edgeId, weight);
+        getOrCreateRepository(edgeType).setEdgeWeight(edgeId, weight);
     }
 
     @Override

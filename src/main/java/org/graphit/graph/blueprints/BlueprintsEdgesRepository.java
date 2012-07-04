@@ -16,6 +16,8 @@
 
 package org.graphit.graph.blueprints;
 
+import java.util.Collection;
+
 import org.graphit.graph.node.domain.NodeId;
 
 import com.tinkerpop.blueprints.Direction;
@@ -55,4 +57,8 @@ public interface BlueprintsEdgesRepository {
      */
     Iterable<Vertex> getNeighbors(NodeId nodeId, Direction edgeDirection, String edgeLabel);
 
+    /**
+     * Gets all edge types in this repo.
+     */
+    Collection<String> getEdgeTypes();
 }

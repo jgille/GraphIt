@@ -17,13 +17,12 @@
 package org.graphit.graph.blueprints;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.graphit.common.collections.CombinedIterable;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
-import org.springframework.util.Assert;
-
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Query;
@@ -36,8 +35,9 @@ import com.tinkerpop.blueprints.util.DefaultQuery;
  * @author jon
  *
  */
-class BlueprintsNode extends AbstractElement<NodeId> implements Vertex {
+class BlueprintsNode extends AbstractElement<BlueprintsNodeId> implements Vertex {
 
+    private final NodeId nodeId;
     private final BlueprintsEdgesRepository edgesRepo;
 
     /**
@@ -49,21 +49,19 @@ class BlueprintsNode extends AbstractElement<NodeId> implements Vertex {
      *            A repo for getting connected edges and neighbors of this node.
      */
     BlueprintsNode(Node node, BlueprintsEdgesRepository edgesRepo) {
-        super(node.getNodeId(), node);
+        super(new BlueprintsNodeId(node.getNodeId()), node);
+        this.nodeId = node.getNodeId();
         this.edgesRepo = edgesRepo;
     }
 
     @Override
     public Iterable<Edge> getEdges(Direction direction, String... labels) {
-        Assert.isTrue(labels.length > 0, "No edge labels provided.");
-        NodeId nodeId = getId();
-
         if (labels.length == 1) {
             return edgesRepo.getEdges(nodeId, direction, labels[0]);
         }
 
         List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
-        for (String label : labels) {
+        for (String label : getLabels(labels)) {
             Iterable<Edge> edges = edgesRepo.getEdges(nodeId, direction, label);
             iterables.add(edges);
         }
@@ -72,20 +70,25 @@ class BlueprintsNode extends AbstractElement<NodeId> implements Vertex {
 
     @Override
     public Iterable<Vertex> getVertices(Direction direction, String... labels) {
-        Assert.isTrue(labels.length > 0, "No edge labels provided.");
-        NodeId nodeId = getId();
-
         if (labels.length == 1) {
             return edgesRepo.getNeighbors(nodeId, direction, labels[0]);
         }
 
         List<Iterable<Vertex>> iterables = new ArrayList<Iterable<Vertex>>();
-        for (String label : labels) {
+        for (String label : getLabels(labels)) {
             Iterable<Vertex> neighbors =
                 edgesRepo.getNeighbors(nodeId, direction, label);
             iterables.add(neighbors);
         }
         return new CombinedIterable<Vertex>(iterables);
+    }
+
+    private String[] getLabels(String... labels) {
+        if (labels.length == 0) {
+            Collection<String> edgeTypes = edgesRepo.getEdgeTypes();
+            return edgeTypes.toArray(new String[edgeTypes.size()]);
+        }
+        return labels;
     }
 
     @Override

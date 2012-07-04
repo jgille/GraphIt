@@ -35,6 +35,7 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
 import org.graphit.graph.node.repository.NodeIdRepository;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
+import org.graphit.graph.schema.GraphMetadataImpl;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
@@ -43,6 +44,9 @@ import org.graphit.properties.repository.PropertiesRepository;
 import org.graphit.properties.repository.WriteThroughProperties;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 
 /**
  * {@link PropertyGraph} implementation.
@@ -55,7 +59,7 @@ public class PropertyGraphImpl implements PropertyGraph {
     private static final int DEFAULT_NODE_CAPACITY = 16;
     private static final int DEFAULT_EDGE_CAPACITY = 16;
 
-    private final GraphMetadata metadata;
+    private final GraphMetadataImpl metadata;
 
     private NodeIdRepository nodeRepo;
     private PropertiesRepository<NodeId> nodePropertiesRepo;
@@ -66,7 +70,7 @@ public class PropertyGraphImpl implements PropertyGraph {
     /**
      * Creates a new graph.
      */
-    public PropertyGraphImpl(GraphMetadata metadata) {
+    public PropertyGraphImpl(GraphMetadataImpl metadata) {
         this.metadata = metadata;
         this.nodeRepo = new NodeIdRepositoryImpl();
         this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
@@ -229,6 +233,7 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public Node addNode(NodeId nodeId) {
+        metadata.ensureHasNodeType(nodeId.getNodeType());
         int index = nodeRepo.insert(nodeId);
         Properties properties =
             new WriteThroughProperties<NodeId>(nodeId, nodePropertiesRepo);
@@ -296,11 +301,12 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public Edge addEdge(NodeId startNodeId, NodeId endNodeId, EdgeType edgeType, float weight) {
-        Assert.isTrue(edgeType.isWeighted(), edgeType + " is unweughted.");
+        Assert.isTrue(edgeType.isWeighted(), edgeType + " is unweighted.");
         return doAddEdge(startNodeId, endNodeId, edgeType, weight);
     }
 
     private Edge doAddEdge(NodeId startNodeId, NodeId endNodeId, EdgeType edgeType, float weight) {
+        metadata.ensureHasEdgeType(edgeType);
         Node startNode = getNode(startNodeId);
         Assert.notNull(startNode, "Invalid start node: " + startNodeId);
         Node endNode = getNode(endNodeId);
@@ -375,5 +381,29 @@ public class PropertyGraphImpl implements PropertyGraph {
     @Override
     public void importJson(File in) {
         // TODO: Implement
+    }
+
+    @Override
+    public Iterable<Node> getNodes() {
+        Iterable<NodeId> nodeIds = nodeRepo.getNodes();
+        return Iterables.transform(nodeIds, new Function<NodeId, Node>() {
+
+            @Override
+            public Node apply(NodeId nodeId) {
+                return getNode(nodeId);
+            }
+        });
+    }
+
+    @Override
+    public Iterable<Edge> getEdges() {
+        Iterable<NodeId> nodeIds = nodeRepo.getNodes();
+        CombinedIterable<Edge> edges = new CombinedIterable<Edge>();
+        for (NodeId nodeId : nodeIds) {
+            for (EdgeType edgeType : metadata.getEdgeTypes().elements()) {
+                edges.add(getEdges(nodeId, edgeType, EdgeDirection.OUTGOING));
+            }
+        }
+        return edges;
     }
 }

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypeImpl;
 import org.graphit.graph.edge.schema.EdgeTypes;
 import org.graphit.graph.node.schema.NodeType;
@@ -35,31 +34,29 @@ import org.junit.Test;
  * @author jon
  *
  */
-public class DynamicGraphMetadataTest {
+public class GraphMetadataImplTest {
 
     @Test
     public void testGetGraphName() {
-        DynamicGraphMetadata metadata = new DynamicGraphMetadata("foo");
+        GraphMetadataImpl metadata = new GraphMetadataImpl("foo");
         assertEquals("foo", metadata.getGraphName());
     }
 
     @Test
     public void testAddEdgeTypes() {
-        DynamicGraphMetadata metadata = new DynamicGraphMetadata("foo");
+        GraphMetadataImpl metadata = new GraphMetadataImpl("foo");
         metadata.addEdgeType("A").addEdgeType(new EdgeTypeImpl("B")).addEdgeType("C", true);
         EdgeTypes edgeTypes = metadata.getEdgeTypes();
         assertNotNull(edgeTypes);
         assertEquals(3, edgeTypes.size());
-        List<EdgeType> edgeTypeList = new ArrayList<EdgeType>(edgeTypes.elements());
-        assertEquals(Arrays.asList(new EdgeTypeImpl("A"), new EdgeTypeImpl("B"),
-                                   new EdgeTypeImpl("C", true)),
-                     edgeTypeList);
-
+        assertEquals(new EdgeTypeImpl("A"), edgeTypes.valueOf("A"));
+        assertEquals(new EdgeTypeImpl("B"), edgeTypes.valueOf("B"));
+        assertEquals(new EdgeTypeImpl("C", true), edgeTypes.valueOf("C"));
     }
 
     @Test
     public void testAddNodeTypes() {
-        DynamicGraphMetadata metadata = new DynamicGraphMetadata("foo");
+        GraphMetadataImpl metadata = new GraphMetadataImpl("foo");
         metadata.addNodeType("A").addNodeType(new NodeTypeImpl("B"));
         NodeTypes nodeTypes = metadata.getNodeTypes();
         assertNotNull(nodeTypes);

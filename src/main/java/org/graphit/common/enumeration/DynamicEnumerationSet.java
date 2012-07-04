@@ -42,5 +42,4 @@ public interface DynamicEnumerationSet<T extends DynamicEnumerableElement> {
      * Gets the size (number of elements) of this set.
      */
     int size();
-
 }

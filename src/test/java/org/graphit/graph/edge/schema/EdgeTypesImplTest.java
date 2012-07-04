@@ -25,11 +25,11 @@ import org.junit.Test;
  * @author jon
  *
  */
-public class DynamicEdgeTypesTest {
+public class EdgeTypesImplTest {
 
     @Test
     public void testValueOfExisting() {
-        DynamicEdgeTypes edgeTypes = new DynamicEdgeTypes();
+        EdgeTypesImpl edgeTypes = new EdgeTypesImpl();
         EdgeType aType = new EdgeTypeImpl("A");
         EdgeType bType = new EdgeTypeImpl("B");
         edgeTypes.add(aType).add(bType);
@@ -38,22 +38,20 @@ public class DynamicEdgeTypesTest {
 
     @Test
     public void testValueOfNonExisting() {
-        DynamicEdgeTypes edgeTypes = new DynamicEdgeTypes();
+        EdgeTypesImpl edgeTypes = new EdgeTypesImpl();
         EdgeType aType = new EdgeTypeImpl("A");
         EdgeType bType = new EdgeTypeImpl("B");
         edgeTypes.add(aType).add(bType);
-        boolean exception = false;
-        try {
-            edgeTypes.valueOf("C");
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        assertEquals(aType, edgeTypes.valueOf("A"));
+        assertEquals(bType, edgeTypes.valueOf("B"));
+
+        EdgeType cType = new EdgeTypeImpl("C");
+        assertEquals(cType, edgeTypes.valueOf("C"));
     }
 
     @Test
     public void testEmpty() {
-        DynamicEdgeTypes edgeTypes = new DynamicEdgeTypes();
+        EdgeTypesImpl edgeTypes = new EdgeTypesImpl();
         assertEquals(0, edgeTypes.size());
         assertTrue(edgeTypes.elements().isEmpty());
     }

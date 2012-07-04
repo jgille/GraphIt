@@ -54,6 +54,14 @@ public class BlueprintsEdge extends AbstractElement<EdgeId> implements Edge {
     }
 
     @Override
+    public void setProperty(String key, Object value) {
+        if (key.equalsIgnoreCase("label")) {
+            throw new IllegalArgumentException("Reserved key: " + key);
+        }
+        super.setProperty(key, value);
+    }
+
+    @Override
     public Vertex getVertex(Direction direction) {
         switch (direction) {
         case OUT:

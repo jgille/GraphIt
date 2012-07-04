@@ -89,12 +89,11 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized NodeId remove(int nodeIndex) {
-        NodeId nodeId;
         Assert.isTrue(nodeIndex >= 0, "Illegal node index: " + nodeIndex);
         if (nodeIndex >= nodes.size()) {
             return null;
         }
-        nodeId = nodes.get(nodeIndex);
+        NodeId nodeId = nodes.get(nodeIndex);
         nodes.set(nodeIndex, null);
         nodeMap.removeKey(nodeId);
         return nodeId;

@@ -16,34 +16,33 @@
 
 package org.graphit.graph.schema;
 
-import org.graphit.graph.edge.schema.DynamicEdgeTypes;
+import org.graphit.graph.edge.schema.EdgeTypesImpl;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
-import org.graphit.graph.node.schema.DynamicNodeTypes;
+import org.graphit.graph.node.schema.NodeTypesImpl;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
 
 /**
- *
- * A {@link GraphMetadata} instance where you can dynamically add node and edge
- * types.
- *
+ * 
+ * A {@link GraphMetadata} implementation.
+ * 
  * @author jon
- *
+ * 
  */
-public class DynamicGraphMetadata implements GraphMetadata {
+public class GraphMetadataImpl implements GraphMetadata {
 
     private final String graphName;
-    private final DynamicNodeTypes nodeTypes;
-    private final DynamicEdgeTypes edgeTypes;
+    private final NodeTypesImpl nodeTypes;
+    private final EdgeTypesImpl edgeTypes;
 
     /**
      * Creates a new instance.
      */
-    public DynamicGraphMetadata(String graphName) {
+    public GraphMetadataImpl(String graphName) {
         this.graphName = graphName;
-        this.nodeTypes = new DynamicNodeTypes();
-        this.edgeTypes = new DynamicEdgeTypes();
+        this.nodeTypes = new NodeTypesImpl();
+        this.edgeTypes = new EdgeTypesImpl();
     }
 
     @Override
@@ -61,42 +60,42 @@ public class DynamicGraphMetadata implements GraphMetadata {
         return edgeTypes;
     }
 
-    /**
-     * Adds a node type to the metadata.
-     */
-    public DynamicGraphMetadata addNodeType(NodeType nodeType) {
+    @Override
+    public void ensureHasNodeType(NodeType nodeType) {
+        nodeTypes.ensureHasNodeType(nodeType);
+    }
+
+    @Override
+    public void ensureHasEdgeType(EdgeType edgeType) {
+        edgeTypes.ensureHasEdgeType(edgeType);
+    }
+
+    @Override
+    public GraphMetadataImpl addNodeType(NodeType nodeType) {
         nodeTypes.add(nodeType);
         return this;
     }
 
-    /**
-     * Adds a node type to the metadata.
-     */
-    public DynamicGraphMetadata addNodeType(String nodeTypeName) {
+    @Override
+    public GraphMetadataImpl addNodeType(String nodeTypeName) {
         nodeTypes.add(nodeTypeName);
         return this;
     }
 
-    /**
-     * Adds a edge type to the metadata.
-     */
-    public DynamicGraphMetadata addEdgeType(EdgeType edgeType) {
+    @Override
+    public GraphMetadataImpl addEdgeType(EdgeType edgeType) {
         edgeTypes.add(edgeType);
         return this;
     }
 
-    /**
-     * Adds a unweighted edge type to the metadata.
-     */
-    public DynamicGraphMetadata addEdgeType(String edgeTypeName) {
+    @Override
+    public GraphMetadataImpl addEdgeType(String edgeTypeName) {
         edgeTypes.add(edgeTypeName);
         return this;
     }
 
-    /**
-     * Adds a edge type to the metadata.
-     */
-    public DynamicGraphMetadata addEdgeType(String edgeTypeName, boolean weighted) {
+    @Override
+    public GraphMetadataImpl addEdgeType(String edgeTypeName, boolean weighted) {
         edgeTypes.add(edgeTypeName, weighted);
         return this;
     }

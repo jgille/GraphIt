@@ -16,7 +16,9 @@
 
 package org.graphit.graph.schema;
 
+import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
+import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
 
 /**
@@ -41,4 +43,40 @@ public interface GraphMetadata {
      * Gets the valid edge types for this graph.
      */
     EdgeTypes getEdgeTypes();
+
+    /**
+     * Ensures the existance of the given node type.
+     */
+    void ensureHasNodeType(NodeType nodeType);
+
+    /**
+     * Ensures the existance of the given edge type.
+     */
+    void ensureHasEdgeType(EdgeType edgeType);
+
+    /**
+     * Adds a node type to the metadata.
+     */
+    GraphMetadata addNodeType(NodeType nodeType);
+
+    /**
+     * Adds a node type to the metadata.
+     */
+    GraphMetadata addNodeType(String nodeTypeName);
+
+    /**
+     * Adds a edge type to the metadata.
+     */
+    GraphMetadata addEdgeType(EdgeType edgeType);
+
+    /**
+     * Adds a unweighted edge type to the metadata.
+     */
+    GraphMetadata addEdgeType(String edgeTypeName);
+
+    /**
+     * Adds a edge type to the metadata.
+     */
+    GraphMetadata addEdgeType(String edgeTypeName, boolean weighted);
+
 }

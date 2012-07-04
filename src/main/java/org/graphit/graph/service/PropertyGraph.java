@@ -140,4 +140,14 @@ public interface PropertyGraph {
      * Imports the graph from a json file.
      */
     void importJson(File in);
+
+    /**
+     * Returns all nodes in this graph.
+     */
+    Iterable<Node> getNodes();
+
+    /**
+     * Returns all edges in this graph.
+     */
+    Iterable<Edge> getEdges();
 }

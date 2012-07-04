@@ -237,10 +237,7 @@ public class EdgeVectorImpl implements EdgeVector {
 
         @Override
         public T next() {
-            Assert
-                .notNull(next,
-                         "No more elements in this edge iterator, or did you " +
-                             "forget to call hasNext()?.");
+            Assert.isTrue(hasNext(), "No more elements in this edge iterator");
             T res = next;
             next = null;
             return res;

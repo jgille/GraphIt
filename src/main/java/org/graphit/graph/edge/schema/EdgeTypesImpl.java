@@ -17,11 +17,8 @@
 package org.graphit.graph.edge.schema;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.springframework.util.Assert;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Dynamic {@link EdgeTypes} implementation keeping {@link EdgeType}s in a
@@ -30,21 +27,33 @@ import org.springframework.util.Assert;
  * @author jon
  *
  */
-public class DynamicEdgeTypes implements EdgeTypes {
+public class EdgeTypesImpl implements EdgeTypes {
 
     private final Map<String, EdgeType> edgeTypes;
 
     /**
      * Constructs a new instance.
      */
-    public DynamicEdgeTypes() {
-        this.edgeTypes = Collections.synchronizedMap(new LinkedHashMap<String, EdgeType>());
+    public EdgeTypesImpl() {
+        this.edgeTypes = new ConcurrentHashMap<String, EdgeType>();
+    }
+
+    /**
+     * Ensures the existance of the given edge type.
+     */
+    public void ensureHasEdgeType(EdgeType edgeType) {
+        if (!edgeTypes.containsKey(edgeType.name())) {
+            edgeTypes.put(edgeType.name(), edgeType);
+        }
     }
 
     @Override
     public EdgeType valueOf(String name) {
         EdgeType edgeType = edgeTypes.get(name);
-        Assert.notNull(edgeType);
+        if (edgeType == null) {
+            edgeType = new EdgeTypeImpl(name);
+            add(edgeType);
+        }
         return edgeType;
     }
 
@@ -61,7 +70,7 @@ public class DynamicEdgeTypes implements EdgeTypes {
     /**
      * Adds an edge type to this edge type set.
      */
-    public DynamicEdgeTypes add(EdgeType edgeType) {
+    public EdgeTypesImpl add(EdgeType edgeType) {
         edgeTypes.put(edgeType.name(), edgeType);
         return this;
     }
@@ -69,14 +78,14 @@ public class DynamicEdgeTypes implements EdgeTypes {
     /**
      * Adds an unweighted edge type to this edge type set.
      */
-    public DynamicEdgeTypes add(String edgeTypeName) {
+    public EdgeTypesImpl add(String edgeTypeName) {
         return add(edgeTypeName, false);
     }
 
     /**
      * Adds an edge type to this edge type set.
      */
-    public DynamicEdgeTypes add(String edgeTypeName, boolean weighted) {
+    public EdgeTypesImpl add(String edgeTypeName, boolean weighted) {
         return add(new EdgeTypeImpl(edgeTypeName, weighted));
     }
 

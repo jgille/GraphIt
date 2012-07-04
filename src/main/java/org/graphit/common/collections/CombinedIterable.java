@@ -24,6 +24,8 @@ import java.util.List;
  * An {@link Iterable} that combines a collection of {@link Iterable}s, i.e. [1,
  * 2, 3] + [4, 5] -> [1, 2, 3, 4, 5].
  *
+ * This class is not thread safe.
+ *
  * @author jon
  *
  * @param <T>
@@ -34,10 +36,25 @@ public class CombinedIterable<T> implements Iterable<T> {
     private final List<Iterable<T>> iterables;
 
     /**
+     * Constructs a new empty instance.
+     */
+    public CombinedIterable() {
+        this(new ArrayList<Iterable<T>>());
+    }
+
+    /**
      * Constructs a new instance combining the provided iterables.
      */
     public CombinedIterable(List<Iterable<T>> iterables) {
         this.iterables = iterables;
+    }
+
+    /**
+     * Adds a new member iterable.
+     */
+    public CombinedIterable<T> add(Iterable<T> iterable) {
+        iterables.add(iterable);
+        return this;
     }
 
     @Override
