@@ -79,14 +79,6 @@ public class EdgeTypesImpl implements EdgeTypes {
      * Adds an unweighted edge type to this edge type set.
      */
     public EdgeTypesImpl add(String edgeTypeName) {
-        return add(edgeTypeName, false);
+        return add(new EdgeTypeImpl(edgeTypeName));
     }
-
-    /**
-     * Adds an edge type to this edge type set.
-     */
-    public EdgeTypesImpl add(String edgeTypeName, boolean weighted) {
-        return add(new EdgeTypeImpl(edgeTypeName, weighted));
-    }
-
 }

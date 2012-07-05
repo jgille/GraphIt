@@ -93,10 +93,4 @@ public class GraphMetadataImpl implements GraphMetadata {
         edgeTypes.add(edgeTypeName);
         return this;
     }
-
-    @Override
-    public GraphMetadataImpl addEdgeType(String edgeTypeName, boolean weighted) {
-        edgeTypes.add(edgeTypeName, weighted);
-        return this;
-    }
 }

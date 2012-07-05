@@ -125,9 +125,6 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
 
     @Override
     public float getEdgeWeight(int edgeIndex) {
-        if (!getEdgeType().isWeighted()) {
-            return 0;
-        }
         EdgePrimitive edge = buffer.get(edgeIndex);
         if (edge == null) {
             return -1;

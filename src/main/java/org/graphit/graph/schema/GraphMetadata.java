@@ -70,13 +70,7 @@ public interface GraphMetadata {
     GraphMetadata addEdgeType(EdgeType edgeType);
 
     /**
-     * Adds a unweighted edge type to the metadata.
-     */
-    GraphMetadata addEdgeType(String edgeTypeName);
-
-    /**
      * Adds a edge type to the metadata.
      */
-    GraphMetadata addEdgeType(String edgeTypeName, boolean weighted);
-
+    GraphMetadata addEdgeType(String edgeTypeName);
 }

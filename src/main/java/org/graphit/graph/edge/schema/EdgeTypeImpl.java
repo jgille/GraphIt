@@ -24,33 +24,19 @@ import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 /**
  * Basic {@link EdgeType} implementation. Defaults to being unweighted and
  * unsorted.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
 
-    private final boolean isWeighted;
     private final EdgeIndexComparator edgeComparator = new UnsortedEdgeIndexComparator();
 
     /**
-     * Creates an unweighted edge type.
+     * Creates an edge type.
      */
     public EdgeTypeImpl(String name) {
-        this(name, false);
-    }
-
-    /**
-     * Creates a weighted or unweighted edge type.
-     */
-    public EdgeTypeImpl(String name, boolean isWeighted) {
         super(name);
-        this.isWeighted = isWeighted;
-    }
-
-    @Override
-    public boolean isWeighted() {
-        return isWeighted;
     }
 
     @Override
@@ -60,8 +46,7 @@ public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
 
     @Override
     public String toString() {
-        return "EdgeTypeImpl [name=" + name() + ", isWeighted=" + isWeighted
-            + ", edgeComparator="
+        return "EdgeTypeImpl [name=" + name() + ", edgeComparator="
             + edgeComparator + "]";
     }
 

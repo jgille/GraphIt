@@ -59,7 +59,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testAddAndGetWeightedEdge() {
-        EdgeId edgeId = repo.addWeightedEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
+        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertNotNull(edge);
         assertEquals(edgeId, edge.getEdgeId());
@@ -81,7 +81,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testAddAndRemoveWeightedEdge() {
-        EdgeId edgeId = repo.addWeightedEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
+        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
         EdgePrimitive edge = repo.removeEdge(edgeId);
         assertNotNull(edge);
         assertEquals(edgeId, edge.getEdgeId());
@@ -93,7 +93,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testSetEdgeWeight() {
-        EdgeId edgeId = repo.addWeightedEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
+        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
         repo.setEdgeWeight(edgeId, 2.5f);
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertNotNull(edge);
@@ -117,8 +117,8 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testGetOutgoingWeightedEdges() {
-        EdgeId edgeId1 = repo.addWeightedEdge(1, 2, TestEdgeType.SIMILAR, 1f);
-        EdgeId edgeId2 = repo.addWeightedEdge(1, 3, TestEdgeType.SIMILAR, 2f);
+        EdgeId edgeId1 = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1f);
+        EdgeId edgeId2 = repo.addEdge(1, 3, TestEdgeType.SIMILAR, 2f);
         EdgeVector nonExisting = repo.getOutgoingEdges(2, TestEdgeType.SIMILAR);
         assertNotNull(nonExisting);
         EdgeVector edges = repo.getOutgoingEdges(1, TestEdgeType.SIMILAR);
@@ -141,8 +141,8 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testGetIncomingWeightedEdges() {
-        EdgeId edgeId1 = repo.addWeightedEdge(2, 1, TestEdgeType.SIMILAR, 1f);
-        EdgeId edgeId2 = repo.addWeightedEdge(3, 1, TestEdgeType.SIMILAR, 2f);
+        EdgeId edgeId1 = repo.addEdge(2, 1, TestEdgeType.SIMILAR, 1f);
+        EdgeId edgeId2 = repo.addEdge(3, 1, TestEdgeType.SIMILAR, 2f);
         EdgeVector nonExisting = repo.getIncomingEdges(2, TestEdgeType.SIMILAR);
         assertNotNull(nonExisting);
         EdgeVector edges = repo.getIncomingEdges(1, TestEdgeType.SIMILAR);

@@ -45,13 +45,13 @@ public class GraphMetadataImplTest {
     @Test
     public void testAddEdgeTypes() {
         GraphMetadataImpl metadata = new GraphMetadataImpl("foo");
-        metadata.addEdgeType("A").addEdgeType(new EdgeTypeImpl("B")).addEdgeType("C", true);
+        metadata.addEdgeType("A").addEdgeType(new EdgeTypeImpl("B")).addEdgeType("C");
         EdgeTypes edgeTypes = metadata.getEdgeTypes();
         assertNotNull(edgeTypes);
         assertEquals(3, edgeTypes.size());
         assertEquals(new EdgeTypeImpl("A"), edgeTypes.valueOf("A"));
         assertEquals(new EdgeTypeImpl("B"), edgeTypes.valueOf("B"));
-        assertEquals(new EdgeTypeImpl("C", true), edgeTypes.valueOf("C"));
+        assertEquals(new EdgeTypeImpl("C"), edgeTypes.valueOf("C"));
     }
 
     @Test

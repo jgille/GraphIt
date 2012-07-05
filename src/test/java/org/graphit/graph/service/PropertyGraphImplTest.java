@@ -592,27 +592,6 @@ public class PropertyGraphImplTest {
     }
 
     @Test
-    public void testSetEdgeWeightForUnweightedEdgeType() {
-        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
-        new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")
-            .buy("u1", "p1", "p2", "p3").buy("u2", "p3");
-
-        List<Edge> edges =
-            asList(graph.getEdges(new NodeId(USER, "u1"), BOUGHT, EdgeDirection.OUTGOING));
-        assertThat(edges.size(), Matchers.is(3));
-
-        Edge e2 = edges.get(1);
-
-        boolean exception = false;
-        try {
-            graph.setEdgeWeight(e2.getEdgeId(), 5);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertThat(exception, Matchers.is(true));
-    }
-
-    @Test
     public void testRemoveNode() {
         PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")

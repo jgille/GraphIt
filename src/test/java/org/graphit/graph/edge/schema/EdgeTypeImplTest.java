@@ -42,15 +42,6 @@ public class EdgeTypeImplTest {
     }
 
     @Test
-    public void testIsWeighted() {
-        EdgeTypeImpl unweighted = new EdgeTypeImpl("A", false);
-        assertFalse(unweighted.isWeighted());
-
-        EdgeTypeImpl weighted = new EdgeTypeImpl("A", true);
-        assertTrue(weighted.isWeighted());
-    }
-
-    @Test
     public void testEquals() {
         EdgeTypeImpl t1 = new EdgeTypeImpl("A");
         EdgeTypeImpl t2 = new EdgeTypeImpl("A");

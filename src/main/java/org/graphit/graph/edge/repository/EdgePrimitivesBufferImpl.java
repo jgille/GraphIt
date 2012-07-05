@@ -46,19 +46,13 @@ public class EdgePrimitivesBufferImpl implements EdgePrimitivesBuffer {
     public EdgePrimitivesBufferImpl(EdgeType edgeType, int capacity) {
         this.edgeType = edgeType;
         this.edges = new LongArrayList(capacity);
-        if (edgeType.isWeighted()) {
-            weights = new FloatArrayList(capacity);
-        } else {
-            weights = null;
-        }
+        this.weights = new FloatArrayList(capacity);
     }
 
     @Override
     public synchronized void upsert(int index, int startNode, int endNode, float weight) {
         addEdge(index, startNode, endNode);
-        if (weights != null) {
-            setWeight(index, weight);
-        }
+        setWeight(index, weight);
     }
 
     @Override
@@ -132,10 +126,7 @@ public class EdgePrimitivesBufferImpl implements EdgePrimitivesBuffer {
     }
 
     private float getWeight(int index) {
-        if (weights != null) {
-            return weights.get(index);
-        }
-        return 0;
+        return weights.get(index);
     }
 
     @Override

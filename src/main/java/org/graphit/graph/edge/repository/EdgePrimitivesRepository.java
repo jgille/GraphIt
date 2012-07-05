@@ -37,7 +37,7 @@ public interface EdgePrimitivesRepository {
     /**
      * Adds a weighted edge an returns the id of the new edge.
      */
-    EdgeId addWeightedEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType, float weight);
+    EdgeId addEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType, float weight);
 
     /**
      * Gets the edge with the provided id.

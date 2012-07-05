@@ -29,11 +29,6 @@ import org.graphit.graph.edge.util.EdgeWeigher;
 public interface EdgeType extends DynamicEnumerableElement {
 
     /**
-     * True if edges of this type are weighted, false otherwise.
-     */
-    boolean isWeighted();
-
-    /**
      * Gets an {@link EdgeIndexComparator} used to keep outgoing/incoming edges
      * for a node sorted.
      */

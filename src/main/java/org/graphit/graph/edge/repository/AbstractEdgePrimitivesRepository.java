@@ -24,7 +24,6 @@ import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
-import org.springframework.util.Assert;
 
 /**
  * An {@link EdgePrimitivesRepository} backed by a collection of
@@ -64,7 +63,7 @@ public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitives
     }
 
     @Override
-    public EdgeId addWeightedEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType,
+    public EdgeId addEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType,
                                   float weight) {
         return getOrCreateRepository(edgeType).addWeightedEdge(startNodeIndex, endNodeIndex, weight);
     }
@@ -92,7 +91,6 @@ public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitives
     @Override
     public void setEdgeWeight(EdgeId edgeId, float weight) {
         EdgeType edgeType = edgeId.getEdgeType();
-        Assert.isTrue(edgeType.isWeighted(), edgeType + " edges are unweighted.");
         getOrCreateRepository(edgeType).setEdgeWeight(edgeId, weight);
     }
 

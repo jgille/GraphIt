@@ -280,7 +280,6 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public Edge addEdge(NodeId startNodeId, NodeId endNodeId, EdgeType edgeType, float weight) {
-        Assert.isTrue(edgeType.isWeighted(), edgeType + " is unweighted.");
         return doAddEdge(startNodeId, endNodeId, edgeType, weight);
     }
 
@@ -291,14 +290,9 @@ public class PropertyGraphImpl implements PropertyGraph {
         Node endNode = getNode(endNodeId);
         Assert.notNull(endNode, "Invalid end node: " + endNodeId);
 
-        EdgeId edgeId;
-        if (edgeType.isWeighted()) {
-            edgeId =
-                edgeRepo.addWeightedEdge(startNode.getIndex(), endNode.getIndex(), edgeType,
-                                          weight);
-        } else {
-            edgeId = edgeRepo.addEdge(startNode.getIndex(), endNode.getIndex(), edgeType);
-        }
+        EdgeId edgeId =
+            edgeRepo.addEdge(startNode.getIndex(), endNode.getIndex(), edgeType,
+                                     weight);
         EdgeImpl edge =
             new EdgeImpl(edgeId.getIndex(), edgeType,
                          new WriteThroughProperties<EdgeId>(edgeId,
