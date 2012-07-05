@@ -52,6 +52,7 @@ public class EdgePrimitivesBufferImpl implements EdgePrimitivesBuffer {
             weights = null;
         }
     }
+
     @Override
     public synchronized void upsert(int index, int startNode, int endNode, float weight) {
         addEdge(index, startNode, endNode);

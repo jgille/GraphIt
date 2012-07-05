@@ -86,13 +86,6 @@ public class IterablePipeImplTest {
     }
 
     @Test
-    public void testAppend() {
-        IterablePipe<Integer> pipe = original.append(Arrays.asList(6, 7));
-        assertEquals(7, pipe.size());
-        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6, 7), pipe.asList());
-    }
-
-    @Test
     public void testIsEmpty() {
         assertFalse(original.isEmpty());
         assertTrue(new IterablePipeImpl<Integer>().isEmpty());

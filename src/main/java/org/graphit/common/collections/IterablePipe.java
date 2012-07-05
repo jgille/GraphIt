@@ -61,12 +61,6 @@ public interface IterablePipe<E> extends Iterable<E> {
     <T> IterablePipe<T> transform(Function<E, T> transformer);
 
     /**
-     * Creates a new iterable pipe containing the elements of this iterable pipe
-     * concatenated with the elements of the iterable.
-     */
-    IterablePipe<E> append(Iterable<E> iterable);
-
-    /**
      * Gets the number of elements in this iterable pipe.
      */
     int size();

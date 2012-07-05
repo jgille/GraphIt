@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.mahout.math.function.IntProcedure;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.springframework.core.convert.converter.Converter;
 
 /**
  * A vector of edges originating from a node.
@@ -99,9 +98,8 @@ public interface EdgeVector {
     boolean isEmpty();
 
     /**
-     * Returns an iterable of this vector, converting each element with the
-     * provided {@link Converter}.
+     * Returns the ids of the edges in this vector.
      */
-    <T> Iterable<T> iterable(Converter<EdgeId, T> converter);
+    Iterable<EdgeId> iterable();
 
 }

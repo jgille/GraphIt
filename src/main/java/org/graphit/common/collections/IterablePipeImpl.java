@@ -92,11 +92,6 @@ public class IterablePipeImpl<E> implements IterablePipe<E> {
     }
 
     @Override
-    public IterablePipe<E> append(Iterable<E> other) {
-        return create(Iterables.concat(iterable, other));
-    }
-
-    @Override
     public int size() {
         return Iterables.size(iterable);
     }

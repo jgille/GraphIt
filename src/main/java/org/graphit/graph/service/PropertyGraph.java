@@ -18,6 +18,7 @@ package org.graphit.graph.service;
 
 import java.io.File;
 
+import org.graphit.common.collections.IterablePipe;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeType;
@@ -26,7 +27,6 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
-import org.springframework.core.convert.converter.Converter;
 
 /**
  * A graph containing nodes connected by edges. Both nodes and edges can have
@@ -55,26 +55,12 @@ public interface PropertyGraph {
     /**
      * Gets an iterable of edges connected to a node.
      */
-    Iterable<Edge> getEdges(NodeId node, EdgeType edgeType, EdgeDirection direction);
-
-    /**
-     * Gets an iterable of edges connected to a node. Each edge will be (lazily)
-     * converted using the converter.
-     */
-    <E> Iterable<E> getAndConvertEdges(NodeId node, EdgeType edgeType, EdgeDirection direction,
-                                       Converter<Edge, E> converter);
+    IterablePipe<Edge> getEdges(NodeId node, EdgeType edgeType, EdgeDirection direction);
 
     /**
      * Gets an iterable of neighbors for a node.
      */
-    Iterable<Node> getNeighbors(NodeId node, EdgeType edgeType, EdgeDirection direction);
-
-    /**
-     * Gets an iterable of converted neighbors for a node. Each neighbor will be
-     * (lazily) converted using the converter.
-     */
-    <N> Iterable<N> getAndConvertNeighbors(NodeId node, EdgeType edgeType, EdgeDirection direction,
-                                           Converter<Node, N> converter);
+    IterablePipe<Node> getNeighbors(NodeId node, EdgeType edgeType, EdgeDirection direction);
 
     /**
      * Gets a node by it's index.

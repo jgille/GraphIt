@@ -29,7 +29,6 @@ import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
 
 import com.google.common.base.Function;
@@ -284,13 +283,13 @@ public class BlueprintsGraph implements Graph {
     private static final class BlueprintsEdgesRepositoryImpl implements BlueprintsEdgesRepository {
 
         private final BlueprintsGraph graph;
-        private final Converter<org.graphit.graph.edge.domain.Edge, Edge> edgeConverter;
-        private final Converter<Node, Vertex> vertexConverter;
+        private final EdgeTransformer edgeTransformer;
+        private final VertexTransformer vertexTransformer;
 
         private BlueprintsEdgesRepositoryImpl(BlueprintsGraph graph) {
             this.graph = graph;
-            this.edgeConverter = new EdgeConverter(graph);
-            this.vertexConverter = new VertexConverter(graph);
+            this.edgeTransformer = new EdgeTransformer(graph);
+            this.vertexTransformer = new VertexTransformer(graph);
         }
 
         @Override
@@ -298,9 +297,7 @@ public class BlueprintsGraph implements Graph {
             PropertyGraph service = graph.getGraphService();
             EdgeType edgeType = graph.getEdgeType(edgeLabel);
             EdgeDirection edgeDirection = graph.getEdgeDirection(direction);
-            Iterable<Edge> edges =
-                service.getAndConvertEdges(nodeId, edgeType, edgeDirection, edgeConverter);
-            return edges;
+            return service.getEdges(nodeId, edgeType, edgeDirection).transform(edgeTransformer);
         }
 
         @Override
@@ -309,9 +306,8 @@ public class BlueprintsGraph implements Graph {
             PropertyGraph service = graph.getGraphService();
             EdgeType edgeType = graph.getEdgeType(edgeLabel);
             EdgeDirection edgeDirection = graph.getEdgeDirection(direction);
-            Iterable<Vertex> vertexes =
-                service.getAndConvertNeighbors(nodeId, edgeType, edgeDirection, vertexConverter);
-            return vertexes;
+            return service.getNeighbors(nodeId, edgeType, edgeDirection)
+                .transform(vertexTransformer);
         }
 
         @Override
@@ -327,17 +323,17 @@ public class BlueprintsGraph implements Graph {
         }
     }
 
-    private static final class EdgeConverter implements
-        Converter<org.graphit.graph.edge.domain.Edge, Edge> {
+    private static final class EdgeTransformer implements
+        Function<org.graphit.graph.edge.domain.Edge, Edge> {
 
         private final BlueprintsGraph graph;
 
-        private EdgeConverter(BlueprintsGraph graph) {
+        private EdgeTransformer(BlueprintsGraph graph) {
             this.graph = graph;
         }
 
         @Override
-        public Edge convert(org.graphit.graph.edge.domain.Edge edge) {
+        public Edge apply(org.graphit.graph.edge.domain.Edge edge) {
             Node startNode = edge.getStartNode();
             Vertex startVertex = graph.transformNode(startNode);
             Node endNode = edge.getEndNode();
@@ -347,16 +343,16 @@ public class BlueprintsGraph implements Graph {
 
     }
 
-    private static final class VertexConverter implements Converter<Node, Vertex> {
+    private static final class VertexTransformer implements Function<Node, Vertex> {
 
         private final BlueprintsGraph graph;
 
-        private VertexConverter(BlueprintsGraph graph) {
+        private VertexTransformer(BlueprintsGraph graph) {
             this.graph = graph;
         }
 
         @Override
-        public Vertex convert(Node node) {
+        public Vertex apply(Node node) {
             return graph.transformNode(node);
         }
 

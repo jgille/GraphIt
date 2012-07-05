@@ -25,7 +25,6 @@ import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
 import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
 
 /**
@@ -194,12 +193,12 @@ public class EdgeVectorImpl implements EdgeVector {
     }
 
     @Override
-    public <T> Iterable<T> iterable(final Converter<EdgeId, T> converter) {
-        return new Iterable<T>() {
+    public Iterable<EdgeId> iterable() {
+        return new Iterable<EdgeId>() {
 
             @Override
-            public Iterator<T> iterator() {
-                return new EdgeIterator<T>(edgeType, edges, converter);
+            public Iterator<EdgeId> iterator() {
+                return new EdgeIdIterator(edgeType, edges);
             }
         };
     }
@@ -210,35 +209,31 @@ public class EdgeVectorImpl implements EdgeVector {
             + ", rootNodeId=" + rootNodeId + ", edgeType=" + edgeType + ", edges=" + edges + "]";
     }
 
-    private static final class EdgeIterator<T> implements Iterator<T> {
+    private static final class EdgeIdIterator implements Iterator<EdgeId> {
 
         private final EdgeType edgeType;
         private final IntArrayList edgeIds;
-        private final Converter<EdgeId, T> converter;
 
         private int index = 0;
-        private T next = null;
+        private EdgeId next = null;
 
-        protected EdgeIterator(EdgeType edgeType, IntArrayList edgeIds,
-                               Converter<EdgeId, T> converter) {
+        protected EdgeIdIterator(EdgeType edgeType, IntArrayList edgeIds) {
             this.edgeType = edgeType;
             this.edgeIds = edgeIds;
-            this.converter = converter;
         }
 
         @Override
         public boolean hasNext() {
             while (next == null && index < edgeIds.size()) {
-                EdgeId edgeId = new EdgeId(edgeType, edgeIds.get(index++));
-                next = converter.convert(edgeId);
+                next = new EdgeId(edgeType, edgeIds.get(index++));
             }
             return next != null;
         }
 
         @Override
-        public T next() {
+        public EdgeId next() {
             Assert.isTrue(hasNext(), "No more elements in this edge iterator");
-            T res = next;
+            EdgeId res = next;
             next = null;
             return res;
         }

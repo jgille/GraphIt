@@ -57,7 +57,6 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.core.convert.converter.Converter;
 
 public class PropertyGraphImplTest {
 
@@ -520,30 +519,6 @@ public class PropertyGraphImplTest {
     }
 
     @Test
-    public void testIterateSingleOutgoingConvertedEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
-        new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
-
-        Converter<Edge, Node> converter = new Converter<Edge, Node>() {
-
-            @Override
-            public Node convert(Edge edge) {
-                return edge.getEndNode();
-            }
-        };
-
-        NodeId u1 = new NodeId(USER, "u1");
-        NodeId p1 = new NodeId(PRODUCT, "p1");
-        List<Node> neighbors =
-            asList(graph.getAndConvertEdges(u1, BOUGHT, EdgeDirection.OUTGOING, converter));
-        assertThat(neighbors.size(), Matchers.is(1));
-        Node node = neighbors.get(0);
-
-        assertThat(node.getType(), Matchers.is((NodeType) PRODUCT));
-        assertThat(node.getNodeId(), Matchers.is(p1));
-    }
-
-    @Test
     public void testIterateSingleOutgoingNeighbor() {
         PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
         new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
@@ -556,52 +531,6 @@ public class PropertyGraphImplTest {
 
         assertThat(node.getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(node.getNodeId(), Matchers.is(p1));
-    }
-
-    @Test
-    public void testIterateSingleOutgoingConvertedNeighbor() {
-        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
-        new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
-
-        Converter<Node, String> converter = new Converter<Node, String>() {
-
-            @Override
-            public String convert(Node node) {
-                return node.getNodeId().getId();
-            }
-        };
-
-        NodeId u1 = new NodeId(USER, "u1");
-        List<String> neighbors =
-            asList(graph.getAndConvertNeighbors(u1, BOUGHT, EdgeDirection.OUTGOING, converter));
-        assertThat(neighbors.size(), Matchers.is(1));
-        String nodeId = neighbors.get(0);
-
-        assertThat(nodeId, Matchers.is("p1"));
-    }
-
-    @Test
-    public void testIterateSingleIncomingConvertedEdge() {
-        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
-        new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
-
-        Converter<Edge, Node> converter = new Converter<Edge, Node>() {
-
-            @Override
-            public Node convert(Edge edge) {
-                return edge.getStartNode();
-            }
-        };
-
-        NodeId u1 = new NodeId(USER, "u1");
-        NodeId p1 = new NodeId(PRODUCT, "p1");
-        List<Node> neighbors =
-            asList(graph.getAndConvertEdges(p1, BOUGHT, EdgeDirection.INCOMING, converter));
-        assertThat(neighbors.size(), Matchers.is(1));
-        Node node = neighbors.get(0);
-
-        assertThat(node.getType(), Matchers.is((NodeType) USER));
-        assertThat(node.getNodeId(), Matchers.is(u1));
     }
 
     @Test
@@ -618,28 +547,6 @@ public class PropertyGraphImplTest {
 
         assertThat(node.getType(), Matchers.is((NodeType) USER));
         assertThat(node.getNodeId(), Matchers.is(u1));
-    }
-
-    @Test
-    public void testIterateSingleIncomingConvertedNeighbor() {
-        PropertyGraph graph = new PropertyGraphImpl(new GraphMetadataImpl("test"));
-        new GraphBuilder(graph).addUsers("u1").addProducts("p1").buy("u1", "p1");
-
-        Converter<Node, String> converter = new Converter<Node, String>() {
-
-            @Override
-            public String convert(Node node) {
-                return node.getNodeId().getId();
-            }
-        };
-
-        NodeId p1 = new NodeId(PRODUCT, "p1");
-        List<String> neighbors =
-            asList(graph.getAndConvertNeighbors(p1, BOUGHT, EdgeDirection.INCOMING, converter));
-        assertThat(neighbors.size(), Matchers.is(1));
-        String nodeId = neighbors.get(0);
-
-        assertThat(nodeId, Matchers.is("u1"));
     }
 
     @Test

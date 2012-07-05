@@ -51,6 +51,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized int getNodeIndex(NodeId nodeId) {
+        Assert.notNull(nodeId);
         if (nodeMap.containsKey(nodeId)) {
             return nodeMap.get(nodeId);
         }
@@ -68,6 +69,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized int insert(NodeId nodeId) {
+        Assert.notNull(nodeId);
         int nodeIndex = nodes.size();
         insert(nodeIndex, nodeId);
         return nodeIndex;

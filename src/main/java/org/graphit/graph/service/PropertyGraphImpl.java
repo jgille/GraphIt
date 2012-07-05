@@ -17,10 +17,11 @@
 package org.graphit.graph.service;
 
 import java.io.File;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.graphit.common.collections.CombinedIterables;
-import org.graphit.common.converters.IdentityConverter;
+import org.graphit.common.collections.IterablePipe;
+import org.graphit.common.collections.IterablePipeImpl;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgeImpl;
@@ -34,17 +35,17 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
 import org.graphit.graph.node.repository.NodeIdRepository;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
-import org.graphit.graph.schema.GraphMetadataImpl;
 import org.graphit.graph.schema.GraphMetadata;
+import org.graphit.graph.schema.GraphMetadataImpl;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
 import org.graphit.properties.repository.ConcurrentHashMapPropertiesRepository;
 import org.graphit.properties.repository.PropertiesRepository;
 import org.graphit.properties.repository.WriteThroughProperties;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 
 /**
@@ -145,82 +146,62 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     @Override
-    public Iterable<Edge>
-        getEdges(NodeId node, EdgeType edgeType, EdgeDirection direction) {
-        return getAndConvertEdges(node, edgeType, direction, new IdentityConverter<Edge>());
-    }
+    public IterablePipe<Edge>
+        getEdges(NodeId nodeId, EdgeType edgeType, EdgeDirection direction) {
+        return getEdgeIds(nodeId, edgeType, direction)
+            .transform(new Function<EdgeId, Edge>() {
 
-    @Override
-    public <E> Iterable<E> getAndConvertEdges(NodeId node, EdgeType edgeType,
-                                              EdgeDirection direction,
-                                              final Converter<Edge, E> converter) {
-        Converter<EdgeId, E> edgeIdConverter = new Converter<EdgeId, E>() {
-
-            @Override
-            public E convert(EdgeId edgeId) {
-                Edge edge = getEdge(edgeId);
-                if (!isValidEdge(edge)) {
-                    return null;
+                @Override
+                public Edge apply(EdgeId edgeId) {
+                    Assert.notNull(edgeId);
+                    return getEdge(edgeId);
                 }
-                return converter.convert(edge);
-            }
-        };
-        return getAndConvert(node, edgeType, direction, edgeIdConverter);
+            }).filter(Predicates.<Edge> notNull());
     }
 
     @Override
-    public Iterable<Node> getNeighbors(NodeId node, EdgeType edgeType, EdgeDirection direction) {
-        return getAndConvertNeighbors(node, edgeType, direction, new IdentityConverter<Node>());
-    }
+    public IterablePipe<Node> getNeighbors(final NodeId nodeId, EdgeType edgeType,
+                                           EdgeDirection direction) {
+        return getEdgeIds(nodeId, edgeType, direction)
+            .transform(new Function<EdgeId, Node>() {
 
-    @Override
-    public <N> Iterable<N> getAndConvertNeighbors(final NodeId node, EdgeType edgeType,
-                                                  EdgeDirection direction,
-                                                  final Converter<Node, N> converter) {
-        Converter<EdgeId, N> edgeIdConverter = new Converter<EdgeId, N>() {
-
-            @Override
-            public N convert(EdgeId edgeId) {
-                Edge edge = getEdge(edgeId);
-                if (!isValidEdge(edge)) {
-                    return null;
+                @Override
+                public Node apply(EdgeId edgeId) {
+                    Assert.notNull(edgeId);
+                    Edge edge = getEdge(edgeId);
+                    if (edge == null) {
+                        return null;
+                    }
+                    return edge.getOppositeNode(nodeId);
                 }
-                return converter.convert(edge.getOppositeNode(node));
-            }
-        };
-        return getAndConvert(node, edgeType, direction, edgeIdConverter);
+            }).filter(Predicates.<Node> notNull());
     }
 
-    private boolean isValidEdge(Edge edge) {
-        return edge != null;
-    }
-
-    private <T> Iterable<T> getAndConvert(NodeId node, EdgeType edgeType,
-                                          EdgeDirection direction,
-                                          Converter<EdgeId, T> converter) {
+    private IterablePipe<EdgeId> getEdgeIds(NodeId node, EdgeType edgeType,
+                                            EdgeDirection direction) {
 
         int nodeIndex = getNodeIndex(node);
         if (nodeIndex < 0) {
-            return Collections.emptyList();
+            return new IterablePipeImpl<EdgeId>();
         }
-        Iterable<T> iterable;
+        IterablePipe<EdgeId> iterable;
         switch (direction) {
         case BOTH:
             EdgeVector outgoing = edgeRepo.getOutgoingEdges(nodeIndex, edgeType);
             EdgeVector incoming = edgeRepo.getIncomingEdges(nodeIndex, edgeType);
-            Iterable<T> outIterable = outgoing.iterable(converter);
-            Iterable<T> inIterable = incoming.iterable(converter);
-            iterable = new CombinedIterables<T>().add(outIterable).add(inIterable).iterable();
+            Iterable<EdgeId> outIterable = outgoing.iterable();
+            Iterable<EdgeId> inIterable = incoming.iterable();
+            iterable = new IterablePipeImpl<EdgeId>(Iterables.concat(outIterable, inIterable));
             break;
         case OUTGOING:
             EdgeVector oEdges =
                 edgeRepo.getOutgoingEdges(nodeIndex, edgeType);
-            iterable = oEdges.iterable(converter);
+            iterable = new IterablePipeImpl<EdgeId>(oEdges.iterable());
             break;
         case INCOMING:
             EdgeVector iEdges =
                 edgeRepo.getIncomingEdges(nodeIndex, edgeType);
-            iterable = iEdges.iterable(converter);
+            iterable = new IterablePipeImpl<EdgeId>(iEdges.iterable());
             break;
         default:
             throw new IllegalArgumentException("Illegal direction: " + direction);
@@ -396,12 +377,14 @@ public class PropertyGraphImpl implements PropertyGraph {
     @Override
     public Iterable<Edge> getEdges() {
         Iterable<NodeId> nodeIds = nodeRepo.getNodes();
-        CombinedIterables<Edge> edges = new CombinedIterables<Edge>();
+        List<Iterable<Edge>> edges = new ArrayList<Iterable<Edge>>();
         for (NodeId nodeId : nodeIds) {
             for (EdgeType edgeType : metadata.getEdgeTypes().elements()) {
-                edges.add(getEdges(nodeId, edgeType, EdgeDirection.OUTGOING));
+                Iterable<Edge> outgoingEdges =
+                    getEdges(nodeId, edgeType, EdgeDirection.OUTGOING);
+                edges.add(outgoingEdges);
             }
         }
-        return edges.iterable();
+        return Iterables.concat(edges);
     }
 }
