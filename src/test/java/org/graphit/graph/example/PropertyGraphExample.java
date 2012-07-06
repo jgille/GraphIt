@@ -1,42 +1,51 @@
-== GraphIt ==
+/*
+ * Copyright 2012 Jon Ivmark
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Author: Jon Ivmark
-Date: 2012-06-06
-Licence: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
-Requries: Java SDK 6+
+package org.graphit.graph.example;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-1. Description
-===============================================================================================
+import org.graphit.graph.edge.domain.Edge;
+import org.graphit.graph.edge.schema.EdgeType;
+import org.graphit.graph.node.domain.Node;
+import org.graphit.graph.node.domain.NodeId;
+import org.graphit.graph.node.schema.NodeType;
+import org.graphit.graph.service.PropertyGraph;
+import org.graphit.graph.service.PropertyGraphImpl;
+import org.graphit.graph.traversal.EdgeDirection;
 
-GraphIt is an easy to use, fast, RAM only (or mostly) property graph
-database. It implements the Blueprints interfaces
-(https://github.com/tinkerpop/blueprints/wiki/), thereby supporting
-advanced ad-hoc traversals using Gremlin
-(https://github.com/tinkerpop/gremlin/wiki).
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 
-By default, all data is stored in memory (optionally dumped to
-disk/restored from disk on graph shutdown and init). However, the
-repositories used by the graph are pluggable so you are free to write
-your own repo(s). For instance, you might want to keep all graph
-primitives, i.e. node ids and relations (edge primitives), but keep
-properties in a key value store. This is accomplished by using custom
-PropertiesRepository instances for the graph, for instance with: graph.setNodePropertiesRepo(myCustomRepo);
+/**
+ * Simple example of using a {@link PropertyGraph}.
+ *
+ * @author jon
+ *
+ */
+public class PropertyGraphExample {
 
-2. Installation
-===============================================================================================
-
-Build from the root directory using:
-
-mvn install -DskiptTests
-
-3. Usage
-===============================================================================================
-
-A simple example:
-
+    /**
+     * Main example.
+     */
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
-        PropertyGraph graph = new PropertyGraphImpl("store");
+        PropertyGraph graph = new PropertyGraphImpl("e-store");
 
         // Create some metadata
         NodeType user = graph.getOrCreateNodeType("user");
@@ -72,18 +81,19 @@ A simple example:
         List<Node> viewedItems =
             graph.getNeighbors(u1.getNodeId(), viewed, EdgeDirection.OUTGOING).asList();
 
-        // Get the first item that user u1 has viewed, transformed to just the product name
+        // Get the first item that user u1 has viewed, transformed to just the
+        // product name
         List<String> viewedItemName =
             graph.getNeighbors(u1.getNodeId(), viewed, EdgeDirection.OUTGOING)
-            .limit(1)
-            .transform(new Function<Node, String>() {
+                .head(1)
+                .transform(new Function<Node, String>() {
 
-                @Override
-                public String apply(Node node) {
-                    return (String) node.getProperty("name");
-                }
-            })
-            .asList();
+                    @Override
+                    public String apply(Node node) {
+                        return (String) node.getProperty("name");
+                    }
+                })
+                .asList();
 
         // Get all purchases of item i1 that took place within the last hour
         Iterable<Edge> purchases =
@@ -102,8 +112,4 @@ A simple example:
         // (they will be once you start iterating them/calling toList etc).
 
     }
-
-4. Dependencies
-===============================================================================================
-
-All required third party libraries are included in the project jar file.
+}

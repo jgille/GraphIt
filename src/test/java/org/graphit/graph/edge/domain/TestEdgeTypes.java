@@ -16,40 +16,19 @@
 
 package org.graphit.graph.edge.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.EnumSet;
-import java.util.List;
-
-import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
+import org.graphit.graph.edge.schema.EdgeTypesImpl;
 import org.graphit.graph.edge.util.TestEdgeType;
 
-public class TestEdgeTypes implements EdgeTypes {
+public class TestEdgeTypes {
 
-    private final List<EdgeType> elements;
-
-    public TestEdgeTypes() {
-        this.elements = new ArrayList<EdgeType>();
+    public static EdgeTypes getEdgeTypes() {
+        EdgeTypesImpl edgeTypes = new EdgeTypesImpl();
         for (TestEdgeType et : EnumSet.allOf(TestEdgeType.class)) {
-            elements.add(et);
+            edgeTypes.add(et);
         }
-    }
-
-    @Override
-    public EdgeType valueOf(String name) {
-        return TestEdgeType.valueOf(name);
-    }
-
-    @Override
-    public Collection<EdgeType> elements() {
-        return Collections.unmodifiableList(elements);
-    }
-
-    @Override
-    public int size() {
-        return elements.size();
+        return edgeTypes;
     }
 
 }

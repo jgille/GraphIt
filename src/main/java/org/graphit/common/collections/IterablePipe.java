@@ -40,7 +40,16 @@ public interface IterablePipe<E> extends Iterable<E> {
      * Creates a new iterable pipe with the first limit elements of this
      * iterable pipe.
      */
-    IterablePipe<E> limit(int limit);
+    IterablePipe<E> head(int limit);
+
+    /**
+     * Creates a new iterable pipe with the last limit elements of this iterable
+     * pipe.
+     *
+     * Note that this will iterate the entire pipe to find the number of
+     * elements to skip.
+     */
+    IterablePipe<E> tail(int limit);
 
     /**
      * Creates a new iterable pipe which skips the first skip elements of this
@@ -59,6 +68,11 @@ public interface IterablePipe<E> extends Iterable<E> {
      * transformed to something else.
      */
     <T> IterablePipe<T> transform(Function<E, T> transformer);
+
+    /**
+     * Creates a new iterable pipe containing only unique elements.
+     */
+    IterablePipe<E> unique();
 
     /**
      * Gets the number of elements in this iterable pipe.

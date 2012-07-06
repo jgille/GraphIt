@@ -21,8 +21,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -72,8 +74,17 @@ public class IterablePipeImpl<E> implements IterablePipe<E> {
     }
 
     @Override
-    public IterablePipe<E> limit(int limit) {
+    public IterablePipe<E> head(int limit) {
         return create(Iterables.limit(iterable, limit));
+    }
+
+    @Override
+    public IterablePipe<E> tail(int limit) {
+        int skip = size() - limit;
+        if (skip <= 0) {
+            return this;
+        }
+        return skip(skip);
     }
 
     @Override
@@ -89,6 +100,18 @@ public class IterablePipeImpl<E> implements IterablePipe<E> {
     @Override
     public <T> IterablePipe<T> transform(Function<E, T> transformer) {
         return create(Iterables.transform(iterable, transformer));
+    }
+
+    @Override
+    public IterablePipe<E> unique() {
+        final Set<E> visited = new HashSet<E>();
+        return filter(new Predicate<E>() {
+
+            @Override
+            public boolean apply(E element) {
+                return visited.add(element);
+            }
+        });
     }
 
     @Override

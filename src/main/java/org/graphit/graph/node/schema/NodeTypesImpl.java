@@ -42,9 +42,9 @@ public class NodeTypesImpl implements NodeTypes {
     /**
      * Ensures the existance of the given node type.
      */
-    public void ensureHasNodeType(NodeType nodeType) {
-        if (!nodeTypes.containsKey(nodeType.name())) {
-            nodeTypes.put(nodeType.name(), nodeType);
+    public void ensureHasNodeType(String nodeTypeName) {
+        if (!nodeTypes.containsKey(nodeTypeName)) {
+            nodeTypes.put(nodeTypeName, new NodeTypeImpl(nodeTypeName));
         }
     }
 
@@ -80,6 +80,12 @@ public class NodeTypesImpl implements NodeTypes {
         NodeType nodeType = new NodeTypeImpl(nodeTypeName);
         nodeTypes.put(nodeType.name(), nodeType);
         return this;
+    }
+
+    @Override
+    public boolean contains(NodeType nodeType) {
+        return nodeTypes.containsKey(nodeType.name())
+            && nodeType.equals(nodeTypes.get(nodeType.name()));
     }
 
 }

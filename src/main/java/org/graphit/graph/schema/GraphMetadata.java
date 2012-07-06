@@ -45,14 +45,14 @@ public interface GraphMetadata {
     EdgeTypes getEdgeTypes();
 
     /**
-     * Ensures the existance of the given node type.
+     * Ensures the existance of the given node type, creating it if absent.
      */
-    void ensureHasNodeType(NodeType nodeType);
+    NodeType getOrCreateNodeType(String nodeTypeName);
 
     /**
-     * Ensures the existance of the given edge type.
+     * Ensures the existance of the given edge type, creating it if absent.
      */
-    void ensureHasEdgeType(EdgeType edgeType);
+    EdgeType getOrCreateEdgeType(String edgeTypeName);
 
     /**
      * Adds a node type to the metadata.
@@ -73,4 +73,9 @@ public interface GraphMetadata {
      * Adds a edge type to the metadata.
      */
     GraphMetadata addEdgeType(String edgeTypeName);
+
+    /**
+     * Returns true if the provided node type exists in this metadata instance.
+     */
+    boolean containsNodeType(NodeType nodeType);
 }

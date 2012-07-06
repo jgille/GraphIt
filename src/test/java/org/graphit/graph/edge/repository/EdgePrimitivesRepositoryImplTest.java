@@ -39,7 +39,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Before
     public void setupRepo() {
-        this.repo = new EdgePrimitivesRepositoryImpl(new TestEdgeTypes());
+        this.repo = new EdgePrimitivesRepositoryImpl(TestEdgeTypes.getEdgeTypes());
     }
 
     @Test

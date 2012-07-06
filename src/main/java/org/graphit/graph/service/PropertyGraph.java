@@ -24,6 +24,7 @@ import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
+import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
@@ -51,6 +52,16 @@ public interface PropertyGraph {
      * Gets metadata describing the valid nodes and edges for this graph.
      */
     GraphMetadata getMetadata();
+
+    /**
+     * Gets the edge type with the given name, or creates it if none exists.
+     */
+    EdgeType getOrCreateEdgeType(String name);
+
+    /**
+     * Gets the node type with the given name, or creates it if none exists.
+     */
+    NodeType getOrCreateNodeType(String name);
 
     /**
      * Gets an iterable of edges connected to a node.

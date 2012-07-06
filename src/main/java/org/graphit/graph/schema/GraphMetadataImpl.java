@@ -24,11 +24,11 @@ import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
 
 /**
- * 
+ *
  * A {@link GraphMetadata} implementation.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class GraphMetadataImpl implements GraphMetadata {
 
@@ -61,13 +61,15 @@ public class GraphMetadataImpl implements GraphMetadata {
     }
 
     @Override
-    public void ensureHasNodeType(NodeType nodeType) {
-        nodeTypes.ensureHasNodeType(nodeType);
+    public NodeType getOrCreateNodeType(String nodeTypeName) {
+        nodeTypes.ensureHasNodeType(nodeTypeName);
+        return nodeTypes.valueOf(nodeTypeName);
     }
 
     @Override
-    public void ensureHasEdgeType(EdgeType edgeType) {
-        edgeTypes.ensureHasEdgeType(edgeType);
+    public EdgeType getOrCreateEdgeType(String edgeTypeName) {
+        edgeTypes.ensureHasEdgeType(edgeTypeName);
+        return edgeTypes.valueOf(edgeTypeName);
     }
 
     @Override
@@ -92,5 +94,10 @@ public class GraphMetadataImpl implements GraphMetadata {
     public GraphMetadataImpl addEdgeType(String edgeTypeName) {
         edgeTypes.add(edgeTypeName);
         return this;
+    }
+
+    @Override
+    public boolean containsNodeType(NodeType nodeType) {
+        return nodeTypes.contains(nodeType);
     }
 }

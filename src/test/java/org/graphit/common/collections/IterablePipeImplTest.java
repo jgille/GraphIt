@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -46,10 +47,21 @@ public class IterablePipeImplTest {
     }
 
     @Test
-    public void testLimit() {
-        IterablePipe<Integer> pipe = original.limit(2);
+    public void testHead() {
+        IterablePipe<Integer> pipe = original.head(2);
         assertEquals(2, pipe.size());
         assertEquals(Arrays.asList(1, 2), pipe.asList());
+        assertEquals(Collections.emptyList(), original.head(0).asList());
+        assertEquals(original.asList(), original.head(20).asList());
+    }
+
+    @Test
+    public void testTail() {
+        IterablePipe<Integer> pipe = original.tail(2);
+        assertEquals(2, pipe.size());
+        assertEquals(Arrays.asList(4, 5), pipe.asList());
+        assertEquals(Collections.emptyList(), original.tail(0).asList());
+        assertEquals(original.asList(), original.tail(20).asList());
     }
 
     @Test
@@ -57,6 +69,7 @@ public class IterablePipeImplTest {
         IterablePipe<Integer> pipe = original.skip(2);
         assertEquals(3, pipe.size());
         assertEquals(Arrays.asList(3, 4, 5), pipe.asList());
+        assertEquals(Collections.emptyList(), original.skip(20).asList());
     }
 
     @Test
@@ -111,10 +124,16 @@ public class IterablePipeImplTest {
     }
 
     @Test
+    public void testUnique() {
+        IterablePipe<Integer> pipe = new IterablePipeImpl<Integer>(1, 2, 3, 4, 5, 1, 2);
+        assertEquals(original.asList(), pipe.unique().asList());
+    }
+
+    @Test
     public void testPipeLine() {
         List<String> list =
             original
-                .limit(4)
+                .head(4)
                 .filter(new Predicate<Integer>() {
 
                     @Override
@@ -130,7 +149,7 @@ public class IterablePipeImplTest {
                         return from.toString();
                     }
                 })
-                .limit(1)
+                .head(1)
                 .asList();
         assertEquals(Arrays.asList("3"), list);
     }

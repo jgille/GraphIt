@@ -41,9 +41,9 @@ public class EdgeTypesImpl implements EdgeTypes {
     /**
      * Ensures the existance of the given edge type.
      */
-    public void ensureHasEdgeType(EdgeType edgeType) {
-        if (!edgeTypes.containsKey(edgeType.name())) {
-            edgeTypes.put(edgeType.name(), edgeType);
+    public void ensureHasEdgeType(String edgeTypeName) {
+        if (!edgeTypes.containsKey(edgeTypeName)) {
+            edgeTypes.put(edgeTypeName, new EdgeTypeImpl(edgeTypeName));
         }
     }
 
@@ -80,5 +80,11 @@ public class EdgeTypesImpl implements EdgeTypes {
      */
     public EdgeTypesImpl add(String edgeTypeName) {
         return add(new EdgeTypeImpl(edgeTypeName));
+    }
+
+    @Override
+    public boolean contains(EdgeType edgeType) {
+        return edgeTypes.containsKey(edgeType.name())
+            && edgeType.equals(edgeTypes.get(edgeType.name()));
     }
 }

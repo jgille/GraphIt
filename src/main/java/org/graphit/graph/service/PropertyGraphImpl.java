@@ -35,6 +35,7 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
 import org.graphit.graph.node.repository.NodeIdRepository;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
+import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.schema.GraphMetadataImpl;
 import org.graphit.graph.traversal.EdgeDirection;
@@ -59,7 +60,7 @@ public class PropertyGraphImpl implements PropertyGraph {
     private static final int DEFAULT_NODE_CAPACITY = 16;
     private static final int DEFAULT_EDGE_CAPACITY = 16;
 
-    private final GraphMetadataImpl metadata;
+    private final GraphMetadata metadata;
 
     private NodeIdRepository nodeRepo;
     private PropertiesRepository<NodeId> nodePropertiesRepo;
@@ -70,7 +71,14 @@ public class PropertyGraphImpl implements PropertyGraph {
     /**
      * Creates a new graph.
      */
-    public PropertyGraphImpl(GraphMetadataImpl metadata) {
+    public PropertyGraphImpl(String graphName) {
+        this(new GraphMetadataImpl(graphName));
+    }
+
+    /**
+     * Creates a new graph.
+     */
+    public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
         this.nodeRepo = new NodeIdRepositoryImpl();
         this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
@@ -212,7 +220,7 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public Node addNode(NodeId nodeId) {
-        metadata.ensureHasNodeType(nodeId.getNodeType());
+        metadata.getOrCreateNodeType(nodeId.getNodeType().name());
         int index = nodeRepo.insert(nodeId);
         Properties properties =
             new WriteThroughProperties<NodeId>(nodeId, nodePropertiesRepo);
@@ -284,7 +292,7 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     private Edge doAddEdge(NodeId startNodeId, NodeId endNodeId, EdgeType edgeType, float weight) {
-        metadata.ensureHasEdgeType(edgeType);
+        metadata.getOrCreateEdgeType(edgeType.name());
         Node startNode = getNode(startNodeId);
         Assert.notNull(startNode, "Invalid start node: " + startNodeId);
         Node endNode = getNode(endNodeId);
@@ -380,5 +388,16 @@ public class PropertyGraphImpl implements PropertyGraph {
             }
         }
         return Iterables.concat(edges);
+    }
+
+    @Override
+    public EdgeType getOrCreateEdgeType(String name) {
+        return metadata.getOrCreateEdgeType(name);
+    }
+
+
+    @Override
+    public NodeType getOrCreateNodeType(String name) {
+        return metadata.getOrCreateNodeType(name);
     }
 }

@@ -42,4 +42,9 @@ public interface DynamicEnumerationSet<T extends DynamicEnumerableElement> {
      * Gets the size (number of elements) of this set.
      */
     int size();
+
+    /**
+     * Returns true if this provided element exists in this set.
+     */
+    boolean contains(T element);
 }

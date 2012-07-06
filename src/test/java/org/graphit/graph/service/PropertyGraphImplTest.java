@@ -23,6 +23,7 @@ import static org.graphit.graph.node.domain.TestNodeType.PRODUCT;
 import static org.graphit.graph.node.domain.TestNodeType.USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
@@ -720,6 +721,21 @@ public class PropertyGraphImplTest {
 
         assertEquals(1, map.size());
         assertEquals(properties, map.get(edge.getEdgeId()));
+    }
+
+    @Test
+    public void testDynamicallyAddNodeAndEdgeTypes() {
+        PropertyGraph graph = new PropertyGraphImpl("test");
+
+        EdgeType knows = graph.getOrCreateEdgeType("knows");
+        assertNotNull(knows);
+        assertEquals("knows", knows.name());
+        assertSame(knows, graph.getOrCreateEdgeType("knows"));
+
+        NodeType employee = graph.getOrCreateNodeType("employee");
+        assertNotNull(employee);
+        assertEquals("employee", employee.name());
+        assertSame(employee, graph.getOrCreateNodeType("employee"));
     }
 
     private <E> List<E> asList(Iterable<E> it) {
