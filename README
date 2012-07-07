@@ -19,7 +19,7 @@ By default, all data is stored in memory (optionally dumped to
 disk/restored from disk on graph shutdown and init). However, the
 repositories used by the graph are pluggable so you are free to write
 your own repo(s). For instance, you might want to keep all graph
-primitives, i.e. node ids and relations (edge primitives), but keep
+primitives, i.e. node ids and relations (edge primitives), in RAM only but store
 properties in a key value store. This is accomplished by using custom
 PropertiesRepository instances for the graph, for instance with: graph.setNodePropertiesRepo(myCustomRepo);
 
