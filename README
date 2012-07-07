@@ -18,10 +18,10 @@ advanced ad-hoc traversals using Gremlin
 By default, all data is stored in memory (optionally dumped to
 disk/restored from disk on graph shutdown and init). However, the
 repositories used by the graph are pluggable so you are free to write
-your own repo(s). For instance, you might want to keep all graph
-primitives, i.e. node ids and relations (edge primitives), but keep
-properties in a key value store. This is accomplished by using custom
-PropertiesRepository instances for the graph, for instance with: graph.setNodePropertiesRepo(myCustomRepo);
+your own repo(s). For instance you might want to keep all graph
+primitives, i.e. node ids and relations, in RAM only but store
+properties in a key/value store. This can be accomplished by using custom
+PropertiesRepository instances for the graph.
 
 2. Installation
 ===============================================================================================
@@ -58,8 +58,12 @@ An example:
         final Node i2 = graph.addNode(new NodeId(item, "i2"));
         i2.setProperty("price", 899.90);
         i2.setProperty("name", "MacBook Pro");
+<<<<<<< HEAD
         i2.setProperty("categories",
                        Arrays.asList("Rather expensive computer", "Laptop"));
+=======
+        i2.setProperty("categories", Arrays.asList("Rather expensive computer", "Laptop"));
+>>>>>>> dd42b592e2bc480d404e28fbfdc1211c347abab3
         graph.setNodeProperties(i2.getNodeId(), i2);
 
         // Add some edges, that can also have properties
