@@ -14,28 +14,37 @@
  * limitations under the License.
  */
 
-package org.graphit.graph.node.schema;
-
-import org.graphit.common.schema.AbstractGraphType;
+package org.graphit.common.procedures;
 
 /**
- * Standard {@link NodeType} implementation.
+ *
+ * Interface for counting the number of times distinct elements occur in an
+ * collection of elements.
  *
  * @author jon
  *
  */
-public class NodeTypeImpl extends AbstractGraphType implements NodeType {
+public interface Counter<E> {
 
     /**
-     * Creates a new instance.
+     * Describes the sort order for iteraing counted elements.
      */
-    public NodeTypeImpl(String name) {
-        super(name);
-    }
+    public static enum SortOrder {
+        NONE, ASCENDING, DESCENDING
+    };
 
-    @Override
-    public String toString() {
-        return "NodeTypeImpl []";
-    }
+    /**
+     * Gets the number of times this element occurred.
+     */
+    int count(E element);
 
+    /**
+     * Adds an element.
+     */
+    void add(E element);
+
+    /**
+     * Gets an iterable of all counted elements.
+     */
+    Iterable<CountedElement<E>> iterable(SortOrder sortOrder);
 }

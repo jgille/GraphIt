@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.graphit.common.procedures.Mapper;
+import org.graphit.common.procedures.Reducer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -127,6 +129,32 @@ public class IterablePipeImplTest {
     public void testUnique() {
         IterablePipe<Integer> pipe = new IterablePipeImpl<Integer>(1, 2, 3, 4, 5, 1, 2);
         assertEquals(original.asList(), pipe.unique().asList());
+    }
+
+    @Test
+    public void testMapReduce() {
+        String str = original.mapReduce(new Mapper<Integer, String>() {
+
+            @Override
+            public Iterable<String> map(Iterable<Integer> input) {
+                List<String> res = new ArrayList<String>();
+                for (Integer i: input) {
+                    res.add(String.valueOf(i));
+                }
+                return res;
+            }
+        }, new Reducer<String, String>() {
+
+            @Override
+            public String reduce(Iterable<String> input) {
+                StringBuilder sb = new StringBuilder();
+                for (String str : input) {
+                    sb.append(str);
+                }
+                return sb.toString();
+            }
+        });
+        assertEquals("12345", str);
     }
 
     @Test

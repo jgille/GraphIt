@@ -14,28 +14,21 @@
  * limitations under the License.
  */
 
-package org.graphit.graph.node.schema;
+package org.graphit.common.procedures;
 
-import org.graphit.common.schema.AbstractGraphType;
+import com.google.common.collect.Iterables;
 
 /**
- * Standard {@link NodeType} implementation.
+ * A mapper that concats multiple iterables into one.
  *
  * @author jon
- *
+ * 
  */
-public class NodeTypeImpl extends AbstractGraphType implements NodeType {
-
-    /**
-     * Creates a new instance.
-     */
-    public NodeTypeImpl(String name) {
-        super(name);
-    }
+public class ConcatMapper<T> implements Mapper<Iterable<T>, T> {
 
     @Override
-    public String toString() {
-        return "NodeTypeImpl []";
+    public Iterable<T> map(Iterable<Iterable<T>> input) {
+        return Iterables.concat(input);
     }
 
 }

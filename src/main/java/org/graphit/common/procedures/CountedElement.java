@@ -14,28 +14,46 @@
  * limitations under the License.
  */
 
-package org.graphit.graph.node.schema;
-
-import org.graphit.common.schema.AbstractGraphType;
+package org.graphit.common.procedures;
 
 /**
- * Standard {@link NodeType} implementation.
+ * Domain object for counting the number of times an element occurs in a
+ * collection.
  *
  * @author jon
  *
  */
-public class NodeTypeImpl extends AbstractGraphType implements NodeType {
+public class CountedElement<E> {
+
+    private final E element;
+    private final int count;
 
     /**
-     * Creates a new instance.
+     * Constructs a new element.
      */
-    public NodeTypeImpl(String name) {
-        super(name);
+    public CountedElement(E element, int count) {
+        this.element = element;
+        this.count = count;
+    }
+
+    /**
+     * Gets the counted element.
+     *
+     */
+    public E getElement() {
+        return element;
+    }
+
+    /**
+     * Gets the number of times the element occurred.
+     */
+    public int getCount() {
+        return count;
     }
 
     @Override
     public String toString() {
-        return "NodeTypeImpl []";
+        return "CountedElement [element=" + element + ", count=" + count + "]";
     }
 
 }

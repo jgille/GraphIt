@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import org.graphit.common.procedures.Mapper;
+import org.graphit.common.procedures.Reducer;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
@@ -73,6 +76,13 @@ public interface IterablePipe<E> extends Iterable<E> {
      * Creates a new iterable pipe containing only unique elements.
      */
     IterablePipe<E> unique();
+
+    /**
+     * Performs a two step operation on this iterable. First it is mapped to
+     * another iterable, then it is transformed into a final result.
+     */
+    <M, R> R mapReduce(Mapper<E, M> mapper,
+                       Reducer<M, R> reducer);
 
     /**
      * Gets the number of elements in this iterable pipe.

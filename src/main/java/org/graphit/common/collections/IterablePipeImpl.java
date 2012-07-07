@@ -26,6 +26,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.graphit.common.procedures.Mapper;
+import org.graphit.common.procedures.Reducer;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -112,6 +115,12 @@ public class IterablePipeImpl<E> implements IterablePipe<E> {
                 return visited.add(element);
             }
         });
+    }
+
+    @Override
+    public <M, R> R mapReduce(Mapper<E, M> mapper, Reducer<M, R> reducer) {
+        Iterable<M> mapped = mapper.map(iterable);
+        return reducer.reduce(mapped);
     }
 
     @Override

@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package org.graphit.graph.node.schema;
-
-import org.graphit.common.schema.AbstractGraphType;
+package org.graphit.common.procedures;
 
 /**
- * Standard {@link NodeType} implementation.
+ * 
+ * Interface for reducing iterables to a final result in a MapReduce operation.
  *
  * @author jon
  *
  */
-public class NodeTypeImpl extends AbstractGraphType implements NodeType {
+public interface Reducer<E, T> {
 
     /**
-     * Creates a new instance.
+     * Computes the final result from a mapped iterable.
      */
-    public NodeTypeImpl(String name) {
-        super(name);
-    }
-
-    @Override
-    public String toString() {
-        return "NodeTypeImpl []";
-    }
-
+    T reduce(Iterable<E> input);
 }

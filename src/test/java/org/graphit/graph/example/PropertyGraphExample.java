@@ -20,6 +20,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.graphit.common.procedures.ConcatMapper;
+import org.graphit.common.procedures.CountedElement;
+import org.graphit.common.procedures.Counter;
+import org.graphit.common.procedures.Counter.SortOrder;
+import org.graphit.common.procedures.CounterReducer;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.Node;
@@ -45,13 +50,13 @@ public class PropertyGraphExample {
      */
     @SuppressWarnings("unused")
     public static void main(String[] args) {
-        PropertyGraph graph = new PropertyGraphImpl("e-store");
+        final PropertyGraph graph = new PropertyGraphImpl("e-store");
 
         // Create some metadata
         NodeType user = graph.getOrCreateNodeType("user");
         NodeType item = graph.getOrCreateNodeType("item");
 
-        EdgeType bought = graph.getOrCreateEdgeType("bought");
+        final EdgeType bought = graph.getOrCreateEdgeType("bought");
         EdgeType viewed = graph.getOrCreateEdgeType("viewed");
 
         // Add some nodes, with properties
@@ -63,7 +68,7 @@ public class PropertyGraphExample {
         i1.setProperty("price", 200.0);
         i1.setProperty("name", "Playstation II");
 
-        Node i2 = graph.addNode(new NodeId(item, "i2"));
+        final Node i2 = graph.addNode(new NodeId(item, "i2"));
         i2.setProperty("price", 899.90);
         i2.setProperty("name", "MacBook Pro");
         i2.setProperty("categories", Arrays.asList("Rather expensive computer", "Laptop"));
@@ -111,5 +116,30 @@ public class PropertyGraphExample {
         // retrieved yet
         // (they will be once you start iterating them/calling toList etc).
 
+        // Get an item recommendation using collaborative filtering
+        Counter<Node> purchasedItems =
+            // Get all users that bough i2
+            graph.getNeighbors(i2.getNodeId(), bought, EdgeDirection.INCOMING)
+                // Get all the items these users bought
+                .transform(new Function<Node, Iterable<Node>>() {
+
+                    @Override
+                    public Iterable<Node> apply(Node node) {
+                        return graph.getNeighbors(node.getNodeId(), bought, EdgeDirection.OUTGOING)
+                            .filter(new Predicate<Node>() {
+
+                                @Override
+                                public boolean apply(Node input) {
+                                    return !input.getNodeId().equals(i2.getNodeId());
+                                }
+                            });
+                    }
+                })
+                // Concatenate these and make a frequency count of all items
+                .mapReduce(new ConcatMapper<Node>(),
+                           new CounterReducer<Node>());
+        // Get the recommendation
+        Iterable<CountedElement<Node>> recommendedItems =
+            purchasedItems.iterable(SortOrder.DESCENDING);
     }
 }

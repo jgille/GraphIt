@@ -102,7 +102,7 @@ public class WriteThroughProperties<T> implements Properties {
 
     @Override
     public String toString() {
-        return "WriteThroughProperties [id=" + id + ", properties=" + properties + "]";
+        return "WriteThroughProperties [id=" + id + ", properties=" + loadOrGetProperties() + "]";
     }
 
     private Properties loadOrGetProperties() {

@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 
-package org.graphit.graph.node.schema;
-
-import org.graphit.common.schema.AbstractGraphType;
+package org.graphit.common.procedures;
 
 /**
- * Standard {@link NodeType} implementation.
+ * A {@link Reducer} that counts the number of times each distinct element
+ * occurs in an iterable.
  *
  * @author jon
  *
  */
-public class NodeTypeImpl extends AbstractGraphType implements NodeType {
-
-    /**
-     * Creates a new instance.
-     */
-    public NodeTypeImpl(String name) {
-        super(name);
-    }
+public class CounterReducer<E> implements Reducer<E, Counter<E>> {
 
     @Override
-    public String toString() {
-        return "NodeTypeImpl []";
+    public Counter<E> reduce(Iterable<E> input) {
+        Counter<E> counter = new CounterImpl<E>();
+        for (E element : input) {
+            counter.add(element);
+        }
+        return counter;
     }
-
 }
