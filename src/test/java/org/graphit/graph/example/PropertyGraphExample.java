@@ -67,11 +67,14 @@ public class PropertyGraphExample {
         Node i1 = graph.addNode(new NodeId(item, "i1"));
         i1.setProperty("price", 200.0);
         i1.setProperty("name", "Playstation II");
+        graph.setNodeProperties(i1.getNodeId(), i1);
 
         final Node i2 = graph.addNode(new NodeId(item, "i2"));
         i2.setProperty("price", 899.90);
         i2.setProperty("name", "MacBook Pro");
-        i2.setProperty("categories", Arrays.asList("Rather expensive computer", "Laptop"));
+        i2.setProperty("categories",
+                       Arrays.asList("Rather expensive computer", "Laptop"));
+        graph.setNodeProperties(i2.getNodeId(), i2);
 
         // Add some edges, that can also have properties
         Edge v1 = graph.addEdge(u1.getNodeId(), i1.getNodeId(), viewed);
@@ -84,7 +87,8 @@ public class PropertyGraphExample {
 
         // Get all items that user u1 has viewed
         List<Node> viewedItems =
-            graph.getNeighbors(u1.getNodeId(), viewed, EdgeDirection.OUTGOING).asList();
+            graph.getNeighbors(u1.getNodeId(), viewed,
+                               EdgeDirection.OUTGOING).asList();
 
         // Get the first item that user u1 has viewed, transformed to just the
         // product name
@@ -109,7 +113,8 @@ public class PropertyGraphExample {
                     public boolean apply(Edge purchase) {
                         Date when = (Date) purchase.getProperty("date");
                         return when != null
-                            && System.currentTimeMillis() - when.getTime() < 60 * 60 * 1000l;
+                            && System.currentTimeMillis() - when.getTime()
+                            < 60 * 60 * 1000l;
                     }
                 });
         // Note that graph iteration is done lazily, so no purchases have been
@@ -125,7 +130,8 @@ public class PropertyGraphExample {
 
                     @Override
                     public Iterable<Node> apply(Node node) {
-                        return graph.getNeighbors(node.getNodeId(), bought, EdgeDirection.OUTGOING)
+                        return graph.getNeighbors(node.getNodeId(), bought,
+                                                  EdgeDirection.OUTGOING)
                             .filter(new Predicate<Node>() {
 
                                 @Override
