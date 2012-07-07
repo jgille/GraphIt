@@ -58,12 +58,8 @@ An example:
         final Node i2 = graph.addNode(new NodeId(item, "i2"));
         i2.setProperty("price", 899.90);
         i2.setProperty("name", "MacBook Pro");
-<<<<<<< HEAD
         i2.setProperty("categories",
                        Arrays.asList("Rather expensive computer", "Laptop"));
-=======
-        i2.setProperty("categories", Arrays.asList("Rather expensive computer", "Laptop"));
->>>>>>> dd42b592e2bc480d404e28fbfdc1211c347abab3
         graph.setNodeProperties(i2.getNodeId(), i2);
 
         // Add some edges, that can also have properties
