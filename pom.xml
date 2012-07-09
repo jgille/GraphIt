@@ -59,13 +59,12 @@
       <version>1.9.5</version>
     </dependency>
     
-    <!-- Google collections -->
-    <dependency>
+    <!-- Google Guava -->
+ 	<dependency>
     	<groupId>com.google.guava</groupId>
-        <artifactId>guava-collections</artifactId>
-        <version>r03</version>
-    </dependency>
-
+    	<artifactId>guava</artifactId>
+    	<version>12.0</version>
+	</dependency>
 
     <!-- Test -->
 

@@ -15,10 +15,10 @@ database. It implements the Blueprints interfaces
 advanced ad-hoc traversals using Gremlin
 (https://github.com/tinkerpop/gremlin/wiki).
 
-By default, all data is stored in memory (optionally dumped to
-disk/restored from disk on graph shutdown and init). However, the
+By default all data is stored in memory, optionally dumped to
+disk/restored from disk on graph shutdown and init. However, the
 repositories used by the graph are pluggable so you are free to write
-your own repo(s). For instance you might want to keep all graph
+your own repos. For instance you might want to keep all graph
 primitives, i.e. node ids and relations, in RAM only but store
 properties in a key/value store. This can be accomplished by using custom
 PropertiesRepository instances for the graph.
@@ -139,3 +139,5 @@ An example:
 ===============================================================================================
 
 All required third party libraries are included in the project jar file.
+To make use of all features you will need google guava libraries though:
+https://code.google.com/p/guava-libraries/
