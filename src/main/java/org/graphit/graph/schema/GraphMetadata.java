@@ -73,9 +73,4 @@ public interface GraphMetadata {
      * Adds a edge type to the metadata.
      */
     GraphMetadata addEdgeType(String edgeTypeName);
-
-    /**
-     * Returns true if the provided node type exists in this metadata instance.
-     */
-    boolean containsNodeType(NodeType nodeType);
 }

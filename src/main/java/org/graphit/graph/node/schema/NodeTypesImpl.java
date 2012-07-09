@@ -69,6 +69,7 @@ public class NodeTypesImpl implements NodeTypes {
      * Adds a {@link NodeType} to the set.
      */
     public NodeTypesImpl add(NodeType nodeType) {
+        Assert.isTrue(!nodeTypes.containsKey(nodeType.name()));
         nodeTypes.put(nodeType.name(), nodeType);
         return this;
     }
@@ -81,11 +82,4 @@ public class NodeTypesImpl implements NodeTypes {
         nodeTypes.put(nodeType.name(), nodeType);
         return this;
     }
-
-    @Override
-    public boolean contains(NodeType nodeType) {
-        return nodeTypes.containsKey(nodeType.name())
-            && nodeType.equals(nodeTypes.get(nodeType.name()));
-    }
-
 }

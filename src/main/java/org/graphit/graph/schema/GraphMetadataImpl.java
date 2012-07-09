@@ -95,9 +95,4 @@ public class GraphMetadataImpl implements GraphMetadata {
         edgeTypes.add(edgeTypeName);
         return this;
     }
-
-    @Override
-    public boolean containsNodeType(NodeType nodeType) {
-        return nodeTypes.contains(nodeType);
-    }
 }

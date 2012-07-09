@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.util.Assert;
+
 /**
  * Dynamic {@link EdgeTypes} implementation keeping {@link EdgeType}s in a
  * {@link HashMap}.
@@ -71,6 +73,7 @@ public class EdgeTypesImpl implements EdgeTypes {
      * Adds an edge type to this edge type set.
      */
     public EdgeTypesImpl add(EdgeType edgeType) {
+        Assert.isTrue(!edgeTypes.containsKey(edgeType.name()));
         edgeTypes.put(edgeType.name(), edgeType);
         return this;
     }
@@ -80,11 +83,5 @@ public class EdgeTypesImpl implements EdgeTypes {
      */
     public EdgeTypesImpl add(String edgeTypeName) {
         return add(new EdgeTypeImpl(edgeTypeName));
-    }
-
-    @Override
-    public boolean contains(EdgeType edgeType) {
-        return edgeTypes.containsKey(edgeType.name())
-            && edgeType.equals(edgeTypes.get(edgeType.name()));
     }
 }

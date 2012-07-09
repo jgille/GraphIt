@@ -29,13 +29,16 @@ import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepository;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepositoryImpl;
+import org.graphit.graph.edge.schema.EdgeSortOrder;
 import org.graphit.graph.edge.schema.EdgeType;
+import org.graphit.graph.edge.schema.EdgeTypeImpl;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
 import org.graphit.graph.node.repository.NodeIdRepository;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
 import org.graphit.graph.node.schema.NodeType;
+import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.schema.GraphMetadataImpl;
 import org.graphit.graph.traversal.EdgeDirection;
@@ -388,6 +391,27 @@ public class PropertyGraphImpl implements PropertyGraph {
             }
         }
         return Iterables.concat(edges);
+    }
+
+    @Override
+    public EdgeType createEdgeType(String name) {
+        EdgeType edgeType = new EdgeTypeImpl(name);
+        metadata.addEdgeType(edgeType);
+        return edgeType;
+    }
+
+    @Override
+    public EdgeType createEdgeType(String name, EdgeSortOrder sortOrder) {
+        EdgeType edgeType = new EdgeTypeImpl(name, sortOrder);
+        metadata.addEdgeType(edgeType);
+        return edgeType;
+    }
+
+    @Override
+    public NodeType createNodeType(String name) {
+        NodeType nodeType = new NodeTypeImpl(name);
+        metadata.addNodeType(nodeType);
+        return nodeType;
     }
 
     @Override

@@ -30,9 +30,10 @@ import org.junit.Test;
 public class EdgeTypeImplTest {
 
     @Test
-    public void testGetEdgeIndexComparator() {
+    public void testGetDefaultEdgeIndexComparator() {
         EdgeTypeImpl edgeType = new EdgeTypeImpl("A");
-        assertTrue(edgeType.getEdgeComparator(null).getClass() == UnsortedEdgeIndexComparator.class);
+        assertTrue(edgeType.getSortOrder().getEdgeComparator(null).getClass()
+            == UnsortedEdgeIndexComparator.class);
     }
 
     @Test

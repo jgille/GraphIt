@@ -17,8 +17,6 @@
 package org.graphit.graph.edge.schema;
 
 import org.graphit.common.enumeration.DynamicEnumerableElement;
-import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.edge.util.EdgeWeigher;
 
 /**
  * Describes an edge type in a graph.
@@ -29,9 +27,8 @@ import org.graphit.graph.edge.util.EdgeWeigher;
 public interface EdgeType extends DynamicEnumerableElement {
 
     /**
-     * Gets an {@link EdgeIndexComparator} used to keep outgoing/incoming edges
-     * for a node sorted.
+     * Defines how edges of this type are to be kept sorted.
      */
-    EdgeIndexComparator getEdgeComparator(EdgeWeigher edgeWeigher);
+    EdgeSortOrder getSortOrder();
 
 }

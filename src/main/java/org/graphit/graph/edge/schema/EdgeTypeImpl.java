@@ -17,9 +17,6 @@
 package org.graphit.graph.edge.schema;
 
 import org.graphit.common.schema.AbstractGraphType;
-import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.edge.util.EdgeWeigher;
-import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 
 /**
  * Basic {@link EdgeType} implementation. Defaults to being unweighted and
@@ -30,24 +27,31 @@ import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
  */
 public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
 
-    private final EdgeIndexComparator edgeComparator = new UnsortedEdgeIndexComparator();
+    private final EdgeSortOrder sortOrder;
 
     /**
      * Creates an edge type.
      */
     public EdgeTypeImpl(String name) {
+        this(name, EdgeSortOrder.UNDEFINED);
+    }
+
+    /**
+     * Creates an edge type.
+     */
+    public EdgeTypeImpl(String name, EdgeSortOrder sortOrder) {
         super(name);
+        this.sortOrder = sortOrder;
     }
 
     @Override
-    public EdgeIndexComparator getEdgeComparator(EdgeWeigher weigher) {
-        return edgeComparator;
+    public EdgeSortOrder getSortOrder() {
+        return sortOrder;
     }
 
     @Override
     public String toString() {
-        return "EdgeTypeImpl [name=" + name() + ", edgeComparator="
-            + edgeComparator + "]";
+        return "EdgeTypeImpl [sortOrder=" + sortOrder + ", name()=" + name() + "]";
     }
 
 }

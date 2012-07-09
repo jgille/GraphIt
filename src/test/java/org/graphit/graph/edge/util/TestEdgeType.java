@@ -16,32 +16,32 @@
 
 package org.graphit.graph.edge.util;
 
+import org.graphit.graph.edge.schema.EdgeSortOrder;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.edge.util.EdgeIndexComparatorImpl;
-import org.graphit.graph.edge.util.EdgeWeightComparator;
 
 public enum TestEdgeType implements EdgeType {
 
     SIMILAR {
 
         @Override
-        public EdgeIndexComparator getEdgeComparator(EdgeWeigher weigher) {
-            return new EdgeWeightComparator(weigher, true);
+        public EdgeSortOrder getSortOrder() {
+            return EdgeSortOrder.DESCENDING_WEIGHT;
         }
+
     },
     BOUGHT {
 
         @Override
-        public EdgeIndexComparator getEdgeComparator(EdgeWeigher ignored) {
-            return new EdgeIndexComparatorImpl();
+        public EdgeSortOrder getSortOrder() {
+            return EdgeSortOrder.UNDEFINED;
         }
+
     },
     VIEWED {
 
         @Override
-        public EdgeIndexComparator getEdgeComparator(EdgeWeigher ignored) {
-            return new EdgeIndexComparatorImpl();
+        public EdgeSortOrder getSortOrder() {
+            return EdgeSortOrder.UNDEFINED;
         }
     };
 }

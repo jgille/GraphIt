@@ -21,6 +21,7 @@ import java.io.File;
 import org.graphit.common.collections.IterablePipe;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
+import org.graphit.graph.edge.schema.EdgeSortOrder;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
@@ -52,6 +53,24 @@ public interface PropertyGraph {
      * Gets metadata describing the valid nodes and edges for this graph.
      */
     GraphMetadata getMetadata();
+
+    /**
+     * Creates an edge type with the given name and a default sort order. Throws
+     * an exception if such a type already exists.
+     */
+    EdgeType createEdgeType(String name);
+
+    /**
+     * Creates an edge type with the given name and sort order. Throws an
+     * exception if such a type already exists.
+     */
+    EdgeType createEdgeType(String name, EdgeSortOrder sortOrder);
+
+    /**
+     * Creates a node type with the given name. Throws an exception if such a
+     * type already exists.
+     */
+    NodeType createNodeType(String name);
 
     /**
      * Gets the edge type with the given name, or creates it if none exists.
