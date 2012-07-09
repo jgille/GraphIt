@@ -50,7 +50,7 @@ public class PropertyGraphExample {
      */
     @SuppressWarnings("unused")
     public static void main(String[] args) {
-        final PropertyGraph graph = new PropertyGraphImpl("e-store");
+        final PropertyGraph graph = new PropertyGraphImpl("store");
 
         // Create some metadata
         NodeType user = graph.getOrCreateNodeType("user");
@@ -105,6 +105,7 @@ public class PropertyGraphExample {
                 .asList();
 
         // Get all purchases of item i1 that took place within the last hour
+        final long cutOff = System.currentTimeMillis() - 60 * 60 * 1000l;
         Iterable<Edge> purchases =
             graph.getEdges(i1.getNodeId(), bought, EdgeDirection.INCOMING)
                 .filter(new Predicate<Edge>() {
@@ -112,9 +113,7 @@ public class PropertyGraphExample {
                     @Override
                     public boolean apply(Edge purchase) {
                         Date when = (Date) purchase.getProperty("date");
-                        return when != null
-                            && System.currentTimeMillis() - when.getTime()
-                            < 60 * 60 * 1000l;
+                        return when != null && when.getTime() > cutOff;
                     }
                 });
         // Note that graph iteration is done lazily, so no purchases have been
