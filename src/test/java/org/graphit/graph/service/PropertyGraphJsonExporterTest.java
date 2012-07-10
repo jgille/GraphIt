@@ -101,7 +101,7 @@ public class PropertyGraphJsonExporterTest {
     @Test
     public void testExportJsonNoProperties() throws IOException {
         File file = out.newFile();
-        graph.exportJson(file, false);
+        graph.exportJson(file, false, false);
 
         String fileContent = FileUtils.readFileToString(file);
         String expected = getExpected("exportedGraphNoProperties.json");
@@ -111,7 +111,7 @@ public class PropertyGraphJsonExporterTest {
     @Test
     public void testExportJson() throws IOException {
         File file = out.newFile();
-        graph.exportJson(file, true);
+        graph.exportJson(file, true, true);
 
         String fileContent = FileUtils.readFileToString(file);
         String expected = getExpected("exportedGraph.json");

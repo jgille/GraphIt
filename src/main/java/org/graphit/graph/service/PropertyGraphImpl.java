@@ -362,9 +362,11 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     @Override
-    public void exportJson(File out, boolean includeProperties) {
+    public void exportJson(File out, boolean includeNodeProperties,
+                           boolean includeEdgeProperties) {
         try {
-            new PropertyGraphJsonExporter().exportJson(this, out, includeProperties);
+            new PropertyGraphJsonExporter().exportJson(this, out, includeNodeProperties,
+                                                       includeEdgeProperties);
         } catch (IOException e) {
             throw new GraphException("Failed to export graph.", e);
         }

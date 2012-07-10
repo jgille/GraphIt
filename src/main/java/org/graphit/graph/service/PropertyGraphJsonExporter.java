@@ -42,7 +42,8 @@ public class PropertyGraphJsonExporter {
     /**
      * Exports a graph to file as json.
      */
-    public void exportJson(PropertyGraph graph, File out, boolean includeProperties)
+    public void exportJson(PropertyGraph graph, File out, boolean includeNodeProperties,
+                           boolean includeEdgeProperties)
         throws IOException {
         JsonFactory jsonFactory = new JsonFactory(new ObjectMapper());
         JsonGenerator generator = jsonFactory.createJsonGenerator(out, JsonEncoding.UTF8);
@@ -50,8 +51,8 @@ public class PropertyGraphJsonExporter {
         try {
             generator.writeStartObject();
             writeMetadata(graph, generator);
-            writeNodes(graph, generator, includeProperties);
-            writeEdges(graph, generator, includeProperties);
+            writeNodes(graph, generator, includeNodeProperties);
+            writeEdges(graph, generator, includeEdgeProperties);
 
             generator.writeEndObject();
         } finally {

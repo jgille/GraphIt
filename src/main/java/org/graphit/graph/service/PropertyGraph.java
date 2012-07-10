@@ -150,7 +150,8 @@ public interface PropertyGraph {
     /**
      * Exports the graph to file as json.
      */
-    void exportJson(File out, boolean includeProperties);
+    void exportJson(File out, boolean includeNodeProperties,
+                    boolean includeEdgeProperties);
 
     /**
      * Imports the graph from a json file.
