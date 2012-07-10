@@ -22,7 +22,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.graphit.graph.exception.DuplicateKeyException;
 import org.graphit.graph.node.domain.NodeId;
-import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.junit.Before;

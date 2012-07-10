@@ -108,6 +108,12 @@ public interface PropertyGraph {
     Node addNode(NodeId nodeId);
 
     /**
+     * Adds a node. You should normally not use this method, use
+     * {@link #addNode(NodeId)} instead.
+     */
+    Node addNode(NodeId nodeId, int index);
+
+    /**
      * Removes a node.
      */
     Node removeNode(NodeId nodeId);
@@ -126,6 +132,12 @@ public interface PropertyGraph {
      * Adds a weighted edge.
      */
     Edge addEdge(NodeId startNode, NodeId endNode, EdgeType edgeType, float weight);
+
+    /**
+     * Adds a weighted edge. You should normally not use this method, use
+     * {@link #addEdge(EdgeId, NodeId, NodeId, float)} instead.
+     */
+    Edge addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight);
 
     /**
      * Removes an edge.

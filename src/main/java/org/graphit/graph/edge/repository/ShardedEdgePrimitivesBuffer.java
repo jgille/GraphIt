@@ -18,6 +18,7 @@ package org.graphit.graph.edge.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;

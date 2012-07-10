@@ -19,6 +19,7 @@ package org.graphit.graph.edge.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import java.util.Arrays;
 
 import org.graphit.graph.edge.domain.EdgeId;

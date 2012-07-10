@@ -17,6 +17,7 @@
 package org.graphit.graph.service;
 
 import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ import org.springframework.core.io.Resource;
  * @author jon
  *
  */
-public class PropertyGraphJsonExporterTest {
+public class PropertyGraphJsonTest {
 
     @Rule
     public TemporaryFolder out = new TemporaryFolder();
@@ -48,7 +49,7 @@ public class PropertyGraphJsonExporterTest {
 
     @Before
     public void setupGraph() {
-        this.graph = new PropertyGraphImpl("testExport");
+        this.graph = new PropertyGraphImpl("test");
 
         NodeType user = graph.createNodeType("user");
         NodeType item = graph.createNodeType("item");
@@ -118,10 +119,41 @@ public class PropertyGraphJsonExporterTest {
         assertEquals(expected, fileContent);
     }
 
+    @Test
+    public void testImportExportJsonNoProperties() throws IOException {
+        File file = out.newFile();
+        PropertyGraph importedGraph = new PropertyGraphImpl("test");
+        File in = getResourceFile("exportedGraphNoProperties.json");
+        importedGraph.importJson(in);
+
+        importedGraph.exportJson(file, false, false);
+
+        String fileContent = FileUtils.readFileToString(file);
+        String expected = getExpected("exportedGraphNoProperties.json");
+        assertEquals(expected, fileContent);
+    }
+
+    @Test
+    public void testImportExportJson() throws IOException {
+        File file = out.newFile();
+        PropertyGraph importedGraph = new PropertyGraphImpl("test");
+        File in = getResourceFile("exportedGraph.json");
+        importedGraph.importJson(in);
+
+        importedGraph.exportJson(file, true, true);
+
+        String fileContent = FileUtils.readFileToString(file);
+        String expected = getExpected("exportedGraph.json");
+        assertEquals(expected, fileContent);
+    }
+
     private String getExpected(String fileName) throws IOException {
+        return FileUtils.readFileToString(getResourceFile(fileName));
+    }
+
+    private File getResourceFile(String fileName) throws IOException {
         String path = String.format("/fixtures/%s", fileName);
         Resource resource = new ClassPathResource(path);
-        File file = resource.getFile();
-        return FileUtils.readFileToString(file);
+        return resource.getFile();
     }
 }

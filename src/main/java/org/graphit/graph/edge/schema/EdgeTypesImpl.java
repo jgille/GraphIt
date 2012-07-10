@@ -17,8 +17,9 @@
 package org.graphit.graph.edge.schema;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.TreeMap;
 
 import org.springframework.util.Assert;
 
@@ -37,7 +38,7 @@ public class EdgeTypesImpl implements EdgeTypes {
      * Constructs a new instance.
      */
     public EdgeTypesImpl() {
-        this.edgeTypes = new ConcurrentHashMap<String, EdgeType>();
+        this.edgeTypes = Collections.synchronizedMap(new TreeMap<String, EdgeType>());
     }
 
     /**

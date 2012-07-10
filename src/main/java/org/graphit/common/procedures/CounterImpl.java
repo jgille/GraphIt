@@ -17,6 +17,7 @@
 package org.graphit.common.procedures;
 
 import java.util.Collection;
+
 import org.apache.mahout.math.function.ObjectIntProcedure;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;

@@ -40,4 +40,5 @@ public class EdgePrimitivesRepositoryImpl extends AbstractEdgePrimitivesReposito
     protected TypedEdgePrimitivesRepositoryImpl createRepo(EdgeType edgeType) {
         return new TypedEdgePrimitivesRepositoryImpl(edgeType);
     }
+
 }

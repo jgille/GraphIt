@@ -236,6 +236,18 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     @Override
+    public Node addNode(NodeId nodeId, int index) {
+        NodeType nodeType = metadata.getNodeTypes().valueOf(nodeId.getNodeType().name());
+        // Make sure we use the same node type instance for all nodes of the
+        // same type
+        NodeId id = new NodeId(nodeType, nodeId.getId());
+        nodeRepo.insert(index, nodeId);
+        Properties properties =
+            new WriteThroughProperties<NodeId>(id, nodePropertiesRepo);
+        return new NodeImpl(index, id, properties);
+    }
+
+    @Override
     public Node getNode(NodeId nodeId) {
         int index = nodeRepo.getNodeIndex(nodeId);
         if (index < 0) {
@@ -297,6 +309,12 @@ public class PropertyGraphImpl implements PropertyGraph {
     @Override
     public Edge addEdge(NodeId startNodeId, NodeId endNodeId, EdgeType edgeType, float weight) {
         return doAddEdge(startNodeId, endNodeId, edgeType, weight);
+    }
+
+    @Override
+    public Edge addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight) {
+        edgeRepo.addEdge(edgeId, startNodeIndex, endNodeIndex, weight);
+        return getEdge(edgeId);
     }
 
     private Edge doAddEdge(NodeId startNodeId, NodeId endNodeId, EdgeType edgeType, float weight) {
@@ -365,8 +383,8 @@ public class PropertyGraphImpl implements PropertyGraph {
     public void exportJson(File out, boolean includeNodeProperties,
                            boolean includeEdgeProperties) {
         try {
-            new PropertyGraphJsonExporter().exportJson(this, out, includeNodeProperties,
-                                                       includeEdgeProperties);
+            PropertyGraphJsonUtils.exportJson(this, out, includeNodeProperties,
+                                              includeEdgeProperties);
         } catch (IOException e) {
             throw new GraphException("Failed to export graph.", e);
         }
@@ -374,7 +392,11 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public void importJson(File in) {
-        // TODO: Implement
+        try {
+            PropertyGraphJsonUtils.importJson(this, in);
+        } catch (IOException e) {
+            throw new GraphException("Failed to import graph.", e);
+        }
     }
 
     @Override

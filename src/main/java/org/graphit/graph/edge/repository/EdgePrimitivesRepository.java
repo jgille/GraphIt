@@ -40,6 +40,12 @@ public interface EdgePrimitivesRepository {
     EdgeId addEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType, float weight);
 
     /**
+     * Adds a weighted edge. You should normally not use this method, use
+     * {@link #addEdge(EdgeId, int, int, float)} instead.
+     */
+    void addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight);
+
+    /**
      * Gets the edge with the provided id.
      */
     EdgePrimitive getEdge(EdgeId edgeId);

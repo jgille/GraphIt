@@ -17,6 +17,7 @@
 package org.graphit.graph.edge.domain;
 
 import java.util.EnumSet;
+
 import org.graphit.graph.edge.schema.EdgeTypes;
 import org.graphit.graph.edge.schema.EdgeTypesImpl;
 import org.graphit.graph.edge.util.TestEdgeType;

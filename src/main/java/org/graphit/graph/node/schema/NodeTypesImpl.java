@@ -17,8 +17,9 @@
 package org.graphit.graph.node.schema;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.TreeMap;
 
 import org.springframework.util.Assert;
 
@@ -36,7 +37,7 @@ public class NodeTypesImpl implements NodeTypes {
      * Creates a new instance.
      */
     public NodeTypesImpl() {
-        this.nodeTypes = new ConcurrentHashMap<String, NodeType>();
+        this.nodeTypes = Collections.synchronizedMap(new TreeMap<String, NodeType>());
     }
 
     /**

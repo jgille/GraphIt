@@ -16,12 +16,12 @@
 
 package org.graphit.graph.schema;
 
-import org.graphit.graph.edge.schema.EdgeTypesImpl;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
-import org.graphit.graph.node.schema.NodeTypesImpl;
+import org.graphit.graph.edge.schema.EdgeTypesImpl;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
+import org.graphit.graph.node.schema.NodeTypesImpl;
 
 /**
  *

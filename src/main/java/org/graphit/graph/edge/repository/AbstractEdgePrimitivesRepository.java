@@ -69,6 +69,12 @@ public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitives
     }
 
     @Override
+    public void addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight) {
+        getOrCreateRepository(edgeId.getEdgeType()).addWeightedEdge(edgeId, startNodeIndex,
+                                                                    endNodeIndex, weight);
+    }
+
+    @Override
     public EdgePrimitive getEdge(EdgeId edgeId) {
         return getOrCreateRepository(edgeId.getEdgeType()).getEdge(edgeId);
     }
