@@ -51,6 +51,7 @@ public class EdgeTypesImpl implements EdgeTypes {
 
     @Override
     public EdgeType valueOf(String name) {
+        Assert.isTrue(edgeTypes.containsKey(name), "No such edge type: " + name);
         EdgeType edgeType = edgeTypes.get(name);
         if (edgeType == null) {
             edgeType = new EdgeTypeImpl(name);

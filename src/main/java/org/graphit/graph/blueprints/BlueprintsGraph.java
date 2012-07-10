@@ -105,7 +105,7 @@ public class BlueprintsGraph implements Graph {
      * Converts an edge label to an edge type.
      */
     private EdgeType getEdgeType(String edgeLabel) {
-        return graph.getMetadata().getEdgeTypes().valueOf(edgeLabel);
+        return graph.getMetadata().getOrCreateEdgeType(edgeLabel);
     }
 
     /**
@@ -154,6 +154,7 @@ public class BlueprintsGraph implements Graph {
     @Override
     public Vertex addVertex(Object id) {
         NodeId nodeId = getNodeId(id);
+        graph.getMetadata().getOrCreateNodeType(nodeId.getNodeType().name());
         Node node = graph.addNode(nodeId);
         return transformNode(node);
     }

@@ -21,10 +21,8 @@ import java.util.List;
 
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
-import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.exception.DuplicateKeyException;
 import org.graphit.graph.node.domain.NodeId;
-import org.graphit.graph.node.domain.NodePrimitive;
 import org.springframework.util.Assert;
 
 import com.google.common.base.Predicate;
@@ -104,21 +102,6 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
     @Override
     public synchronized int size() {
         return nodeMap.size();
-    }
-
-    @Override
-    public void forEach(Procedure<NodePrimitive> procedure) {
-        Iterable<NodeId> iterable = getNodes();
-        for (NodeId nodeId : iterable) {
-            int index = getNodeIndex(nodeId);
-            if (index < 0) {
-                continue;
-            }
-            NodePrimitive nodePrimitive = new NodePrimitive(index, nodeId);
-            if (!procedure.apply(nodePrimitive)) {
-                break;
-            }
-        }
     }
 
     @Override

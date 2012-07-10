@@ -50,9 +50,8 @@ public class NodeTypesImpl implements NodeTypes {
 
     @Override
     public NodeType valueOf(String name) {
-        NodeType nodeType = nodeTypes.get(name);
-        Assert.notNull(nodeType, "No node type named '" + name + "'.");
-        return nodeType;
+        Assert.isTrue(nodeTypes.containsKey(name), "No such edge type: " + name);
+        return nodeTypes.get(name);
     }
 
     @Override

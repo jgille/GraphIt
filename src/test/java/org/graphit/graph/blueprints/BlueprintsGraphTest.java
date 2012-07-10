@@ -66,7 +66,6 @@ public class BlueprintsGraphTest extends GraphTest {
     @Override
     public Graph generateGraph() {
         GraphMetadataImpl metadata = new GraphMetadataImpl("test");
-        metadata.addNodeType(BlueprintsGraph.DEFAULT_NODE_TYPE);
         PropertyGraph graph = new PropertyGraphImpl(metadata);
         return new BlueprintsGraph(graph);
     }

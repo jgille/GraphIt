@@ -20,14 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.exception.DuplicateKeyException;
 import org.graphit.graph.node.domain.NodeId;
-import org.graphit.graph.node.domain.NodePrimitive;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypeImpl;
@@ -151,41 +145,6 @@ public class NodeIdRepositoryImplTest {
             exception = true;
         }
         assertTrue(exception);
-    }
-
-    @Test
-    public void testForEach() {
-        List<NodeId> nodes =
-            new ArrayList<NodeId>(Arrays.asList(newUser("u1"), newProduct("p1"), newUser("u2")));
-        for (NodeId nodeId : nodes) {
-            repo.insert(nodeId);
-        }
-        repo.remove(1);
-        nodes.remove(1);
-
-        final List<NodeId> actual = new ArrayList<NodeId>();
-        Procedure<NodePrimitive> allowAllProc = new Procedure<NodePrimitive>() {
-
-            @Override
-            public boolean apply(NodePrimitive element) {
-                actual.add(new NodeId(new NodeTypeImpl(element.getType()), element.getId()));
-                return true;
-            }
-        };
-        repo.forEach(allowAllProc);
-        assertEquals(nodes, actual);
-
-        Procedure<NodePrimitive> allowNone = new Procedure<NodePrimitive>() {
-
-            @Override
-            public boolean apply(NodePrimitive element) {
-                actual.add(new NodeId(new NodeTypeImpl(element.getType()), element.getId()));
-                return false;
-            }
-        };
-        repo.forEach(allowNone);
-        nodes.add(nodes.get(0));
-        assertEquals(nodes, actual);
     }
 
     private NodeId newUser(String id) {

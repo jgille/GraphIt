@@ -39,14 +39,13 @@ public class EdgeTypesImplTest {
     @Test
     public void testValueOfNonExisting() {
         EdgeTypesImpl edgeTypes = new EdgeTypesImpl();
-        EdgeType aType = new EdgeTypeImpl("A");
-        EdgeType bType = new EdgeTypeImpl("B");
-        edgeTypes.add(aType).add(bType);
-        assertEquals(aType, edgeTypes.valueOf("A"));
-        assertEquals(bType, edgeTypes.valueOf("B"));
-
-        EdgeType cType = new EdgeTypeImpl("C");
-        assertEquals(cType, edgeTypes.valueOf("C"));
+        boolean exception = false;
+        try {
+            edgeTypes.valueOf("C");
+        } catch (IllegalArgumentException e) {
+            exception = true;
+        }
+        assertTrue(exception);
     }
 
     @Test

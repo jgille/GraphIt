@@ -17,6 +17,7 @@
 package org.graphit.graph.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import org.graphit.graph.edge.repository.EdgePrimitivesRepositoryImpl;
 import org.graphit.graph.edge.schema.EdgeSortOrder;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypeImpl;
+import org.graphit.graph.exception.GraphException;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
@@ -223,11 +225,14 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public Node addNode(NodeId nodeId) {
-        metadata.getOrCreateNodeType(nodeId.getNodeType().name());
-        int index = nodeRepo.insert(nodeId);
+        NodeType nodeType = metadata.getNodeTypes().valueOf(nodeId.getNodeType().name());
+        // Make sure we use the same node type instance for all nodes of the
+        // same type
+        NodeId id = new NodeId(nodeType, nodeId.getId());
+        int index = nodeRepo.insert(id);
         Properties properties =
-            new WriteThroughProperties<NodeId>(nodeId, nodePropertiesRepo);
-        return new NodeImpl(index, nodeId, properties);
+            new WriteThroughProperties<NodeId>(id, nodePropertiesRepo);
+        return new NodeImpl(index, id, properties);
     }
 
     @Override
@@ -295,19 +300,18 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     private Edge doAddEdge(NodeId startNodeId, NodeId endNodeId, EdgeType edgeType, float weight) {
-        metadata.getOrCreateEdgeType(edgeType.name());
+        // This will make sure the edge type is valid
+        metadata.getEdgeTypes().valueOf(edgeType.name());
         Node startNode = getNode(startNodeId);
         Assert.notNull(startNode, "Invalid start node: " + startNodeId);
         Node endNode = getNode(endNodeId);
         Assert.notNull(endNode, "Invalid end node: " + endNodeId);
 
         EdgeId edgeId =
-            edgeRepo.addEdge(startNode.getIndex(), endNode.getIndex(), edgeType,
-                                     weight);
+            edgeRepo.addEdge(startNode.getIndex(), endNode.getIndex(), edgeType, weight);
         EdgeImpl edge =
             new EdgeImpl(edgeId.getIndex(), edgeType,
-                         new WriteThroughProperties<EdgeId>(edgeId,
-                                                            edgePropertiesRepo));
+                         new WriteThroughProperties<EdgeId>(edgeId, edgePropertiesRepo));
 
         edge.setStartNode(startNode)
             .setEndNode(endNode)
@@ -359,7 +363,11 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public void exportJson(File out, boolean includeProperties) {
-        // TODO: Implement
+        try {
+            new PropertyGraphJsonExporter().exportJson(this, out, includeProperties);
+        } catch (IOException e) {
+            throw new GraphException("Failed to export graph.", e);
+        }
     }
 
     @Override

@@ -16,9 +16,7 @@
 
 package org.graphit.graph.node.repository;
 
-import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.node.domain.NodeId;
-import org.graphit.graph.node.domain.NodePrimitive;
 
 /**
  * A repo containing a mapping between node index and {@link NodeId}.
@@ -63,11 +61,6 @@ public interface NodeIdRepository {
      * Gets the number of nodes in this repo.
      */
     int size();
-
-    /**
-     * Applies the procedure for each node in this repo.
-     */
-    void forEach(Procedure<NodePrimitive> procedure);
 
     /**
      * Returns all nodes currently in this repo.
