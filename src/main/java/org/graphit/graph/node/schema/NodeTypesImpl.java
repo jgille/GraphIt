@@ -81,4 +81,9 @@ public class NodeTypesImpl implements NodeTypes {
         nodeTypes.put(nodeType.name(), nodeType);
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "NodeTypesImpl [nodeTypes=" + nodeTypes + "]";
+    }
 }

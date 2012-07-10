@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.graphit.common.procedures.Counter.SortOrder;
 import org.junit.Test;
 
 /**
@@ -36,7 +35,7 @@ public class CounterReducerTest {
     public void testEmpty() {
         CounterReducer<Integer> reducer = new CounterReducer<Integer>();
         Counter<Integer> counter = reducer.reduce(Collections.<Integer> emptyList());
-        assertEquals(Collections.emptyList(), asList(counter.iterable(SortOrder.NONE)));
+        assertEquals(Collections.emptyList(), asList(counter.iterable(CountSortOrder.INSERTION_ORDER)));
     }
 
     @Test
@@ -45,7 +44,7 @@ public class CounterReducerTest {
         Counter<Integer> counter = reducer.reduce(Arrays.asList(1, 2, 1));
         assertEquals(2, counter.count(1));
         assertEquals(1, counter.count(2));
-        assertEquals(Arrays.asList(2, 1), asList(counter.iterable(SortOrder.ASCENDING)));
+        assertEquals(Arrays.asList(2, 1), asList(counter.iterable(CountSortOrder.ASCENDING_COUNT)));
     }
 
     private List<Integer> asList(Iterable<CountedElement<Integer>> it) {

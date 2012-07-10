@@ -35,7 +35,7 @@ public class NodeTypeImpl extends AbstractGraphType implements NodeType {
 
     @Override
     public String toString() {
-        return "NodeTypeImpl []";
+        return "NodeTypeImpl [name()=" + name() + "]";
     }
 
 }

@@ -23,10 +23,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.graphit.common.procedures.ConcatMapper;
+import org.graphit.common.procedures.CountSortOrder;
 import org.graphit.common.procedures.CountedElement;
 import org.graphit.common.procedures.Counter;
 import org.graphit.common.procedures.CounterReducer;
-import org.graphit.common.procedures.Counter.SortOrder;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
@@ -61,6 +61,7 @@ public class PropertyGraphCollaborativeFilteringTest {
 
         graph.addEdge(u1.getNodeId(), p1.getNodeId(), bought);
         graph.addEdge(u2.getNodeId(), p1.getNodeId(), bought);
+        graph.addEdge(u3.getNodeId(), p1.getNodeId(), bought);
 
         graph.addEdge(u2.getNodeId(), p2.getNodeId(), bought);
         graph.addEdge(u3.getNodeId(), p2.getNodeId(), bought);
@@ -68,14 +69,10 @@ public class PropertyGraphCollaborativeFilteringTest {
         graph.addEdge(u3.getNodeId(), p3.getNodeId(), bought);
 
         List<String> r1 = asList(collaborativeFilter(graph, p1.getNodeId(), bought));
-        assertEquals(Arrays.asList("p2"), r1);
+        assertEquals(Arrays.asList("p2", "p3"), r1);
 
         List<String> r2 = asList(collaborativeFilter(graph, p2.getNodeId(), bought));
         assertEquals(Arrays.asList("p1", "p3"), r2);
-        /*
-                List<String> r3 = asList(collaborativeFilter(graph, p3.getNodeId(), bought));
-                assertEquals(Arrays.asList("p2"), r3);
-                */
     }
 
     private Counter<Node> collaborativeFilter(final PropertyGraph graph, final NodeId start,
@@ -102,7 +99,7 @@ public class PropertyGraphCollaborativeFilteringTest {
 
     private List<String> asList(Counter<Node> counter) {
         List<String> res = new ArrayList<String>();
-        for (CountedElement<Node> element : counter.iterable(SortOrder.DESCENDING)) {
+        for (CountedElement<Node> element : counter.iterable(CountSortOrder.DESCENDING_COUNT)) {
             res.add(element.getElement().getNodeId().getId());
         }
         return res;

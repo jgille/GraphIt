@@ -21,9 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.graphit.common.procedures.ConcatMapper;
+import org.graphit.common.procedures.CountSortOrder;
 import org.graphit.common.procedures.CountedElement;
 import org.graphit.common.procedures.Counter;
-import org.graphit.common.procedures.Counter.SortOrder;
 import org.graphit.common.procedures.CounterReducer;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.schema.EdgeType;
@@ -145,6 +145,6 @@ public class PropertyGraphExample {
                            new CounterReducer<Node>());
         // Get the recommendation
         Iterable<CountedElement<Node>> recommendedItems =
-            purchasedItems.iterable(SortOrder.DESCENDING);
+            purchasedItems.iterable(CountSortOrder.DESCENDING_COUNT);
     }
 }

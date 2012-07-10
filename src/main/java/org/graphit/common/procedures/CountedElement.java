@@ -55,5 +55,4 @@ public class CountedElement<E> {
     public String toString() {
         return "CountedElement [element=" + element + ", count=" + count + "]";
     }
-
 }

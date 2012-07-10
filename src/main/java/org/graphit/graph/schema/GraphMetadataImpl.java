@@ -95,4 +95,11 @@ public class GraphMetadataImpl implements GraphMetadata {
         edgeTypes.add(edgeTypeName);
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "GraphMetadataImpl [graphName=" + graphName + ", nodeTypes=" + nodeTypes
+            + ", edgeTypes=" + edgeTypes + "]";
+    }
+
 }

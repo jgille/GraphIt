@@ -85,4 +85,9 @@ public class EdgeTypesImpl implements EdgeTypes {
     public EdgeTypesImpl add(String edgeTypeName) {
         return add(new EdgeTypeImpl(edgeTypeName));
     }
+
+    @Override
+    public String toString() {
+        return "EdgeTypesImpl [edgeTypes=" + edgeTypes + "]";
+    }
 }

@@ -16,11 +16,7 @@
 
 package org.graphit.common.procedures;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.TreeSet;
-
 import org.apache.mahout.math.function.ObjectIntProcedure;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
@@ -54,50 +50,9 @@ public class CounterImpl<E> implements Counter<E> {
     }
 
     @Override
-    public Iterable<CountedElement<E>> iterable(SortOrder sortOrder) {
+    public Iterable<CountedElement<E>> iterable(CountSortOrder sortOrder) {
         Assert.notNull(sortOrder);
-        final Collection<CountedElement<E>> res;
-        switch (sortOrder) {
-        case NONE:
-            res = new ArrayList<CountedElement<E>>();
-            break;
-        case DESCENDING:
-            res = new TreeSet<CountedElement<E>>(new Comparator<CountedElement<E>>() {
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public int compare(CountedElement<E> e1, CountedElement<E> e2) {
-                    int comp = e2.getCount() - e1.getCount();
-                    if (comp != 0) {
-                        return comp;
-                    }
-                    if (e1.getElement() instanceof Comparable) {
-                        return ((Comparable<E>) e1).compareTo(e2.getElement());
-                    }
-                    return -1;
-                }
-            });
-            break;
-        case ASCENDING:
-            res = new TreeSet<CountedElement<E>>(new Comparator<CountedElement<E>>() {
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public int compare(CountedElement<E> e1, CountedElement<E> e2) {
-                    int comp = e1.getCount() - e2.getCount();
-                    if (comp != 0) {
-                        return comp;
-                    }
-                    if (e1.getElement() instanceof Comparable) {
-                        return ((Comparable<E>) e1).compareTo(e2.getElement());
-                    }
-                    return -1;
-                }
-            });
-            break;
-        default:
-            throw new IllegalArgumentException("Illegal sort order: " + sortOrder);
-        }
+        final Collection<CountedElement<E>> res = sortOrder.newCollection();
 
         map.forEachPair(new ObjectIntProcedure<E>() {
 

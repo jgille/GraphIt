@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.graphit.common.procedures.Counter.SortOrder;
 import org.junit.Test;
 
 /**
@@ -37,7 +36,7 @@ public class CounterImplTest {
     public void testEmpty() {
         CounterImpl<Integer> counter = new CounterImpl<Integer>();
         assertEquals(0, counter.count(1));
-        assertEquals(Collections.emptyList(), asList(counter.iterable(SortOrder.NONE)));
+        assertEquals(Collections.emptyList(), asList(counter.iterable(CountSortOrder.INSERTION_ORDER)));
     }
 
     @Test
@@ -48,7 +47,7 @@ public class CounterImplTest {
         counter.add(1);
         assertEquals(2, counter.count(1));
         assertEquals(1, counter.count(2));
-        assertEquals(Arrays.asList(2, 1), asList(counter.iterable(SortOrder.ASCENDING)));
+        assertEquals(Arrays.asList(2, 1), asList(counter.iterable(CountSortOrder.ASCENDING_COUNT)));
     }
 
     @Test
@@ -59,7 +58,7 @@ public class CounterImplTest {
         counter.add(1);
         assertEquals(2, counter.count(1));
         assertEquals(1, counter.count(2));
-        assertEquals(Arrays.asList(1, 2), asList(counter.iterable(SortOrder.DESCENDING)));
+        assertEquals(Arrays.asList(1, 2), asList(counter.iterable(CountSortOrder.DESCENDING_COUNT)));
     }
 
     @Test

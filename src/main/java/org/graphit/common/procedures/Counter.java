@@ -16,6 +16,7 @@
 
 package org.graphit.common.procedures;
 
+
 /**
  *
  * Interface for counting the number of times distinct elements occur in an
@@ -25,13 +26,6 @@ package org.graphit.common.procedures;
  *
  */
 public interface Counter<E> {
-
-    /**
-     * Describes the sort order for iteraing counted elements.
-     */
-    public static enum SortOrder {
-        NONE, ASCENDING, DESCENDING
-    };
 
     /**
      * Gets the number of times this element occurred.
@@ -46,5 +40,5 @@ public interface Counter<E> {
     /**
      * Gets an iterable of all counted elements.
      */
-    Iterable<CountedElement<E>> iterable(SortOrder sortOrder);
+    Iterable<CountedElement<E>> iterable(CountSortOrder sortOrder);
 }
