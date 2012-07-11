@@ -54,4 +54,5 @@ public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
         return "EdgeTypeImpl [sortOrder=" + sortOrder + ", name()=" + name() + "]";
     }
 
+
 }

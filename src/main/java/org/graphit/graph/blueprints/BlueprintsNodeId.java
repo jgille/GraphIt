@@ -17,6 +17,7 @@
 package org.graphit.graph.blueprints;
 
 import org.graphit.graph.node.domain.NodeId;
+import org.springframework.util.Assert;
 
 /**
  * A blueprints compatible node id.
@@ -32,15 +33,13 @@ public class BlueprintsNodeId {
      * Constructs a new id with the wrapped {@link NodeId}.
      */
     public BlueprintsNodeId(NodeId wrappedNodeId) {
+        Assert.notNull(wrappedNodeId);
         this.wrappedNodeId = wrappedNodeId;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((wrappedNodeId == null) ? 0 : wrappedNodeId.hashCode());
-        return result;
+        return wrappedNodeId.hashCode();
     }
 
     @Override
@@ -55,14 +54,7 @@ public class BlueprintsNodeId {
             return false;
         }
         BlueprintsNodeId other = (BlueprintsNodeId) obj;
-        if (wrappedNodeId == null) {
-            if (other.wrappedNodeId != null) {
-                return false;
-            }
-        } else if (!wrappedNodeId.equals(other.wrappedNodeId)) {
-            return false;
-        }
-        return true;
+        return wrappedNodeId.equals(other.wrappedNodeId);
     }
 
     @Override

@@ -33,7 +33,6 @@ public class AbstractGraphType implements DynamicEnumerableElement {
     public AbstractGraphType(String name) {
         this.name = name;
     }
-
     @Override
     public int hashCode() {
         final int prime = 31;

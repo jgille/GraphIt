@@ -173,10 +173,10 @@ public interface PropertyGraph {
     /**
      * Returns all nodes in this graph.
      */
-    Iterable<Node> getNodes();
+    IterablePipe<Node> getNodes();
 
     /**
      * Returns all edges in this graph.
      */
-    Iterable<Edge> getEdges();
+    IterablePipe<Edge> getEdges();
 }

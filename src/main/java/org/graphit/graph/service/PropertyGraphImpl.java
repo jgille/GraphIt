@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.graphit.common.collections.IterablePipe;
 import org.graphit.common.collections.IterablePipeImpl;
 import org.graphit.graph.edge.domain.Edge;
@@ -73,6 +74,10 @@ public class PropertyGraphImpl implements PropertyGraph {
     private EdgePrimitivesRepository edgeRepo;
     private PropertiesRepository<EdgeId> edgePropertiesRepo;
 
+    private boolean shouldPersistNodeProperties = true;
+    private boolean shouldPersistEdgeProperties = true;
+    private String dataDir;
+
     /**
      * Creates a new graph.
      */
@@ -91,6 +96,52 @@ public class PropertyGraphImpl implements PropertyGraph {
             new ConcurrentHashMapPropertiesRepository<NodeId>(DEFAULT_NODE_CAPACITY);
         this.edgePropertiesRepo =
             new ConcurrentHashMapPropertiesRepository<EdgeId>(DEFAULT_EDGE_CAPACITY);
+    }
+
+    /**
+     * Gets the directory, if any, in which this graph is persisted.
+     */
+    public String getDataDir() {
+        return dataDir;
+    }
+
+    /**
+     * Sets the directory in which this graph is persisted.
+     */
+    public void setDataDir(String dataDir) {
+        this.dataDir = dataDir;
+    }
+
+    /**
+     * Defines if node properties are to be included when/if the graph is
+     * persisted on disk.
+     */
+    public boolean shouldPersistNodeProperties() {
+        return shouldPersistNodeProperties;
+    }
+
+    /**
+     * Sets the flag that defines if node properties are to be included when/if
+     * the graph is persisted on disk.
+     */
+    public void setShouldPersistNodeProperties(boolean shouldPersistNodeProperties) {
+        this.shouldPersistNodeProperties = shouldPersistNodeProperties;
+    }
+
+    /**
+     * Defines if node properties are to be included when/if the graph is
+     * persisted on disk.
+     */
+    public boolean shouldPersistEdgeProperties() {
+        return shouldPersistEdgeProperties;
+    }
+
+    /**
+     * Sets the flag that defines if node properties are to be included when/if
+     * the graph is persisted on disk.
+     */
+    public void setShouldPersistEdgeProperties(boolean shouldPersistEdgeProperties) {
+        this.shouldPersistEdgeProperties = shouldPersistEdgeProperties;
     }
 
     /**
@@ -371,12 +422,44 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public void init() {
-        // TODO: Implement
+        Assert.isTrue(nodeRepo.size() == 0, "You may no call init for a non empty graph.");
+        if (dataDir == null) {
+            return;
+        }
+        File file = getFile();
+        if (!file.exists()) {
+            return;
+        }
+
+        importJson(file);
+
+        // Version the file
+        try {
+            File versionsDir = new File(dataDir, "versions");
+            FileUtils.forceMkdir(versionsDir);
+            file.renameTo(getVersionedFile(versionsDir));
+        } catch (IOException e) {
+            throw new GraphException("Failed to create versioned graph file.", e);
+        }
+    }
+
+    private File getFile() {
+        return new File(dataDir, String.format("g-%s.json", metadata.getGraphName()));
+    }
+
+    private File getVersionedFile(File versionsDir) {
+        return new File(versionsDir, String.format("g-%s.%d.json",
+                                                   metadata.getGraphName(),
+                                                   System.currentTimeMillis()));
     }
 
     @Override
     public void shutdown() {
-        // TODO: Implement
+        if (dataDir == null) {
+            return;
+        }
+        File file = getFile();
+        exportJson(file, shouldPersistNodeProperties, shouldPersistEdgeProperties);
     }
 
     @Override
@@ -400,19 +483,20 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     @Override
-    public Iterable<Node> getNodes() {
+    public IterablePipe<Node> getNodes() {
         Iterable<NodeId> nodeIds = nodeRepo.getNodes();
-        return Iterables.transform(nodeIds, new Function<NodeId, Node>() {
+        Iterable<Node> nodes = Iterables.transform(nodeIds, new Function<NodeId, Node>() {
 
             @Override
             public Node apply(NodeId nodeId) {
                 return getNode(nodeId);
             }
         });
+        return new IterablePipeImpl<Node>(nodes);
     }
 
     @Override
-    public Iterable<Edge> getEdges() {
+    public IterablePipe<Edge> getEdges() {
         Iterable<NodeId> nodeIds = nodeRepo.getNodes();
         List<Iterable<Edge>> edges = new ArrayList<Iterable<Edge>>();
         for (NodeId nodeId : nodeIds) {
@@ -422,7 +506,7 @@ public class PropertyGraphImpl implements PropertyGraph {
                 edges.add(outgoingEdges);
             }
         }
-        return Iterables.concat(edges);
+        return new IterablePipeImpl<Edge>(Iterables.concat(edges));
     }
 
     @Override

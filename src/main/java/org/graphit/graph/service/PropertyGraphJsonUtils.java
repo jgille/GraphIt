@@ -75,9 +75,7 @@ public final class PropertyGraphJsonUtils {
         JsonParser jsonParser = jsonFactory.createJsonParser(in);
 
         JsonToken current = jsonParser.nextToken();
-        if (current != JsonToken.START_OBJECT) {
-            throw new IllegalArgumentException("Error: json root should be object.");
-        }
+        Assert.isTrue(current == JsonToken.START_OBJECT);
 
         while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
             String fieldName = jsonParser.getCurrentName();
@@ -122,22 +120,21 @@ public final class PropertyGraphJsonUtils {
     private static void importNodes(PropertyGraph graph, JsonParser jsonParser, JsonToken current)
         throws IOException {
         NodeTypes nodeTypes = graph.getMetadata().getNodeTypes();
-        if (current == JsonToken.START_ARRAY) {
-            while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
-                // TODO: Use a dedicated domain object intead of a map
-                Map<String, Object> nodeData =
-                    jsonParser.readValueAs(new TypeReference<Map<String, Object>>() {
-                    });
-                int index = (Integer) nodeData.remove(INDEX);
-                NodeType nodeType = nodeTypes.valueOf((String) nodeData.remove(TYPE));
-                NodeId nodeId = new NodeId(nodeType, (String) nodeData.remove(ID));
-                Node node = graph.addNode(nodeId, index);
-                if (!nodeData.isEmpty()) {
-                    for (Map.Entry<String, Object> propertyEntry : nodeData.entrySet()) {
-                        node.setProperty(propertyEntry.getKey(), propertyEntry.getValue());
-                    }
-                    graph.setNodeProperties(nodeId, node);
+        Assert.isTrue(current == JsonToken.START_ARRAY);
+        while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+            // TODO: Use a dedicated domain object intead of a map
+            Map<String, Object> nodeData =
+                jsonParser.readValueAs(new TypeReference<Map<String, Object>>() {
+                });
+            int index = (Integer) nodeData.remove(INDEX);
+            NodeType nodeType = nodeTypes.valueOf((String) nodeData.remove(TYPE));
+            NodeId nodeId = new NodeId(nodeType, (String) nodeData.remove(ID));
+            Node node = graph.addNode(nodeId, index);
+            if (!nodeData.isEmpty()) {
+                for (Map.Entry<String, Object> propertyEntry : nodeData.entrySet()) {
+                    node.setProperty(propertyEntry.getKey(), propertyEntry.getValue());
                 }
+                graph.setNodeProperties(nodeId, node);
             }
         }
     }
@@ -145,27 +142,26 @@ public final class PropertyGraphJsonUtils {
     private static void importEdges(PropertyGraph graph, JsonParser jsonParser, JsonToken current)
         throws IOException {
         EdgeTypes edgeTypes = graph.getMetadata().getEdgeTypes();
-        if (current == JsonToken.START_ARRAY) {
-            while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
-                // TODO: Use a dedicated domain object intead of a map
-                Map<String, Object> edgeData =
-                    jsonParser.readValueAs(new TypeReference<Map<String, Object>>() {
-                    });
+        Assert.isTrue(current == JsonToken.START_ARRAY);
+        while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+            // TODO: Use a dedicated domain object intead of a map
+            Map<String, Object> edgeData =
+                jsonParser.readValueAs(new TypeReference<Map<String, Object>>() {
+                });
 
-                int index = (Integer) edgeData.remove(INDEX);
-                EdgeType edgeType = edgeTypes.valueOf((String) edgeData.remove(TYPE));
-                EdgeId edgeId = new EdgeId(edgeType, index);
-                int startNodeIndex = (Integer) edgeData.remove(START);
-                int endNodeIndex = (Integer) edgeData.remove(END);
-                Double weight = (Double) edgeData.remove(WEIGHT);
-                Edge edge =
-                    graph.addEdge(edgeId, startNodeIndex, endNodeIndex, weight.floatValue());
-                if (!edgeData.isEmpty()) {
-                    for (Map.Entry<String, Object> propertyEntry : edgeData.entrySet()) {
-                        edge.setProperty(propertyEntry.getKey(), propertyEntry.getValue());
-                    }
-                    graph.setEdgeProperties(edgeId, edge);
+            int index = (Integer) edgeData.remove(INDEX);
+            EdgeType edgeType = edgeTypes.valueOf((String) edgeData.remove(TYPE));
+            EdgeId edgeId = new EdgeId(edgeType, index);
+            int startNodeIndex = (Integer) edgeData.remove(START);
+            int endNodeIndex = (Integer) edgeData.remove(END);
+            Double weight = (Double) edgeData.remove(WEIGHT);
+            Edge edge =
+                graph.addEdge(edgeId, startNodeIndex, endNodeIndex, weight.floatValue());
+            if (!edgeData.isEmpty()) {
+                for (Map.Entry<String, Object> propertyEntry : edgeData.entrySet()) {
+                    edge.setProperty(propertyEntry.getKey(), propertyEntry.getValue());
                 }
+                graph.setEdgeProperties(edgeId, edge);
             }
         }
     }

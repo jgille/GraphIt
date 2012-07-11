@@ -19,6 +19,7 @@ package org.graphit.graph.blueprints;
 import java.util.Set;
 
 import org.graphit.properties.domain.Properties;
+import org.springframework.util.Assert;
 
 import com.tinkerpop.blueprints.Element;
 
@@ -45,6 +46,7 @@ public abstract class AbstractElement<T> implements Element {
      *
      */
     protected AbstractElement(T id, Properties properties) {
+        Assert.notNull(id);
         this.id = id;
         this.properties = properties;
     }
@@ -79,10 +81,7 @@ public abstract class AbstractElement<T> implements Element {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+        return id.hashCode();
     }
 
     @Override
@@ -97,14 +96,7 @@ public abstract class AbstractElement<T> implements Element {
             return false;
         }
         AbstractElement<?> other = (AbstractElement<?>) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-        return true;
+        return id.equals(other.id);
     }
 
 }

@@ -17,11 +17,12 @@
 package org.graphit.graph.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-
 import org.apache.commons.io.FileUtils;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeSortOrder;
@@ -40,12 +41,12 @@ import org.springframework.core.io.Resource;
  * @author jon
  *
  */
-public class PropertyGraphJsonTest {
+public class PropertyGraphImplJsonTest {
 
     @Rule
     public TemporaryFolder out = new TemporaryFolder();
 
-    private PropertyGraph graph;
+    private PropertyGraphImpl graph;
 
     @Before
     public void setupGraph() {
@@ -147,6 +148,128 @@ public class PropertyGraphJsonTest {
         assertEquals(expected, fileContent);
     }
 
+    @Test
+    public void testShutdownNoDataDir() throws IOException {
+        graph.shutdown(); // Just make sure no exception is thrown
+    }
+
+    @Test
+    public void testShutdownWithDataDir() throws IOException {
+        File dir = out.newFolder();
+        graph.setDataDir(dir.getAbsolutePath());
+        graph.shutdown();
+
+        String fileContent = FileUtils.readFileToString(new File(dir, "g-test.json"));
+        String expected = getExpected("exportedGraph.json");
+        assertEquals(expected, fileContent);
+    }
+
+    @Test
+    public void testShutdownEmptyGraphWithDataDir() throws IOException {
+        PropertyGraphImpl emptyGraph = new PropertyGraphImpl("test");
+        File dir = out.newFolder();
+        emptyGraph.setDataDir(dir.getAbsolutePath());
+        emptyGraph.shutdown();
+
+        String fileContent = FileUtils.readFileToString(new File(dir, "g-test.json"));
+        String expected = getExpected("emptyGraph.json");
+        assertEquals(expected, fileContent);
+    }
+
+    @Test
+    public void testShutdownWithDataDirNoProperties() throws IOException {
+        File dir = out.newFolder();
+        graph.setDataDir(dir.getAbsolutePath());
+        graph.setShouldPersistNodeProperties(false);
+        graph.setShouldPersistEdgeProperties(false);
+        graph.shutdown();
+
+        String fileContent = FileUtils.readFileToString(new File(dir, "g-test.json"));
+        String expected = getExpected("exportedGraphNoProperties.json");
+        assertEquals(expected, fileContent);
+    }
+
+    @Test
+    public void testInitNoDataDir() {
+        PropertyGraphImpl emptyGraph = new PropertyGraphImpl("test");
+        emptyGraph.init();
+        assertTrue(emptyGraph.getNodes().asList().isEmpty());
+        assertTrue(emptyGraph.getEdges().asList().isEmpty());
+    }
+
+    @Test
+    public void testInitNoDataFile() throws IOException {
+        PropertyGraphImpl emptyGraph = new PropertyGraphImpl("test");
+        File dir = out.newFolder();
+        emptyGraph.setDataDir(dir.getAbsolutePath());
+        emptyGraph.init();
+        assertTrue(emptyGraph.getNodes().asList().isEmpty());
+        assertTrue(emptyGraph.getEdges().asList().isEmpty());
+    }
+
+    @Test
+    public void testInitAndExport() throws IOException {
+        PropertyGraphImpl g = new PropertyGraphImpl("test");
+        File dir = out.newFolder();
+
+        File resourceFile = getResourceFile("exportedGraph.json");
+        File graphFile = new File(dir, "g-test.json");
+        FileUtils.copyFile(resourceFile, graphFile);
+
+        g.setDataDir(dir.getAbsolutePath());
+        g.init();
+
+        // Should have been renamed now
+        assertFalse(graphFile.exists());
+
+        File versionsDir = new File(dir, "versions");
+        assertTrue(versionsDir.exists());
+        String[] files = versionsDir.list();
+        assertEquals(1, files.length);
+        String vFileName = files[0];
+        assertTrue(vFileName.matches("g-test.\\d*.json"));
+        String expected = getExpected("exportedGraph.json");
+
+        assertEquals(expected, FileUtils.readFileToString(new File(versionsDir, vFileName)));
+
+        File file = out.newFile();
+        g.exportJson(file, true, true);
+
+        String fileContent = FileUtils.readFileToString(file);
+        assertEquals(expected, fileContent);
+    }
+
+    @Test
+    public void testInitAndExportWitoutProperties() throws IOException {
+        PropertyGraphImpl g = new PropertyGraphImpl("test");
+        File dir = out.newFolder();
+
+        File resourceFile = getResourceFile("exportedGraphNoProperties.json");
+        File graphFile = new File(dir, "g-test.json");
+        FileUtils.copyFile(resourceFile, graphFile);
+
+        g.setDataDir(dir.getAbsolutePath());
+        g.init();
+
+        File file = out.newFile();
+        g.exportJson(file, true, true);
+
+        String fileContent = FileUtils.readFileToString(file);
+        String expected = getExpected("exportedGraphNoProperties.json");
+        assertEquals(expected, fileContent);
+    }
+
+    @Test
+    public void testInitNonEmptyGraph() {
+        boolean exception = false;
+        try {
+            graph.init();
+        } catch (IllegalArgumentException e) {
+            exception = true;
+        }
+        assertTrue(exception);
+    }
+
     private String getExpected(String fileName) throws IOException {
         return FileUtils.readFileToString(getResourceFile(fileName));
     }
@@ -156,4 +279,5 @@ public class PropertyGraphJsonTest {
         Resource resource = new ClassPathResource(path);
         return resource.getFile();
     }
+
 }
