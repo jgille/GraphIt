@@ -28,5 +28,3 @@ Please see the wiki page for examples: https://github.com/jon-ivmark/GraphIt/wik
 ===============================================================================================
 
 All required third party libraries are included in the project jar file.
-To make use of all features you will need google guava libraries though:
-https://code.google.com/p/guava-libraries/
