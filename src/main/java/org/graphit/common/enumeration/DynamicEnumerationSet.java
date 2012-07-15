@@ -42,4 +42,21 @@ public interface DynamicEnumerationSet<T extends DynamicEnumerableElement> {
      * Gets the size (number of elements) of this set.
      */
     int size();
+
+    /**
+     * Adds an element to the set.
+     */
+    void add(T element);
+
+    /**
+     * Adds a named element of default type to the set.
+     */
+    void add(String element);
+
+    /**
+     * Gets the element with the given name, or creates it if no such element
+     * exists.
+     */
+    T getOrAdd(String edgeTypeName);
+
 }

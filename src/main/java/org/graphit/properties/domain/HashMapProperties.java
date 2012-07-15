@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.util.Assert;
+
 /**
  * A {@link Properties} implementation backed by a {@link HashMap}.
  *
@@ -42,6 +44,14 @@ public class HashMapProperties implements Properties {
      */
     public HashMapProperties(int capacity) {
         this.properties = new HashMap<String, Object>(capacity);
+    }
+
+    /**
+     * Crates a new instance with all the entries of the provided map.
+     */
+    public HashMapProperties(Map<String, Object> initialProperties) {
+        Assert.notNull(initialProperties);
+        this.properties = new HashMap<String, Object>(initialProperties);
     }
 
     @Override

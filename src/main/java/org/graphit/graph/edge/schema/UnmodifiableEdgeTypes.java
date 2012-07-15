@@ -16,14 +16,26 @@
 
 package org.graphit.graph.edge.schema;
 
-import org.graphit.common.enumeration.DynamicEnumerationSet;
-
 /**
- * A set of all valid edge types for a graph.
+ * Base class for unmodifiable {@link EdgeTypes}.
  *
  * @author jon
  *
  */
-public interface EdgeTypes extends DynamicEnumerationSet<EdgeType> {
+public abstract class UnmodifiableEdgeTypes implements EdgeTypes {
 
+    @Override
+    public void add(EdgeType edgeType) {
+        throw new UnsupportedOperationException("This instance is unmodifiable.");
+    }
+
+    @Override
+    public void add(String edgeTypeName) {
+        throw new UnsupportedOperationException("This instance is unmodifiable.");
+    }
+
+    @Override
+    public EdgeType getOrAdd(String edgeTypeName) {
+        throw new UnsupportedOperationException("This instance is unmodifiable.");
+    }
 }

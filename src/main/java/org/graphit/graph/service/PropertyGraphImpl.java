@@ -81,6 +81,13 @@ public class PropertyGraphImpl implements PropertyGraph {
     /**
      * Creates a new graph.
      */
+    public PropertyGraphImpl() {
+        this(new GraphMetadataImpl());
+    }
+
+    /**
+     * Creates a new graph.
+     */
     public PropertyGraphImpl(String graphName) {
         this(new GraphMetadataImpl(graphName));
     }
@@ -539,5 +546,20 @@ public class PropertyGraphImpl implements PropertyGraph {
     @Override
     public NodeType getOrCreateNodeType(String name) {
         return metadata.getOrCreateNodeType(name);
+    }
+
+    @Override
+    public void setGraphName(String graphName) {
+        metadata.setGraphName(graphName);
+    }
+
+    @Override
+    public EdgeType getEdgeType(String name) {
+        return metadata.getEdgeTypes().valueOf(name);
+    }
+
+    @Override
+    public NodeType getNodeType(String name) {
+        return metadata.getNodeTypes().valueOf(name);
     }
 }

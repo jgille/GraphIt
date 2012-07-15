@@ -65,26 +65,30 @@ public class NodeTypesImpl implements NodeTypes {
         return nodeTypes.size();
     }
 
-    /**
-     * Adds a {@link NodeType} to the set.
-     */
-    public NodeTypesImpl add(NodeType nodeType) {
+    @Override
+    public void add(NodeType nodeType) {
         Assert.isTrue(!nodeTypes.containsKey(nodeType.name()));
         nodeTypes.put(nodeType.name(), nodeType);
-        return this;
     }
 
-    /**
-     * Adds a {@link NodeType} to the set.
-     */
-    public NodeTypesImpl add(String nodeTypeName) {
+    @Override
+    public void add(String nodeTypeName) {
         NodeType nodeType = new NodeTypeImpl(nodeTypeName);
         nodeTypes.put(nodeType.name(), nodeType);
-        return this;
     }
 
     @Override
     public String toString() {
         return "NodeTypesImpl [nodeTypes=" + nodeTypes + "]";
+    }
+
+    @Override
+    public NodeType getOrAdd(String nodeTypeName) {
+        NodeType nodeType = nodeTypes.get(nodeTypeName);
+        if (nodeType == null) {
+            nodeType = new NodeTypeImpl(nodeTypeName);
+            nodeTypes.put(nodeTypeName, nodeType);
+        }
+        return nodeType;
     }
 }

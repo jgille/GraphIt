@@ -42,7 +42,7 @@ import org.graphit.graph.schema.GraphMetadata;
 import org.springframework.util.Assert;
 
 /**
- * Exports a graph to file as json.
+ * Utility class for working with graphs represented with json.
  *
  * @author jon
  *
@@ -102,8 +102,9 @@ public final class PropertyGraphJsonUtils {
             });
 
         String name = (String) metadata.get(NAME);
-        Assert.isTrue(graph.getMetadata().getGraphName().equals(name), "Unexpected graph name: "
-            + name);
+        String graphName = graph.getMetadata().getGraphName();
+        Assert.isTrue(graphName.isEmpty() || graphName.equals(name), "Unexpected graph name: " +
+            name + ", expected " + graphName);
 
         List<String> nodeTypes = (List<String>) metadata.get(NODE_TYPES);
         for (String nodeType : nodeTypes) {

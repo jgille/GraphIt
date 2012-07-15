@@ -32,7 +32,8 @@ public class EdgeTypesImplTest {
         EdgeTypesImpl edgeTypes = new EdgeTypesImpl();
         EdgeType aType = new EdgeTypeImpl("A");
         EdgeType bType = new EdgeTypeImpl("B");
-        edgeTypes.add(aType).add(bType);
+        edgeTypes.add(aType);
+        edgeTypes.add(bType);
         assertEquals(aType, edgeTypes.valueOf("A"));
     }
 

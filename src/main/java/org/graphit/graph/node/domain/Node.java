@@ -32,4 +32,8 @@ public interface Node extends GraphEntity<NodeType> {
      */
     NodeId getNodeId();
 
+    /**
+     * Returns the type of this node.
+     */
+    NodeType getType();
 }

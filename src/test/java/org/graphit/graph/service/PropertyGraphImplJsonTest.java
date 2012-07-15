@@ -94,7 +94,6 @@ public class PropertyGraphImplJsonTest {
         graph.setEdgeProperties(b4, PropertiesBuilder.start().set("aliases", Arrays.asList("b4"))
             .get());
 
-
         graph.addEdge(i1, i2, recommended, 15).getEdgeId();
         graph.addEdge(i1, i3, recommended, 25).getEdgeId();
         graph.addEdge(i2, i3, recommended, 20).getEdgeId();

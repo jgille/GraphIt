@@ -41,15 +41,6 @@ public class EdgeTypesImpl implements EdgeTypes {
         this.edgeTypes = Collections.synchronizedMap(new TreeMap<String, EdgeType>());
     }
 
-    /**
-     * Ensures the existance of the given edge type.
-     */
-    public void ensureHasEdgeType(String edgeTypeName) {
-        if (!edgeTypes.containsKey(edgeTypeName)) {
-            edgeTypes.put(edgeTypeName, new EdgeTypeImpl(edgeTypeName));
-        }
-    }
-
     @Override
     public EdgeType valueOf(String name) {
         Assert.isTrue(edgeTypes.containsKey(name), "No such edge type: " + name);
@@ -71,24 +62,29 @@ public class EdgeTypesImpl implements EdgeTypes {
         return edgeTypes.size();
     }
 
-    /**
-     * Adds an edge type to this edge type set.
-     */
-    public EdgeTypesImpl add(EdgeType edgeType) {
+    @Override
+    public void add(EdgeType edgeType) {
         Assert.isTrue(!edgeTypes.containsKey(edgeType.name()));
         edgeTypes.put(edgeType.name(), edgeType);
-        return this;
     }
 
-    /**
-     * Adds an unweighted edge type to this edge type set.
-     */
-    public EdgeTypesImpl add(String edgeTypeName) {
-        return add(new EdgeTypeImpl(edgeTypeName));
+    @Override
+    public void add(String edgeTypeName) {
+        add(new EdgeTypeImpl(edgeTypeName));
     }
 
     @Override
     public String toString() {
         return "EdgeTypesImpl [edgeTypes=" + edgeTypes + "]";
+    }
+
+    @Override
+    public EdgeType getOrAdd(String edgeTypeName) {
+        EdgeType edgeType = edgeTypes.get(edgeTypeName);
+        if (edgeType == null) {
+            edgeType = new EdgeTypeImpl(edgeTypeName);
+            edgeTypes.put(edgeTypeName, edgeType);
+        }
+        return edgeType;
     }
 }

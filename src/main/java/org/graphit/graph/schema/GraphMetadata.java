@@ -35,6 +35,11 @@ public interface GraphMetadata {
     String getGraphName();
 
     /**
+     * Sets the name of this graph.
+     */
+    void setGraphName(String graphName);
+
+    /**
      * Gets the valid node types for this graph.
      */
     NodeTypes getNodeTypes();

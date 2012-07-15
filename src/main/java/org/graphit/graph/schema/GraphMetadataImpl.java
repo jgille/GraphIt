@@ -22,6 +22,7 @@ import org.graphit.graph.edge.schema.EdgeTypesImpl;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
 import org.graphit.graph.node.schema.NodeTypesImpl;
+import org.springframework.util.Assert;
 
 /**
  *
@@ -32,17 +33,39 @@ import org.graphit.graph.node.schema.NodeTypesImpl;
  */
 public class GraphMetadataImpl implements GraphMetadata {
 
-    private final String graphName;
-    private final NodeTypesImpl nodeTypes;
-    private final EdgeTypesImpl edgeTypes;
+    private String graphName;
+    private final NodeTypes nodeTypes;
+    private final EdgeTypes edgeTypes;
+
+    /**
+     * Creates a new instance.
+     */
+    public GraphMetadataImpl() {
+        this("");
+    }
 
     /**
      * Creates a new instance.
      */
     public GraphMetadataImpl(String graphName) {
+        this(graphName, new NodeTypesImpl(), new EdgeTypesImpl());
+    }
+
+    /**
+     * Creates a new instance.
+     */
+    public GraphMetadataImpl(String graphName, NodeTypes nodeTypes, EdgeTypes edgeTypes) {
+        Assert.notNull(graphName);
         this.graphName = graphName;
-        this.nodeTypes = new NodeTypesImpl();
-        this.edgeTypes = new EdgeTypesImpl();
+        this.nodeTypes = nodeTypes;
+        this.edgeTypes = edgeTypes;
+
+    }
+
+    @Override
+    public void setGraphName(String graphName) {
+        Assert.isTrue(!graphName.isEmpty());
+        this.graphName = graphName;
     }
 
     @Override
@@ -62,14 +85,12 @@ public class GraphMetadataImpl implements GraphMetadata {
 
     @Override
     public NodeType getOrCreateNodeType(String nodeTypeName) {
-        nodeTypes.ensureHasNodeType(nodeTypeName);
-        return nodeTypes.valueOf(nodeTypeName);
+        return nodeTypes.getOrAdd(nodeTypeName);
     }
 
     @Override
     public EdgeType getOrCreateEdgeType(String edgeTypeName) {
-        edgeTypes.ensureHasEdgeType(edgeTypeName);
-        return edgeTypes.valueOf(edgeTypeName);
+        return edgeTypes.getOrAdd(edgeTypeName);
     }
 
     @Override

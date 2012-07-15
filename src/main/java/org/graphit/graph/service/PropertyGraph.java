@@ -55,6 +55,11 @@ public interface PropertyGraph {
     GraphMetadata getMetadata();
 
     /**
+     * Sets the name of this graph.
+     */
+    void setGraphName(String graphName);
+
+    /**
      * Creates an edge type with the given name and a default sort order. Throws
      * an exception if such a type already exists.
      */
@@ -73,9 +78,21 @@ public interface PropertyGraph {
     NodeType createNodeType(String name);
 
     /**
+     * Gets the edge type with the given name, throwing an exception if no such
+     * edge type exists.
+     */
+    EdgeType getEdgeType(String name);
+
+    /**
      * Gets the edge type with the given name, or creates it if none exists.
      */
     EdgeType getOrCreateEdgeType(String name);
+
+    /**
+     * Gets the node type with the given name, throwing an exception if no such
+     * npde type exists.
+     */
+    NodeType getNodeType(String name);
 
     /**
      * Gets the node type with the given name, or creates it if none exists.
