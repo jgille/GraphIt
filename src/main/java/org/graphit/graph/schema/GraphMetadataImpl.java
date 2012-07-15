@@ -54,7 +54,7 @@ public class GraphMetadataImpl implements GraphMetadata {
     /**
      * Creates a new instance.
      */
-    public GraphMetadataImpl(String graphName, NodeTypes nodeTypes, EdgeTypes edgeTypes) {
+    private GraphMetadataImpl(String graphName, NodeTypes nodeTypes, EdgeTypes edgeTypes) {
         Assert.notNull(graphName);
         this.graphName = graphName;
         this.nodeTypes = nodeTypes;
