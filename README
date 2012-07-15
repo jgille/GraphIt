@@ -10,18 +10,7 @@ Requries: Java SDK 6+
 ===============================================================================================
 
 GraphIt is an easy to use, fast, RAM only (or mostly) property graph
-database. It implements the Blueprints interfaces
-(https://github.com/tinkerpop/blueprints/wiki/), thereby supporting
-advanced ad-hoc traversals using Gremlin
-(https://github.com/tinkerpop/gremlin/wiki).
-
-By default all data is stored in memory, optionally dumped to
-disk/restored from disk on graph shutdown and init. However, the
-repositories used by the graph are pluggable so you are free to write
-your own repos. For instance you might want to keep all graph
-primitives, i.e. node ids and relations, in RAM only but store
-properties in a key/value store. This can be accomplished by using custom
-PropertiesRepository instances for the graph.
+database. Please see the wiki page for more info: https://github.com/jon-ivmark/GraphIt/wiki/
 
 2. Installation
 ===============================================================================================
