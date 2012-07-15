@@ -17,7 +17,7 @@ database. Please see the wiki page for more info: https://github.com/jon-ivmark/
 
 Build from the root directory using:
 
-mvn install -DskiptTests
+mvn package -DskipTests
 
 3. Usage
 ===============================================================================================
