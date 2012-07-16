@@ -34,17 +34,17 @@ import org.junit.Test;
  * @author jon
  *
  */
-public class GraphMetadataImplTest {
+public class GraphMetadataTest {
 
     @Test
     public void testGetGraphName() {
-        GraphMetadataImpl metadata = new GraphMetadataImpl("foo");
+        GraphMetadata metadata = new GraphMetadata("foo");
         assertEquals("foo", metadata.getGraphName());
     }
 
     @Test
     public void testAddEdgeTypes() {
-        GraphMetadataImpl metadata = new GraphMetadataImpl("foo");
+        GraphMetadata metadata = new GraphMetadata("foo");
         metadata.addEdgeType("A").addEdgeType(new EdgeTypeImpl("B")).addEdgeType("C");
         EdgeTypes edgeTypes = metadata.getEdgeTypes();
         assertNotNull(edgeTypes);
@@ -56,7 +56,7 @@ public class GraphMetadataImplTest {
 
     @Test
     public void testAddNodeTypes() {
-        GraphMetadataImpl metadata = new GraphMetadataImpl("foo");
+        GraphMetadata metadata = new GraphMetadata("foo");
         metadata.addNodeType("A").addNodeType(new NodeTypeImpl("B"));
         NodeTypes nodeTypes = metadata.getNodeTypes();
         assertNotNull(nodeTypes);

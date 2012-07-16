@@ -109,6 +109,9 @@ public final class PropertyGraphDotExporter {
 
     private final ObjectMapper mapper;
 
+    /**
+     * Constructs a new exporter for the provided graph.
+     */
     public PropertyGraphDotExporter(PropertyGraph graph) {
         this.graph = graph;
         this.df = new DecimalFormat("#.###");
@@ -133,6 +136,9 @@ public final class PropertyGraphDotExporter {
         }
     }
 
+    /**
+     * Exports the graph to the provided file.
+     */
     public void export(File out) throws IOException {
         BufferedWriter writer = null;
         try {

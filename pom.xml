@@ -175,5 +175,26 @@
 
   </build>
 
+  <!--  Workaround for only including the sonar plugin in maven 3.x, see http://maven.40175.n5.nabble.com/New-Profile-Activation-Type-Request-Maven-Version-td3377623.html -->
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <activation>
+        <file>
+          <!--  This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
+          <exists>${basedir}</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>2.0</version>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

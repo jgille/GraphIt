@@ -76,7 +76,7 @@ public interface EdgeVector {
     /**
      * Applies the procedure for each edge id in this vector. Stops once a
      * procedure call returns false.
-     *
+     * 
      * @param procedure
      *            The procedure to apply for each edge id.
      */

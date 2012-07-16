@@ -20,62 +20,126 @@ import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
+import org.springframework.util.Assert;
 
 /**
- * Describes a graph.
+ *
+ * A {@link GraphMetadata} implementation.
  *
  * @author jon
  *
  */
-public interface GraphMetadata {
+public final class GraphMetadata {
+
+    private String graphName;
+    private final NodeTypes nodeTypes;
+    private final EdgeTypes edgeTypes;
 
     /**
-     * Gets the name of this graph.
+     * Creates a new instance.
      */
-    String getGraphName();
+    public GraphMetadata() {
+        this("");
+    }
 
     /**
-     * Sets the name of this graph.
+     * Creates a new instance.
      */
-    void setGraphName(String graphName);
+    public GraphMetadata(String graphName) {
+        this(graphName, new NodeTypes(), new EdgeTypes());
+    }
 
     /**
-     * Gets the valid node types for this graph.
+     * Creates a new instance.
      */
-    NodeTypes getNodeTypes();
+    private GraphMetadata(String graphName, NodeTypes nodeTypes, EdgeTypes edgeTypes) {
+        Assert.notNull(graphName);
+        this.graphName = graphName;
+        this.nodeTypes = nodeTypes;
+        this.edgeTypes = edgeTypes;
+
+    }
 
     /**
-     * Gets the valid edge types for this graph.
+     * Sets the name of the graph.
      */
-    EdgeTypes getEdgeTypes();
+    public void setGraphName(String graphName) {
+        Assert.hasText(graphName, "The graph name must not be empty.");
+        this.graphName = graphName;
+    }
+
+    /**
+     * Gets the name of the graph.
+     */
+    public String getGraphName() {
+        return graphName;
+    }
+
+    /**
+     * Gets the valid node types for the graph.
+     */
+    public NodeTypes getNodeTypes() {
+        return nodeTypes;
+    }
+
+    /**
+     * Gets the valid edge types for the graph.
+     */
+    public EdgeTypes getEdgeTypes() {
+        return edgeTypes;
+    }
 
     /**
      * Ensures the existance of the given node type, creating it if absent.
      */
-    NodeType getOrCreateNodeType(String nodeTypeName);
+    public NodeType getOrCreateNodeType(String nodeTypeName) {
+        return nodeTypes.getOrAdd(nodeTypeName);
+    }
 
     /**
      * Ensures the existance of the given edge type, creating it if absent.
      */
-    EdgeType getOrCreateEdgeType(String edgeTypeName);
+
+    public EdgeType getOrCreateEdgeType(String edgeTypeName) {
+        return edgeTypes.getOrAdd(edgeTypeName);
+    }
 
     /**
-     * Adds a node type to the metadata.
+     * Adds a node type.
      */
-    GraphMetadata addNodeType(NodeType nodeType);
+    public GraphMetadata addNodeType(NodeType nodeType) {
+        nodeTypes.add(nodeType);
+        return this;
+    }
 
     /**
-     * Adds a node type to the metadata.
+     * Adds a node type.
      */
-    GraphMetadata addNodeType(String nodeTypeName);
+    public GraphMetadata addNodeType(String nodeTypeName) {
+        nodeTypes.add(nodeTypeName);
+        return this;
+    }
 
     /**
-     * Adds a edge type to the metadata.
+     * Adds an edgetype.
      */
-    GraphMetadata addEdgeType(EdgeType edgeType);
+    public GraphMetadata addEdgeType(EdgeType edgeType) {
+        edgeTypes.add(edgeType);
+        return this;
+    }
 
     /**
-     * Adds a edge type to the metadata.
+     * Adds an edgetype.
      */
-    GraphMetadata addEdgeType(String edgeTypeName);
+    public GraphMetadata addEdgeType(String edgeTypeName) {
+        edgeTypes.add(edgeTypeName);
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "GraphMetadata [graphName=" + graphName + ", nodeTypes=" + nodeTypes
+            + ", edgeTypes=" + edgeTypes + "]";
+    }
+
 }

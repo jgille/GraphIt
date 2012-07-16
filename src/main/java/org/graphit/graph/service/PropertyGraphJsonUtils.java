@@ -18,6 +18,9 @@ package org.graphit.graph.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,14 +200,35 @@ public final class PropertyGraphJsonUtils {
 
         generator.writeFieldName(NODE_TYPES);
         generator.writeStartArray();
-        for (NodeType nodeType : metadata.getNodeTypes().elements()) {
+
+        // Sort node types on name
+        NodeTypes nodeTypes = metadata.getNodeTypes();
+        Collection<NodeType> nodeTypeElements = nodeTypes.elements();
+        List<String> nodeTypeNames = new ArrayList<String>(nodeTypeElements.size());
+        for (NodeType nodeType : nodeTypeElements) {
+            nodeTypeNames.add(nodeType.name());
+        }
+        Collections.sort(nodeTypeNames);
+
+        for (String nodeTypeName : nodeTypeNames) {
+            NodeType nodeType = nodeTypes.valueOf(nodeTypeName);
             generator.writeString(nodeType.name());
         }
         generator.writeEndArray();
 
         generator.writeFieldName(EDGE_TYPES);
         generator.writeStartArray();
-        for (EdgeType edgeType : metadata.getEdgeTypes().elements()) {
+
+        EdgeTypes edgeTypes = metadata.getEdgeTypes();
+        // Sort edge types on name
+        Collection<EdgeType> edgeTypeElements = edgeTypes.elements();
+        List<String> edgeTypeNames = new ArrayList<String>(edgeTypeElements.size());
+        for (EdgeType edgeType : edgeTypeElements) {
+            edgeTypeNames.add(edgeType.name());
+        }
+        Collections.sort(edgeTypeNames);
+        for (String edgeTypeName : edgeTypeNames) {
+            EdgeType edgeType = edgeTypes.valueOf(edgeTypeName);
             // TODO: Use a dedicated domain object intead of a map
             Map<String, String> map = new HashMap<String, String>();
             map.put(NAME, edgeType.name());
@@ -217,7 +241,7 @@ public final class PropertyGraphJsonUtils {
     }
 
     private static void writeNodes(PropertyGraph graph, JsonGenerator generator,
-                            boolean includeProperties) throws IOException {
+                                   boolean includeProperties) throws IOException {
         generator.writeFieldName(NODES);
         generator.writeStartArray();
         for (Node node : graph.getNodes()) {

@@ -19,13 +19,12 @@ package org.graphit.graph.edge.domain;
 import java.util.EnumSet;
 
 import org.graphit.graph.edge.schema.EdgeTypes;
-import org.graphit.graph.edge.schema.EdgeTypesImpl;
 import org.graphit.graph.edge.util.TestEdgeType;
 
 public class TestEdgeTypes {
 
     public static EdgeTypes getEdgeTypes() {
-        EdgeTypesImpl edgeTypes = new EdgeTypesImpl();
+        EdgeTypes edgeTypes = new EdgeTypes();
         for (TestEdgeType et : EnumSet.allOf(TestEdgeType.class)) {
             edgeTypes.add(et);
         }

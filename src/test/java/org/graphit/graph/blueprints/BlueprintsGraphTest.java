@@ -18,7 +18,7 @@ package org.graphit.graph.blueprints;
 
 import java.lang.reflect.Method;
 
-import org.graphit.graph.schema.GraphMetadataImpl;
+import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.service.PropertyGraphImpl;
 
@@ -65,7 +65,7 @@ public class BlueprintsGraphTest extends GraphTest {
 
     @Override
     public Graph generateGraph() {
-        GraphMetadataImpl metadata = new GraphMetadataImpl("test");
+        GraphMetadata metadata = new GraphMetadata("test");
         PropertyGraph graph = new PropertyGraphImpl(metadata);
         return new BlueprintsGraph(graph);
     }

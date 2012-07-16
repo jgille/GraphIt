@@ -49,7 +49,6 @@ import org.graphit.graph.node.repository.NodeIdRepository;
 import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.schema.GraphMetadata;
-import org.graphit.graph.schema.GraphMetadataImpl;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
@@ -63,7 +62,7 @@ import org.mockito.stubbing.Answer;
 public class PropertyGraphImplTest {
 
     private GraphMetadata setupGraphMetadata() {
-        return new GraphMetadataImpl("test").addNodeType(PRODUCT).addNodeType(USER)
+        return new GraphMetadata("test").addNodeType(PRODUCT).addNodeType(USER)
             .addEdgeType(BOUGHT).addEdgeType(VIEWED).addEdgeType(SIMILAR);
     }
 
