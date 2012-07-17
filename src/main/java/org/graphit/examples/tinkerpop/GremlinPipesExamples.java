@@ -34,9 +34,9 @@ import static org.graphit.examples.ExampleConstants.*;
 
 /**
  * Some examples using Gremlin pipes.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class GremlinPipesExamples {
 
@@ -64,7 +64,8 @@ public class GremlinPipesExamples {
             .out(BOUGHT.name())
             .in(LISTENED_TO.name())
             .dedup()
-            .property("Name").toList();
+            .property("Name")
+            .toList();
     }
 
     /**
