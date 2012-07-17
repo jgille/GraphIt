@@ -24,9 +24,9 @@ import org.springframework.util.Assert;
 
 /**
  * A {@link Properties} implementation backed by a {@link HashMap}.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class HashMapProperties implements Properties {
 

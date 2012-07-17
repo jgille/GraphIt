@@ -22,7 +22,7 @@ import org.junit.rules.TemporaryFolder;
 
 /**
  * @author jon
- *
+ * 
  */
 public class TypedEdgePrimitivesRepositoryImplTest extends
     AbstractTypedEdgePrimitivesRepositoryTest {

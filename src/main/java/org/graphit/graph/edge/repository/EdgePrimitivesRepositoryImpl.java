@@ -20,12 +20,12 @@ import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
 
 /**
- *
+ * 
  * An {@link EdgePrimitivesRepository} backed by
  * {@link TypedEdgePrimitivesRepositoryImpl} instances.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class EdgePrimitivesRepositoryImpl extends AbstractEdgePrimitivesRepository {
 

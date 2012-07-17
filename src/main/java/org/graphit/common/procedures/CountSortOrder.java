@@ -23,7 +23,7 @@ import java.util.TreeSet;
 
 /**
  * Describes the sort order for iteraing counted elements.
- *
+ * 
  * @author jon
  */
 public enum CountSortOrder {
@@ -45,10 +45,10 @@ public enum CountSortOrder {
             Comparator<CountedElement<E>> comparator =
                 new Comparator<CountedElement<E>>() {
 
-                @Override
-                public int compare(CountedElement<E> e1, CountedElement<E> e2) {
-                    return compareElements(e1, e2);
-                }
+                    @Override
+                    public int compare(CountedElement<E> e1, CountedElement<E> e2) {
+                        return compareElements(e1, e2);
+                    }
                 };
             return new TreeSet<CountedElement<E>>(comparator);
         }
@@ -62,10 +62,10 @@ public enum CountSortOrder {
             Comparator<CountedElement<E>> comparator =
                 new Comparator<CountedElement<E>>() {
 
-                @Override
-                public int compare(CountedElement<E> e1, CountedElement<E> e2) {
+                    @Override
+                    public int compare(CountedElement<E> e1, CountedElement<E> e2) {
                         return compareElements(e2, e1);
-                }
+                    }
                 };
             return new TreeSet<CountedElement<E>>(comparator);
         }

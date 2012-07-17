@@ -16,6 +16,10 @@
 
 package org.graphit.examples.tinkerpop;
 
+import static org.graphit.examples.ExampleConstants.BOUGHT;
+import static org.graphit.examples.ExampleConstants.LISTENED_TO;
+import static org.graphit.examples.ExampleConstants.USER;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -30,13 +34,11 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.gremlin.java.GremlinPipeline;
 
-import static org.graphit.examples.ExampleConstants.*;
-
 /**
  * Some examples using Gremlin pipes.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class GremlinPipesExamples {
 

@@ -21,9 +21,9 @@ import org.graphit.common.schema.AbstractGraphType;
 /**
  * Basic {@link EdgeType} implementation. Defaults to being unweighted and
  * unsorted.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
 
@@ -53,6 +53,5 @@ public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
     public String toString() {
         return "EdgeTypeImpl [sortOrder=" + sortOrder + ", name()=" + name() + "]";
     }
-
 
 }

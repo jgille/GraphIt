@@ -20,9 +20,9 @@ import org.graphit.common.enumeration.DynamicEnumerableElement;
 
 /**
  * Base class for graph types (node and edge types).
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class AbstractGraphType implements DynamicEnumerableElement {
     private final String name;
@@ -33,6 +33,7 @@ public class AbstractGraphType implements DynamicEnumerableElement {
     public AbstractGraphType(String name) {
         this.name = name;
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;

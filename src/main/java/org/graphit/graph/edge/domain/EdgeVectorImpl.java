@@ -29,9 +29,9 @@ import org.springframework.util.Assert;
 
 /**
  * An implementation of an edge vector.
- *
+ * 
  * Note: This class is not thread safe.
- *
+ * 
  * @author jon
  */
 public class EdgeVectorImpl implements EdgeVector {
@@ -49,7 +49,7 @@ public class EdgeVectorImpl implements EdgeVector {
     /**
      * Creates an edge vector with a default initial capacity rooted at
      * rootNodeId.
-     *
+     * 
      * @param rootNodeId
      *            The root node.
      * @param edgeType
@@ -62,7 +62,7 @@ public class EdgeVectorImpl implements EdgeVector {
     /**
      * Creates an edge vector with the provided initial capacity rooted at
      * rootNodeId.
-     *
+     * 
      * @param rootNodeId
      *            The root node.
      * @param edgeType

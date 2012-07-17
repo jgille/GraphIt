@@ -24,9 +24,9 @@ import org.springframework.util.Assert;
 /**
  * A proxy that delegates all requests to the underlying {@link Properties}
  * instance. Can be made immutable.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public abstract class PropertiesProxy implements Properties {
 
@@ -35,7 +35,7 @@ public abstract class PropertiesProxy implements Properties {
 
     /**
      * Creates a new instance.
-     *
+     * 
      * @param properties
      *            The underlying properties.
      * @param mutable

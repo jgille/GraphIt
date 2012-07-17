@@ -40,9 +40,9 @@ import org.mockito.stubbing.Answer;
 
 /**
  * Junit tests for {@link DeprecatedEdgeVector}.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class EdgeVectorImplTest {
 
@@ -171,7 +171,6 @@ public class EdgeVectorImplTest {
 
         assertThat(edges, Matchers.is(Arrays.asList(10, 11, 12, 13)));
     }
-
 
     @Test
     public void testAddWeightedEdgesUndefinedSort() {

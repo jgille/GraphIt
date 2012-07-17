@@ -27,7 +27,7 @@ import com.google.common.base.Predicate;
 
 /**
  * @author jon
- *
+ * 
  */
 public class CollectorProcedureTest {
 

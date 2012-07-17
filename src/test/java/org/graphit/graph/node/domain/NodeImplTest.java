@@ -137,11 +137,16 @@ public class NodeImplTest {
 
     @Test
     public void testEquals() {
-        NodeImpl n1 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
-        NodeImpl n2 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
-        NodeImpl n3 = new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
-        NodeImpl n4 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new HashMapProperties());
-        NodeImpl n5 = new NodeImpl(1, new NodeId(TestNodeType.USER, "foo"), new HashMapProperties());
+        NodeImpl n1 =
+            new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n2 =
+            new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n3 =
+            new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n4 =
+            new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new HashMapProperties());
+        NodeImpl n5 =
+            new NodeImpl(1, new NodeId(TestNodeType.USER, "foo"), new HashMapProperties());
         NodeImpl n6 = null;
         NodeImpl n7 =
             new NodeImpl(1, null, new HashMapProperties());
@@ -160,10 +165,14 @@ public class NodeImplTest {
 
     @Test
     public void testHashCode() {
-        NodeImpl n1 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
-        NodeImpl n2 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
-        NodeImpl n3 = new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
-        NodeImpl n4 = new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new HashMapProperties());
+        NodeImpl n1 =
+            new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n2 =
+            new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n3 =
+            new NodeImpl(2, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
+        NodeImpl n4 =
+            new NodeImpl(1, new NodeId(TestNodeType.PRODUCT, "bar"), new HashMapProperties());
         NodeImpl n5 = new NodeImpl(1, null, new HashMapProperties());
 
         assertTrue(n1.hashCode() == n2.hashCode());

@@ -25,9 +25,9 @@ import org.springframework.util.Assert;
 
 /**
  * An edge in a graph.
- *
+ * 
  * Note: This class is not thread safe.
- *
+ * 
  * @author jon
  */
 public class EdgeImpl extends PropertiesProxy implements Edge {
@@ -39,7 +39,7 @@ public class EdgeImpl extends PropertiesProxy implements Edge {
 
     /**
      * Creates an edge.
-     *
+     * 
      * @param index
      *            The edge index.
      * @param edgeType

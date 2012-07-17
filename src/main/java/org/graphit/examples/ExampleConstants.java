@@ -24,7 +24,7 @@ import org.graphit.graph.node.schema.NodeTypeImpl;
 
 /**
  * Some constants used by the examples classes.
- *
+ * 
  * @author jon
  * 
  */

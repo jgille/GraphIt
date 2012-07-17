@@ -20,9 +20,9 @@ import org.graphit.graph.edge.schema.EdgeType;
 
 /**
  * The internal representation of an edge.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class EdgePrimitive {
 
@@ -85,7 +85,7 @@ public class EdgePrimitive {
 
     /**
      * Returns a reversed copy of the edge, i.e. A -> B will become B -> A.
-     *
+     * 
      * @return
      */
     public EdgePrimitive reverse() {

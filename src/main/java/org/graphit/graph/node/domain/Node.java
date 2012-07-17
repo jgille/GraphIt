@@ -21,9 +21,9 @@ import org.graphit.graph.node.schema.NodeType;
 
 /**
  * A node in a graph.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface Node extends GraphEntity<NodeType> {
 

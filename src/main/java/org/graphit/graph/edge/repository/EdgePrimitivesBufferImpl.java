@@ -24,11 +24,11 @@ import org.graphit.graph.edge.schema.EdgeType;
 
 /**
  * A buffer of edge primitives.
- *
+ * 
  * This buffer is thread safe.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class EdgePrimitivesBufferImpl implements EdgePrimitivesBuffer {
     private final EdgeType edgeType;

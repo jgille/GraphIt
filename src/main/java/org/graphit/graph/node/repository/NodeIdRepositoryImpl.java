@@ -30,9 +30,9 @@ import com.google.common.collect.Iterables;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class NodeIdRepositoryImpl implements NodeIdRepository {
 

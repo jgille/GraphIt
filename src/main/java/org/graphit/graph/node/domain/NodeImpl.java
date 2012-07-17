@@ -23,9 +23,9 @@ import org.springframework.util.Assert;
 
 /**
  * Standard {@link Node} implementation.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class NodeImpl extends PropertiesProxy implements Node {
 

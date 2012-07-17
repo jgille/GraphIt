@@ -27,11 +27,11 @@ import org.springframework.util.Assert;
 /**
  * An {@link EdgePrimitivesBuffer} that consists of multiple buffers for
  * improved concurrency.
- *
+ * 
  * This buffer is thread safe.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 

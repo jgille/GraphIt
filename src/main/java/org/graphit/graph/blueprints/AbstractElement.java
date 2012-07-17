@@ -25,9 +25,9 @@ import com.tinkerpop.blueprints.Element;
 
 /**
  * Base implementation of a blueprints {@link Element}.
- *
+ * 
  * @author jon
- *
+ * 
  * @param <T>
  *            The generic type of the element id.
  */
@@ -38,12 +38,12 @@ public abstract class AbstractElement<T> implements Element {
 
     /**
      * Constructs an element.
-     *
+     * 
      * @param id
      *            The id of this element.
      * @param properties
      *            The properties of this element.
-     *
+     * 
      */
     protected AbstractElement(T id, Properties properties) {
         Assert.notNull(id);

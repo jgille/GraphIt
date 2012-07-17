@@ -24,7 +24,7 @@ import org.graphit.graph.traversal.EdgeDirection;
 
 /**
  * A vector of edges originating from a node.
- *
+ * 
  * @author jon
  */
 public interface EdgeVector {
@@ -51,7 +51,7 @@ public interface EdgeVector {
 
     /**
      * Adds an edge to this vector.
-     *
+     * 
      * @param edgeId
      *            The unique id for the new edge.
      */
@@ -59,7 +59,7 @@ public interface EdgeVector {
 
     /**
      * Removes an edge.
-     *
+     * 
      * @param edgeId
      *            The unique id for the edge that should be removed.
      */
@@ -67,7 +67,7 @@ public interface EdgeVector {
 
     /**
      * Reindex an edge in this vector.
-     *
+     * 
      * @param edgeId
      *            The unique id for the edge that should be removed.
      */

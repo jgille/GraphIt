@@ -24,9 +24,9 @@ import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 /**
  * Describes the order in which outgoing and incoming edges are kept sorted for
  * a node.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public enum EdgeSortOrder {
 

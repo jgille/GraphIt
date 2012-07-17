@@ -18,9 +18,9 @@ package org.graphit.graph.exception;
 
 /**
  * An unchecked exception.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class GraphException extends RuntimeException {
 

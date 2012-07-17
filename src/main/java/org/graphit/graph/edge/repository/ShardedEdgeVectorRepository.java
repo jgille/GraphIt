@@ -26,7 +26,7 @@ import org.graphit.graph.edge.domain.EdgeVector;
 /**
  * An {@link EdgeVectorRepository} that is split into multiple shards for better
  * concurrency.
- *
+ * 
  */
 public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
 

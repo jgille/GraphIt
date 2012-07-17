@@ -23,12 +23,12 @@ import org.graphit.graph.exception.DuplicateKeyException;
 import org.springframework.util.Assert;
 
 /**
- *
+ * 
  * A {@link TypedEdgePrimitivesRepository} implementation backed by primitive
  * collections.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitivesRepository {
 

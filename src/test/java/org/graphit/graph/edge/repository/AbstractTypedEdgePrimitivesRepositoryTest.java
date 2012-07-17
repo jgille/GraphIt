@@ -42,7 +42,6 @@ public abstract class AbstractTypedEdgePrimitivesRepositoryTest {
     protected abstract TypedEdgePrimitivesRepository createRepo(EdgeType edgeType,
                                                                 int initialCapacity);
 
-
     @Test
     public void testAddSingleEdge() {
         TypedEdgePrimitivesRepository repo = createRepo(TestEdgeType.SIMILAR, 10);

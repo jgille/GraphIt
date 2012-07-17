@@ -43,9 +43,9 @@ import com.tinkerpop.blueprints.Vertex;
 
 /**
  * A {@link Graph} implementation wrapping a {@link PropertyGraph}.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class BlueprintsGraph implements Graph {
 
@@ -58,7 +58,7 @@ public class BlueprintsGraph implements Graph {
 
     /**
      * Creates a new instance.
-     *
+     * 
      * @param graph
      *            The wrapped property graph.
      */
@@ -110,7 +110,7 @@ public class BlueprintsGraph implements Graph {
 
     /**
      * Converts a {@link Direction} to an {@link EdgeDirection}.
-     *
+     * 
      */
     EdgeDirection getEdgeDirection(Direction direction) {
         switch (direction) {

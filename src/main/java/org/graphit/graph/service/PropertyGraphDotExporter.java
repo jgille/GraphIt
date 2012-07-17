@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2012 Jon Ivmark
  *
@@ -26,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
@@ -39,68 +39,68 @@ import org.graphit.graph.node.schema.NodeTypes;
 /**
  * Exports a graph in Graphviz DOT language format. Please note that no edge
  * properties are included.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public final class PropertyGraphDotExporter {
 
     private static final List<String> SHAPES = Arrays.asList(
-            "box",
-            "ellipse",
-            "hexagon",
-            "circle",
-            "egg",
-            "triangle",
-            "diamond",
-            "trapezium",
-            "parallelogram",
-            "house",
-            "pentagon",
-            "hexagon",
-            "septagon",
-            "octagon",
-            "doublecircle",
-            "doubleoctagon",
-            "tripleoctagon",
-            "invtriangle",
-            "invtrapezium",
-            "invhouse",
-            "Mdiamond",
-            "Msquare",
-            "Mcircle",
-            "rectangle",
-            "square",
-            "note",
-            "tab",
-            "folder",
-            "box3d",
-            "component"
+                                                             "box",
+                                                             "ellipse",
+                                                             "hexagon",
+                                                             "circle",
+                                                             "egg",
+                                                             "triangle",
+                                                             "diamond",
+                                                             "trapezium",
+                                                             "parallelogram",
+                                                             "house",
+                                                             "pentagon",
+                                                             "hexagon",
+                                                             "septagon",
+                                                             "octagon",
+                                                             "doublecircle",
+                                                             "doubleoctagon",
+                                                             "tripleoctagon",
+                                                             "invtriangle",
+                                                             "invtrapezium",
+                                                             "invhouse",
+                                                             "Mdiamond",
+                                                             "Msquare",
+                                                             "Mcircle",
+                                                             "rectangle",
+                                                             "square",
+                                                             "note",
+                                                             "tab",
+                                                             "folder",
+                                                             "box3d",
+                                                             "component"
         );
 
     // Maximum contrast colors according to Kenneth Kelly:
     // http://eleanormaclure.files.wordpress.com/2011/03/colour-coding.pdf
     private static final List<String> COLORS = Arrays.asList(
-            "#00538A",
-            "#FF8E00",
-            "#C10020",
-            "#232C16",
-            "#007D34",
-            "#53377A",
-            "#FF6800",
-            "#B32851",
-            "#593315",
-            "#93AA00",
-            "#F13A13",
-            "#7F180D",
-            "#F6768E",
-            "#CEA262",
-            "#F4C800",
-            "#817066",
-            "#803E75",
-            "#FF7A5C",
-            "#FFB300",
-            "#A6BDD7"
+                                                             "#00538A",
+                                                             "#FF8E00",
+                                                             "#C10020",
+                                                             "#232C16",
+                                                             "#007D34",
+                                                             "#53377A",
+                                                             "#FF6800",
+                                                             "#B32851",
+                                                             "#593315",
+                                                             "#93AA00",
+                                                             "#F13A13",
+                                                             "#7F180D",
+                                                             "#F6768E",
+                                                             "#CEA262",
+                                                             "#F4C800",
+                                                             "#817066",
+                                                             "#803E75",
+                                                             "#FF7A5C",
+                                                             "#FFB300",
+                                                             "#A6BDD7"
         );
     private final PropertyGraph graph;
     private final DecimalFormat df;
@@ -196,9 +196,9 @@ public final class PropertyGraphDotExporter {
                 .replace("\n", "<br align=\"left\"/>");
         writer.write(String
             .format("%s [shape=\"%s\" label=<%s<br align=\"left\"/>> fontsize=9];",
-                                   nid,
-                                   nodeShapes.get(node.getNodeId().getNodeType()),
-                                   propsString));
+                    nid,
+                    nodeShapes.get(node.getNodeId().getNodeType()),
+                    propsString));
         writer.newLine();
     }
 

@@ -20,9 +20,9 @@ import org.graphit.common.enumeration.DynamicEnumerableElement;
 
 /**
  * Describes an edge type in a graph.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface EdgeType extends DynamicEnumerableElement {
 

@@ -25,9 +25,9 @@ import org.graphit.graph.edge.util.EdgeWeigher;
 /**
  * Repository containing {@link EdgePrimitive}s for all edges of an
  * {@link EdgeType} in a graph.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface TypedEdgePrimitivesRepository extends EdgeWeigher {
 
@@ -43,10 +43,10 @@ public interface TypedEdgePrimitivesRepository extends EdgeWeigher {
 
     /**
      * Adds an edge.
-     *
+     * 
      * Note: This method should normally not be used, it's intended usage is
      * replaying operations from file.
-     *
+     * 
      * Use {@link #addEdge(int, int)} instead.
      */
     void addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex);
@@ -58,11 +58,11 @@ public interface TypedEdgePrimitivesRepository extends EdgeWeigher {
 
     /**
      * Adds a weighted edge.
-     *
-     *
+     * 
+     * 
      * Note: This method should normally not be used, it's intended usage is
      * replaying operations from file.
-     *
+     * 
      * Use {@link #addWeightedEdge(int, int, float)} instead.
      */
     void addWeightedEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight);

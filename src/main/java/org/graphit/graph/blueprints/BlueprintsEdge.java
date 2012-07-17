@@ -25,9 +25,9 @@ import com.tinkerpop.blueprints.Vertex;
 
 /**
  * An {@link Edge} implmentation.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class BlueprintsEdge extends AbstractElement<EdgeId> implements Edge {
 
@@ -36,7 +36,7 @@ public class BlueprintsEdge extends AbstractElement<EdgeId> implements Edge {
 
     /**
      * Constructs an edge.
-     *
+     * 
      * @param edgeId
      *            The id of this edge.
      * @param startNode

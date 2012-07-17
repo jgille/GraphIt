@@ -36,9 +36,9 @@ import com.google.common.collect.TreeMultiset;
 
 /**
  * An implementation of an {@link IterablePipe}.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class IterablePipeImpl<E> implements IterablePipe<E> {
 

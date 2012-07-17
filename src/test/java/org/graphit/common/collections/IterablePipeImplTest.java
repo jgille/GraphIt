@@ -37,7 +37,7 @@ import com.google.common.base.Predicate;
 
 /**
  * @author jon
- *
+ * 
  */
 public class IterablePipeImplTest {
 
@@ -138,7 +138,7 @@ public class IterablePipeImplTest {
             @Override
             public Iterable<String> map(Iterable<Integer> input) {
                 List<String> res = new ArrayList<String>();
-                for (Integer i: input) {
+                for (Integer i : input) {
                     res.add(String.valueOf(i));
                 }
                 return res;

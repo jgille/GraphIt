@@ -17,12 +17,13 @@
 package org.graphit.common.enumeration;
 
 import java.util.Collection;
+import java.util.EnumSet;
 
 /**
  * Used to mimic an {@link EnumSet} with dynamic content.
- *
+ * 
  * @author jon
- *
+ * 
  * @param <T>
  *            The generic type of the elements in this set.
  */

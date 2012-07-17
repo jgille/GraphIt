@@ -20,17 +20,17 @@ import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
 
 /**
- *
+ * 
  * A buffer of edge primitives.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface EdgePrimitivesBuffer {
 
     /**
      * Gets the size of this buffer
-     *
+     * 
      * @return
      */
     int size();

@@ -22,9 +22,9 @@ import org.springframework.util.Assert;
 /**
  * A unique identifier for an edge in a graph. Should normally never be
  * constructed manually.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class EdgeId {
 

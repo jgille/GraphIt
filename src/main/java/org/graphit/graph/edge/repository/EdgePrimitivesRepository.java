@@ -23,9 +23,9 @@ import org.graphit.graph.edge.schema.EdgeType;
 
 /**
  * A repo containing methods related to storing {@link EdgePrimitive}s.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface EdgePrimitivesRepository {
 

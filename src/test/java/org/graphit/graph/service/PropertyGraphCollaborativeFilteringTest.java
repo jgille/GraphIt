@@ -39,11 +39,12 @@ import com.google.common.base.Predicate;
 
 /**
  * @author jon
- *
+ * 
  */
 public class PropertyGraphCollaborativeFilteringTest {
 
-    @Test public void testCollaborativeFiltering() {
+    @Test
+    public void testCollaborativeFiltering() {
         PropertyGraph graph = new PropertyGraphImpl("collaborativeFiltering");
 
         NodeType user = graph.getOrCreateNodeType("user");

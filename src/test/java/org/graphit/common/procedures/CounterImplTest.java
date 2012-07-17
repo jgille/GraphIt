@@ -28,7 +28,7 @@ import org.junit.Test;
 
 /**
  * @author jon
- *
+ * 
  */
 public class CounterImplTest {
 
@@ -36,7 +36,8 @@ public class CounterImplTest {
     public void testEmpty() {
         CounterImpl<Integer> counter = new CounterImpl<Integer>();
         assertEquals(0, counter.count(1));
-        assertEquals(Collections.emptyList(), asList(counter.iterable(CountSortOrder.INSERTION_ORDER)));
+        assertEquals(Collections.emptyList(),
+                     asList(counter.iterable(CountSortOrder.INSERTION_ORDER)));
     }
 
     @Test

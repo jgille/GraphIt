@@ -20,9 +20,9 @@ import org.graphit.common.schema.AbstractGraphType;
 
 /**
  * Standard {@link NodeType} implementation.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class NodeTypeImpl extends AbstractGraphType implements NodeType {
 

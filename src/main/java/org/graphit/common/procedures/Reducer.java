@@ -19,9 +19,9 @@ package org.graphit.common.procedures;
 /**
  * 
  * Interface for reducing iterables to a final result in a MapReduce operation.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface Reducer<E, T> {
 

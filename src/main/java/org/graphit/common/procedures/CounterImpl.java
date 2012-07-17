@@ -25,9 +25,9 @@ import org.springframework.util.Assert;
 
 /**
  * A {@link Counter} implementation backed by Mahout collections,
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class CounterImpl<E> implements Counter<E> {
 

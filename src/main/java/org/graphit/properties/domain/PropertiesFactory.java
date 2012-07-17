@@ -18,9 +18,9 @@ package org.graphit.properties.domain;
 
 /**
  * A factory used to create new {@link Properties} instances.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface PropertiesFactory {
 

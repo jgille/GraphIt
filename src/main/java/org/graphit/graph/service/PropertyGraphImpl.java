@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 import org.graphit.common.collections.IterablePipe;
 import org.graphit.common.collections.IterablePipeImpl;
@@ -55,9 +56,9 @@ import com.google.common.collect.Iterables;
 
 /**
  * {@link PropertyGraph} implementation.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class PropertyGraphImpl implements PropertyGraph {
 

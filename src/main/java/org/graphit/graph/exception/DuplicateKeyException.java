@@ -18,9 +18,9 @@ package org.graphit.graph.exception;
 
 /**
  * This exception is thrown when an already existing entity is created.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class DuplicateKeyException extends IllegalArgumentException {
 

@@ -46,9 +46,9 @@ import org.springframework.util.Assert;
 
 /**
  * Utility class for working with graphs represented with json.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public final class PropertyGraphJsonUtils {
 
@@ -251,7 +251,7 @@ public final class PropertyGraphJsonUtils {
             map.put(INDEX, node.getIndex());
             map.put(TYPE, node.getType().name());
             map.put(ID, node.getNodeId().getId());
-                generator.writeObject(map);
+            generator.writeObject(map);
         }
         generator.writeEndArray();
     }

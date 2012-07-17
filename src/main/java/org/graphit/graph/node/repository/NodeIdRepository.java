@@ -20,9 +20,9 @@ import org.graphit.graph.node.domain.NodeId;
 
 /**
  * A repo containing a mapping between node index and {@link NodeId}.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface NodeIdRepository {
 
@@ -38,7 +38,7 @@ public interface NodeIdRepository {
 
     /**
      * Inserts a new node.
-     *
+     * 
      * @return The index of the new node.
      */
     int insert(NodeId nodeId);
@@ -52,7 +52,7 @@ public interface NodeIdRepository {
 
     /**
      * Removes a node given it's index.
-     *
+     * 
      * @return The id removed node id.
      */
     NodeId remove(int nodeIndex);

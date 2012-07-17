@@ -32,9 +32,9 @@ import com.tinkerpop.blueprints.util.DefaultQuery;
 
 /**
  * A {@link Vertex} implementation.
- *
+ * 
  * @author jon
- *
+ * 
  */
 class BlueprintsNode extends AbstractElement<BlueprintsNodeId> implements Vertex {
 
@@ -43,7 +43,7 @@ class BlueprintsNode extends AbstractElement<BlueprintsNodeId> implements Vertex
 
     /**
      * Constructs a new {@link BlueprintsNode}.
-     *
+     * 
      * @param node
      *            The wrapped node.
      * @param edgesRepo

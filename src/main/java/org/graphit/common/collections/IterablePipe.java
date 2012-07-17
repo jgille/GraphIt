@@ -27,15 +27,15 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
- *
+ * 
  * An interface for interacting with {@link Iterable}s in a chained/piped
  * manner.
- *
+ * 
  * Note that an {@link IterablePipe} is always immutable, all of the methods
  * returns a new pipe instance.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface IterablePipe<E> extends Iterable<E> {
 
@@ -48,7 +48,7 @@ public interface IterablePipe<E> extends Iterable<E> {
     /**
      * Creates a new iterable pipe with the last limit elements of this iterable
      * pipe.
-     *
+     * 
      * Note that this will iterate the entire pipe to find the number of
      * elements to skip.
      */

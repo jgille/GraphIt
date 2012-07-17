@@ -22,9 +22,9 @@ import org.springframework.util.StringUtils;
 
 /**
  * Identifies a node in a graph.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class NodeId {
 

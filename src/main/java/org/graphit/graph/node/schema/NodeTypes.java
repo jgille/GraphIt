@@ -27,9 +27,9 @@ import org.springframework.util.Assert;
 
 /**
  * A dynamic set of {@link NodeType}s backed by a {@link HashMap}.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
 

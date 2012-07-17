@@ -19,9 +19,9 @@ package org.graphit.common.procedures;
 /**
  * A {@link Reducer} that counts the number of times each distinct element
  * occurs in an iterable.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class CounterReducer<E> implements Reducer<E, Counter<E>> {
 

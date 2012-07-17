@@ -16,14 +16,13 @@
 
 package org.graphit.common.procedures;
 
-
 /**
- *
+ * 
  * Interface for counting the number of times distinct elements occur in an
  * collection of elements.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface Counter<E> {
 

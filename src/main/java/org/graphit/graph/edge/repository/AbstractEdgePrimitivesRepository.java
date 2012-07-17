@@ -28,9 +28,9 @@ import org.graphit.graph.edge.schema.EdgeTypes;
 /**
  * An {@link EdgePrimitivesRepository} backed by a collection of
  * {@link ByteBufferTypedEdgePrimitivesRepository} instances.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitivesRepository {
 
@@ -64,8 +64,9 @@ public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitives
 
     @Override
     public EdgeId addEdge(int startNodeIndex, int endNodeIndex, EdgeType edgeType,
-                                  float weight) {
-        return getOrCreateRepository(edgeType).addWeightedEdge(startNodeIndex, endNodeIndex, weight);
+                          float weight) {
+        return getOrCreateRepository(edgeType)
+            .addWeightedEdge(startNodeIndex, endNodeIndex, weight);
     }
 
     @Override

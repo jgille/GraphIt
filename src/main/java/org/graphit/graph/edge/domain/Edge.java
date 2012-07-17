@@ -23,9 +23,9 @@ import org.graphit.graph.node.domain.NodeId;
 
 /**
  * An edge in a graph.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface Edge extends GraphEntity<EdgeType> {
 

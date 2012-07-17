@@ -24,9 +24,9 @@ import com.google.common.base.Predicate;
 
 /**
  * A {@link Procedure} that collects processed elements in a list.
- *
+ * 
  * @author jon
- *
+ * 
  * @param <T>
  *            The generic type of the processed elements.
  */
@@ -50,7 +50,7 @@ public class CollectorProcedure<T> implements Procedure<T> {
 
     /**
      * Creates a new filtered procedure.
-     *
+     * 
      * @param predicate
      *            A predicate used to decide whether or not to collect an
      *            element.
@@ -70,7 +70,7 @@ public class CollectorProcedure<T> implements Procedure<T> {
 
     /**
      * Gets all collected elements.
-     *
+     * 
      */
     public List<T> getElements() {
         return Collections.unmodifiableList(elements);

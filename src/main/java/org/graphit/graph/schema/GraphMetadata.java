@@ -23,11 +23,11 @@ import org.graphit.graph.node.schema.NodeTypes;
 import org.springframework.util.Assert;
 
 /**
- *
+ * 
  * A {@link GraphMetadata} implementation.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public final class GraphMetadata {
 

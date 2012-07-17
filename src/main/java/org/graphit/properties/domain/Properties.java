@@ -21,9 +21,9 @@ import java.util.Set;
 
 /**
  * A set of key/value properties.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface Properties {
 

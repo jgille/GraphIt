@@ -19,9 +19,9 @@ package org.graphit.common.procedures;
 /**
  * Domain object for counting the number of times an element occurs in a
  * collection.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class CountedElement<E> {
 
@@ -38,7 +38,7 @@ public class CountedElement<E> {
 
     /**
      * Gets the counted element.
-     *
+     * 
      */
     public E getElement() {
         return element;

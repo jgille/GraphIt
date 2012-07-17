@@ -33,9 +33,9 @@ import org.graphit.properties.domain.Properties;
 /**
  * A graph containing nodes connected by edges. Both nodes and edges can have
  * properties associated with them.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface PropertyGraph {
 

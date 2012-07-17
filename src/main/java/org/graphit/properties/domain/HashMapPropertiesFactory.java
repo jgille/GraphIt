@@ -18,9 +18,9 @@ package org.graphit.properties.domain;
 
 /**
  * {@link PropertiesFactory} creating {@link HashMapProperties} instances.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class HashMapPropertiesFactory implements PropertiesFactory {
 

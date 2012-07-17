@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /**
  * @author jon
- *
+ * 
  */
 public class CounterReducerTest {
 
@@ -35,7 +35,8 @@ public class CounterReducerTest {
     public void testEmpty() {
         CounterReducer<Integer> reducer = new CounterReducer<Integer>();
         Counter<Integer> counter = reducer.reduce(Collections.<Integer> emptyList());
-        assertEquals(Collections.emptyList(), asList(counter.iterable(CountSortOrder.INSERTION_ORDER)));
+        assertEquals(Collections.emptyList(),
+                     asList(counter.iterable(CountSortOrder.INSERTION_ORDER)));
     }
 
     @Test

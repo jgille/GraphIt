@@ -17,11 +17,11 @@
 package org.graphit.properties.domain;
 
 /**
- *
+ * 
  * Convenience methods for building {@link Properties} instances.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public final class PropertiesBuilder {
 

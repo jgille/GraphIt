@@ -21,9 +21,9 @@ import org.springframework.util.Assert;
 
 /**
  * A blueprints compatible node id.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class BlueprintsNodeId {
 

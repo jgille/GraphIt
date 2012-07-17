@@ -20,9 +20,9 @@ import org.graphit.properties.domain.Properties;
 
 /**
  * A repository for properties, e.g. node or edge properties.
- *
+ * 
  * @author jon
- *
+ * 
  * @param <T>
  *            The generic type of the id of each entry in this repo.
  */

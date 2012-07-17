@@ -24,9 +24,9 @@ import org.graphit.properties.domain.PropertiesFactory;
 
 /**
  * A {@link PropertiesRepository} backed by a {@link ConcurrentHashMap}.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class ConcurrentHashMapPropertiesRepository<T>
     implements PropertiesRepository<T> {

@@ -16,6 +16,12 @@
 
 package org.graphit.examples;
 
+import static org.graphit.examples.ExampleConstants.BOUGHT;
+import static org.graphit.examples.ExampleConstants.LISTENED_TO;
+import static org.graphit.examples.ExampleConstants.SIMILAR;
+import static org.graphit.examples.ExampleConstants.TRACK;
+import static org.graphit.examples.ExampleConstants.USER;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,13 +36,11 @@ import org.graphit.graph.service.PropertyGraphDotExporter;
 import org.graphit.graph.service.PropertyGraphImpl;
 import org.graphit.graph.service.PropertyGraphJsonUtils;
 
-import static org.graphit.examples.ExampleConstants.*;
-
 /**
  * A class that generates the example graph.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public class ExampleGraphBuilder {
 

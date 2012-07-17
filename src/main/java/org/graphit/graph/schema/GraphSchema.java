@@ -20,9 +20,9 @@ import java.util.Collection;
 
 /**
  * Describes a set of named graphs.
- *
+ * 
  * @author jon
- *
+ * 
  */
 public interface GraphSchema {
 
