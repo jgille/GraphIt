@@ -1,0 +1,30 @@
+digraph "Music store" {
+"User:john.doe" -> "Track:27add8f2-9d9b-4553-9029-6620eddbc6f2" [label="_type=ListenedTo, _weight=0" color="#00538A" fontsize=9]
+"User:john.doe" -> "Track:4397df76-beaf-4958-9717-2120f4d17714" [label="_type=ListenedTo, _weight=0" color="#00538A" fontsize=9]
+"User:john.doe" -> "Track:27add8f2-9d9b-4553-9029-6620eddbc6f2" [label="_type=Bought, _weight=0" color="#C10020" fontsize=9]
+"User:john.doe" -> "Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [label="_type=Bought, _weight=0" color="#C10020" fontsize=9]
+"User:sam98" -> "Track:27add8f2-9d9b-4553-9029-6620eddbc6f2" [label="_type=ListenedTo, _weight=0" color="#00538A" fontsize=9]
+"User:sam98" -> "Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [label="_type=ListenedTo, _weight=0" color="#00538A" fontsize=9]
+"User:sam98" -> "Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [label="_type=Bought, _weight=0" color="#C10020" fontsize=9]
+"User:sam98" -> "Track:0d8f4e90-3b5c-42d5-86bb-8a65cd934378" [label="_type=Bought, _weight=0" color="#C10020" fontsize=9]
+"User:sam98" -> "Track:4397df76-beaf-4958-9717-2120f4d17714" [label="_type=Bought, _weight=0" color="#C10020" fontsize=9]
+"User:mary_j" -> "Track:e2a0fb6b-c4f3-413f-a28b-6f2729c3f52a" [label="_type=ListenedTo, _weight=0" color="#00538A" fontsize=9]
+"User:mary_j" -> "Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [label="_type=Bought, _weight=0" color="#C10020" fontsize=9]
+"User:mary_j" -> "Track:4397df76-beaf-4958-9717-2120f4d17714" [label="_type=Bought, _weight=0" color="#C10020" fontsize=9]
+"Track:27add8f2-9d9b-4553-9029-6620eddbc6f2" -> "Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [label="_type=Similar, _weight=1" color="#FF8E00" fontsize=9]
+"Track:0e0af968-7112-4401-a9da-3268e8f9bd66" -> "Track:4397df76-beaf-4958-9717-2120f4d17714" [label="_type=Similar, _weight=2" color="#FF8E00" fontsize=9]
+"Track:0e0af968-7112-4401-a9da-3268e8f9bd66" -> "Track:27add8f2-9d9b-4553-9029-6620eddbc6f2" [label="_type=Similar, _weight=1" color="#FF8E00" fontsize=9]
+"Track:0e0af968-7112-4401-a9da-3268e8f9bd66" -> "Track:0d8f4e90-3b5c-42d5-86bb-8a65cd934378" [label="_type=Similar, _weight=1" color="#FF8E00" fontsize=9]
+"Track:0d8f4e90-3b5c-42d5-86bb-8a65cd934378" -> "Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [label="_type=Similar, _weight=1" color="#FF8E00" fontsize=9]
+"Track:0d8f4e90-3b5c-42d5-86bb-8a65cd934378" -> "Track:4397df76-beaf-4958-9717-2120f4d17714" [label="_type=Similar, _weight=1" color="#FF8E00" fontsize=9]
+"Track:4397df76-beaf-4958-9717-2120f4d17714" -> "Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [label="_type=Similar, _weight=2" color="#FF8E00" fontsize=9]
+"Track:4397df76-beaf-4958-9717-2120f4d17714" -> "Track:0d8f4e90-3b5c-42d5-86bb-8a65cd934378" [label="_type=Similar, _weight=1" color="#FF8E00" fontsize=9]
+"User:john.doe" [shape="box" label=<{<br align="left"/>  "Name" : "John Doe",<br align="left"/>  "_type" : "User",<br align="left"/>  "_id" : "john.doe"<br align="left"/>}<br align="left"/>> fontsize=9];
+"User:sam98" [shape="box" label=<{<br align="left"/>  "Name" : "Samantha Fox",<br align="left"/>  "_type" : "User",<br align="left"/>  "_id" : "sam98"<br align="left"/>}<br align="left"/>> fontsize=9];
+"User:mary_j" [shape="box" label=<{<br align="left"/>  "Name" : "Mary J. Blige",<br align="left"/>  "_type" : "User",<br align="left"/>  "_id" : "mary_j"<br align="left"/>}<br align="left"/>> fontsize=9];
+"Track:27add8f2-9d9b-4553-9029-6620eddbc6f2" [shape="ellipse" label=<{<br align="left"/>  "Artists" : [ "Karmin" ],<br align="left"/>  "_type" : "Track",<br align="left"/>  "_id" : "27add8f2-9d9b-4553-9029-6620eddbc6f2",<br align="left"/>  "Price" : 0.99,<br align="left"/>  "Title" : "Crash you party"<br align="left"/>}<br align="left"/>> fontsize=9];
+"Track:0e0af968-7112-4401-a9da-3268e8f9bd66" [shape="ellipse" label=<{<br align="left"/>  "Artists" : [ "The Streets" ],<br align="left"/>  "_type" : "Track",<br align="left"/>  "_id" : "0e0af968-7112-4401-a9da-3268e8f9bd66",<br align="left"/>  "Price" : 1.0,<br align="left"/>  "Title" : "Blinded by the lights (Nero remix)"<br align="left"/>}<br align="left"/>> fontsize=9];
+"Track:0d8f4e90-3b5c-42d5-86bb-8a65cd934378" [shape="ellipse" label=<{<br align="left"/>  "Artists" : [ "Rihanna", "Calvin Harris" ],<br align="left"/>  "_type" : "Track",<br align="left"/>  "_id" : "0d8f4e90-3b5c-42d5-86bb-8a65cd934378",<br align="left"/>  "Price" : 2.2,<br align="left"/>  "Title" : "We found love"<br align="left"/>}<br align="left"/>> fontsize=9];
+"Track:4397df76-beaf-4958-9717-2120f4d17714" [shape="ellipse" label=<{<br align="left"/>  "Artists" : [ "Cher", "Mike Posner" ],<br align="left"/>  "_type" : "Track",<br align="left"/>  "_id" : "4397df76-beaf-4958-9717-2120f4d17714",<br align="left"/>  "Price" : 1.9,<br align="left"/>  "Title" : "With Ur Love"<br align="left"/>}<br align="left"/>> fontsize=9];
+"Track:e2a0fb6b-c4f3-413f-a28b-6f2729c3f52a" [shape="ellipse" label=<{<br align="left"/>  "Artists" : [ "Skepta" ],<br align="left"/>  "_type" : "Track",<br align="left"/>  "_id" : "e2a0fb6b-c4f3-413f-a28b-6f2729c3f52a",<br align="left"/>  "Price" : 1.25,<br align="left"/>  "Title" : "Hold On"<br align="left"/>}<br align="left"/>> fontsize=9];
+}
