@@ -36,7 +36,7 @@ import org.graphit.graph.service.PropertyGraphImpl;
 import org.graphit.graph.service.PropertyGraphJsonUtils;
 
 /**
- * Some examples using tinkerpop.
+ * A class that generates the example graph.
  *
  * @author jon
  *
@@ -51,14 +51,14 @@ public class ExampleGraphBuilder {
                                                              EdgeSortOrder.DESCENDING_WEIGHT);
 
     private PropertyGraph createGraph() {
-        PropertyGraph graph = new PropertyGraphImpl();
-        graph.setGraphName("Music store");
-        GraphMetadata metadata = graph.getMetadata();
-        metadata.addNodeType(USER);
-        metadata.addNodeType(TRACK);
-        metadata.addEdgeType(BOUGHT);
-        metadata.addEdgeType(LISTENED_TO);
-        metadata.addEdgeType(SIMILAR);
+        GraphMetadata metadata = new GraphMetadata("Music store");
+        metadata.addNodeType(USER)
+            .addNodeType(TRACK)
+            .addEdgeType(BOUGHT)
+            .addEdgeType(LISTENED_TO)
+            .addEdgeType(SIMILAR);
+
+        PropertyGraph graph = new PropertyGraphImpl(metadata);
 
         Node john = createUser(graph, "john.doe", "John Doe");
         Node sam = createUser(graph, "sam98", "Samantha Fox");
@@ -121,7 +121,7 @@ public class ExampleGraphBuilder {
 
     /**
      * Main method. The graph will exported to file (as json) using the first
-     * argument as file name, if such an argument is present. It will be
+     * argument as file name, if such an argument is present. It will also be
      * exported in graphviz dot format to a file with the name of argument 2, if
      * such an argument is present.
      */
