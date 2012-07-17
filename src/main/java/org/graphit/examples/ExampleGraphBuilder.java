@@ -22,18 +22,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import org.graphit.graph.edge.schema.EdgeSortOrder;
-import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.schema.EdgeTypeImpl;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
-import org.graphit.graph.node.schema.NodeType;
-import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.service.PropertyGraphDotExporter;
 import org.graphit.graph.service.PropertyGraphImpl;
 import org.graphit.graph.service.PropertyGraphJsonUtils;
+
+import static org.graphit.examples.ExampleConstants.*;
 
 /**
  * A class that generates the example graph.
@@ -42,13 +39,6 @@ import org.graphit.graph.service.PropertyGraphJsonUtils;
  *
  */
 public class ExampleGraphBuilder {
-
-    private static final NodeType USER = new NodeTypeImpl("User");
-    private static final NodeType TRACK = new NodeTypeImpl("Track");
-    private static final EdgeType BOUGHT = new EdgeTypeImpl("Bought");
-    private static final EdgeType LISTENED_TO = new EdgeTypeImpl("ListenedTo");
-    private static final EdgeType SIMILAR = new EdgeTypeImpl("Similar",
-                                                             EdgeSortOrder.DESCENDING_WEIGHT);
 
     private PropertyGraph createGraph() {
         GraphMetadata metadata = new GraphMetadata("Music store");
