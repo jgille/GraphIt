@@ -36,21 +36,20 @@ import com.tinkerpop.gremlin.java.GremlinPipeline;
 
 /**
  * Some examples using Gremlin pipes.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class GremlinPipesExamples {
 
-    private static Graph importGraph() throws IOException {
+    private static PropertyGraph importPropertyGraph() throws IOException {
         PropertyGraph graph = new PropertyGraphImpl();
         Resource resource = new ClassPathResource("/examples/musicstore.json");
         graph.importJson(resource.getFile());
-        return new BlueprintsGraph(graph);
+        return graph;
     }
 
-    private List<Object> getJohnsPurchases() throws IOException {
-        Graph graph = importGraph();
+    private List<Object> getJohnsPurchases(Graph graph) throws IOException {
         GremlinPipeline<Vertex, Vertex> pipe = new GremlinPipeline<Vertex, Vertex>();
         NodeId john = new NodeId(USER, "john.doe");
         return pipe.start(graph.getVertex(john))
@@ -58,8 +57,7 @@ public class GremlinPipesExamples {
             .property("Title").toList();
     }
 
-    private List<Object> getUsersThatListendedToTracksJohnBought() throws IOException {
-        Graph graph = importGraph();
+    private List<Object> getUsersThatListendedToTracksJohnBought(Graph graph) throws IOException {
         GremlinPipeline<Vertex, Vertex> pipe = new GremlinPipeline<Vertex, Vertex>();
         NodeId john = new NodeId(USER, "john.doe");
         return pipe.start(graph.getVertex(john))
@@ -75,7 +73,10 @@ public class GremlinPipesExamples {
      */
     public static void main(String[] args) throws IOException {
         GremlinPipesExamples examples = new GremlinPipesExamples();
-        System.out.println("John's purhcases: " + examples.getJohnsPurchases());
-        System.out.println("Other users: " + examples.getUsersThatListendedToTracksJohnBought());
+        PropertyGraph propertyGraph = importPropertyGraph();
+        Graph graph = new BlueprintsGraph(propertyGraph);
+        System.out.println("John's purhcases: " + examples.getJohnsPurchases(graph));
+        System.out.println("Other users: "
+            + examples.getUsersThatListendedToTracksJohnBought(graph));
     }
 }
