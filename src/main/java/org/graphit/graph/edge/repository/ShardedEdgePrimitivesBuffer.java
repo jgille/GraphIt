@@ -27,11 +27,11 @@ import org.springframework.util.Assert;
 /**
  * An {@link EdgePrimitivesBuffer} that consists of multiple buffers for
  * improved concurrency.
- * 
+ *
  * This buffer is thread safe.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 
@@ -40,7 +40,7 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 
     /**
      * Creates a new buffer.
-     * 
+     *
      * @param edgeType
      *            The type of the edges in this buffer.
      * @param nShards
@@ -99,9 +99,7 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
     private EdgePrimitivesBuffer getShard(int index) {
         Assert.isTrue(index >= 0, "Index must not be negative");
         int i = index % shards.size();
-        synchronized (this) {
-            return shards.get(i);
-        }
+        return shards.get(i);
     }
 
     private int mapIndex(int index) {

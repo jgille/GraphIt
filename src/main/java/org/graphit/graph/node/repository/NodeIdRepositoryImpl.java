@@ -30,9 +30,9 @@ import com.google.common.collect.Iterables;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class NodeIdRepositoryImpl implements NodeIdRepository {
 
@@ -58,7 +58,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized NodeId getNodeId(int nodeIndex) {
-        Assert.isTrue(nodeIndex >= 0, "Illegal node index: " + nodeIndex);
+        Assert.isTrue(nodeIndex >= 0, "Illegal node index");
         if (nodeIndex >= nodes.size()) {
             return null;
         }
@@ -76,7 +76,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
     @Override
     public synchronized void insert(int nodeIndex, NodeId nodeId) {
         Assert.isTrue(nodeIndex >= 0, "Illegal node index.");
-        Assert.isTrue(!nodeMap.containsKey(nodeId), "Duplicate node id: " + nodeId);
+        Assert.isTrue(!nodeMap.containsKey(nodeId), "Duplicate node id");
         for (int i = nodes.size(); i <= nodeIndex; i++) {
             nodes.add(null);
         }
@@ -89,7 +89,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized NodeId remove(int nodeIndex) {
-        Assert.isTrue(nodeIndex >= 0, "Illegal node index: " + nodeIndex);
+        Assert.isTrue(nodeIndex >= 0, "Illegal node index.");
         if (nodeIndex >= nodes.size()) {
             return null;
         }

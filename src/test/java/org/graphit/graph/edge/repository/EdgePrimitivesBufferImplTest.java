@@ -19,8 +19,6 @@ package org.graphit.graph.edge.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
@@ -29,7 +27,7 @@ import org.junit.Test;
 
 /**
  * @author jon
- * 
+ *
  */
 public class EdgePrimitivesBufferImplTest {
 
@@ -73,15 +71,7 @@ public class EdgePrimitivesBufferImplTest {
     public void testGetOutOfBounds() {
         EdgeType edgeType = TestEdgeType.BOUGHT;
         EdgePrimitivesBuffer buffer = new EdgePrimitivesBufferImpl(edgeType, 10);
-
-        boolean exception = false;
-        try {
-            buffer.get(-1);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
-
+        assertNull(buffer.get(-1));
         assertNull(buffer.get(10));
     }
 
@@ -129,14 +119,7 @@ public class EdgePrimitivesBufferImplTest {
     public void testRemoveOutofBounds() {
         EdgeType edgeType = TestEdgeType.BOUGHT;
         EdgePrimitivesBuffer buffer = new EdgePrimitivesBufferImpl(edgeType, 10);
-
-        boolean exception = false;
-        try {
-            buffer.remove(-1);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        assertNull(buffer.remove(-1));
         assertNull(buffer.remove(10));
     }
 }

@@ -24,9 +24,9 @@ import org.graphit.properties.domain.PropertiesFactory;
 
 /**
  * A {@link PropertiesRepository} backed by a {@link ConcurrentHashMap}.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class ConcurrentHashMapPropertiesRepository<T>
     implements PropertiesRepository<T> {
@@ -38,7 +38,7 @@ public class ConcurrentHashMapPropertiesRepository<T>
 
     /**
      * Creates an empty repo with the specified initial capacity.
-     * 
+     *
      * @param initalCapacity
      */
     public ConcurrentHashMapPropertiesRepository(int initalCapacity) {
@@ -97,14 +97,13 @@ public class ConcurrentHashMapPropertiesRepository<T>
         properties.removeProperty(key);
     }
 
-    private synchronized Properties getOrAddProperties(T id) {
-        Properties properties;
-        if (repo.containsKey(id)) {
-            properties = repo.get(id);
-        } else {
-            properties = propertiesFactory.createEmptyProperties();
-            repo.put(id, properties);
+    private Properties getOrAddProperties(T id) {
+        Properties properties = repo.get(id);
+        if (properties != null) {
+            return properties;
         }
+        properties = propertiesFactory.createEmptyProperties();
+        repo.put(id, properties);
         return properties;
     }
 }

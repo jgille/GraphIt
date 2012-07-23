@@ -39,7 +39,7 @@ import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
 import org.graphit.graph.node.repository.NodeIdRepository;
-import org.graphit.graph.node.repository.NodeIdRepositoryImpl;
+import org.graphit.graph.node.repository.ShardedNodeIdRepository;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.schema.GraphMetadata;
@@ -56,9 +56,9 @@ import com.google.common.collect.Iterables;
 
 /**
  * {@link PropertyGraph} implementation.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class PropertyGraphImpl implements PropertyGraph {
 
@@ -96,7 +96,7 @@ public class PropertyGraphImpl implements PropertyGraph {
      */
     public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
-        this.nodeRepo = new NodeIdRepositoryImpl();
+        this.nodeRepo = new ShardedNodeIdRepository();
         this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
         this.nodePropertiesRepo =
             new ConcurrentHashMapPropertiesRepository<NodeId>(DEFAULT_NODE_CAPACITY);

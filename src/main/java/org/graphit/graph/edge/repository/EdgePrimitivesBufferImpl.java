@@ -24,11 +24,11 @@ import org.graphit.graph.edge.schema.EdgeType;
 
 /**
  * A buffer of edge primitives.
- * 
+ *
  * This buffer is thread safe.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class EdgePrimitivesBufferImpl implements EdgePrimitivesBuffer {
     private final EdgeType edgeType;
@@ -56,18 +56,22 @@ public class EdgePrimitivesBufferImpl implements EdgePrimitivesBuffer {
     }
 
     @Override
-    public synchronized EdgePrimitive get(int index) {
-        if (index >= edges.size()) {
-            return null;
+    public EdgePrimitive get(int index) {
+        long edge;
+        float weight;
+        synchronized (this) {
+            if (index < 0 || index >= edges.size()) {
+                return null;
+            }
+            edge = edges.get(index);
+            weight = getWeight(index);
         }
-        EdgeId edgeId = new EdgeId(edgeType, index);
-        long edge = edges.get(index);
         if (edge == nullEdge) {
             return null;
         }
+        EdgeId edgeId = new EdgeId(edgeType, index);
         int startNode = getStartNode(edge);
         int endNode = getEndNode(edge);
-        float weight = getWeight(index);
         return new EdgePrimitive(edgeId, startNode, endNode, weight);
     }
 

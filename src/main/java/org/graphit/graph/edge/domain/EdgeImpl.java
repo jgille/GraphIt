@@ -25,9 +25,9 @@ import org.springframework.util.Assert;
 
 /**
  * An edge in a graph.
- * 
+ *
  * Note: This class is not thread safe.
- * 
+ *
  * @author jon
  */
 public class EdgeImpl extends PropertiesProxy implements Edge {
@@ -39,7 +39,7 @@ public class EdgeImpl extends PropertiesProxy implements Edge {
 
     /**
      * Creates an edge.
-     * 
+     *
      * @param index
      *            The edge index.
      * @param edgeType
@@ -86,7 +86,7 @@ public class EdgeImpl extends PropertiesProxy implements Edge {
      * Sets the edge start node.
      */
     public EdgeImpl setStartNode(Node startNode) {
-        Assert.notNull(startNode, "Null start node for edge: " + this);
+        Assert.notNull(startNode, "Null start node");
         this.startNode = startNode;
         return this;
     }
@@ -95,7 +95,7 @@ public class EdgeImpl extends PropertiesProxy implements Edge {
      * Sets the edge end node.
      */
     public EdgeImpl setEndNode(Node endNode) {
-        Assert.notNull(endNode, "Null end node for edge: " + this);
+        Assert.notNull(endNode, "Null end node");
         this.endNode = endNode;
         return this;
     }

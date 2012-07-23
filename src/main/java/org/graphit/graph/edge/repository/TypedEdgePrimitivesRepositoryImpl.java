@@ -23,12 +23,12 @@ import org.graphit.graph.exception.DuplicateKeyException;
 import org.springframework.util.Assert;
 
 /**
- * 
+ *
  * A {@link TypedEdgePrimitivesRepository} implementation backed by primitive
  * collections.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitivesRepository {
 
@@ -50,7 +50,9 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
     public TypedEdgePrimitivesRepositoryImpl(EdgeType edgeType, int initialCapacity) {
         this(edgeType,
              new ShardedEdgePrimitivesBuffer(edgeType,
-                                             Runtime.getRuntime().availableProcessors() * 4,
+                                             // TODO: Figure out a good number
+                                             // here
+                                             Runtime.getRuntime().availableProcessors() * 2,
                                              initialCapacity));
     }
 
@@ -72,13 +74,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
 
     @Override
     public void addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex) {
-        validate(edgeId);
-        EdgePrimitive previous = getEdge(edgeId);
-        if (previous != null) {
-            throw new DuplicateKeyException(edgeId);
-        }
-        buffer.upsert(edgeId.getIndex(), startNodeIndex, endNodeIndex, 0);
-        insert(new EdgePrimitive(edgeId, startNodeIndex, endNodeIndex, 0));
+        addWeightedEdge(edgeId, startNodeIndex, endNodeIndex, 0);
     }
 
     @Override
@@ -133,8 +129,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
     }
 
     private void validate(EdgeId edgeId) {
-        Assert.isTrue(getEdgeType().equals(edgeId.getEdgeType()), "Illegal edge type for: "
-            + edgeId);
+        Assert.isTrue(getEdgeType().equals(edgeId.getEdgeType()), "Illegal edge type");
     }
 
     @Override

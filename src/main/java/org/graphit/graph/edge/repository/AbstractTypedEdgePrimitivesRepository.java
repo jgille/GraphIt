@@ -33,17 +33,17 @@ import org.graphit.graph.traversal.EdgeDirection;
 
 /**
  * Base implementation of an {@link TypedEdgePrimitivesRepository}.
- * 
+ *
  * This repo stores mappings from node id to outgoing/incoming edges using
  * mahout primitive collections.
- * 
+ *
  * This class also keeps a list of removed edge ids, used in order to re-use
  * these ids to avoid fragmentation.
- * 
+ *
  * This class is thread safe.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public abstract class AbstractTypedEdgePrimitivesRepository implements
     TypedEdgePrimitivesRepository {

@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
@@ -46,9 +45,9 @@ import org.springframework.util.Assert;
 
 /**
  * Utility class for working with graphs represented with json.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public final class PropertyGraphJsonUtils {
 
@@ -119,17 +118,19 @@ public final class PropertyGraphJsonUtils {
             graph.createEdgeType(edgeType.get(NAME),
                                  EdgeSortOrder.valueOf(edgeType.get(SORT_ORDER)));
         }
+        System.out.println("Imported metadata.");
     }
 
     private static void importNodes(PropertyGraph graph, JsonParser jsonParser, JsonToken current)
         throws IOException {
         NodeTypes nodeTypes = graph.getMetadata().getNodeTypes();
         Assert.isTrue(current == JsonToken.START_ARRAY);
+        TypeReference<Map<String, Object>> type = new TypeReference<Map<String, Object>>() {
+        };
+        int i = 0;
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             // TODO: Use a dedicated domain object intead of a map
-            Map<String, Object> nodeData =
-                jsonParser.readValueAs(new TypeReference<Map<String, Object>>() {
-                });
+            Map<String, Object> nodeData = jsonParser.readValueAs(type);
             int index = (Integer) nodeData.remove(INDEX);
             NodeType nodeType = nodeTypes.valueOf((String) nodeData.remove(TYPE));
             NodeId nodeId = new NodeId(nodeType, (String) nodeData.remove(ID));
@@ -140,6 +141,9 @@ public final class PropertyGraphJsonUtils {
                 }
                 graph.setNodeProperties(nodeId, node);
             }
+            if (++i % 10000 == 0) {
+                System.out.println("Imported " + i + " nodes.");
+            }
         }
     }
 
@@ -147,11 +151,13 @@ public final class PropertyGraphJsonUtils {
         throws IOException {
         EdgeTypes edgeTypes = graph.getMetadata().getEdgeTypes();
         Assert.isTrue(current == JsonToken.START_ARRAY);
+        TypeReference<Map<String, Object>> type = new TypeReference<Map<String, Object>>() {
+        };
+        int i = 0;
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             // TODO: Use a dedicated domain object intead of a map
             Map<String, Object> edgeData =
-                jsonParser.readValueAs(new TypeReference<Map<String, Object>>() {
-                });
+                jsonParser.readValueAs(type);
 
             int index = (Integer) edgeData.remove(INDEX);
             EdgeType edgeType = edgeTypes.valueOf((String) edgeData.remove(TYPE));
@@ -159,6 +165,7 @@ public final class PropertyGraphJsonUtils {
             int startNodeIndex = (Integer) edgeData.remove(START);
             int endNodeIndex = (Integer) edgeData.remove(END);
             Double weight = (Double) edgeData.remove(WEIGHT);
+
             Edge edge =
                 graph.addEdge(edgeId, startNodeIndex, endNodeIndex, weight.floatValue());
             if (!edgeData.isEmpty()) {
@@ -167,15 +174,24 @@ public final class PropertyGraphJsonUtils {
                 }
                 graph.setEdgeProperties(edgeId, edge);
             }
+            if (++i % 10000 == 0) {
+                System.out.println("Imported " + i + " edges.");
+            }
         }
     }
 
     /**
      * Exports a graph to file as json.
      */
+    public static void exportJson(PropertyGraph graph, File out) throws IOException {
+        exportJson(graph, out, true, true);
+    }
+
+    /**
+     * Exports a graph to file as json.
+     */
     public static void exportJson(PropertyGraph graph, File out, boolean includeNodeProperties,
-                                  boolean includeEdgeProperties)
-        throws IOException {
+                                  boolean includeEdgeProperties) throws IOException {
         JsonFactory jsonFactory = new JsonFactory(new ObjectMapper());
         JsonGenerator generator = jsonFactory.createJsonGenerator(out, JsonEncoding.UTF8);
 
@@ -248,10 +264,10 @@ public final class PropertyGraphJsonUtils {
             // TODO: Use a dedicated domain object intead of a map
             Map<String, Object> map =
                 includeProperties ? node.asPropertyMap() : new HashMap<String, Object>();
-            map.put(INDEX, node.getIndex());
-            map.put(TYPE, node.getType().name());
-            map.put(ID, node.getNodeId().getId());
-            generator.writeObject(map);
+                map.put(INDEX, node.getIndex());
+                map.put(TYPE, node.getType().name());
+                map.put(ID, node.getNodeId().getId());
+                generator.writeObject(map);
         }
         generator.writeEndArray();
     }
@@ -264,12 +280,12 @@ public final class PropertyGraphJsonUtils {
             // TODO: Use a dedicated domain object intead of a map
             Map<String, Object> map =
                 includeProperties ? edge.asPropertyMap() : new HashMap<String, Object>();
-            map.put(INDEX, edge.getIndex());
-            map.put(TYPE, edge.getType().name());
-            map.put(START, edge.getStartNode().getIndex());
-            map.put(END, edge.getEndNode().getIndex());
-            map.put(WEIGHT, edge.getWeight());
-            generator.writeObject(map);
+                map.put(INDEX, edge.getIndex());
+                map.put(TYPE, edge.getType().name());
+                map.put(START, edge.getStartNode().getIndex());
+                map.put(END, edge.getEndNode().getIndex());
+                map.put(WEIGHT, edge.getWeight());
+                generator.writeObject(map);
         }
         generator.writeEndArray();
     }
