@@ -16,22 +16,22 @@
 
 package org.graphit.graph.edge.domain;
 
+import static org.graphit.graph.edge.domain.TestEdgeTypes.SIMILAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
-import org.graphit.graph.edge.util.TestEdgeType;
 import org.junit.Test;
 
 /**
  * @author jon
- * 
+ *
  */
 public class EdgePrimitiveTest {
 
     @Test
     public void testGetters() {
-        EdgeId edgeId = new EdgeId(TestEdgeType.SIMILAR, 1);
+        EdgeId edgeId = new EdgeId(SIMILAR, 1);
         EdgePrimitive edge = new EdgePrimitive(edgeId, 2, 3, 4.5f);
         assertEquals(edgeId, edge.getEdgeId());
         assertEquals(edgeId.getIndex(), edge.getIndex());
@@ -43,7 +43,7 @@ public class EdgePrimitiveTest {
 
     @Test
     public void testReverse() {
-        EdgeId edgeId = new EdgeId(TestEdgeType.SIMILAR, 1);
+        EdgeId edgeId = new EdgeId(SIMILAR, 1);
         EdgePrimitive edge = new EdgePrimitive(edgeId, 2, 3, 4.5f);
         EdgePrimitive reversed = edge.reverse();
 
@@ -59,13 +59,13 @@ public class EdgePrimitiveTest {
 
     @Test
     public void testEquals() {
-        EdgeId edgeId1 = new EdgeId(TestEdgeType.SIMILAR, 1);
+        EdgeId edgeId1 = new EdgeId(SIMILAR, 1);
         EdgePrimitive edge1 = new EdgePrimitive(edgeId1, 2, 3, 4.5f);
 
-        EdgeId edgeId2 = new EdgeId(TestEdgeType.SIMILAR, 1);
+        EdgeId edgeId2 = new EdgeId(SIMILAR, 1);
         EdgePrimitive edge2 = new EdgePrimitive(edgeId2, 2, 3, 4.5f);
 
-        EdgeId edgeId3 = new EdgeId(TestEdgeType.SIMILAR, 2);
+        EdgeId edgeId3 = new EdgeId(SIMILAR, 2);
         EdgePrimitive edge3 = new EdgePrimitive(edgeId3, 2, 3, 4.5f);
 
         assertEquals(edge1, edge1);
@@ -75,10 +75,10 @@ public class EdgePrimitiveTest {
 
     @Test
     public void testHashCode() {
-        EdgeId edgeId1 = new EdgeId(TestEdgeType.SIMILAR, 1);
+        EdgeId edgeId1 = new EdgeId(SIMILAR, 1);
         EdgePrimitive edge1 = new EdgePrimitive(edgeId1, 2, 3, 4.5f);
 
-        EdgeId edgeId2 = new EdgeId(TestEdgeType.SIMILAR, 2);
+        EdgeId edgeId2 = new EdgeId(SIMILAR, 2);
         EdgePrimitive edge2 = new EdgePrimitive(edgeId2, 2, 3, 4.5f);
 
         assertEquals(edge1.hashCode(), edge1.hashCode());

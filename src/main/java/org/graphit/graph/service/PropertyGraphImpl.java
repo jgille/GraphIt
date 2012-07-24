@@ -45,7 +45,8 @@ import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.Properties;
-import org.graphit.properties.repository.ConcurrentHashMapPropertiesRepository;
+import org.graphit.properties.repository.EdgePropertiesRepository;
+import org.graphit.properties.repository.NodePropertiesRepository;
 import org.graphit.properties.repository.PropertiesRepository;
 import org.graphit.properties.repository.WriteThroughProperties;
 import org.springframework.util.Assert;
@@ -98,10 +99,8 @@ public class PropertyGraphImpl implements PropertyGraph {
         this.metadata = metadata;
         this.nodeRepo = new ShardedNodeIdRepository();
         this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
-        this.nodePropertiesRepo =
-            new ConcurrentHashMapPropertiesRepository<NodeId>(DEFAULT_NODE_CAPACITY);
-        this.edgePropertiesRepo =
-            new ConcurrentHashMapPropertiesRepository<EdgeId>(DEFAULT_EDGE_CAPACITY);
+        this.nodePropertiesRepo = new NodePropertiesRepository(DEFAULT_NODE_CAPACITY);
+        this.edgePropertiesRepo = new EdgePropertiesRepository(DEFAULT_EDGE_CAPACITY);
     }
 
     /**
@@ -463,7 +462,9 @@ public class PropertyGraphImpl implements PropertyGraph {
         try {
             File versionsDir = new File(dataDir, "versions");
             FileUtils.forceMkdir(versionsDir);
-            file.renameTo(getVersionedFile(versionsDir));
+            if (!file.renameTo(getVersionedFile(versionsDir))) {
+                throw new GraphException("Failed to create versioned graph file");
+            }
         } catch (IOException e) {
             throw new GraphException("Failed to create versioned graph file.", e);
         }

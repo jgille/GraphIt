@@ -16,18 +16,23 @@
 
 package org.graphit.graph.edge.domain;
 
-import java.util.EnumSet;
-
+import org.graphit.graph.edge.schema.EdgeSortOrder;
+import org.graphit.graph.edge.schema.EdgeType;
+import org.graphit.graph.edge.schema.EdgeTypeImpl;
 import org.graphit.graph.edge.schema.EdgeTypes;
-import org.graphit.graph.edge.util.TestEdgeType;
 
 public class TestEdgeTypes {
 
+    public static final EdgeType SIMILAR = new EdgeTypeImpl("SIMILAR",
+                                                            EdgeSortOrder.DESCENDING_WEIGHT);
+    public static final EdgeType BOUGHT = new EdgeTypeImpl("BOUGHT");
+    public static final EdgeType VIEWED = new EdgeTypeImpl("VIEWED");
+
     public static EdgeTypes getEdgeTypes() {
         EdgeTypes edgeTypes = new EdgeTypes();
-        for (TestEdgeType et : EnumSet.allOf(TestEdgeType.class)) {
-            edgeTypes.add(et);
-        }
+        edgeTypes.add(SIMILAR);
+        edgeTypes.add(BOUGHT);
+        edgeTypes.add(VIEWED);
         return edgeTypes;
     }
 

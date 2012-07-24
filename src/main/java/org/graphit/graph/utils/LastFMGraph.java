@@ -32,6 +32,7 @@ import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.service.PropertyGraphImpl;
+import org.graphit.properties.domain.EnumMapPropertiesFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -48,15 +49,27 @@ import org.springframework.util.Assert;
  */
 public final class LastFMGraph {
 
+    public static enum ArtistProperty {
+        NAME, URL, PICTURE_URL;
+    }
+
+    public static enum TaggedProperty {
+        TIMESTAMP, TAG_ID, TAG_VALUE;
+    }
+
     private static final String PATH = "hetrec2011-lastfm-2k/%s";
 
-    public static final NodeType ARTIST = new NodeTypeImpl("Artist");
+    public static final NodeType ARTIST =
+        new NodeTypeImpl("Artist",
+                         new EnumMapPropertiesFactory<ArtistProperty>(ArtistProperty.class));
     public static final NodeType USER = new NodeTypeImpl("User");
 
     public static final EdgeType FRIENDS_WITH = new EdgeTypeImpl("FriendsWith");
     public static final EdgeType LISTENED_TO =
         new EdgeTypeImpl("ListenedTo", EdgeSortOrder.DESCENDING_WEIGHT);
-    public static final EdgeType TAGGED = new EdgeTypeImpl("Tagged");
+    public static final EdgeType TAGGED =
+        new EdgeTypeImpl("Tagged", EdgeSortOrder.UNDEFINED,
+                         new EnumMapPropertiesFactory<TaggedProperty>(TaggedProperty.class));
 
     public static final GraphMetadata METADATA =
         new GraphMetadata("LastFMGraph")
@@ -86,7 +99,10 @@ public final class LastFMGraph {
     public static PropertyGraph load() throws IOException {
         PropertyGraph graph = new PropertyGraphImpl();
         Resource resource = new ClassPathResource(String.format(PATH, "LastFMGraph.json"));
+        long t0 = System.currentTimeMillis();
         graph.importJson(resource.getFile());
+        long t1 = System.currentTimeMillis();
+        System.out.println("Loaded Last.FM graph in " + (t1 - t0) + " ms.");
         return graph;
     }
 
@@ -116,9 +132,9 @@ public final class LastFMGraph {
         String pictureUrl = row.getColumnData(i++);
 
         Node artist = graph.addNode(new NodeId(ARTIST, id));
-        artist.setProperty("Name", name);
-        artist.setProperty("Url", url);
-        artist.setProperty("PictureUrl", pictureUrl);
+        artist.setProperty(ArtistProperty.NAME.name(), name);
+        artist.setProperty(ArtistProperty.URL.name(), url);
+        artist.setProperty(ArtistProperty.PICTURE_URL.name(), pictureUrl);
         graph.setNodeProperties(artist.getNodeId(), artist);
 
     }
@@ -202,9 +218,9 @@ public final class LastFMGraph {
         }
 
         Edge tagged = graph.addEdge(user.getNodeId(), artist.getNodeId(), TAGGED);
-        tagged.setProperty("TimeStamp", timestamp);
-        tagged.setProperty("TagValue", tag.getTagValue());
-        tagged.setProperty("TagId", tag.getTagId());
+        tagged.setProperty(TaggedProperty.TIMESTAMP.name(), timestamp);
+        tagged.setProperty(TaggedProperty.TAG_VALUE.name(), tag.getTagValue());
+        tagged.setProperty(TaggedProperty.TAG_ID.name(), tag.getTagId());
         graph.setEdgeProperties(tagged.getEdgeId(), tagged);
     }
 
@@ -225,7 +241,7 @@ public final class LastFMGraph {
                 }
                 int i = 0;
                 String tagId = row.getColumnData(i++);
-                String tagValue = row.getColumnData(i++);
+                String tagValue = row.getColumnData(i);
 
                 tags.put(tagId, new Tag(tagId, tagValue));
                 return true;
@@ -256,7 +272,7 @@ public final class LastFMGraph {
     private static void importFriendsWith(PropertyGraph graph, CSVRow row) {
         int i = 0;
         String userId = row.getColumnData(i++);
-        String friendId = row.getColumnData(i++);
+        String friendId = row.getColumnData(i);
 
         NodeId uid = new NodeId(USER, userId);
         Node user = graph.getNode(uid);
@@ -273,20 +289,20 @@ public final class LastFMGraph {
         graph.addEdge(user.getNodeId(), friend.getNodeId(), FRIENDS_WITH);
     }
 
-    private static class Tag {
+    private static final class Tag {
         private final String tagId;
         private final String tagValue;
 
-        public Tag(String tagId, String tagValue) {
+        private Tag(String tagId, String tagValue) {
             this.tagId = tagId;
             this.tagValue = tagValue;
         }
 
-        public String getTagId() {
+        private String getTagId() {
             return tagId;
         }
 
-        public String getTagValue() {
+        private String getTagValue() {
             return tagValue;
         }
     }

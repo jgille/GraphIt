@@ -17,13 +17,21 @@
 package org.graphit.graph.node.schema;
 
 import org.graphit.common.enumeration.DynamicEnumerableElement;
+import org.graphit.properties.domain.Properties;
+import org.graphit.properties.domain.PropertiesFactory;
 
 /**
  * Describes the type of a node in a graph.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public interface NodeType extends DynamicEnumerableElement {
+
+    /**
+     * Returns a factory used to create new {@link Properties} instances for
+     * nodes.
+     */
+    PropertiesFactory getPropertiesFactory();
 
 }

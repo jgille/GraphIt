@@ -16,6 +16,7 @@
 
 package org.graphit.graph.edge.domain;
 
+import static org.graphit.graph.edge.domain.TestEdgeTypes.BOUGHT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -24,7 +25,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.graphit.graph.edge.util.TestEdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeImpl;
@@ -35,7 +35,7 @@ import org.junit.Test;
 
 /**
  * @author jon
- * 
+ *
  */
 public class EdgeImplTest {
 
@@ -43,10 +43,10 @@ public class EdgeImplTest {
     public void testGettersAndSetters() {
         Properties props = new HashMapProperties();
         props.setProperty("A", "B");
-        EdgeImpl edge = new EdgeImpl(0, TestEdgeType.BOUGHT, props);
+        EdgeImpl edge = new EdgeImpl(0, BOUGHT, props);
         assertEquals(0, edge.getIndex());
-        assertEquals(TestEdgeType.BOUGHT, edge.getType());
-        assertEquals(new EdgeId(TestEdgeType.BOUGHT, 0), edge.getEdgeId());
+        assertEquals(BOUGHT, edge.getType());
+        assertEquals(new EdgeId(BOUGHT, 0), edge.getEdgeId());
         assertNull(edge.getStartNode());
         assertNull(edge.getEndNode());
         assertEquals(0f, edge.getWeight(), 0.000001f);
@@ -74,7 +74,7 @@ public class EdgeImplTest {
 
     @Test
     public void testGetOppositeNode() {
-        EdgeImpl edge = new EdgeImpl(0, TestEdgeType.BOUGHT, new HashMapProperties());
+        EdgeImpl edge = new EdgeImpl(0, BOUGHT, new HashMapProperties());
         Node startNode =
             new NodeImpl(0, new NodeId(TestNodeType.USER, "u1"), new HashMapProperties());
         edge.setStartNode(startNode);
@@ -97,9 +97,9 @@ public class EdgeImplTest {
 
     @Test
     public void testEquals() {
-        EdgeImpl edge1 = new EdgeImpl(0, TestEdgeType.BOUGHT, new HashMapProperties());
-        EdgeImpl edge2 = new EdgeImpl(0, TestEdgeType.BOUGHT, new HashMapProperties());
-        EdgeImpl edge3 = new EdgeImpl(1, TestEdgeType.BOUGHT, new HashMapProperties());
+        EdgeImpl edge1 = new EdgeImpl(0, BOUGHT, new HashMapProperties());
+        EdgeImpl edge2 = new EdgeImpl(0, BOUGHT, new HashMapProperties());
+        EdgeImpl edge3 = new EdgeImpl(1, BOUGHT, new HashMapProperties());
 
         assertEquals(edge1, edge1);
         assertEquals(edge1, edge2);

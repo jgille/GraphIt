@@ -16,6 +16,7 @@
 
 package org.graphit.graph.edge.repository;
 
+import static org.graphit.graph.edge.domain.TestEdgeTypes.BOUGHT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -24,18 +25,17 @@ import static org.junit.Assert.assertTrue;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.util.TestEdgeType;
 import org.junit.Test;
 
 /**
  * @author jon
- * 
+ *
  */
 public class ShardedEdgePrimitivesBufferTest {
 
     @Test
     public void testInsertAndGetFromMultipleShards() {
-        EdgeType edgeType = TestEdgeType.BOUGHT;
+        EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
 
         for (int i = 0; i < 4; i++) {
@@ -56,7 +56,7 @@ public class ShardedEdgePrimitivesBufferTest {
 
     @Test
     public void testInsertAndRemoveFromMultipleShards() {
-        EdgeType edgeType = TestEdgeType.BOUGHT;
+        EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
 
         for (int i = 0; i < 4; i++) {
@@ -81,7 +81,7 @@ public class ShardedEdgePrimitivesBufferTest {
 
     @Test
     public void testGetOutOfBounds() {
-        EdgeType edgeType = TestEdgeType.BOUGHT;
+        EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
 
         boolean exception = false;
@@ -97,7 +97,7 @@ public class ShardedEdgePrimitivesBufferTest {
 
     @Test
     public void testRemoveOutOfBounds() {
-        EdgeType edgeType = TestEdgeType.BOUGHT;
+        EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
 
         boolean exception = false;

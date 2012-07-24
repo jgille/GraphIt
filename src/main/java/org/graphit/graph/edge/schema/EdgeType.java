@@ -17,12 +17,14 @@
 package org.graphit.graph.edge.schema;
 
 import org.graphit.common.enumeration.DynamicEnumerableElement;
+import org.graphit.properties.domain.Properties;
+import org.graphit.properties.domain.PropertiesFactory;
 
 /**
  * Describes an edge type in a graph.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public interface EdgeType extends DynamicEnumerableElement {
 
@@ -30,5 +32,11 @@ public interface EdgeType extends DynamicEnumerableElement {
      * Defines how edges of this type are to be kept sorted.
      */
     EdgeSortOrder getSortOrder();
+
+    /**
+     * Returns a factory used to create new {@link Properties} instances for
+     * edges.
+     */
+    PropertiesFactory getPropertiesFactory();
 
 }

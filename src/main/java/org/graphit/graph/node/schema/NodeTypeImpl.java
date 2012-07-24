@@ -17,25 +17,42 @@
 package org.graphit.graph.node.schema;
 
 import org.graphit.common.schema.AbstractGraphType;
+import org.graphit.properties.domain.HashMapPropertiesFactory;
+import org.graphit.properties.domain.PropertiesFactory;
 
 /**
  * Standard {@link NodeType} implementation.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class NodeTypeImpl extends AbstractGraphType implements NodeType {
+
+    private final PropertiesFactory propertiesFactory;
+
+    /**
+     * Creates a new instance using a {@link HashMapPropertiesFactory}.
+     */
+    public NodeTypeImpl(String name) {
+        this(name, new HashMapPropertiesFactory());
+    }
 
     /**
      * Creates a new instance.
      */
-    public NodeTypeImpl(String name) {
+    public NodeTypeImpl(String name, PropertiesFactory propertiesFactory) {
         super(name);
+        this.propertiesFactory = propertiesFactory;
     }
 
     @Override
     public String toString() {
         return "NodeTypeImpl [name()=" + name() + "]";
+    }
+
+    @Override
+    public PropertiesFactory getPropertiesFactory() {
+        return propertiesFactory;
     }
 
 }

@@ -16,13 +16,17 @@
 
 package org.graphit.graph.edge.util;
 
+import java.io.Serializable;
+
 /**
  * An {@link EdgeIndexComparator} to use when edges are not to be kept sorted.
- * 
+ *
  * @author jon
- * 
+ *
  */
-public class UnsortedEdgeIndexComparator implements EdgeIndexComparator {
+public class UnsortedEdgeIndexComparator implements EdgeIndexComparator, Serializable {
+
+    private static final long serialVersionUID = 8560010060998738359L;
 
     @Override
     public int compare(Integer o1, Integer o2) {

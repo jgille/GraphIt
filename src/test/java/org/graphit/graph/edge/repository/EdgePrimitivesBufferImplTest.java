@@ -16,13 +16,15 @@
 
 package org.graphit.graph.edge.repository;
 
+import static org.graphit.graph.edge.domain.TestEdgeTypes.BOUGHT;
+import static org.graphit.graph.edge.domain.TestEdgeTypes.SIMILAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.util.TestEdgeType;
 import org.junit.Test;
 
 /**
@@ -33,7 +35,7 @@ public class EdgePrimitivesBufferImplTest {
 
     @Test
     public void testInsertWeighted() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgePrimitivesBuffer buffer = new EdgePrimitivesBufferImpl(edgeType, 10);
         assertEquals(0, buffer.size());
         buffer.upsert(0, 1, 2, 1.5f);
@@ -49,7 +51,7 @@ public class EdgePrimitivesBufferImplTest {
 
     @Test
     public void testInsertWeightedExpandList() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgePrimitivesBuffer buffer = new EdgePrimitivesBufferImpl(edgeType, 10);
         assertEquals(0, buffer.size());
         buffer.upsert(3, 1, 2, 1.5f);
@@ -69,7 +71,7 @@ public class EdgePrimitivesBufferImplTest {
 
     @Test
     public void testGetOutOfBounds() {
-        EdgeType edgeType = TestEdgeType.BOUGHT;
+        EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new EdgePrimitivesBufferImpl(edgeType, 10);
         assertNull(buffer.get(-1));
         assertNull(buffer.get(10));
@@ -77,7 +79,7 @@ public class EdgePrimitivesBufferImplTest {
 
     @Test
     public void testRemoveWeighted() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgePrimitivesBuffer buffer = new EdgePrimitivesBufferImpl(edgeType, 10);
         assertEquals(0, buffer.size());
         buffer.upsert(0, 1, 2, 1.5f);
@@ -117,7 +119,7 @@ public class EdgePrimitivesBufferImplTest {
 
     @Test
     public void testRemoveOutofBounds() {
-        EdgeType edgeType = TestEdgeType.BOUGHT;
+        EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new EdgePrimitivesBufferImpl(edgeType, 10);
         assertNull(buffer.remove(-1));
         assertNull(buffer.remove(10));

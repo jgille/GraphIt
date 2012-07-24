@@ -14,18 +14,30 @@
  * limitations under the License.
  */
 
-package org.graphit.properties.domain;
+package org.graphit.properties.repository;
+
+
+import org.graphit.graph.node.domain.NodeId;
+import org.graphit.properties.domain.Properties;
 
 /**
- * {@link PropertiesFactory} creating {@link HashMapProperties} instances.
+ * A repository storing edge properties in a {@link ConcurrentHashMap}.
  *
  * @author jon
  *
  */
-public class HashMapPropertiesFactory implements PropertiesFactory {
+public class NodePropertiesRepository extends ConcurrentHashMapPropertiesRepository<NodeId> {
+
+    /**
+     * Creates a new instance.
+     */
+    public NodePropertiesRepository(int initalCapacity) {
+        super(initalCapacity);
+    }
 
     @Override
-    public Properties createEmptyProperties() {
-        return new HashMapProperties();
+    protected Properties createEmptyProperties(NodeId id) {
+        return id.getNodeType().getPropertiesFactory().createEmptyProperties();
     }
+
 }

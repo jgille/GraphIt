@@ -16,6 +16,8 @@
 
 package org.graphit.graph.edge.repository;
 
+import static org.graphit.graph.edge.domain.TestEdgeTypes.BOUGHT;
+import static org.graphit.graph.edge.domain.TestEdgeTypes.SIMILAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -26,13 +28,12 @@ import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
 import org.graphit.graph.edge.domain.TestEdgeTypes;
-import org.graphit.graph.edge.util.TestEdgeType;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author jon
- * 
+ *
  */
 public class EdgePrimitivesRepositoryImplTest {
 
@@ -45,12 +46,12 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testGetNonExistingEdge() {
-        assertNull(repo.getEdge(new EdgeId(TestEdgeType.BOUGHT, 0)));
+        assertNull(repo.getEdge(new EdgeId(BOUGHT, 0)));
     }
 
     @Test
     public void testAddAndGetEdge() {
-        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.BOUGHT);
+        EdgeId edgeId = repo.addEdge(1, 2, BOUGHT);
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertNotNull(edge);
         assertEquals(edgeId, edge.getEdgeId());
@@ -60,7 +61,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testAddAndGetWeightedEdge() {
-        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
+        EdgeId edgeId = repo.addEdge(1, 2, SIMILAR, 1.5f);
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertNotNull(edge);
         assertEquals(edgeId, edge.getEdgeId());
@@ -71,7 +72,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testAddAndRemoveEdge() {
-        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.BOUGHT);
+        EdgeId edgeId = repo.addEdge(1, 2, BOUGHT);
         EdgePrimitive edge = repo.removeEdge(edgeId);
         assertNotNull(edge);
         assertEquals(edgeId, edge.getEdgeId());
@@ -82,7 +83,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testAddAndRemoveWeightedEdge() {
-        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
+        EdgeId edgeId = repo.addEdge(1, 2, SIMILAR, 1.5f);
         EdgePrimitive edge = repo.removeEdge(edgeId);
         assertNotNull(edge);
         assertEquals(edgeId, edge.getEdgeId());
@@ -94,7 +95,7 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testSetEdgeWeight() {
-        EdgeId edgeId = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1.5f);
+        EdgeId edgeId = repo.addEdge(1, 2, SIMILAR, 1.5f);
         repo.setEdgeWeight(edgeId, 2.5f);
         EdgePrimitive edge = repo.getEdge(edgeId);
         assertNotNull(edge);
@@ -106,11 +107,11 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testGetOutgoingEdges() {
-        EdgeId edgeId1 = repo.addEdge(1, 2, TestEdgeType.BOUGHT);
-        EdgeId edgeId2 = repo.addEdge(1, 3, TestEdgeType.BOUGHT);
-        EdgeVector nonExisting = repo.getOutgoingEdges(2, TestEdgeType.BOUGHT);
+        EdgeId edgeId1 = repo.addEdge(1, 2, BOUGHT);
+        EdgeId edgeId2 = repo.addEdge(1, 3, BOUGHT);
+        EdgeVector nonExisting = repo.getOutgoingEdges(2, BOUGHT);
         assertNotNull(nonExisting);
-        EdgeVector edges = repo.getOutgoingEdges(1, TestEdgeType.BOUGHT);
+        EdgeVector edges = repo.getOutgoingEdges(1, BOUGHT);
         assertNotNull(edges);
         assertEquals(2, edges.size());
         assertEquals(Arrays.asList(edgeId1.getIndex(), edgeId2.getIndex()), edges.asList());
@@ -118,11 +119,11 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testGetOutgoingWeightedEdges() {
-        EdgeId edgeId1 = repo.addEdge(1, 2, TestEdgeType.SIMILAR, 1f);
-        EdgeId edgeId2 = repo.addEdge(1, 3, TestEdgeType.SIMILAR, 2f);
-        EdgeVector nonExisting = repo.getOutgoingEdges(2, TestEdgeType.SIMILAR);
+        EdgeId edgeId1 = repo.addEdge(1, 2, SIMILAR, 1f);
+        EdgeId edgeId2 = repo.addEdge(1, 3, SIMILAR, 2f);
+        EdgeVector nonExisting = repo.getOutgoingEdges(2, SIMILAR);
         assertNotNull(nonExisting);
-        EdgeVector edges = repo.getOutgoingEdges(1, TestEdgeType.SIMILAR);
+        EdgeVector edges = repo.getOutgoingEdges(1, SIMILAR);
         assertNotNull(edges);
         assertEquals(2, edges.size());
         assertEquals(Arrays.asList(edgeId2.getIndex(), edgeId1.getIndex()), edges.asList());
@@ -130,11 +131,11 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testGetIncomingEdges() {
-        EdgeId edgeId1 = repo.addEdge(2, 1, TestEdgeType.BOUGHT);
-        EdgeId edgeId2 = repo.addEdge(3, 1, TestEdgeType.BOUGHT);
-        EdgeVector nonExisting = repo.getIncomingEdges(2, TestEdgeType.BOUGHT);
+        EdgeId edgeId1 = repo.addEdge(2, 1, BOUGHT);
+        EdgeId edgeId2 = repo.addEdge(3, 1, BOUGHT);
+        EdgeVector nonExisting = repo.getIncomingEdges(2, BOUGHT);
         assertNotNull(nonExisting);
-        EdgeVector edges = repo.getIncomingEdges(1, TestEdgeType.BOUGHT);
+        EdgeVector edges = repo.getIncomingEdges(1, BOUGHT);
         assertNotNull(edges);
         assertEquals(2, edges.size());
         assertEquals(Arrays.asList(edgeId1.getIndex(), edgeId2.getIndex()), edges.asList());
@@ -142,11 +143,11 @@ public class EdgePrimitivesRepositoryImplTest {
 
     @Test
     public void testGetIncomingWeightedEdges() {
-        EdgeId edgeId1 = repo.addEdge(2, 1, TestEdgeType.SIMILAR, 1f);
-        EdgeId edgeId2 = repo.addEdge(3, 1, TestEdgeType.SIMILAR, 2f);
-        EdgeVector nonExisting = repo.getIncomingEdges(2, TestEdgeType.SIMILAR);
+        EdgeId edgeId1 = repo.addEdge(2, 1, SIMILAR, 1f);
+        EdgeId edgeId2 = repo.addEdge(3, 1, SIMILAR, 2f);
+        EdgeVector nonExisting = repo.getIncomingEdges(2, SIMILAR);
         assertNotNull(nonExisting);
-        EdgeVector edges = repo.getIncomingEdges(1, TestEdgeType.SIMILAR);
+        EdgeVector edges = repo.getIncomingEdges(1, SIMILAR);
         assertNotNull(edges);
         assertEquals(2, edges.size());
         assertEquals(Arrays.asList(edgeId2.getIndex(), edgeId1.getIndex()), edges.asList());

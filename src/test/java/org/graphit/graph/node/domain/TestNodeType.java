@@ -17,8 +17,15 @@
 package org.graphit.graph.node.domain;
 
 import org.graphit.graph.node.schema.NodeType;
+import org.graphit.properties.domain.HashMapPropertiesFactory;
+import org.graphit.properties.domain.PropertiesFactory;
 
 public enum TestNodeType implements NodeType {
 
     USER, PRODUCT;
+
+    @Override
+    public PropertiesFactory getPropertiesFactory() {
+        return new HashMapPropertiesFactory();
+    }
 }

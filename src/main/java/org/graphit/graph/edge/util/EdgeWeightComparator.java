@@ -18,9 +18,9 @@ package org.graphit.graph.edge.util;
 
 /**
  * An {@link EdgeIndexComparator} that sorts edges on edge weight.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class EdgeWeightComparator implements EdgeIndexComparator {
 

@@ -16,85 +16,70 @@
 
 package org.graphit.properties.repository;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.graphit.properties.domain.HashMapPropertiesFactory;
+import org.graphit.graph.node.domain.NodeId;
+import org.graphit.graph.node.schema.NodeType;
+import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.properties.domain.Properties;
-import org.graphit.properties.domain.PropertiesFactory;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
  * @author jon
- * 
+ *
  */
 public class ConcurrentHashMapPropertiesRepositoryTest {
 
-    @Test
-    public void testSetGetPropertiesFactory() {
-        ConcurrentHashMapPropertiesRepository<String> repo =
-            new ConcurrentHashMapPropertiesRepository<String>(10);
-        assertThat(repo.getPropertiesFactory(), Matchers.instanceOf(HashMapPropertiesFactory.class));
+    private static final NodeType NODE_TYPE = new NodeTypeImpl("NT");
 
-        PropertiesFactory pf = new PropertiesFactory() {
-
-            @Override
-            public Properties createEmptyProperties() {
-                return null;
-            }
-        };
-        repo.setPropertiesFactory(pf);
-        assertEquals(pf, repo.getPropertiesFactory());
+    private NodeId createId(String id) {
+        return new NodeId(NODE_TYPE, id);
     }
 
     @Test
     public void testSaveGetRemoveProperties() {
-        ConcurrentHashMapPropertiesRepository<String> repo =
-            new ConcurrentHashMapPropertiesRepository<String>(10);
+        NodePropertiesRepository repo = new NodePropertiesRepository(10);
 
-        Properties props = repo.getProperties("A");
+        Properties props = repo.getProperties(createId("A"));
         assertTrue(props.isEmpty());
         props.setProperty("B", 1);
 
-        repo.saveProperties("A", props);
-        props = repo.getProperties("A");
+        repo.saveProperties(createId("A"), props);
+        props = repo.getProperties(createId("A"));
         assertEquals(1, props.size());
         assertEquals(1, props.getProperty("B"));
 
-        props = repo.removeProperties("A");
+        props = repo.removeProperties(createId("A"));
         assertEquals(1, props.size());
         assertEquals(1, props.getProperty("B"));
 
-        props = repo.getProperties("A");
+        props = repo.getProperties(createId("A"));
         assertTrue(props.isEmpty());
 
-        props = repo.removeProperties("A");
+        props = repo.removeProperties(createId("A"));
         assertTrue(props.isEmpty());
     }
 
     @Test
     public void testSetAndRemoveProperty() {
-        ConcurrentHashMapPropertiesRepository<String> repo =
-            new ConcurrentHashMapPropertiesRepository<String>(10);
+        NodePropertiesRepository repo = new NodePropertiesRepository(10);
 
-        Properties props = repo.getProperties("A");
+        Properties props = repo.getProperties(createId("A"));
         props.setProperty("B", 1);
-        repo.saveProperties("A", props);
+        repo.saveProperties(createId("A"), props);
 
-        repo.setProperty("A", "B", 2);
-        repo.setProperty("A", "C", 3);
+        repo.setProperty(createId("A"), "B", 2);
+        repo.setProperty(createId("A"), "C", 3);
 
-        props = repo.removeProperties("A");
+        props = repo.removeProperties(createId("A"));
         assertEquals(2, props.size());
         assertEquals(2, props.getProperty("B"));
         assertEquals(3, props.getProperty("C"));
 
-        repo.setProperty("A", "B", 4);
-        props = repo.removeProperties("A");
+        repo.setProperty(createId("A"), "B", 4);
+        props = repo.removeProperties(createId("A"));
         assertEquals(1, props.size());
         assertEquals(4, props.getProperty("B"));
-
     }
 }

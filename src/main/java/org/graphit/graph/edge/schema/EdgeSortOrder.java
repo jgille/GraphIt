@@ -24,19 +24,17 @@ import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 /**
  * Describes the order in which outgoing and incoming edges are kept sorted for
  * a node.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public enum EdgeSortOrder {
 
     UNDEFINED
     {
-        private final EdgeIndexComparator comparator = new UnsortedEdgeIndexComparator();
-
         @Override
         public EdgeIndexComparator getEdgeComparator(EdgeWeigher edgeWeigher) {
-            return comparator;
+            return UNSORTED_COMPARATOR;
         }
     },
     ASCENDING_WEIGHT
@@ -53,6 +51,9 @@ public enum EdgeSortOrder {
             return new EdgeWeightComparator(edgeWeigher, true);
         }
     };
+
+    private static final EdgeIndexComparator UNSORTED_COMPARATOR =
+        new UnsortedEdgeIndexComparator();
 
     /**
      * Gets a comparator used to sort edge indexes in an outgoing or incoming

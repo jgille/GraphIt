@@ -18,9 +18,7 @@ package org.graphit.properties.repository;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.graphit.properties.domain.HashMapPropertiesFactory;
 import org.graphit.properties.domain.Properties;
-import org.graphit.properties.domain.PropertiesFactory;
 
 /**
  * A {@link PropertiesRepository} backed by a {@link ConcurrentHashMap}.
@@ -28,13 +26,12 @@ import org.graphit.properties.domain.PropertiesFactory;
  * @author jon
  *
  */
-public class ConcurrentHashMapPropertiesRepository<T>
+public abstract class ConcurrentHashMapPropertiesRepository<T>
     implements PropertiesRepository<T> {
 
     private static final float LOAD_FACTOR = 0.75f;
 
     private final ConcurrentHashMap<T, Properties> repo;
-    private PropertiesFactory propertiesFactory;
 
     /**
      * Creates an empty repo with the specified initial capacity.
@@ -45,22 +42,12 @@ public class ConcurrentHashMapPropertiesRepository<T>
         this.repo =
             new ConcurrentHashMap<T, Properties>(initalCapacity, LOAD_FACTOR, Runtime.getRuntime()
                 .availableProcessors() * 4);
-        this.propertiesFactory = new HashMapPropertiesFactory();
     }
 
     /**
-     * Gets the factory used to create new {@link Properties} instances.
+     * Createa a new empty {@link Properties} instances.
      */
-    PropertiesFactory getPropertiesFactory() {
-        return propertiesFactory;
-    }
-
-    /**
-     * Sets a custom factory used to create new {@link Properties} instances.
-     */
-    public void setPropertiesFactory(PropertiesFactory propertiesFactory) {
-        this.propertiesFactory = propertiesFactory;
-    }
+    protected abstract Properties createEmptyProperties(T id);
 
     @Override
     public Properties getProperties(T id) {
@@ -68,7 +55,7 @@ public class ConcurrentHashMapPropertiesRepository<T>
         if (properties != null) {
             return properties;
         }
-        return propertiesFactory.createEmptyProperties();
+        return createEmptyProperties(id);
     }
 
     @Override
@@ -82,7 +69,7 @@ public class ConcurrentHashMapPropertiesRepository<T>
         if (properties != null) {
             return properties;
         }
-        return propertiesFactory.createEmptyProperties();
+        return createEmptyProperties(id);
     }
 
     @Override
@@ -102,7 +89,7 @@ public class ConcurrentHashMapPropertiesRepository<T>
         if (properties != null) {
             return properties;
         }
-        properties = propertiesFactory.createEmptyProperties();
+        properties = createEmptyProperties(id);
         repo.put(id, properties);
         return properties;
     }

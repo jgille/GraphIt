@@ -17,31 +17,42 @@
 package org.graphit.graph.edge.schema;
 
 import org.graphit.common.schema.AbstractGraphType;
+import org.graphit.properties.domain.HashMapPropertiesFactory;
+import org.graphit.properties.domain.PropertiesFactory;
 
 /**
  * Basic {@link EdgeType} implementation. Defaults to being unweighted and
  * unsorted.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
 
     private final EdgeSortOrder sortOrder;
+    private final PropertiesFactory propertiesFactory;
 
     /**
-     * Creates an edge type.
+     * Creates an unsorted edge type using a {@link HashMapPropertiesFactory}.
      */
     public EdgeTypeImpl(String name) {
         this(name, EdgeSortOrder.UNDEFINED);
     }
 
     /**
-     * Creates an edge type.
+     * Creates an edge type using a {@link HashMapPropertiesFactory}.
      */
     public EdgeTypeImpl(String name, EdgeSortOrder sortOrder) {
+        this(name, sortOrder, new HashMapPropertiesFactory());
+    }
+
+    /**
+     * Creates an edge type.
+     */
+    public EdgeTypeImpl(String name, EdgeSortOrder sortOrder, PropertiesFactory propertiesFactory) {
         super(name);
         this.sortOrder = sortOrder;
+        this.propertiesFactory = propertiesFactory;
     }
 
     @Override
@@ -52,6 +63,11 @@ public class EdgeTypeImpl extends AbstractGraphType implements EdgeType {
     @Override
     public String toString() {
         return "EdgeTypeImpl [sortOrder=" + sortOrder + ", name()=" + name() + "]";
+    }
+
+    @Override
+    public PropertiesFactory getPropertiesFactory() {
+        return propertiesFactory;
     }
 
 }

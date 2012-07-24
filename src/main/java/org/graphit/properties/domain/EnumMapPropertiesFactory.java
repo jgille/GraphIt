@@ -17,15 +17,25 @@
 package org.graphit.properties.domain;
 
 /**
- * {@link PropertiesFactory} creating {@link HashMapProperties} instances.
+ * A factory creating {@link EnumMapProperties} instances.
  *
  * @author jon
- *
+ * 
  */
-public class HashMapPropertiesFactory implements PropertiesFactory {
+public class EnumMapPropertiesFactory<E extends Enum<E>> implements PropertiesFactory {
+
+    private final Class<E> enumClass;
+
+    /**
+     * Creates a new factory.
+     */
+    public EnumMapPropertiesFactory(Class<E> enumClass) {
+        this.enumClass = enumClass;
+    }
 
     @Override
     public Properties createEmptyProperties() {
-        return new HashMapProperties();
+        return new EnumMapProperties<E>(enumClass);
     }
+
 }

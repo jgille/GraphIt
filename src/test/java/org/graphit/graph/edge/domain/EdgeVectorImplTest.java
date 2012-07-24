@@ -16,6 +16,7 @@
 
 package org.graphit.graph.edge.domain;
 
+import static org.graphit.graph.edge.domain.TestEdgeTypes.SIMILAR;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
@@ -30,7 +31,6 @@ import java.util.List;
 import org.apache.mahout.math.function.IntProcedure;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
-import org.graphit.graph.edge.util.TestEdgeType;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -40,9 +40,9 @@ import org.mockito.stubbing.Answer;
 
 /**
  * Junit tests for {@link DeprecatedEdgeVector}.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class EdgeVectorImplTest {
 
@@ -103,7 +103,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testEmptyEdgeVector() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVector edgeVector = new EdgeVectorImpl(1, edgeType);
         assertThat(edgeVector.size(), Matchers.is(0));
         assertThat(edgeVector.isEmpty(), Matchers.is(true));
@@ -118,7 +118,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testAddWeightedEdgesDescendingSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         mockDescendingComparator();
 
@@ -146,7 +146,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testAddWeightedEdgesAscendingSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         mockAscendingComparator();
 
@@ -174,7 +174,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testAddWeightedEdgesUndefinedSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
@@ -201,7 +201,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testRemoveWeightedEdgeDescendingSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         mockDescendingComparator();
 
@@ -230,7 +230,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testRemoveWeightedEdgeAscendingWeightSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         mockAscendingComparator();
 
@@ -259,7 +259,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testRemoveWeightedEdgeUndefinedSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
@@ -287,7 +287,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testReindexWeightedEdgeDescendingSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         mockDescendingComparator();
 
@@ -318,7 +318,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testReindexWeightedEdgeAscendingSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         mockAscendingComparator();
 
@@ -349,7 +349,7 @@ public class EdgeVectorImplTest {
 
     @Test
     public void testReindexWeightedEdgeUndefinedSort() {
-        EdgeType edgeType = TestEdgeType.SIMILAR;
+        EdgeType edgeType = SIMILAR;
         EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);

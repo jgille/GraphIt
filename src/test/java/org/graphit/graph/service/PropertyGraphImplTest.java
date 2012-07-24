@@ -16,9 +16,9 @@
 
 package org.graphit.graph.service;
 
-import static org.graphit.graph.edge.util.TestEdgeType.BOUGHT;
-import static org.graphit.graph.edge.util.TestEdgeType.SIMILAR;
-import static org.graphit.graph.edge.util.TestEdgeType.VIEWED;
+import static org.graphit.graph.edge.domain.TestEdgeTypes.BOUGHT;
+import static org.graphit.graph.edge.domain.TestEdgeTypes.SIMILAR;
+import static org.graphit.graph.edge.domain.TestEdgeTypes.VIEWED;
 import static org.graphit.graph.node.domain.TestNodeType.PRODUCT;
 import static org.graphit.graph.node.domain.TestNodeType.USER;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,7 +41,6 @@ import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepository;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepositoryImpl;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.graphit.graph.edge.util.TestEdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.TestNodeType;
@@ -52,7 +51,8 @@ import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.properties.domain.HashMapProperties;
 import org.graphit.properties.domain.Properties;
-import org.graphit.properties.repository.ConcurrentHashMapPropertiesRepository;
+import org.graphit.properties.repository.EdgePropertiesRepository;
+import org.graphit.properties.repository.NodePropertiesRepository;
 import org.graphit.properties.repository.PropertiesRepository;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -77,7 +77,7 @@ public class PropertyGraphImplTest {
         graph.addNode(p1);
 
         Edge edge = graph.addEdge(u1, p1, BOUGHT);
-        assertThat(edge.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge.getStartNode().getNodeId(), Matchers.is(u1));
@@ -187,7 +187,7 @@ public class PropertyGraphImplTest {
         graph.addEdge(u2, p3, VIEWED);
 
         Edge edge = graph.getEdge(e2.getEdgeId());
-        assertThat(edge.getType(), Matchers.is((EdgeType) VIEWED));
+        assertThat(edge.getType(), Matchers.is(VIEWED));
 
         assertThat(edge.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge.getStartNode().getNodeId(), Matchers.is(u1));
@@ -256,7 +256,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
-        assertThat(edge.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge.getStartNode().getNodeId(), Matchers.is(u1));
@@ -277,7 +277,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
-        assertThat(edge.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge.getStartNode().getNodeId(), Matchers.is(u1));
@@ -301,7 +301,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(2));
         Edge edge1 = edges.get(0);
 
-        assertThat(edge1.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge1.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge1.getStartNode().getNodeId(), Matchers.is(u1));
@@ -311,7 +311,7 @@ public class PropertyGraphImplTest {
 
         Edge edge2 = edges.get(1);
 
-        assertThat(edge2.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge2.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge2.getStartNode().getNodeId(), Matchers.is(u1));
@@ -335,7 +335,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(2));
         Edge edge1 = edges.get(0);
 
-        assertThat(edge1.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge1.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge1.getStartNode().getNodeId(), Matchers.is(u1));
@@ -345,7 +345,7 @@ public class PropertyGraphImplTest {
 
         Edge edge2 = edges.get(1);
 
-        assertThat(edge2.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge2.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge2.getStartNode().getNodeId(), Matchers.is(u2));
@@ -370,7 +370,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(3));
         Edge edge1 = edges.get(0);
 
-        assertThat(edge1.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge1.getType(), Matchers.is(SIMILAR));
 
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p1));
@@ -380,7 +380,7 @@ public class PropertyGraphImplTest {
 
         Edge edge2 = edges.get(1);
 
-        assertThat(edge2.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge2.getType(), Matchers.is(SIMILAR));
 
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p1));
@@ -390,7 +390,7 @@ public class PropertyGraphImplTest {
 
         Edge edge3 = edges.get(2);
 
-        assertThat(edge3.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge3.getType(), Matchers.is(SIMILAR));
 
         assertThat(edge3.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge3.getStartNode().getNodeId(), Matchers.is(p1));
@@ -415,7 +415,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(3));
         Edge edge1 = edges.get(0);
 
-        assertThat(edge1.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge1.getType(), Matchers.is(SIMILAR));
 
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p3));
@@ -425,7 +425,7 @@ public class PropertyGraphImplTest {
 
         Edge edge2 = edges.get(1);
 
-        assertThat(edge2.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge2.getType(), Matchers.is(SIMILAR));
 
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p4));
@@ -435,7 +435,7 @@ public class PropertyGraphImplTest {
 
         Edge edge3 = edges.get(2);
 
-        assertThat(edge3.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge3.getType(), Matchers.is(SIMILAR));
 
         assertThat(edge3.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge3.getStartNode().getNodeId(), Matchers.is(p1));
@@ -457,7 +457,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
-        assertThat(edge.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge.getStartNode().getNodeId(), Matchers.is(u1));
@@ -479,7 +479,7 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
-        assertThat(edge.getType(), Matchers.is((EdgeType) BOUGHT));
+        assertThat(edge.getType(), Matchers.is(BOUGHT));
 
         assertThat(edge.getStartNode().getType(), Matchers.is((NodeType) USER));
         assertThat(edge.getStartNode().getNodeId(), Matchers.is(u1));
@@ -503,21 +503,21 @@ public class PropertyGraphImplTest {
         assertThat(edges.size(), Matchers.is(3));
 
         Edge edge0 = edges.get(0);
-        assertThat(edge0.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge0.getType(), Matchers.is(SIMILAR));
         assertThat(edge0.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge0.getStartNode().getNodeId(), Matchers.is(p1));
         assertThat(edge0.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge0.getEndNode().getNodeId(), Matchers.is(p2));
 
         Edge edge1 = edges.get(1);
-        assertThat(edge1.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge1.getType(), Matchers.is(SIMILAR));
         assertThat(edge1.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge1.getStartNode().getNodeId(), Matchers.is(p3));
         assertThat(edge1.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge1.getEndNode().getNodeId(), Matchers.is(p1));
 
         Edge edge2 = edges.get(2);
-        assertThat(edge2.getType(), Matchers.is((EdgeType) SIMILAR));
+        assertThat(edge2.getType(), Matchers.is(SIMILAR));
         assertThat(edge2.getStartNode().getType(), Matchers.is((NodeType) PRODUCT));
         assertThat(edge2.getStartNode().getNodeId(), Matchers.is(p2));
         assertThat(edge2.getEndNode().getType(), Matchers.is((NodeType) PRODUCT));
@@ -634,7 +634,7 @@ public class PropertyGraphImplTest {
     @Test
     public void testNonExistingRemoveEdge() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
-        EdgeId e = new EdgeId(TestEdgeType.BOUGHT, 0);
+        EdgeId e = new EdgeId(BOUGHT, 0);
         assertNull(graph.removeEdge(e));
     }
 
@@ -645,10 +645,8 @@ public class PropertyGraphImplTest {
         NodeIdRepository nodeRepo = new NodeIdRepositoryImpl();
         EdgePrimitivesRepository edgeRepo =
             new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
-        PropertiesRepository<NodeId> nodePropertiesRepo =
-            new ConcurrentHashMapPropertiesRepository<NodeId>(1);
-        PropertiesRepository<EdgeId> edgePropertiesRepo =
-            new ConcurrentHashMapPropertiesRepository<EdgeId>(1);
+        PropertiesRepository<NodeId> nodePropertiesRepo = new NodePropertiesRepository(1);
+        PropertiesRepository<EdgeId> edgePropertiesRepo = new EdgePropertiesRepository(1);
 
         graph.setNodeRepo(nodeRepo);
         graph.setNodePropertiesRepo(nodePropertiesRepo);

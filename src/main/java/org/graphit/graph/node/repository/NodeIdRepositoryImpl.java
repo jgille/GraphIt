@@ -25,7 +25,7 @@ import org.graphit.graph.exception.DuplicateKeyException;
 import org.graphit.graph.node.domain.NodeId;
 import org.springframework.util.Assert;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 
 /**
@@ -107,13 +107,6 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
     @Override
     public synchronized Iterable<NodeId> getNodes() {
         List<NodeId> copy = new ArrayList<NodeId>(nodes);
-        Iterable<NodeId> notNull = Iterables.filter(copy, new Predicate<NodeId>() {
-
-            @Override
-            public boolean apply(NodeId input) {
-                return input != null;
-            }
-        });
-        return notNull;
+        return Iterables.filter(copy, Predicates.<NodeId> notNull());
     }
 }

@@ -37,15 +37,16 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Element;
 import com.tinkerpop.blueprints.Features;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
 /**
  * A {@link Graph} implementation wrapping a {@link PropertyGraph}.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class BlueprintsGraph implements Graph {
 
@@ -53,12 +54,12 @@ public class BlueprintsGraph implements Graph {
     private final Features graphFeatures;
     private final BlueprintsEdgesRepository edgesRepo;
 
-    static final NodeType DEFAULT_NODE_TYPE = new NodeTypeImpl("_default_node_type");
-    static final EdgeType DEFAULT_EDGE_TYPE = new EdgeTypeImpl("_default_edge_type");
+    private static final NodeType DEFAULT_NODE_TYPE = new NodeTypeImpl("_default_node_type");
+    private static final EdgeType DEFAULT_EDGE_TYPE = new EdgeTypeImpl("_default_edge_type");
 
     /**
      * Creates a new instance.
-     * 
+     *
      * @param graph
      *            The wrapped property graph.
      */
@@ -110,7 +111,7 @@ public class BlueprintsGraph implements Graph {
 
     /**
      * Converts a {@link Direction} to an {@link EdgeDirection}.
-     * 
+     *
      */
     EdgeDirection getEdgeDirection(Direction direction) {
         switch (direction) {
@@ -167,7 +168,7 @@ public class BlueprintsGraph implements Graph {
         return transformNode(node);
     }
 
-    protected Vertex transformNode(Node node) {
+    private Vertex transformNode(Node node) {
         if (node == null) {
             return null;
         }
@@ -193,15 +194,9 @@ public class BlueprintsGraph implements Graph {
     }
 
     @Override
-    public Iterable<Vertex> getVertices(final String key, final Object value) {
+    public Iterable<Vertex> getVertices(String key, Object value) {
         Iterable<Vertex> vertices = getVertices();
-        return Iterables.filter(vertices, new Predicate<Vertex>() {
-
-            @Override
-            public boolean apply(Vertex vertex) {
-                return value.equals(vertex.getProperty(key));
-            }
-        });
+        return Iterables.filter(vertices, new ElementPropertyFilter(key, value));
     }
 
     @Override
@@ -252,18 +247,12 @@ public class BlueprintsGraph implements Graph {
     }
 
     @Override
-    public Iterable<Edge> getEdges(final String key, final Object value) {
+    public Iterable<Edge> getEdges(String key, Object value) {
         Iterable<Edge> edges = getEdges();
-        return Iterables.filter(edges, new Predicate<Edge>() {
-
-            @Override
-            public boolean apply(Edge edge) {
-                return value.equals(edge.getProperty(key));
-            }
-        });
+        return Iterables.filter(edges, new ElementPropertyFilter(key, value));
     }
 
-    protected PropertyGraph getGraphService() {
+    private PropertyGraph getGraphService() {
         return graph;
     }
 
@@ -277,7 +266,7 @@ public class BlueprintsGraph implements Graph {
         return "blueprintsgraph [graphService=" + graph + "]";
     }
 
-    EdgeTypes getEdgeTypes() {
+    protected EdgeTypes getEdgeTypes() {
         return graph.getMetadata().getEdgeTypes();
     }
 
@@ -286,11 +275,13 @@ public class BlueprintsGraph implements Graph {
         private final BlueprintsGraph graph;
         private final EdgeTransformer edgeTransformer;
         private final VertexTransformer vertexTransformer;
+        private final EdgeTypeToNameTransformer edgeTypeTransformer;
 
         private BlueprintsEdgesRepositoryImpl(BlueprintsGraph graph) {
             this.graph = graph;
             this.edgeTransformer = new EdgeTransformer(graph);
             this.vertexTransformer = new VertexTransformer(graph);
+            this.edgeTypeTransformer = new EdgeTypeToNameTransformer();
         }
 
         @Override
@@ -314,13 +305,15 @@ public class BlueprintsGraph implements Graph {
         @Override
         public Collection<String> getEdgeTypes() {
             EdgeTypes edgeTypes = graph.getEdgeTypes();
-            return Collections2.transform(edgeTypes.elements(), new Function<EdgeType, String>() {
+            return Collections2.transform(edgeTypes.elements(), edgeTypeTransformer);
+        }
+    }
 
-                @Override
-                public String apply(EdgeType edgeType) {
-                    return edgeType.name();
-                }
-            });
+    private static class EdgeTypeToNameTransformer implements Function<EdgeType, String> {
+
+        @Override
+        public String apply(EdgeType edgeType) {
+            return edgeType.name();
         }
     }
 
@@ -357,5 +350,21 @@ public class BlueprintsGraph implements Graph {
             return graph.transformNode(node);
         }
 
+    }
+
+    private static final class ElementPropertyFilter implements Predicate<Element> {
+
+        private final String key;
+        private final Object value;
+
+        private ElementPropertyFilter(String key, Object value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public boolean apply(Element element) {
+            return value.equals(element.getProperty(key));
+        }
     }
 }
