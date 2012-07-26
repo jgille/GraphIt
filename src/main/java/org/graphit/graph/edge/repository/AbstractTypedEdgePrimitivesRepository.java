@@ -107,10 +107,9 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
                 edgeVector.setEdgeComparator(edgeComparator);
                 outgoingEdges = edgeVector;
             }
-            EdgeVector outCopy = outgoingEdges.copy();
             int edgeId = edge.getIndex();
-            outCopy.add(edgeId);
-            setOutgoingEdges(startNodeId, outCopy);
+            EdgeVector newOutgoingEdges = outgoingEdges.add(edgeId);
+            setOutgoingEdges(startNodeId, newOutgoingEdges);
         } finally {
             lock.unlock();
         }
@@ -128,10 +127,9 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
                 edgeVector.setEdgeComparator(edgeComparator);
                 incomingEdges = edgeVector;
             }
-            EdgeVector inCopy = incomingEdges.copy();
             int edgeId = edge.getIndex();
-            inCopy.add(edgeId);
-            setIncomingEdges(endNodeId, inCopy);
+            EdgeVector newIncomingEdges = incomingEdges.add(edgeId);
+            setIncomingEdges(endNodeId, newIncomingEdges);
         } finally {
             lock.unlock();
         }
@@ -172,9 +170,8 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
         ReentrantLock lock = lockNode(startNodeId);
         try {
             EdgeVector outgoingEdges = findOutgoingEdges(startNodeId);
-            EdgeVector outCopy = outgoingEdges.copy();
-            outCopy.reindex(edge.getEdgeId().getIndex());
-            setOutgoingEdges(startNodeId, outCopy);
+            EdgeVector newOutgoingEdges = outgoingEdges.reindex(edge.getEdgeId().getIndex());
+            setOutgoingEdges(startNodeId, newOutgoingEdges);
         } finally {
             lock.unlock();
         }
@@ -185,9 +182,8 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
         ReentrantLock lock = lockNode(endNodeId);
         try {
             EdgeVector incomingEdges = findIncomingEdges(endNodeId);
-            EdgeVector inCopy = incomingEdges.copy();
-            inCopy.reindex(edge.getEdgeId().getIndex());
-            setIncomingEdges(endNodeId, inCopy);
+            EdgeVector newIncomingEdges = incomingEdges.reindex(edge.getEdgeId().getIndex());
+            setIncomingEdges(endNodeId, newIncomingEdges);
         } finally {
             lock.unlock();
         }

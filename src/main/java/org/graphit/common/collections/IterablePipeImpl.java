@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.graphit.common.procedures.Mapper;
+import org.graphit.common.procedures.Procedure;
 import org.graphit.common.procedures.Reducer;
 
 import com.google.common.base.Function;
@@ -36,9 +37,9 @@ import com.google.common.collect.TreeMultiset;
 
 /**
  * An implementation of an {@link IterablePipe}.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class IterablePipeImpl<E> implements IterablePipe<E> {
 
@@ -118,9 +119,18 @@ public class IterablePipeImpl<E> implements IterablePipe<E> {
     }
 
     @Override
+    public <T> IterablePipe<T> map(Mapper<E, T> mapper) {
+        return new IterablePipeImpl<T>(mapper.map(iterable));
+    }
+
+    @Override
+    public <T> T reduce(Reducer<E, T> reducer) {
+        return reducer.reduce(iterable);
+    }
+
+    @Override
     public <M, R> R mapReduce(Mapper<E, M> mapper, Reducer<M, R> reducer) {
-        Iterable<M> mapped = mapper.map(iterable);
-        return reducer.reduce(mapped);
+        return map(mapper).reduce(reducer);
     }
 
     @Override
@@ -154,5 +164,14 @@ public class IterablePipeImpl<E> implements IterablePipe<E> {
             res.add(element);
         }
         return res;
+    }
+
+    @Override
+    public void forEach(Procedure<E> procedure) {
+        for (E element : iterable) {
+            if (!procedure.apply(element)) {
+                break;
+            }
+        }
     }
 }

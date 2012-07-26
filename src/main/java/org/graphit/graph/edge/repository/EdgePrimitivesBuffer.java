@@ -30,8 +30,6 @@ public interface EdgePrimitivesBuffer {
 
     /**
      * Gets the size of this buffer
-     * 
-     * @return
      */
     int size();
 

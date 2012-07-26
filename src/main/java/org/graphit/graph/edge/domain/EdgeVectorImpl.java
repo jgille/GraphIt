@@ -29,14 +29,10 @@ import org.springframework.util.Assert;
 
 /**
  * An implementation of an edge vector.
- * 
- * Note: This class is not thread safe.
- * 
+ *
  * @author jon
  */
 public class EdgeVectorImpl implements EdgeVector {
-
-    private static final int DEFAULT_CAPACITY = 10;
 
     private EdgeIndexComparator edgeComparator;
 
@@ -46,32 +42,19 @@ public class EdgeVectorImpl implements EdgeVector {
     private final EdgeType edgeType;
     private final IntArrayList edges;
 
+    private static final IntArrayList EMPTY_LIST = new IntArrayList(0);
+
     /**
      * Creates an edge vector with a default initial capacity rooted at
      * rootNodeId.
-     * 
+     *
      * @param rootNodeId
      *            The root node.
      * @param edgeType
      *            The type of edges in this vector.
      */
     public EdgeVectorImpl(int rootNodeId, EdgeType edgeType) {
-        this(rootNodeId, edgeType, DEFAULT_CAPACITY);
-    }
-
-    /**
-     * Creates an edge vector with the provided initial capacity rooted at
-     * rootNodeId.
-     * 
-     * @param rootNodeId
-     *            The root node.
-     * @param edgeType
-     *            The type of edges in this vector.
-     * @param capacity
-     *            The initial capacity of the vector.
-     */
-    public EdgeVectorImpl(int rootNodeId, EdgeType edgeType, int capacity) {
-        this(rootNodeId, edgeType, new IntArrayList(capacity));
+        this(rootNodeId, edgeType, EMPTY_LIST);
     }
 
     private EdgeVectorImpl(int rootNodeId, EdgeType edgeType, IntArrayList sortedEdges) {
@@ -87,14 +70,6 @@ public class EdgeVectorImpl implements EdgeVector {
     }
 
     @Override
-    public EdgeVectorImpl copy() {
-        EdgeVectorImpl copy = new EdgeVectorImpl(rootNodeId, edgeType, edges.copy());
-        copy.setEdgeDirection(direction);
-        copy.setEdgeComparator(edgeComparator);
-        return copy;
-    }
-
-    @Override
     public int getRootNode() {
         return rootNodeId;
     }
@@ -104,11 +79,8 @@ public class EdgeVectorImpl implements EdgeVector {
         edges.forEach(procedure);
     }
 
-    private int getEdgeIndex(int id) {
-        return edges.lastIndexOf(id);
-    }
-
-    private int findIndexForNewEdge(int edgeId) {
+    private static int findIndexForNewEdge(int edgeId, IntArrayList edges,
+                                           EdgeIndexComparator edgeComparator) {
         if (edges.isEmpty()) {
             return 0;
         }
@@ -142,25 +114,47 @@ public class EdgeVectorImpl implements EdgeVector {
     }
 
     @Override
-    public void add(int edgeId) {
-        int index = findIndexForNewEdge(edgeId);
-        edges.beforeInsert(index, edgeId);
+    public EdgeVectorImpl add(int edgeId) {
+        int[] newElements = new int[edges.size() + 1];
+        int index = findIndexForNewEdge(edgeId, edges, edgeComparator);
+        System.arraycopy(edges.elements(), 0, newElements, 0, index);
+        newElements[index] = edgeId;
+        System.arraycopy(edges.elements(), index, newElements, index + 1,
+                         newElements.length - index - 1);
+
+        IntArrayList newEdges = new IntArrayList(newElements);
+        EdgeVectorImpl newEdgeVector = new EdgeVectorImpl(rootNodeId, edgeType, newEdges);
+        newEdgeVector.setEdgeComparator(edgeComparator);
+        newEdgeVector.setEdgeDirection(direction);
+        return newEdgeVector;
     }
 
     @Override
-    public void remove(int id) {
-        int index = getEdgeIndex(id);
-        edges.remove(index);
+    public EdgeVectorImpl remove(final int edgeId) {
+        int index = edges.lastIndexOf(edgeId);
+        if (index < 0) {
+            return this;
+        }
+        int[] newElements = new int[edges.size() - 1];
+        System.arraycopy(edges.elements(), 0, newElements, 0, index);
+        System.arraycopy(edges.elements(), index + 1, newElements, index,
+                         edges.size() - index - 1);
+
+        IntArrayList newEdges = new IntArrayList(newElements);
+        EdgeVectorImpl newEdgeVector = new EdgeVectorImpl(rootNodeId, edgeType, newEdges);
+        newEdgeVector.setEdgeComparator(edgeComparator);
+        newEdgeVector.setEdgeDirection(direction);
+        return newEdgeVector;
     }
 
     @Override
-    public void reindex(int edgeId) {
+    public EdgeVectorImpl reindex(int edgeId) {
         if (!edgeComparator.isSorted()) {
-            return;
+            return this;
         }
         // Removing and then re-adding will keep things sorted.
-        remove(edgeId);
-        add(edgeId);
+        // TODO: This could be made more efficient.
+        return remove(edgeId).add(edgeId);
     }
 
     @Override

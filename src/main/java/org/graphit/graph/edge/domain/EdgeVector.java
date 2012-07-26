@@ -24,7 +24,10 @@ import org.graphit.graph.traversal.EdgeDirection;
 
 /**
  * A vector of edges originating from a node.
- * 
+ *
+ * All implementations of this class are immutable, and all modifying operations
+ * returns a new instance in a copy on write fashion.
+ *
  * @author jon
  */
 public interface EdgeVector {
@@ -45,38 +48,33 @@ public interface EdgeVector {
     EdgeDirection getEdgeDirection();
 
     /**
-     * Returns a deep copy of this edge vector.
-     */
-    EdgeVector copy();
-
-    /**
      * Adds an edge to this vector.
-     * 
+     *
      * @param edgeId
      *            The unique id for the new edge.
      */
-    void add(int edgeId);
+    EdgeVector add(int edgeId);
 
     /**
      * Removes an edge.
-     * 
+     *
      * @param edgeId
      *            The unique id for the edge that should be removed.
      */
-    void remove(int edgeId);
+    EdgeVector remove(int edgeId);
 
     /**
      * Reindex an edge in this vector.
-     * 
+     *
      * @param edgeId
      *            The unique id for the edge that should be removed.
      */
-    void reindex(int edgeId);
+    EdgeVector reindex(int edgeId);
 
     /**
      * Applies the procedure for each edge id in this vector. Stops once a
      * procedure call returns false.
-     * 
+     *
      * @param procedure
      *            The procedure to apply for each edge id.
      */

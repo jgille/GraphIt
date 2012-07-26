@@ -26,8 +26,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import org.graphit.common.procedures.CollectorProcedure;
 import org.graphit.common.procedures.Mapper;
+import org.graphit.common.procedures.Procedure;
 import org.graphit.common.procedures.Reducer;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +40,7 @@ import com.google.common.base.Predicate;
 
 /**
  * @author jon
- * 
+ *
  */
 public class IterablePipeImplTest {
 
@@ -129,6 +132,29 @@ public class IterablePipeImplTest {
     public void testUnique() {
         IterablePipe<Integer> pipe = new IterablePipeImpl<Integer>(1, 2, 3, 4, 5, 1, 2);
         assertEquals(original.asList(), pipe.unique().asList());
+    }
+
+    @Test
+    public void testForEach() {
+        CollectorProcedure<Integer> procedure = new CollectorProcedure<Integer>();
+        original.forEach(procedure);
+        List<Integer> list = procedure.getElements();
+        assertEquals(original.asList(), list);
+    }
+
+    @Test
+    public void testBreakForEach() {
+        final AtomicInteger counter = new AtomicInteger();
+        Procedure<Integer> procedure = new Procedure<Integer>() {
+
+            @Override
+            public boolean apply(Integer element) {
+                counter.incrementAndGet();
+                return element < 3;
+            }
+        };
+        original.forEach(procedure);
+        assertEquals(3, counter.get());
     }
 
     @Test

@@ -39,9 +39,9 @@ import org.graphit.graph.node.schema.NodeTypes;
 /**
  * Exports a graph in Graphviz DOT language format. Please note that no edge
  * properties are included.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public final class PropertyGraphDotExporter {
 
@@ -194,11 +194,12 @@ public final class PropertyGraphDotExporter {
         String propsString =
             mapper.writerWithDefaultPrettyPrinter().writeValueAsString(props)
                 .replace("\n", "<br align=\"left\"/>");
-        writer.write(String
-            .format("%s [shape=\"%s\" label=<%s<br align=\"left\"/>> fontsize=9];",
-                    nid,
-                    nodeShapes.get(node.getNodeId().getNodeType()),
-                    propsString));
+        String label =
+            String.format("%s [shape=\"%s\" label=<%s<br align=\"left\"/>> fontsize=9];",
+                          nid,
+                          nodeShapes.get(node.getNodeId().getNodeType()),
+                          propsString);
+        writer.write(label);
         writer.newLine();
     }
 

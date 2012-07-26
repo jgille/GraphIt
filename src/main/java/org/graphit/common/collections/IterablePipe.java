@@ -21,21 +21,22 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.graphit.common.procedures.Mapper;
+import org.graphit.common.procedures.Procedure;
 import org.graphit.common.procedures.Reducer;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
- * 
+ *
  * An interface for interacting with {@link Iterable}s in a chained/piped
  * manner.
- * 
+ *
  * Note that an {@link IterablePipe} is always immutable, all of the methods
  * returns a new pipe instance.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public interface IterablePipe<E> extends Iterable<E> {
 
@@ -48,7 +49,7 @@ public interface IterablePipe<E> extends Iterable<E> {
     /**
      * Creates a new iterable pipe with the last limit elements of this iterable
      * pipe.
-     * 
+     *
      * Note that this will iterate the entire pipe to find the number of
      * elements to skip.
      */
@@ -78,6 +79,17 @@ public interface IterablePipe<E> extends Iterable<E> {
     IterablePipe<E> unique();
 
     /**
+     * Performs a map function on the pipe, transforming it to another pipe.
+     */
+    <T> IterablePipe<T> map(Mapper<E, T> mapper);
+
+    /**
+     * Performs a reduce function on the pipe, transforming it to something
+     * else.
+     */
+    <T> T reduce(Reducer<E, T> reducer);
+
+    /**
      * Performs a two step operation on this iterable. First it is mapped to
      * another iterable, then it is transformed into a final result.
      */
@@ -93,6 +105,12 @@ public interface IterablePipe<E> extends Iterable<E> {
      * Returns true if there are no elements in this iterable pipe.
      */
     boolean isEmpty();
+
+    /**
+     * Applies a procedure for each element in the pipe, stopping if a procedure
+     * call return false.
+     */
+    void forEach(Procedure<E> procedure);
 
     /**
      * Gets the element at index in this iterable pipe.

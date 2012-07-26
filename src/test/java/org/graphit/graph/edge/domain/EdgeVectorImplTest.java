@@ -124,10 +124,7 @@ public class EdgeVectorImplTest {
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13);
 
         assertThat(edgeVector.size(), Matchers.is(4));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -152,10 +149,7 @@ public class EdgeVectorImplTest {
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13);
 
         assertThat(edgeVector.size(), Matchers.is(4));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -179,10 +173,7 @@ public class EdgeVectorImplTest {
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13);
 
         assertThat(edgeVector.size(), Matchers.is(4));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -207,11 +198,7 @@ public class EdgeVectorImplTest {
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
-        edgeVector.remove(12);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13).remove(12);
 
         assertThat(edgeVector.size(), Matchers.is(3));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -236,11 +223,7 @@ public class EdgeVectorImplTest {
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
-        edgeVector.remove(12);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13).remove(12);
 
         assertThat(edgeVector.size(), Matchers.is(3));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -264,11 +247,7 @@ public class EdgeVectorImplTest {
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
-        edgeVector.remove(12);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13).remove(12);
 
         assertThat(edgeVector.size(), Matchers.is(3));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -293,13 +272,10 @@ public class EdgeVectorImplTest {
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13);
 
         when(mockEdgeComparator.compare(anyInt(), eq(12))).thenReturn(-1);
-        edgeVector.reindex(12);
+        edgeVector = edgeVector.reindex(12);
 
         assertThat(edgeVector.size(), Matchers.is(4));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -324,13 +300,10 @@ public class EdgeVectorImplTest {
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13);
 
         when(mockEdgeComparator.compare(anyInt(), eq(12))).thenReturn(1);
-        edgeVector.reindex(12);
+        edgeVector = edgeVector.reindex(12);
 
         assertThat(edgeVector.size(), Matchers.is(4));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
@@ -354,11 +327,7 @@ public class EdgeVectorImplTest {
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
 
-        edgeVector.add(11);
-        edgeVector.add(12);
-        edgeVector.add(10);
-        edgeVector.add(13);
-        edgeVector.reindex(12);
+        edgeVector = edgeVector.add(11).add(12).add(10).add(13).reindex(12);
 
         assertThat(edgeVector.size(), Matchers.is(4));
         assertThat(edgeVector.isEmpty(), Matchers.is(false));
