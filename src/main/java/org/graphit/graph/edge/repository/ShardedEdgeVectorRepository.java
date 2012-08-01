@@ -26,7 +26,7 @@ import org.graphit.graph.edge.domain.EdgeVector;
 /**
  * An {@link EdgeVectorRepository} that is split into multiple shards for better
  * concurrency.
- * 
+ *
  */
 public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
 
@@ -54,16 +54,12 @@ public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
 
     private AbstractIntObjectMap<EdgeVector> getOutgoingShard(int nodeIndex) {
         int shardIndex = getShardIndex(nodeIndex);
-        synchronized (outgoingShards) {
-            return outgoingShards.get(shardIndex);
-        }
+        return outgoingShards.get(shardIndex);
     }
 
     private AbstractIntObjectMap<EdgeVector> getIncomingShard(int nodeIndex) {
         int shardIndex = getShardIndex(nodeIndex);
-        synchronized (incomingShards) {
-            return incomingShards.get(shardIndex);
-        }
+        return incomingShards.get(shardIndex);
     }
 
     private EdgeVector get(AbstractIntObjectMap<EdgeVector> map, int nodeIndex) {

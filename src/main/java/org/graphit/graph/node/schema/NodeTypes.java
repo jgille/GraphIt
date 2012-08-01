@@ -27,9 +27,9 @@ import org.springframework.util.Assert;
 
 /**
  * A dynamic set of {@link NodeType}s backed by a {@link HashMap}.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
 
@@ -57,7 +57,7 @@ public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
 
     @Override
     public NodeType valueOf(String name) {
-        Assert.isTrue(nodeTypes.containsKey(name), "No such edge type: " + name);
+        Assert.isTrue(nodeTypes.containsKey(name), "No such node type: " + name);
         return nodeTypes.get(name);
     }
 

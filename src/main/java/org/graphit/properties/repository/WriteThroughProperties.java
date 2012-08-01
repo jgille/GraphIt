@@ -25,9 +25,9 @@ import org.graphit.properties.domain.Properties;
 /**
  * A {@link Properties} implementation that will propagate all changes to a
  * {@link PropertiesRepository}.
- * 
+ *
  * @author jon
- * 
+ *
  * @param <T>
  *            The generic type of the id of this instance.
  */
@@ -40,7 +40,7 @@ public class WriteThroughProperties<T> implements Properties {
     /**
      * Creates a new lazy instance, i.e. it will load properties from the repo
      * on first request.
-     * 
+     *
      * @param id
      *            The id of this instance.
      * @param repo
@@ -53,7 +53,7 @@ public class WriteThroughProperties<T> implements Properties {
 
     /**
      * Creates a new instance.
-     * 
+     *
      * @param id
      *            The id of this instance.
      * @param properties
