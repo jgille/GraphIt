@@ -16,6 +16,7 @@
 
 package org.graphit.graph.edge.repository;
 
+import org.graphit.common.ConcurrencyConstants;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
@@ -50,9 +51,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
     public TypedEdgePrimitivesRepositoryImpl(EdgeType edgeType, int initialCapacity) {
         this(edgeType,
              new ShardedEdgePrimitivesBuffer(edgeType,
-                                             // TODO: Figure out a good number
-                                             // here
-                                             Runtime.getRuntime().availableProcessors() * 2,
+                                             ConcurrencyConstants.DEFAULT_CONCURRENCY_LEVEL,
                                              initialCapacity));
     }
 

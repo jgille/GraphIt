@@ -16,6 +16,7 @@
 
 package org.graphit.graph.node.repository;
 
+import org.graphit.common.ConcurrencyConstants;
 import org.graphit.graph.domain.MappedList;
 import org.graphit.graph.domain.ShardedMappedList;
 import org.graphit.graph.node.domain.NodeId;
@@ -37,8 +38,7 @@ public class ShardedNodeIdRepository implements NodeIdRepository {
      * Creates a new repo.
      */
     public ShardedNodeIdRepository() {
-        // TODO: Find a suitable default concurrency level
-        this(Runtime.getRuntime().availableProcessors() * 2);
+        this(ConcurrencyConstants.DEFAULT_CONCURRENCY_LEVEL);
     }
     /**
      * Creates a new repo.

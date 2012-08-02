@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.graphit.graph.service.PropertyGraph;
@@ -31,13 +30,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author jon
  *
  */
 public class LastFMGraphReadOnlyLoadTest {
 
-    private final int nofThreads = Runtime.getRuntime().availableProcessors() * 2;
+    private final int nofThreads = Runtime.getRuntime().availableProcessors() + 1;
 
     private static PropertyGraph graph;
 
@@ -58,33 +59,46 @@ public class LastFMGraphReadOnlyLoadTest {
         runTest(nofThreads, 50000, getScenario("OneGetEdges.csv"));
     }
 
-    @Test(timeout = 2000)
+    @Test(timeout = 500)
     public void testGetEdgesForAllNodes() throws IOException, InterruptedException,
         ExecutionException {
         runTest(nofThreads, 1, getScenario("getEdgesForAllNodes.csv"));
     }
 
-    @Test(timeout = 90000)
+    @Test(timeout = 60000)
     public void testCycleGetEdgesForAllNodes() throws IOException, InterruptedException,
         ExecutionException {
-        runTest(nofThreads, 100, getScenario("getEdgesForAllNodes.csv"));
+        runTest(nofThreads, 200, getScenario("getEdgesForAllNodes.csv"));
     }
 
-    private void runTest(int nofThreads, int nofCycles, File csv) throws IOException,
+    private void runTest(int nofThreads, final int nofCycles, File csv) throws IOException,
         InterruptedException, ExecutionException {
         String header = String.format("\n%s - %d cycles", csv.getName(), nofCycles);
         GraphLoadTestStats stats = new GraphLoadTestStats();
         List<GraphMethod<?>> methods = GraphMethodFactory.parseCsv(graph, stats, csv);
+        final List<List<GraphMethod<?>>> partitions =
+            Lists.partition(methods, (int) Math.ceil(1d * methods.size() / nofThreads));
+
         ExecutorService service = Executors.newFixedThreadPool(nofThreads);
         stats.start();
-        int j = 0;
         for (int i = 0; i < nofCycles; i++) {
-            for (GraphMethod<?> method : methods) {
-                Future<?> f = service.submit(method);
-                if (j++ % nofThreads == 0) {
-                    f.get();
+            final int j = i;
+            service.submit(new Runnable() {
+
+                @Override
+                public void run() {
+                    List<GraphMethod<?>> partition = partitions.get(j);
+                    for (int c = 0; c < nofCycles; c++) {
+                        for (GraphMethod<?> method : partition) {
+                            try {
+                                method.call();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
-            }
+            });
         }
         service.shutdown();
         service.awaitTermination(30, TimeUnit.MINUTES);
@@ -97,7 +111,7 @@ public class LastFMGraphReadOnlyLoadTest {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException,
-        ExecutionException {
+    ExecutionException {
         loadGraph();
         LastFMGraphReadOnlyLoadTest test = new LastFMGraphReadOnlyLoadTest();
         test.testCycleGetEdgesForAllNodes();

@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.mahout.math.list.IntArrayList;
+import org.graphit.common.ConcurrencyConstants;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.domain.EdgeVector;
@@ -60,7 +61,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
         this.edgeType = edgeType;
         this.removedEdges = new IntArrayList();
         this.maxId = new AtomicInteger(-1);
-        int nofLocks = Runtime.getRuntime().availableProcessors() * 2;
+        int nofLocks = ConcurrencyConstants.DEFAULT_CONCURRENCY_LEVEL;
         List<ReentrantLock> lockList = new ArrayList<ReentrantLock>(nofLocks);
         for (int i = 0; i < nofLocks; i++) {
             lockList.add(new ReentrantLock());

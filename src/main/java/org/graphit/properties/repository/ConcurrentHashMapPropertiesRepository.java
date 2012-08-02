@@ -40,8 +40,7 @@ public abstract class ConcurrentHashMapPropertiesRepository<T>
      */
     public ConcurrentHashMapPropertiesRepository(int initalCapacity) {
         this.repo =
-            new ConcurrentHashMap<T, Properties>(initalCapacity, LOAD_FACTOR, Runtime.getRuntime()
-                .availableProcessors() * 4);
+            new ConcurrentHashMap<T, Properties>(initalCapacity, LOAD_FACTOR);
     }
 
     /**
