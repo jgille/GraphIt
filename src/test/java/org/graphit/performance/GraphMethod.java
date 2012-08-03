@@ -16,14 +16,14 @@
 
 package org.graphit.performance;
 
-import java.util.concurrent.Callable;
-
 /**
  * @author jon
  *
  */
-public interface GraphMethod<V> extends Callable<V> {
+public interface GraphMethod<V> {
 
     void init(String[] params);
+
+    V invoke();
 
 }

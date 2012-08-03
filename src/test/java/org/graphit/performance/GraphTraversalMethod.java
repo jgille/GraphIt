@@ -50,7 +50,7 @@ public abstract class GraphTraversalMethod extends AbstractGraphMethod<Integer> 
     }
 
     @Override
-    public Integer call() {
+    public Integer invoke() {
         return invokeMethod(nodeId, edgeType, edgeDirection);
     }
 

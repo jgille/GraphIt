@@ -18,19 +18,12 @@ package org.graphit.performance;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.utils.LastFMGraph;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author jon
@@ -49,60 +42,26 @@ public class LastFMGraphReadOnlyLoadTest {
         }
     }
 
-    @Test(timeout = 100)
+    @Test
     public void testOneGetEdges() throws IOException, InterruptedException, ExecutionException {
-        runTest(nofThreads, 1, getScenario("OneGetEdges.csv"));
+        LoadTester.runTest(graph, nofThreads, 1, getScenario("OneGetEdges.csv"));
     }
 
-    @Test(timeout = 60000)
+    @Test
     public void testCycleOneGetEdges() throws IOException, InterruptedException, ExecutionException {
-        runTest(nofThreads, 50000, getScenario("OneGetEdges.csv"));
+        LoadTester.runTest(graph, nofThreads, 5000, getScenario("OneGetEdges.csv"));
     }
 
-    @Test(timeout = 500)
+    @Test
     public void testGetEdgesForAllNodes() throws IOException, InterruptedException,
         ExecutionException {
-        runTest(nofThreads, 1, getScenario("getEdgesForAllNodes.csv"));
+        LoadTester.runTest(graph, nofThreads, 1, getScenario("getEdgesForAllNodes.csv"));
     }
 
-    @Test(timeout = 60000)
+    @Test
     public void testCycleGetEdgesForAllNodes() throws IOException, InterruptedException,
         ExecutionException {
-        runTest(nofThreads, 200, getScenario("getEdgesForAllNodes.csv"));
-    }
-
-    private void runTest(int nofThreads, final int nofCycles, File csv) throws IOException,
-        InterruptedException, ExecutionException {
-        String header = String.format("\n%s - %d cycles", csv.getName(), nofCycles);
-        GraphLoadTestStats stats = new GraphLoadTestStats();
-        List<GraphMethod<?>> methods = GraphMethodFactory.parseCsv(graph, stats, csv);
-        final List<List<GraphMethod<?>>> partitions =
-            Lists.partition(methods, (int) Math.ceil(1d * methods.size() / nofThreads));
-
-        ExecutorService service = Executors.newFixedThreadPool(nofThreads);
-        stats.start();
-        for (int i = 0; i < nofCycles; i++) {
-            final int j = i;
-            service.submit(new Runnable() {
-
-                @Override
-                public void run() {
-                    List<GraphMethod<?>> partition = partitions.get(j);
-                    for (int c = 0; c < nofCycles; c++) {
-                        for (GraphMethod<?> method : partition) {
-                            try {
-                                method.call();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        service.shutdown();
-        service.awaitTermination(30, TimeUnit.MINUTES);
-        stats.finish(header);
+        LoadTester.runTest(graph, nofThreads, 20, getScenario("getEdgesForAllNodes.csv"));
     }
 
     private File getScenario(String fileName) throws IOException {

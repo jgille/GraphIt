@@ -55,7 +55,7 @@ public class AddEdgeMethod extends AbstractGraphMethod<Edge> {
     }
 
     @Override
-    public Edge call() {
+    public Edge invoke() {
         getStats().logAddEdge();
         return getGraph().addEdge(startNode, endNode, edgeType, weight);
     }

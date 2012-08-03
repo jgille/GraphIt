@@ -16,6 +16,8 @@
 
 package org.graphit.performance;
 
+import java.util.Arrays;
+
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeType;
@@ -36,7 +38,7 @@ public class RemoveEdgeMethod extends AbstractGraphMethod<Edge> {
 
     @Override
     public void init(String[] params) {
-        Assert.isTrue(params.length == 6);
+        Assert.isTrue(params.length == 2, "Illegal params: " + Arrays.toString(params));
         PropertyGraph graph = getGraph();
         int i = 0;
         EdgeType edgeType = graph.getEdgeType(params[i++]);
@@ -45,9 +47,10 @@ public class RemoveEdgeMethod extends AbstractGraphMethod<Edge> {
     }
 
     @Override
-    public Edge call() {
+    public Edge invoke() {
         getStats().logRemoveEdge();
-        return getGraph().removeEdge(edgeId);
+        Edge edge = getGraph().removeEdge(edgeId);
+        return edge;
     }
 
 }

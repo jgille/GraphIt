@@ -34,13 +34,13 @@ import org.junit.Test;
  */
 public class LastFMGraphTest {
 
-    @Test(timeout = 15000)
+    @Test
     public void testImport() throws IOException {
         PropertyGraph lastFMGraph = LastFMGraph.importGraph();
         validate(lastFMGraph);
     }
 
-    @Test(timeout = 10000)
+    @Test
     public void testLoadJson() throws IOException {
         PropertyGraph lastFMGraph = LastFMGraph.load();
         validate(lastFMGraph);

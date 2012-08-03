@@ -28,6 +28,7 @@ public class GraphLoadTestStats {
     private int nofTraversedEdges;
     private int nofAddEdges;
     private int nofRemoveEdges;
+    private int nofErrors;
 
     public void start() {
         this.t0 = System.currentTimeMillis();
@@ -50,12 +51,14 @@ public class GraphLoadTestStats {
                 "Nof traversed edges: %d\n" +
                 "Nof added edges: %d\n" +
                 "Nof removed edges: %d\n" +
+                "Nof ops: %d\n" +
                 "Ops per second: %d\n" +
                 "Traversed edges per second: %d\n" +
-                "Elapsed time: %.2f s",
+                "Elapsed time: %.2f s\n",
                           header,
                           nofGetEdges, nofGetNeigbors, nofTraversedEdges, nofAddEdges,
                           nofRemoveEdges,
+                          nofGetEdges + nofGetNeigbors + nofAddEdges + nofRemoveEdges,
                           Math.round((1000d * (nofGetEdges + nofGetNeigbors +
                               nofAddEdges + nofRemoveEdges))
                               / elapsedMillis),
@@ -81,6 +84,14 @@ public class GraphLoadTestStats {
 
     public synchronized void logRemoveEdge() {
         nofRemoveEdges++;
+    }
+
+    public synchronized void logError() {
+        nofErrors++;
+    }
+
+    public synchronized int getNofErrors() {
+        return nofErrors;
     }
 
 }

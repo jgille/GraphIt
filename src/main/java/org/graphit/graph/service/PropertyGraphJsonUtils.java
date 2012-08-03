@@ -119,7 +119,6 @@ public final class PropertyGraphJsonUtils {
             graph.createEdgeType(edgeType.get(NAME),
                                  EdgeSortOrder.valueOf(edgeType.get(SORT_ORDER)));
         }
-        System.out.println("Imported metadata.");
     }
 
     private static void importNodes(PropertyGraph graph, JsonParser jsonParser, JsonToken current)
@@ -128,7 +127,6 @@ public final class PropertyGraphJsonUtils {
         Assert.isTrue(current == JsonToken.START_ARRAY);
         TypeReference<Map<String, Object>> type = new TypeReference<Map<String, Object>>() {
         };
-        int i = 0;
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             // TODO: Use a dedicated domain object intead of a map
             Map<String, Object> nodeData = jsonParser.readValueAs(type);
@@ -142,9 +140,6 @@ public final class PropertyGraphJsonUtils {
                 }
                 graph.setNodeProperties(nodeId, node);
             }
-            if (++i % 10000 == 0) {
-                System.out.println("Imported " + i + " nodes.");
-            }
         }
     }
 
@@ -154,7 +149,6 @@ public final class PropertyGraphJsonUtils {
         Assert.isTrue(current == JsonToken.START_ARRAY);
         TypeReference<Map<String, Object>> type = new TypeReference<Map<String, Object>>() {
         };
-        int i = 0;
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             // TODO: Use a dedicated domain object intead of a map
             Map<String, Object> edgeData =
@@ -174,9 +168,6 @@ public final class PropertyGraphJsonUtils {
                     edge.setProperty(propertyEntry.getKey(), propertyEntry.getValue());
                 }
                 graph.setEdgeProperties(edgeId, edge);
-            }
-            if (++i % 10000 == 0) {
-                System.out.println("Imported " + i + " edges.");
             }
         }
     }

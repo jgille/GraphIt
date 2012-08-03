@@ -116,6 +116,22 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
         }
     }
 
+    private void removeOutgoingEdge(EdgePrimitive edge) {
+        int startNodeId = edge.getStartNodeIndex();
+        ReentrantLock lock = lockNode(startNodeId);
+        try {
+
+            EdgeVector outgoingEdges = findOutgoingEdges(startNodeId);
+            if (outgoingEdges != null) {
+                int edgeId = edge.getIndex();
+                EdgeVector newOutgoingEdges = outgoingEdges.remove(edgeId);
+                setOutgoingEdges(startNodeId, newOutgoingEdges);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
     private void addIncomingEdge(EdgePrimitive edge) {
         int endNodeId = edge.getEndNodeIndex();
         ReentrantLock lock = lockNode(endNodeId);
@@ -136,11 +152,30 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
         }
     }
 
+    private void removeIncomingEdge(EdgePrimitive edge) {
+        int endNodeId = edge.getEndNodeIndex();
+        ReentrantLock lock = lockNode(endNodeId);
+        try {
+
+            EdgeVector incomingEdges = findIncomingEdges(endNodeId);
+            if (incomingEdges != null) {
+                int edgeId = edge.getIndex();
+                EdgeVector newIncomingEdges = incomingEdges.remove(edgeId);
+                setIncomingEdges(endNodeId, newIncomingEdges);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
     /**
      * Adds an edge, adding it to the {@link EdgeVector} of the start and end
      * node.
      */
     protected void insert(EdgePrimitive edge) {
+        synchronized (maxId) {
+            maxId.set(Math.max(maxId.get(), edge.getIndex()));
+        }
         // Add the undirected edge as an outgoing edge from both the start
         // and end node
         addOutgoingEdge(edge);
@@ -152,6 +187,8 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
      */
     protected void delete(EdgePrimitive edge) {
         int edgeId = edge.getIndex();
+        removeOutgoingEdge(edge);
+        removeIncomingEdge(edge);
         synchronized (removedEdges) {
             removedEdges.add(edgeId);
         }
