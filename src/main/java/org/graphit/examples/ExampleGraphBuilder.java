@@ -35,12 +35,14 @@ import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.service.PropertyGraphDotExporter;
 import org.graphit.graph.service.PropertyGraphImpl;
 import org.graphit.graph.service.PropertyGraphJsonUtils;
+import org.graphit.properties.domain.HashMapProperties;
+import org.graphit.properties.domain.Properties;
 
 /**
  * A class that generates the example graph.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class ExampleGraphBuilder {
 
@@ -54,63 +56,66 @@ public class ExampleGraphBuilder {
 
         PropertyGraph graph = new PropertyGraphImpl(metadata);
 
-        Node john = createUser(graph, "john.doe", "John Doe");
-        Node sam = createUser(graph, "sam98", "Samantha Fox");
-        Node mary = createUser(graph, "mary_j", "Mary J. Blige");
+        NodeId john = createUser(graph, "john.doe", "John Doe");
+        NodeId sam = createUser(graph, "sam98", "Samantha Fox");
+        NodeId mary = createUser(graph, "mary_j", "Mary J. Blige");
 
-        Node karmin = createTrack(graph, UUID.randomUUID().toString(),
-                                  Arrays.asList("Karmin"), "Crash you party", 0.99);
-        Node theStreets =
+        NodeId karmin = createTrack(graph, UUID.randomUUID().toString(),
+                                    Arrays.asList("Karmin"), "Crash you party", 0.99);
+        NodeId theStreets =
             createTrack(graph, UUID.randomUUID().toString(),
                         Arrays.asList("The Streets"), "Blinded by the lights (Nero remix)", 1d);
-        Node rihanna = createTrack(graph, UUID.randomUUID().toString(),
-                                   Arrays.asList("Rihanna", "Calvin Harris"), "We found love", 2.2);
-        Node cher = createTrack(graph, UUID.randomUUID().toString(),
-                                Arrays.asList("Cher", "Mike Posner"), "With Ur Love", 1.9);
-        Node skepta = createTrack(graph, UUID.randomUUID().toString(),
-                                  Arrays.asList("Skepta"), "Hold On", 1.25);
+        NodeId rihanna =
+            createTrack(graph, UUID.randomUUID().toString(),
+                        Arrays.asList("Rihanna", "Calvin Harris"), "We found love", 2.2);
+        NodeId cher = createTrack(graph, UUID.randomUUID().toString(),
+                                  Arrays.asList("Cher", "Mike Posner"), "With Ur Love", 1.9);
+        NodeId skepta = createTrack(graph, UUID.randomUUID().toString(),
+                                    Arrays.asList("Skepta"), "Hold On", 1.25);
 
-        graph.addEdge(john.getNodeId(), karmin.getNodeId(), BOUGHT);
-        graph.addEdge(john.getNodeId(), theStreets.getNodeId(), BOUGHT);
-        graph.addEdge(sam.getNodeId(), theStreets.getNodeId(), BOUGHT);
-        graph.addEdge(sam.getNodeId(), rihanna.getNodeId(), BOUGHT);
-        graph.addEdge(sam.getNodeId(), cher.getNodeId(), BOUGHT);
-        graph.addEdge(mary.getNodeId(), theStreets.getNodeId(), BOUGHT);
-        graph.addEdge(mary.getNodeId(), cher.getNodeId(), BOUGHT);
+        graph.addEdge(john, karmin, BOUGHT);
+        graph.addEdge(john, theStreets, BOUGHT);
+        graph.addEdge(sam, theStreets, BOUGHT);
+        graph.addEdge(sam, rihanna, BOUGHT);
+        graph.addEdge(sam, cher, BOUGHT);
+        graph.addEdge(mary, theStreets, BOUGHT);
+        graph.addEdge(mary, cher, BOUGHT);
 
-        graph.addEdge(john.getNodeId(), karmin.getNodeId(), LISTENED_TO);
-        graph.addEdge(john.getNodeId(), cher.getNodeId(), LISTENED_TO);
-        graph.addEdge(sam.getNodeId(), karmin.getNodeId(), LISTENED_TO);
-        graph.addEdge(sam.getNodeId(), theStreets.getNodeId(), LISTENED_TO);
-        graph.addEdge(mary.getNodeId(), skepta.getNodeId(), LISTENED_TO);
+        graph.addEdge(john, karmin, LISTENED_TO);
+        graph.addEdge(john, cher, LISTENED_TO);
+        graph.addEdge(sam, karmin, LISTENED_TO);
+        graph.addEdge(sam, theStreets, LISTENED_TO);
+        graph.addEdge(mary, skepta, LISTENED_TO);
 
-        graph.addEdge(karmin.getNodeId(), theStreets.getNodeId(), SIMILAR, 1);
-        graph.addEdge(theStreets.getNodeId(), karmin.getNodeId(), SIMILAR, 1);
-        graph.addEdge(theStreets.getNodeId(), cher.getNodeId(), SIMILAR, 2);
-        graph.addEdge(cher.getNodeId(), theStreets.getNodeId(), SIMILAR, 2);
-        graph.addEdge(theStreets.getNodeId(), rihanna.getNodeId(), SIMILAR, 1);
-        graph.addEdge(rihanna.getNodeId(), theStreets.getNodeId(), SIMILAR, 1);
-        graph.addEdge(rihanna.getNodeId(), cher.getNodeId(), SIMILAR, 1);
-        graph.addEdge(cher.getNodeId(), rihanna.getNodeId(), SIMILAR, 1);
+        graph.addEdge(karmin, theStreets, SIMILAR, 1);
+        graph.addEdge(theStreets, karmin, SIMILAR, 1);
+        graph.addEdge(theStreets, cher, SIMILAR, 2);
+        graph.addEdge(cher, theStreets, SIMILAR, 2);
+        graph.addEdge(theStreets, rihanna, SIMILAR, 1);
+        graph.addEdge(rihanna, theStreets, SIMILAR, 1);
+        graph.addEdge(rihanna, cher, SIMILAR, 1);
+        graph.addEdge(cher, rihanna, SIMILAR, 1);
 
         return graph;
     }
 
-    private Node createUser(PropertyGraph graph, String userId, String userName) {
+    private NodeId createUser(PropertyGraph graph, String userId, String userName) {
         Node user = graph.addNode(new NodeId(USER, userId));
-        user.setProperty("Name", userName);
-        graph.setNodeProperties(user.getNodeId(), user);
-        return user;
+        Properties properties = new HashMapProperties(1);
+        properties.setProperty("Name", userName);
+        graph.setNodeProperties(user.getNodeId(), properties);
+        return user.getNodeId();
     }
 
-    private Node createTrack(PropertyGraph graph, String trackId,
-                             List<String> artists, String title, double price) {
+    private NodeId createTrack(PropertyGraph graph, String trackId,
+                               List<String> artists, String title, double price) {
         Node track = graph.addNode(new NodeId(TRACK, trackId));
-        track.setProperty("Artists", artists);
-        track.setProperty("Title", title);
-        track.setProperty("Price", price);
-        graph.setNodeProperties(track.getNodeId(), track);
-        return track;
+        Properties properties = new HashMapProperties(1);
+        properties.setProperty("Artists", artists);
+        properties.setProperty("Title", title);
+        properties.setProperty("Price", price);
+        graph.setNodeProperties(track.getNodeId(), properties);
+        return track.getNodeId();
     }
 
     /**

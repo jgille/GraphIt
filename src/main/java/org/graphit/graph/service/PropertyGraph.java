@@ -33,9 +33,9 @@ import org.graphit.properties.domain.Properties;
 /**
  * A graph containing nodes connected by edges. Both nodes and edges can have
  * properties associated with them.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public interface PropertyGraph {
 
@@ -110,54 +110,63 @@ public interface PropertyGraph {
     IterablePipe<Node> getNeighbors(NodeId node, EdgeType edgeType, EdgeDirection direction);
 
     /**
-     * Gets a node by it's index.
+     * Gets a node by it's index. Modifying the returned node's properties will
+     * take immediate effect in the backing repository.
      */
     Node getNode(int index);
 
     /**
-     * Gets a node by it's id.
+     * Gets a node by it's id. Modifying the returned node's properties will
+     * take immediate effect in the backing repository.
      */
     Node getNode(NodeId nodeId);
 
     /**
-     * Adds a node.
+     * Adds a node. Modifying the returned node's properties will take immediate
+     * effect in the backing repository
      */
     Node addNode(NodeId nodeId);
 
     /**
      * Adds a node. You should normally not use this method, use
-     * {@link #addNode(NodeId)} instead.
+     * {@link #addNode(NodeId)} instead. Modifying the returned node's
+     * properties will take immediate effect in the backing repository.
      */
     Node addNode(NodeId nodeId, int index);
 
     /**
-     * Removes a node.
+     * Removes a node, returning an immutable version of the node.
      */
     Node removeNode(NodeId nodeId);
 
     /**
-     * Gets an edge:
+     * Gets an edge. Modifying the returned edges's properties will take
+     * immediate effect in the backing repository.
      */
     Edge getEdge(EdgeId edgeId);
 
     /**
-     * Adds an edge.
+     * Adds an edge. Modifying the returned edges's properties will take
+     * immediate effect in the backing repository.
      */
     Edge addEdge(NodeId startNode, NodeId endNode, EdgeType edgeType);
 
     /**
-     * Adds a weighted edge.
+     * Adds a weighted edge. Modifying the returned edges's properties will take
+     * immediate effect in the backing repository.
      */
     Edge addEdge(NodeId startNode, NodeId endNode, EdgeType edgeType, float weight);
 
     /**
      * Adds a weighted edge. You should normally not use this method, use
-     * {@link #addEdge(EdgeId, NodeId, NodeId, float)} instead.
+     * {@link #addEdge(EdgeId, NodeId, NodeId, float)} instead. Modifying the
+     * returned edges's properties will take immediate effect in the backing
+     * repository.
      */
     Edge addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight);
 
     /**
-     * Removes an edge.
+     * Removes an edge, returning an immutable version of the edge.
      */
     Edge removeEdge(EdgeId edgeId);
 
