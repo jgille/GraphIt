@@ -110,7 +110,7 @@ public class ExampleGraphBuilder {
     private NodeId createTrack(PropertyGraph graph, String trackId,
                                List<String> artists, String title, double price) {
         Node track = graph.addNode(new NodeId(TRACK, trackId));
-        Properties properties = new HashMapProperties(1);
+        Properties properties = new HashMapProperties(3);
         properties.setProperty("Artists", artists);
         properties.setProperty("Title", title);
         properties.setProperty("Price", price);
