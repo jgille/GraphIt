@@ -76,36 +76,20 @@ public class ShardedEdgePrimitivesBufferTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGetOutOfBounds() {
         EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
 
-        boolean exception = false;
-        try {
-            buffer.get(-1);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
-
-        assertNull(buffer.get(10));
+        buffer.get(-1);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testRemoveOutOfBounds() {
         EdgeType edgeType = BOUGHT;
         EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
 
-        boolean exception = false;
-        try {
-            buffer.remove(-1);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
-
-        assertNull(buffer.remove(10));
+        buffer.remove(-1);
     }
 
 }

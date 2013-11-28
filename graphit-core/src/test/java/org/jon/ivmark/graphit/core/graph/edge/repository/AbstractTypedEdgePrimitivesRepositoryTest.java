@@ -52,17 +52,11 @@ public abstract class AbstractTypedEdgePrimitivesRepositoryTest {
         assertThat(edgeId.getIndex(), Matchers.is(0));
     }
 
-    @Test
+    @Test(expected = DuplicateKeyException.class)
     public void testAddDuplicateEdge() {
         TypedEdgePrimitivesRepository repo = createRepo(SIMILAR, 10);
         EdgeId edgeId = repo.addWeightedEdge(1, 2, 100);
-        boolean exception = false;
-        try {
-            repo.addWeightedEdge(edgeId, 2, 5, 10);
-        } catch (DuplicateKeyException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        repo.addWeightedEdge(edgeId, 2, 5, 10);
     }
 
     @Test

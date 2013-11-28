@@ -179,14 +179,8 @@ public class NodeImplTest {
         assertTrue(n5.hashCode() == n5.hashCode());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testNegativeIndex() {
-        boolean exception = false;
-        try {
-            new NodeImpl(-1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        new NodeImpl(-1, new NodeId(TestNodeType.PRODUCT, "foo"), new HashMapProperties());
     }
 }

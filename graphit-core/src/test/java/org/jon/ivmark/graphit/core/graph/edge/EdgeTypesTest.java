@@ -39,16 +39,10 @@ public class EdgeTypesTest {
         assertEquals(aType, edgeTypes.valueOf("A"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testValueOfNonExisting() {
         EdgeTypes edgeTypes = new EdgeTypes();
-        boolean exception = false;
-        try {
-            edgeTypes.valueOf("C");
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        edgeTypes.valueOf("C");
     }
 
     @Test
@@ -75,6 +69,7 @@ public class EdgeTypesTest {
     @Test
     public void testAddInvalidEdgeTypes() {
         EdgeTypes edgeTypes = new EdgeTypes();
+        // TODO: Use parameterized test instead
         List<String> invalid = Arrays.asList("A B", "C:", "$", "");
         for (String invalidName : invalid) {
             boolean exceptionWhenAddingName = false;

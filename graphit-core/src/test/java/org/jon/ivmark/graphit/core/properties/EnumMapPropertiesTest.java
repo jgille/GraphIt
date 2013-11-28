@@ -58,16 +58,10 @@ public class EnumMapPropertiesTest {
         assertEquals("a", props.getProperty("A"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGetInvalidProperty() {
         Properties props = createEmptyProperties();
-        boolean exception = false;
-        try {
-            props.getProperty("Foo");
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        props.getProperty("Foo");
     }
 
     @Test

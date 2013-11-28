@@ -50,36 +50,20 @@ public abstract class MappedListTest {
         assertEquals(1, list.indexOf(str));
     }
 
-    @Test
+    @Test(expected = DuplicateKeyException.class)
     public void testAddDuplicate() {
         MappedList<String> list = createEmptyList();
         String str = "A";
-        int index = list.add(str);
-        boolean exception = false;
-        try {
-            list.add(str);
-        } catch (DuplicateKeyException e) {
-            exception = true;
-        }
-        assertTrue(exception);
-        assertEquals(0, index);
-        assertEquals(str, list.get(index));
+        list.add(str);
+        list.add(str);
     }
 
-    @Test
+    @Test(expected = DuplicateKeyException.class)
     public void testInsertDuplicate() {
         MappedList<String> list = createEmptyList();
         String str = "A";
-        int index = list.add(str);
-        boolean exception = false;
-        try {
-            list.insert(1, str);
-        } catch (DuplicateKeyException e) {
-            exception = true;
-        }
-        assertTrue(exception);
-        assertEquals(0, index);
-        assertEquals(str, list.get(index));
+        list.add(str);
+        list.insert(1, str);
     }
 
     @Test
@@ -96,14 +80,13 @@ public abstract class MappedListTest {
         list.set(1, str);
         assertNull(list.get(0));
         assertEquals(str, list.get(1));
+    }
 
-        boolean exception = false;
-        try {
-            list.set(-1, "A");
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalSet() {
+        MappedList<String> list = createEmptyList();
+        String str = "A";
+        list.set(-1, str);
     }
 
     @Test

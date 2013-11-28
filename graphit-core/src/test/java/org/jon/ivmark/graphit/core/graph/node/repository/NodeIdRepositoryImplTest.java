@@ -71,30 +71,18 @@ public class NodeIdRepositoryImplTest {
         assertEquals(user, repo.getNodeId(997));
     }
 
-    @Test
+    @Test(expected = DuplicateKeyException.class)
     public void testInsertDuplicateKey() {
         NodeId u1 = newUser("u1");
         NodeId u2 = newUser("u2");
         repo.insert(0, u1);
-        boolean exception = false;
-        try {
-            repo.insert(0, u2);
-        } catch (DuplicateKeyException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        repo.insert(0, u2);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testInsertNegativeIndexed() {
         NodeId user = newUser("u1");
-        boolean exception = false;
-        try {
-            repo.insert(-1, user);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        repo.insert(-1, user);
     }
 
     @Test
@@ -108,15 +96,9 @@ public class NodeIdRepositoryImplTest {
         assertNull(repo.getNodeId(0));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGetNodeIdIllegal() {
-        boolean exception = false;
-        try {
-            repo.getNodeId(-1);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        repo.getNodeId(-1);
     }
 
     @Test
@@ -133,15 +115,9 @@ public class NodeIdRepositoryImplTest {
         assertNull(repo.remove(0));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testRemoveNodeIdIllegal() {
-        boolean exception = false;
-        try {
-            repo.remove(-1);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        repo.remove(-1);
     }
 
     private NodeId newUser(String id) {

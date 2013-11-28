@@ -46,6 +46,7 @@ public class NodeTypesTest {
     @Test
     public void testAddInvalidNodeTypes() {
         NodeTypes nodeTypes = new NodeTypes();
+        // TODO: Use parameterized test instead
         List<String> invalid = Arrays.asList("A B", "C:", "$", "");
         for (String invalidName : invalid) {
             boolean exceptionWhenAddingName = false;

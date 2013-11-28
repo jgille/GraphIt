@@ -82,14 +82,6 @@ public class EdgeImplTest {
 
         assertEquals(startNode, edge.getOppositeNode(endNode.getNodeId()));
         assertEquals(endNode, edge.getOppositeNode(startNode.getNodeId()));
-
-        boolean exception = false;
-        try {
-            edge.getOppositeNode(new NodeId(TestNodeType.PRODUCT, "p2"));
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
     }
 
     @Test

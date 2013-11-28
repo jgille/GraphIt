@@ -24,6 +24,7 @@ import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePrimitivesRepository;
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePrimitivesRepositoryImpl;
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePropertiesRepository;
+import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
@@ -76,20 +77,14 @@ public class PropertyGraphImplTest {
         assertThat(edge.getEndNode().getNodeId(), Matchers.is(p1));
     }
 
-    @Test
+    @Test(expected = DuplicateKeyException.class)
     public void testAddDuplicateNode() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
 
         NodeId u1 = new NodeId(USER, "u1");
         graph.addNode(u1);
 
-        boolean exception = false;
-        try {
-            graph.addNode(u1);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertThat(exception, Matchers.is(true));
+        graph.addNode(u1);
     }
 
     @Test(expected = IllegalArgumentException.class)
