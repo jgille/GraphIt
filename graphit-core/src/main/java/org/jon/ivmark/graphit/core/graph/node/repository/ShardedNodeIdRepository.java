@@ -18,10 +18,8 @@ package org.jon.ivmark.graphit.core.graph.node.repository;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import org.jon.ivmark.graphit.core.ConcurrencyConstants;
-import org.jon.ivmark.graphit.core.graph.domain.MappedList;
-import org.jon.ivmark.graphit.core.graph.domain.ShardedMappedList;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+import org.jon.ivmark.graphit.core.graph.ConcurrencyConstants;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.

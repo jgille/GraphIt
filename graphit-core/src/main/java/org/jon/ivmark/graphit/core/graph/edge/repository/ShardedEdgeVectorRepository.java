@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.mahout.math.map.AbstractIntObjectMap;
 import org.apache.mahout.math.map.OpenIntObjectHashMap;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeVector;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
 
 /**
  * An {@link EdgeVectorRepository} that is split into multiple shards for better

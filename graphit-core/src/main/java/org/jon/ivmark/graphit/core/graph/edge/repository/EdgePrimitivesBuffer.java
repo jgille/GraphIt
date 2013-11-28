@@ -16,8 +16,8 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 
 /**
  * 

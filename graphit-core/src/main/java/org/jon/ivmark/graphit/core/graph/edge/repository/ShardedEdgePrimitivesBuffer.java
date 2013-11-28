@@ -17,9 +17,9 @@
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
 import com.google.common.base.Preconditions;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 
 import java.util.ArrayList;
 import java.util.List;

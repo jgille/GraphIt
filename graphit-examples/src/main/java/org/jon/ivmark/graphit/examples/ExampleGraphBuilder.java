@@ -16,15 +16,15 @@
 
 package org.jon.ivmark.graphit.examples;
 
-import org.jon.ivmark.graphit.core.graph.node.domain.Node;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
-import org.jon.ivmark.graphit.core.graph.schema.GraphMetadata;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraphDotExporter;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraphImpl;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraphJsonUtils;
-import org.jon.ivmark.graphit.core.properties.domain.HashMapProperties;
-import org.jon.ivmark.graphit.core.properties.domain.Properties;
+import org.jon.ivmark.graphit.core.graph.node.Node;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.GraphMetadata;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
+import org.jon.ivmark.graphit.core.graph.io.PropertyGraphDotExporter;
+import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
+import org.jon.ivmark.graphit.core.graph.io.PropertyGraphJsonUtils;
+import org.jon.ivmark.graphit.core.graph.properties.HashMapProperties;
+import org.jon.ivmark.graphit.core.graph.properties.Properties;
 
 import java.io.File;
 import java.io.IOException;

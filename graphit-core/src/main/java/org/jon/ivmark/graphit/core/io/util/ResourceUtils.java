@@ -32,21 +32,4 @@ public final class ResourceUtils {
         return new File(url.getFile());
     }
 
-    public static String resourceAsString(String path) {
-        URL url = Resources.getResource(path);
-        try {
-            return Resources.toString(url, Charset.forName("UTF-8"));
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to read resource file", e);
-        }
-    }
-
-    public static byte[] resource(String path) {
-        URL url = Resources.getResource(path);
-        try {
-            return Resources.toByteArray(url);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to read resource file", e);
-        }
-    }
 }

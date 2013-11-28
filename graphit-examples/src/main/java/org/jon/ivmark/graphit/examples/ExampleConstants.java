@@ -16,11 +16,11 @@
 
 package org.jon.ivmark.graphit.examples;
 
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeSortOrder;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeTypeImpl;
-import org.jon.ivmark.graphit.core.graph.node.schema.NodeType;
-import org.jon.ivmark.graphit.core.graph.node.schema.NodeTypeImpl;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeTypeImpl;
+import org.jon.ivmark.graphit.core.graph.node.NodeType;
+import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
 
 /**
  * Some constants used by the examples classes.

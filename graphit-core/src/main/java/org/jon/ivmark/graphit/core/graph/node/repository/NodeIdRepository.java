@@ -16,7 +16,7 @@
 
 package org.jon.ivmark.graphit.core.graph.node.repository;
 
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 
 /**
  * A repo containing a mapping between node index and {@link NodeId}.

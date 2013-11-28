@@ -22,7 +22,7 @@ import com.google.common.collect.Iterables;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
 import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 
 import java.util.ArrayList;
 import java.util.List;

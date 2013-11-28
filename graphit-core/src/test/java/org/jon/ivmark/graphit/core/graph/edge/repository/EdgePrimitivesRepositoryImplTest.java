@@ -16,18 +16,18 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import static org.jon.ivmark.graphit.core.graph.edge.domain.TestEdgeTypes.BOUGHT;
-import static org.jon.ivmark.graphit.core.graph.edge.domain.TestEdgeTypes.SIMILAR;
+import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.BOUGHT;
+import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.SIMILAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeVector;
-import org.jon.ivmark.graphit.core.graph.edge.domain.TestEdgeTypes;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
+import org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes;
 import org.junit.Before;
 import org.junit.Test;
 

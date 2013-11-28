@@ -16,11 +16,11 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeVector;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.util.EdgeWeigher;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeWeigher;
 
 /**
  * Repository containing {@link EdgePrimitive}s for all edges of an

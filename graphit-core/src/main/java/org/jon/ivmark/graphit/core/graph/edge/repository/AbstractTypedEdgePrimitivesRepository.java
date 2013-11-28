@@ -23,14 +23,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.mahout.math.list.IntArrayList;
-import org.jon.ivmark.graphit.core.ConcurrencyConstants;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeVector;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeVectorImpl;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.util.EdgeIndexComparator;
-import org.jon.ivmark.graphit.core.graph.traversal.EdgeDirection;
+import org.jon.ivmark.graphit.core.graph.ConcurrencyConstants;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVectorImpl;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeIndexComparator;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
 
 /**
  * Base implementation of an {@link TypedEdgePrimitivesRepository}.

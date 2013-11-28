@@ -21,9 +21,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
-import org.jon.ivmark.graphit.core.graph.node.schema.NodeType;
-import org.jon.ivmark.graphit.core.graph.node.schema.NodeTypeImpl;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeType;
+import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

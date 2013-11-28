@@ -16,8 +16,8 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import static org.jon.ivmark.graphit.core.graph.edge.domain.TestEdgeTypes.BOUGHT;
-import static org.jon.ivmark.graphit.core.graph.edge.domain.TestEdgeTypes.SIMILAR;
+import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.BOUGHT;
+import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.SIMILAR;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,10 +25,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeVector;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
 import org.hamcrest.Matchers;
 import org.junit.Rule;

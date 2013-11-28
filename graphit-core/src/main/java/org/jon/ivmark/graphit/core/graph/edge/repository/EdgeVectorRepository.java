@@ -16,7 +16,7 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeVector;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
 
 /**
  * A repo containg methods relating to querying/modifying the {@link EdgeVector}

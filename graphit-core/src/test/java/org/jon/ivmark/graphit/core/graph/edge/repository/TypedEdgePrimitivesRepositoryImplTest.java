@@ -16,7 +16,7 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 
