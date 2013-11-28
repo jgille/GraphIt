@@ -16,17 +16,14 @@
 
 package org.jon.ivmark.graphit.core.graph.node;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import org.jon.ivmark.graphit.core.properties.HashMapProperties;
+import org.jon.ivmark.graphit.core.properties.Properties;
+import org.junit.Test;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.jon.ivmark.graphit.core.graph.properties.HashMapProperties;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class NodeImplTest {
 

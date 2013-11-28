@@ -16,22 +16,19 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeImpl;
 import org.jon.ivmark.graphit.core.graph.node.TestNodeType;
-import org.jon.ivmark.graphit.core.graph.properties.HashMapProperties;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.HashMapProperties;
+import org.jon.ivmark.graphit.core.properties.Properties;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
+import static org.junit.Assert.*;
 
 /**
  * @author jon

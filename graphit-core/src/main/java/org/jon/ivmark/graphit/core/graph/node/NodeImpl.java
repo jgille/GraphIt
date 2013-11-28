@@ -17,8 +17,8 @@
 package org.jon.ivmark.graphit.core.graph.node;
 
 import com.google.common.base.Preconditions;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
-import org.jon.ivmark.graphit.core.graph.properties.PropertiesProxy;
+import org.jon.ivmark.graphit.core.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.PropertiesProxy;
 
 /**
  * Standard {@link Node} implementation.

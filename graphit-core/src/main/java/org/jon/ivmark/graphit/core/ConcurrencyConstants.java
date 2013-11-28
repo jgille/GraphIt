@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties;
+package org.jon.ivmark.graphit.core;
 
 /**
- * An element in a {@link DynamicEnumerationSet}, mimicking the behaviour of java
- * enum.
- * 
+ *
+ * Contains constants regarding concurrency, such as the default number of
+ * partitions to use when splitting a repo for improved concurrency.
+ *
  * @author jon
- * 
+ *
  */
-public interface DynamicEnumerableElement {
+public final class ConcurrencyConstants {
+
+    private ConcurrencyConstants() {}
 
     /**
-     * The name of this enumerable.
+     * The default number of shards/partitions to use when splitting some data
+     * structure to improve concurrency.
      */
-    String name();
+    public static final int DEFAULT_CONCURRENCY_LEVEL = Runtime.getRuntime().availableProcessors() + 1;
 
 }

@@ -16,14 +16,10 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
+import org.jon.ivmark.graphit.core.graph.edge.*;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeTypes;
 
 /**
  * An {@link EdgePrimitivesRepository} backed by a collection of

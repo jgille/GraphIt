@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties;
+package org.jon.ivmark.graphit.core.graph.entity;
+
+import org.jon.ivmark.graphit.core.properties.Properties;
 
 /**
- * A factory used to create new {@link Properties} instances.
+ * An entity in a graph, e.g. a node or an edge.
  * 
  * @author jon
  * 
+ * @param <T>
+ *            The generic type of the entity type.
  */
-public interface PropertiesFactory {
+public interface GraphEntity<T> extends Properties {
 
     /**
-     * Creates an empty {@link Properties} instance.
+     * Gets the type of this entity.
      */
-    Properties createEmptyProperties();
+    T getType();
+
+    /**
+     * Gets the internally used index of this entity.
+     */
+    int getIndex();
 
 }

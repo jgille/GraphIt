@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph;
+package org.jon.ivmark.graphit.core.properties;
 
 /**
- *
- * Contains constants regarding concurrency, such as the default number of
- * partitions to use when splitting a repo for improved concurrency.
+ * A factory creating {@link EnumMapProperties} instances.
  *
  * @author jon
- *
+ * 
  */
-public class ConcurrencyConstants {
+public class EnumMapPropertiesFactory<E extends Enum<E>> implements PropertiesFactory {
+
+    private final Class<E> enumClass;
 
     /**
-     * The default number of shards/partitions to use when splitting some data
-     * structure to improve concurrency.
+     * Creates a new factory.
      */
-    public static final int DEFAULT_CONCURRENCY_LEVEL = Runtime.getRuntime().availableProcessors() + 1;
+    public EnumMapPropertiesFactory(Class<E> enumClass) {
+        this.enumClass = enumClass;
+    }
+
+    @Override
+    public Properties createEmptyProperties() {
+        return new EnumMapProperties<E>(enumClass);
+    }
 
 }

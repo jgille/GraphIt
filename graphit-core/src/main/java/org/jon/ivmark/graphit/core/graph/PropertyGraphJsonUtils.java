@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.io;
+package org.jon.ivmark.graphit.core.graph;
 
 import com.google.common.base.Preconditions;
 import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.edge.Edge;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeTypes;
+import org.jon.ivmark.graphit.core.graph.edge.*;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeTypes;
-import org.jon.ivmark.graphit.core.graph.GraphMetadata;
 
 import java.io.File;
 import java.io.IOException;

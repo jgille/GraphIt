@@ -16,8 +16,8 @@
 
 package org.jon.ivmark.graphit.core.graph.node;
 
-import org.jon.ivmark.graphit.core.graph.properties.HashMapPropertiesFactory;
-import org.jon.ivmark.graphit.core.graph.properties.PropertiesFactory;
+import org.jon.ivmark.graphit.core.properties.HashMapPropertiesFactory;
+import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
 
 public enum TestNodeType implements NodeType {
 

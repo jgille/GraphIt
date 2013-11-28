@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties.repository;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+package org.jon.ivmark.graphit.core.properties.repository;
 
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodePropertiesRepository;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.Properties;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author jon

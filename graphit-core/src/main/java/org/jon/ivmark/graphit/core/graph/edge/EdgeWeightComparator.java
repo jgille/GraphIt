@@ -38,11 +38,10 @@ public class EdgeWeightComparator implements EdgeIndexComparator {
 
     @Override
     public int compare(Integer e1, Integer e2) {
-        int c = ((Float) weigher.getEdgeWeight(e1)).compareTo(weigher.getEdgeWeight(e2));
         if (descending) {
-            return -c;
+            return ((Float) weigher.getEdgeWeight(e2)).compareTo(weigher.getEdgeWeight(e1));
         }
-        return c;
+        return ((Float) weigher.getEdgeWeight(e1)).compareTo(weigher.getEdgeWeight(e2));
     }
 
     @Override

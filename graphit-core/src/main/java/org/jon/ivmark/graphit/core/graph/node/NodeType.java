@@ -16,9 +16,8 @@
 
 package org.jon.ivmark.graphit.core.graph.node;
 
-import org.jon.ivmark.graphit.core.graph.properties.DynamicEnumerableElement;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
-import org.jon.ivmark.graphit.core.graph.properties.PropertiesFactory;
+import org.jon.ivmark.graphit.core.properties.DynamicEnumerableElement;
+import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
 
 /**
  * Describes the type of a node in a graph.
@@ -29,7 +28,7 @@ import org.jon.ivmark.graphit.core.graph.properties.PropertiesFactory;
 public interface NodeType extends DynamicEnumerableElement {
 
     /**
-     * Returns a factory used to create new {@link Properties} instances for
+     * Returns a factory used to create new {@link org.jon.ivmark.graphit.core.properties.Properties} instances for
      * nodes.
      */
     PropertiesFactory getPropertiesFactory();

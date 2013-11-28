@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties.repository;
+package org.jon.ivmark.graphit.core.properties.repository;
 
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.Properties;
 
 /**
  * A repository for properties, e.g. node or edge properties.

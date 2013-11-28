@@ -16,7 +16,8 @@
 
 package org.jon.ivmark.graphit.core.graph.performance;
 
-import static org.junit.Assert.assertEquals;
+import com.google.common.collect.Lists;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +26,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 
-import com.google.common.collect.Lists;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author jon

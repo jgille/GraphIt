@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties;
+package org.jon.ivmark.graphit.core.properties;
 
 import java.util.Collection;
-import java.util.EnumSet;
 
 /**
- * Used to mimic an {@link EnumSet} with dynamic content.
+ * Used to mimic an {@link java.util.EnumSet} with dynamic content.
  * 
  * @author jon
  * 

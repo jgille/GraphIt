@@ -16,12 +16,12 @@
 
 package org.jon.ivmark.graphit.core.graph.traversal;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 
 /**
  *

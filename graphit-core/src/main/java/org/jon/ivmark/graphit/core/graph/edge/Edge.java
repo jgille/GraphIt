@@ -16,7 +16,7 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
-import org.jon.ivmark.graphit.core.graph.GraphEntity;
+import org.jon.ivmark.graphit.core.graph.entity.GraphEntity;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 

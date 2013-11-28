@@ -16,18 +16,14 @@
 
 package org.jon.ivmark.graphit.core.graph;
 
-import java.io.File;
-
-import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
-import org.jon.ivmark.graphit.core.graph.edge.Edge;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.*;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
+import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
+import org.jon.ivmark.graphit.core.properties.Properties;
+
+import java.io.File;
 
 /**
  * A graph containing nodes connected by edges. Both nodes and edges can have

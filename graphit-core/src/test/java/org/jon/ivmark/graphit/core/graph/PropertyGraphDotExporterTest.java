@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.io;
+package org.jon.ivmark.graphit.core.graph;
 
 import org.apache.commons.io.FileUtils;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
-import org.jon.ivmark.graphit.core.graph.io.PropertyGraphDotExporter;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
 import org.junit.Rule;
 import org.junit.Test;

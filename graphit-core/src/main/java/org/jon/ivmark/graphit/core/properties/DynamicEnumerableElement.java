@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties;
+package org.jon.ivmark.graphit.core.properties;
 
 /**
- * A factory creating {@link EnumMapProperties} instances.
- *
+ * An element in a {@link DynamicEnumerationSet}, mimicking the behaviour of java
+ * enum.
+ * 
  * @author jon
  * 
  */
-public class EnumMapPropertiesFactory<E extends Enum<E>> implements PropertiesFactory {
-
-    private final Class<E> enumClass;
+public interface DynamicEnumerableElement {
 
     /**
-     * Creates a new factory.
+     * The name of this enumerable.
      */
-    public EnumMapPropertiesFactory(Class<E> enumClass) {
-        this.enumClass = enumClass;
-    }
-
-    @Override
-    public Properties createEmptyProperties() {
-        return new EnumMapProperties<E>(enumClass);
-    }
+    String name();
 
 }

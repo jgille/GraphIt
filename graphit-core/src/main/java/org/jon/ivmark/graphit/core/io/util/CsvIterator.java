@@ -16,15 +16,14 @@
 
 package org.jon.ivmark.graphit.core.io.util;
 
+import au.com.bytecode.opencsv.CSVReader;
+import org.apache.commons.io.IOUtils;
+import org.jon.ivmark.graphit.core.graph.traversal.Procedure;
+
 import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import org.apache.commons.io.IOUtils;
-import org.jon.ivmark.graphit.core.graph.traversal.Procedure;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * utility class for iterating a csv file.

@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties;
+package org.jon.ivmark.graphit.core.properties;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A {@link Properties} implementation backed by a {@link EnumMap}.

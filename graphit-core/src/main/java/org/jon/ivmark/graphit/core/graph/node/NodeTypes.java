@@ -17,7 +17,7 @@
 package org.jon.ivmark.graphit.core.graph.node;
 
 import com.google.common.base.Preconditions;
-import org.jon.ivmark.graphit.core.graph.properties.DynamicEnumerationSet;
+import org.jon.ivmark.graphit.core.properties.DynamicEnumerationSet;
 
 import java.util.Collection;
 import java.util.Collections;

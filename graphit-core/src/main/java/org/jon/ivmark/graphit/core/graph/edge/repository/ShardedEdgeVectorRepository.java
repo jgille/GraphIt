@@ -16,12 +16,12 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.mahout.math.map.AbstractIntObjectMap;
 import org.apache.mahout.math.map.OpenIntObjectHashMap;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An {@link EdgeVectorRepository} that is split into multiple shards for better

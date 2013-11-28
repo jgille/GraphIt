@@ -16,13 +16,13 @@
 
 package org.jon.ivmark.graphit.core.graph.traversal;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.google.common.base.Predicate;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A filter on node type.

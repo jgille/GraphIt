@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties;
+package org.jon.ivmark.graphit.core.properties.repository;
+
+import org.jon.ivmark.graphit.core.properties.HashMapProperties;
+import org.jon.ivmark.graphit.core.properties.Properties;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.jon.ivmark.graphit.core.graph.properties.repository.PropertiesRepository;
-
 /**
- * A {@link Properties} implementation that will propagate all changes to a
- * {@link org.jon.ivmark.graphit.core.graph.properties.repository.PropertiesRepository}.
+ * A {@link org.jon.ivmark.graphit.core.properties.Properties} implementation that will propagate all changes to a
+ * {@link org.jon.ivmark.graphit.core.properties.repository.PropertiesRepository}.
  *
  * @author jon
  *

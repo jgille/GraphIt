@@ -17,11 +17,11 @@
 package org.jon.ivmark.graphit.core.graph.performance;
 
 import com.google.common.base.Preconditions;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
 
 /**
  * @author jon

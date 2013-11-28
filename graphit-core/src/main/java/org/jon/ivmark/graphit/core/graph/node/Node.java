@@ -16,7 +16,7 @@
 
 package org.jon.ivmark.graphit.core.graph.node;
 
-import org.jon.ivmark.graphit.core.graph.GraphEntity;
+import org.jon.ivmark.graphit.core.graph.entity.GraphEntity;
 
 /**
  * A node in a graph.

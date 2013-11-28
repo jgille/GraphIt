@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.properties;
+package org.jon.ivmark.graphit.core.properties;
 
 /**
- * {@link PropertiesFactory} creating {@link HashMapProperties} instances.
- *
+ * A factory used to create new {@link Properties} instances.
+ * 
  * @author jon
- *
+ * 
  */
-public class HashMapPropertiesFactory implements PropertiesFactory {
+public interface PropertiesFactory {
 
-    @Override
-    public Properties createEmptyProperties() {
-        return new HashMapProperties();
-    }
+    /**
+     * Creates an empty {@link Properties} instance.
+     */
+    Properties createEmptyProperties();
+
 }

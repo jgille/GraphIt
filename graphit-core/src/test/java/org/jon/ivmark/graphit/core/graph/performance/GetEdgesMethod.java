@@ -16,10 +16,10 @@
 
 package org.jon.ivmark.graphit.core.graph.performance;
 
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 
 /**
  * @author jon

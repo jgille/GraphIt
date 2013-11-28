@@ -16,24 +16,24 @@
 
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
-import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.BOUGHT;
-import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.SIMILAR;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.hamcrest.Matchers;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
+import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.EdgePrimitive;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeVector;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
-import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.BOUGHT;
+import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.SIMILAR;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public abstract class AbstractTypedEdgePrimitivesRepositoryTest {
 

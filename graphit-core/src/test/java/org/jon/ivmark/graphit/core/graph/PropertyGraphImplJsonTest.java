@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.io;
+package org.jon.ivmark.graphit.core.graph;
 
 import org.apache.commons.io.FileUtils;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
-import org.jon.ivmark.graphit.core.graph.properties.PropertiesBuilder;
+import org.jon.ivmark.graphit.core.properties.PropertiesBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

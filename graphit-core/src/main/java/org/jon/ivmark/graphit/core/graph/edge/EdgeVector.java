@@ -16,9 +16,9 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
-import java.util.List;
-
 import org.apache.mahout.math.function.IntProcedure;
+
+import java.util.List;
 
 /**
  * A vector of edges originating from a node.

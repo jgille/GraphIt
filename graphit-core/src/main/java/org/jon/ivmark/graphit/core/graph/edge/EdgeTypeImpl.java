@@ -16,9 +16,9 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
-import org.jon.ivmark.graphit.core.graph.GraphEntityType;
-import org.jon.ivmark.graphit.core.graph.properties.HashMapPropertiesFactory;
-import org.jon.ivmark.graphit.core.graph.properties.PropertiesFactory;
+import org.jon.ivmark.graphit.core.graph.entity.GraphEntityType;
+import org.jon.ivmark.graphit.core.properties.HashMapPropertiesFactory;
+import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
 
 /**
  * Basic {@link EdgeType} implementation. Defaults to being unweighted and

@@ -16,17 +16,12 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeTypeImpl;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeTypes;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * @author jon

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph;
+package org.jon.ivmark.graphit.core.graph.entity;
 
-import org.jon.ivmark.graphit.core.graph.properties.DynamicEnumerableElement;
+import org.jon.ivmark.graphit.core.properties.DynamicEnumerableElement;
 
 /**
  * Base class for graph entity types (node and edge types).
@@ -24,7 +24,7 @@ import org.jon.ivmark.graphit.core.graph.properties.DynamicEnumerableElement;
  * @author jon
  * 
  */
-public class GraphEntityType implements DynamicEnumerableElement {
+public abstract class GraphEntityType implements DynamicEnumerableElement {
     private final String name;
 
     /**

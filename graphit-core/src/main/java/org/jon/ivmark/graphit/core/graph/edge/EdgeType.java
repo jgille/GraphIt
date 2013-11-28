@@ -16,9 +16,8 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
-import org.jon.ivmark.graphit.core.graph.properties.DynamicEnumerableElement;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
-import org.jon.ivmark.graphit.core.graph.properties.PropertiesFactory;
+import org.jon.ivmark.graphit.core.properties.DynamicEnumerableElement;
+import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
 
 /**
  * Describes an edge type in a graph.
@@ -34,7 +33,7 @@ public interface EdgeType extends DynamicEnumerableElement {
     EdgeSortOrder getSortOrder();
 
     /**
-     * Returns a factory used to create new {@link Properties} instances for
+     * Returns a factory used to create new {@link org.jon.ivmark.graphit.core.properties.Properties} instances for
      * edges.
      */
     PropertiesFactory getPropertiesFactory();

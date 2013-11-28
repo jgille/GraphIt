@@ -17,9 +17,9 @@
 package org.jon.ivmark.graphit.core.graph.lastfm;
 
 import com.google.common.base.Preconditions;
-import org.jon.ivmark.graphit.core.io.util.CsvIterator;
-import org.jon.ivmark.graphit.core.io.util.CsvRow;
-import org.jon.ivmark.graphit.core.graph.traversal.Procedure;
+import org.jon.ivmark.graphit.core.graph.GraphMetadata;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
+import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
 import org.jon.ivmark.graphit.core.graph.edge.Edge;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
@@ -28,11 +28,11 @@ import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
-import org.jon.ivmark.graphit.core.graph.GraphMetadata;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
+import org.jon.ivmark.graphit.core.graph.traversal.Procedure;
+import org.jon.ivmark.graphit.core.io.util.CsvIterator;
+import org.jon.ivmark.graphit.core.io.util.CsvRow;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
-import org.jon.ivmark.graphit.core.graph.properties.EnumMapPropertiesFactory;
+import org.jon.ivmark.graphit.core.properties.EnumMapPropertiesFactory;
 
 import java.io.File;
 import java.io.IOException;

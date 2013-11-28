@@ -16,15 +16,13 @@
 
 package org.jon.ivmark.graphit.core.graph.traversal;
 
-import static org.junit.Assert.assertEquals;
+import com.google.common.base.Predicate;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.jon.ivmark.graphit.core.graph.traversal.Collector;
-import org.junit.Test;
-
-import com.google.common.base.Predicate;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author jon

@@ -16,47 +16,38 @@
 
 package org.jon.ivmark.graphit.core.graph;
 
-import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.BOUGHT;
-import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.SIMILAR;
-import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.VIEWED;
-import static org.jon.ivmark.graphit.core.graph.node.TestNodeType.PRODUCT;
-import static org.jon.ivmark.graphit.core.graph.node.TestNodeType.USER;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.hamcrest.Matchers;
 import org.jon.ivmark.graphit.core.graph.edge.Edge;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePrimitivesRepository;
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePrimitivesRepositoryImpl;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePropertiesRepository;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.TestNodeType;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodeIdRepository;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodeIdRepositoryImpl;
-import org.jon.ivmark.graphit.core.graph.node.NodeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
-import org.jon.ivmark.graphit.core.graph.properties.HashMapProperties;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
-import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePropertiesRepository;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodePropertiesRepository;
-import org.jon.ivmark.graphit.core.graph.properties.repository.PropertiesRepository;
-import org.hamcrest.Matchers;
+import org.jon.ivmark.graphit.core.properties.HashMapProperties;
+import org.jon.ivmark.graphit.core.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.repository.PropertiesRepository;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+
+import java.util.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.jon.ivmark.graphit.core.graph.edge.TestEdgeTypes.*;
+import static org.jon.ivmark.graphit.core.graph.node.TestNodeType.PRODUCT;
+import static org.jon.ivmark.graphit.core.graph.node.TestNodeType.USER;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 
 public class PropertyGraphImplTest {
 

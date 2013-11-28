@@ -17,8 +17,8 @@
 package org.jon.ivmark.graphit.core.graph.edge.repository;
 
 import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
-import org.jon.ivmark.graphit.core.graph.properties.repository.ConcurrentHashMapPropertiesRepository;
+import org.jon.ivmark.graphit.core.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.repository.ConcurrentHashMapPropertiesRepository;
 
 /**
  * A repository storing edge properties in a {@link java.util.concurrent.ConcurrentHashMap}.

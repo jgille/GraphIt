@@ -16,10 +16,6 @@
 
 package org.jon.ivmark.graphit.core.graph.node.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
@@ -28,6 +24,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import static org.junit.Assert.*;
 
 public class NodeIdRepositoryImplTest {
 

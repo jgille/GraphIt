@@ -16,18 +16,14 @@
 
 package org.jon.ivmark.graphit.core.graph.traversal;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.jon.ivmark.graphit.core.graph.traversal.CountSortOrder;
-import org.jon.ivmark.graphit.core.graph.traversal.CountedElement;
-import org.jon.ivmark.graphit.core.graph.traversal.Counter;
-import org.jon.ivmark.graphit.core.graph.traversal.ElementCounter;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author jon

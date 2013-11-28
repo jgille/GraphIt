@@ -16,17 +16,14 @@
 
 package org.jon.ivmark.graphit.core.graph.node.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
-import org.jon.ivmark.graphit.core.graph.node.repository.MappedList;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * @author jon

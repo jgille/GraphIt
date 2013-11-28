@@ -16,12 +16,12 @@
 
 package org.jon.ivmark.graphit.core.graph.traversal;
 
-import java.util.Collection;
-
 import com.google.common.base.Preconditions;
 import org.apache.mahout.math.function.ObjectIntProcedure;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
+
+import java.util.Collection;
 
 /**
  * A {@link Counter} implementation backed by Mahout collections,

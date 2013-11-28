@@ -16,11 +16,10 @@
 
 package org.jon.ivmark.graphit.core.graph.node;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-
-import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
-import org.junit.Test;
 
 /**
  * @author jon

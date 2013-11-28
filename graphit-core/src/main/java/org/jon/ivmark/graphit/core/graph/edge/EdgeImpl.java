@@ -19,8 +19,8 @@ package org.jon.ivmark.graphit.core.graph.edge;
 import com.google.common.base.Preconditions;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
-import org.jon.ivmark.graphit.core.graph.properties.PropertiesProxy;
+import org.jon.ivmark.graphit.core.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.PropertiesProxy;
 
 /**
  * An edge in a graph.

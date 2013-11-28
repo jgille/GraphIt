@@ -16,26 +16,21 @@
 
 package org.jon.ivmark.graphit.core.graph;
 
-import static org.junit.Assert.assertEquals;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.node.Node;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeType;
+import org.jon.ivmark.graphit.core.graph.traversal.*;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jon.ivmark.graphit.core.graph.traversal.Combiner;
-import org.jon.ivmark.graphit.core.graph.traversal.CountSortOrder;
-import org.jon.ivmark.graphit.core.graph.traversal.CountedElement;
-import org.jon.ivmark.graphit.core.graph.traversal.Counter;
-import org.jon.ivmark.graphit.core.graph.traversal.ElementCounter;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.node.Node;
-import org.jon.ivmark.graphit.core.graph.node.NodeId;
-import org.jon.ivmark.graphit.core.graph.node.NodeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
-import org.junit.Test;
-
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author jon

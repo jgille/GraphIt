@@ -14,28 +14,18 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph;
-
-import org.jon.ivmark.graphit.core.graph.properties.Properties;
+package org.jon.ivmark.graphit.core.properties;
 
 /**
- * An entity in a graph, e.g. a node or an edge.
- * 
+ * {@link PropertiesFactory} creating {@link HashMapProperties} instances.
+ *
  * @author jon
- * 
- * @param <T>
- *            The generic type of the entity type.
+ *
  */
-public interface GraphEntity<T> extends Properties {
+public class HashMapPropertiesFactory implements PropertiesFactory {
 
-    /**
-     * Gets the type of this entity.
-     */
-    T getType();
-
-    /**
-     * Gets the internally used index of this entity.
-     */
-    int getIndex();
-
+    @Override
+    public Properties createEmptyProperties() {
+        return new HashMapProperties();
+    }
 }

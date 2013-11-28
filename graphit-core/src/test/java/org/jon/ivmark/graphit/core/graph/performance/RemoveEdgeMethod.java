@@ -17,10 +17,10 @@
 package org.jon.ivmark.graphit.core.graph.performance;
 
 import com.google.common.base.Preconditions;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 import org.jon.ivmark.graphit.core.graph.edge.Edge;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 
 import java.util.Arrays;
 
