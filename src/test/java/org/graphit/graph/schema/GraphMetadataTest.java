@@ -62,7 +62,7 @@ public class GraphMetadataTest {
         assertNotNull(nodeTypes);
         assertEquals(2, nodeTypes.size());
         List<NodeType> nodeTypeList = new ArrayList<NodeType>(nodeTypes.elements());
-        assertEquals(Arrays.asList(new NodeTypeImpl("A"), new NodeTypeImpl("B")),
+        assertEquals(Arrays.<NodeType>asList(new NodeTypeImpl("A"), new NodeTypeImpl("B")),
                      nodeTypeList);
 
     }

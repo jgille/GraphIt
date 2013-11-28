@@ -19,17 +19,16 @@ package org.graphit.performance;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.utils.LastFMGraph;
 import org.graphit.io.util.ResourceUtils;
+import org.graphit.test.categories.LoadTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-/**
- * @author jon
- *
- */
+@Category(LoadTest.class)
 public class LastFMGraphReadOnlyLoadTest {
 
     private final int nofThreads = Runtime.getRuntime().availableProcessors() + 1;

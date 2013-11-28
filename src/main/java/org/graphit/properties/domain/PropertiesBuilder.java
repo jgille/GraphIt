@@ -56,7 +56,7 @@ public final class PropertiesBuilder {
     /**
      * Gets the built properties.
      */
-    public Properties get() {
+    public Properties build() {
         return properties;
     }
 }

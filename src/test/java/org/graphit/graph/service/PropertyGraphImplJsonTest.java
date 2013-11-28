@@ -58,39 +58,39 @@ public class PropertyGraphImplJsonTest {
 
         NodeId u1 = graph.addNode(new NodeId(user, "u1")).getNodeId();
         graph
-            .setNodeProperties(u1, PropertiesBuilder.start().set("name", "U1").set("age", 1).get());
+            .setNodeProperties(u1, PropertiesBuilder.start().set("name", "U1").set("age", 1).build());
 
         NodeId u2 = graph.addNode(new NodeId(user, "u2")).getNodeId();
         graph
-            .setNodeProperties(u2, PropertiesBuilder.start().set("name", "U2").set("age", 2).get());
+            .setNodeProperties(u2, PropertiesBuilder.start().set("name", "U2").set("age", 2).build());
 
         NodeId i1 = graph.addNode(new NodeId(item, "i1")).getNodeId();
         graph.setNodeProperties(i1, PropertiesBuilder.start()
-            .set("title", "i1").set("price", 100f).get());
+            .set("title", "i1").set("price", 100f).build());
 
         NodeId i2 = graph.addNode(new NodeId(item, "i2")).getNodeId();
         graph.setNodeProperties(i2, PropertiesBuilder.start()
-            .set("title", "i2").set("price", 200f).get());
+            .set("title", "i2").set("price", 200f).build());
 
         NodeId i3 = graph.addNode(new NodeId(item, "i3")).getNodeId();
         graph.setNodeProperties(i3, PropertiesBuilder.start()
-            .set("title", "i3").set("price", 300f).get());
+            .set("title", "i3").set("price", 300f).build());
 
         EdgeId b1 = graph.addEdge(u1, i1, bought).getEdgeId();
         graph.setEdgeProperties(b1, PropertiesBuilder.start().set("aliases", Arrays.asList("b1"))
-            .get());
+            .build());
 
         EdgeId b2 = graph.addEdge(u1, i2, bought).getEdgeId();
         graph.setEdgeProperties(b2, PropertiesBuilder.start().set("aliases", Arrays.asList("b2"))
-            .get());
+            .build());
 
         EdgeId b3 = graph.addEdge(u2, i2, bought).getEdgeId();
         graph.setEdgeProperties(b3, PropertiesBuilder.start().set("aliases", Arrays.asList("b3"))
-            .get());
+            .build());
 
         EdgeId b4 = graph.addEdge(u2, i3, bought).getEdgeId();
         graph.setEdgeProperties(b4, PropertiesBuilder.start().set("aliases", Arrays.asList("b4"))
-            .get());
+            .build());
 
         graph.addEdge(i1, i2, recommended, 15).getEdgeId();
         graph.addEdge(i1, i3, recommended, 25).getEdgeId();

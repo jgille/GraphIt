@@ -28,11 +28,10 @@ import com.tinkerpop.blueprints.GraphTestSuite;
 import com.tinkerpop.blueprints.TestSuite;
 import com.tinkerpop.blueprints.VertexTestSuite;
 import com.tinkerpop.blueprints.impls.GraphTest;
+import org.graphit.test.categories.IntegrationTest;
+import org.junit.experimental.categories.Category;
 
-/**
- * @author jon
- * 
- */
+@Category(IntegrationTest.class)
 public class BlueprintsGraphTest extends GraphTest {
 
     public void testVertexTestSuite() throws Exception {

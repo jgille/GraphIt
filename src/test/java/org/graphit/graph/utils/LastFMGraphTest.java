@@ -26,12 +26,12 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.domain.NodeTypeFilter;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.traversal.EdgeDirection;
+import org.graphit.test.categories.IntegrationTest;
+import org.graphit.test.categories.LoadTest;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-/**
- * @author jon
- *
- */
+@Category(IntegrationTest.class)
 public class LastFMGraphTest {
 
     @Test

@@ -88,7 +88,7 @@ public class NodeIdRepositoryImplTest {
     }
 
     @Test
-    public void testInsertNegtiveIndexed() {
+    public void testInsertNegativeIndexed() {
         NodeId user = newUser("u1");
         boolean exception = false;
         try {

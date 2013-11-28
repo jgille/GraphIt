@@ -19,7 +19,7 @@ package org.graphit.common.procedures;
 import com.google.common.collect.Iterables;
 
 /**
- * A mapper that concats multiple iterables into one.
+ * A mapper that concatenates multiple iterables into one.
  * 
  * @author jon
  * 
