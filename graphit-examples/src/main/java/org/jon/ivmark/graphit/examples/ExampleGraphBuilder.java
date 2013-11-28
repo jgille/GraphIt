@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.examples;
-
-import static org.jon.ivmark.graphit.core.examples.ExampleConstants.BOUGHT;
-import static org.jon.ivmark.graphit.core.examples.ExampleConstants.LISTENED_TO;
-import static org.jon.ivmark.graphit.core.examples.ExampleConstants.SIMILAR;
-import static org.jon.ivmark.graphit.core.examples.ExampleConstants.TRACK;
-import static org.jon.ivmark.graphit.core.examples.ExampleConstants.USER;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+package org.jon.ivmark.graphit.examples;
 
 import org.jon.ivmark.graphit.core.graph.node.domain.Node;
 import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
@@ -37,6 +25,14 @@ import org.jon.ivmark.graphit.core.graph.service.PropertyGraphImpl;
 import org.jon.ivmark.graphit.core.graph.service.PropertyGraphJsonUtils;
 import org.jon.ivmark.graphit.core.properties.domain.HashMapProperties;
 import org.jon.ivmark.graphit.core.properties.domain.Properties;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import static org.jon.ivmark.graphit.examples.ExampleConstants.*;
 
 /**
  * A class that generates the example graph.

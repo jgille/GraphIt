@@ -16,6 +16,7 @@
         <module>graphit-core</module>
         <module>graphit-tinkerpop</module>
         <module>graphit-test</module>
+        <module>graphit-examples</module>
     </modules>
 
     <properties>

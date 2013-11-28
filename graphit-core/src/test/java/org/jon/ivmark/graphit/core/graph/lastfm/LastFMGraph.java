@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.utils;
+package org.jon.ivmark.graphit.core.graph.lastfm;
 
 import com.google.common.base.Preconditions;
+import org.jon.ivmark.graphit.core.io.util.CsvIterator;
+import org.jon.ivmark.graphit.core.io.util.CsvRow;
 import org.jon.ivmark.graphit.core.procedures.Procedure;
 import org.jon.ivmark.graphit.core.graph.edge.domain.Edge;
 import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeSortOrder;

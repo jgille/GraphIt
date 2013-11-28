@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.utils;
+package org.jon.ivmark.graphit.core.graph.lastfm;
 
 import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeTypeFilter;
+import org.jon.ivmark.graphit.core.graph.lastfm.LastFMGraph;
 import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.domain.NodeTypeFilter;
 import org.jon.ivmark.graphit.core.graph.service.PropertyGraph;

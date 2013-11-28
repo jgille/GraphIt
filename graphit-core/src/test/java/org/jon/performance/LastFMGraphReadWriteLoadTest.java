@@ -25,7 +25,7 @@ import org.jon.ivmark.graphit.core.graph.node.domain.Node;
 import org.jon.ivmark.graphit.core.graph.node.domain.NodeTypeFilter;
 import org.jon.ivmark.graphit.core.graph.service.PropertyGraph;
 import org.jon.ivmark.graphit.core.graph.traversal.EdgeDirection;
-import org.jon.ivmark.graphit.core.graph.utils.LastFMGraph;
+import org.jon.ivmark.graphit.core.graph.lastfm.LastFMGraph;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
 import org.jon.ivmark.graphit.test.categories.LoadTest;
 import org.junit.Before;

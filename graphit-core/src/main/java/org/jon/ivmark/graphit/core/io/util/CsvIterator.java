@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.utils;
+package org.jon.ivmark.graphit.core.io.util;
 
 import java.io.Closeable;
 import java.io.FileInputStream;

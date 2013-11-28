@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.examples;
+package org.jon.ivmark.graphit.examples;
 
 import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeSortOrder;
 import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
