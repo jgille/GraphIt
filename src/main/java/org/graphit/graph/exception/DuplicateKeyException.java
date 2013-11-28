@@ -28,8 +28,6 @@ public class DuplicateKeyException extends IllegalArgumentException {
 
     /**
      * Creates a new exception for the provided duplicated key.
-     * 
-     * @param key
      */
     public DuplicateKeyException(Object key) {
         super(String.format("Duplicate key encountered: %s", key.toString()));

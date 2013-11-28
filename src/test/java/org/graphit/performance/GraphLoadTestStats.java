@@ -24,7 +24,7 @@ public class GraphLoadTestStats {
 
     private long t0;
     private int nofGetEdges;
-    private int nofGetNeigbors;
+    private int nofGetNeighbors;
     private int nofTraversedEdges;
     private int nofAddEdges;
     private int nofRemoveEdges;
@@ -56,10 +56,10 @@ public class GraphLoadTestStats {
                 "Traversed edges per second: %d\n" +
                 "Elapsed time: %.2f s\n",
                           header,
-                          nofGetEdges, nofGetNeigbors, nofTraversedEdges, nofAddEdges,
+                          nofGetEdges, nofGetNeighbors, nofTraversedEdges, nofAddEdges,
                           nofRemoveEdges,
-                          nofGetEdges + nofGetNeigbors + nofAddEdges + nofRemoveEdges,
-                          Math.round((1000d * (nofGetEdges + nofGetNeigbors +
+                          nofGetEdges + nofGetNeighbors + nofAddEdges + nofRemoveEdges,
+                          Math.round((1000d * (nofGetEdges + nofGetNeighbors +
                               nofAddEdges + nofRemoveEdges))
                               / elapsedMillis),
                           Math.round((1000d * nofTraversedEdges) / elapsedMillis),
@@ -74,7 +74,7 @@ public class GraphLoadTestStats {
     }
 
     public synchronized void logGetNeighbors(int nofNeighbors) {
-        nofGetNeigbors++;
+        nofGetNeighbors++;
         nofTraversedEdges += nofNeighbors;
     }
 

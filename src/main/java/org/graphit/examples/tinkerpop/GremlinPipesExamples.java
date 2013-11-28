@@ -16,23 +16,19 @@
 
 package org.graphit.examples.tinkerpop;
 
-import static org.graphit.examples.ExampleConstants.BOUGHT;
-import static org.graphit.examples.ExampleConstants.LISTENED_TO;
-import static org.graphit.examples.ExampleConstants.USER;
-
-import java.io.IOException;
-import java.util.List;
-
+import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.gremlin.java.GremlinPipeline;
 import org.graphit.graph.blueprints.BlueprintsGraph;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.service.PropertyGraphImpl;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.graphit.io.util.ResourceUtils;
 
-import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.gremlin.java.GremlinPipeline;
+import java.io.IOException;
+import java.util.List;
+
+import static org.graphit.examples.ExampleConstants.*;
 
 /**
  * Some examples using Gremlin pipes.
@@ -44,8 +40,7 @@ public class GremlinPipesExamples {
 
     private static PropertyGraph importPropertyGraph() throws IOException {
         PropertyGraph graph = new PropertyGraphImpl();
-        Resource resource = new ClassPathResource("/examples/musicstore.json");
-        graph.importJson(resource.getFile());
+        graph.importJson(ResourceUtils.resourceFile("/examples/musicstore.json"));
         return graph;
     }
 

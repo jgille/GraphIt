@@ -20,7 +20,7 @@ import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.properties.domain.Properties;
 
 /**
- * A repository storing edge properties in a {@link ConcurrentHashMap}.
+ * A repository storing edge properties in a {@link java.util.concurrent.ConcurrentHashMap}.
  *
  * @author jon
  * 

@@ -16,17 +16,16 @@
 
 package org.graphit.performance;
 
+import au.com.bytecode.opencsv.CSVReader;
+import com.google.common.base.Preconditions;
+import org.apache.commons.io.IOUtils;
+import org.graphit.graph.service.PropertyGraph;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-import org.graphit.graph.service.PropertyGraph;
-import org.springframework.util.Assert;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * @author jon
@@ -83,7 +82,7 @@ public enum GraphMethodFactory {
 
     private static GraphMethod<?> parseCsvRow(PropertyGraph graph, GraphLoadTestStats stats,
                                               String[] csvRow) {
-        Assert.isTrue(csvRow.length > 0);
+        Preconditions.checkArgument(csvRow.length > 0);
         int i = 0;
         String factoryName = csvRow[i++];
         GraphMethodFactory factory = valueOf(factoryName);

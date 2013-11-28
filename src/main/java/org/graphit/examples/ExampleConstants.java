@@ -34,7 +34,6 @@ public class ExampleConstants {
     public static final NodeType TRACK = new NodeTypeImpl("Track");
     public static final EdgeType BOUGHT = new EdgeTypeImpl("Bought");
     public static final EdgeType LISTENED_TO = new EdgeTypeImpl("ListenedTo");
-    public static final EdgeType SIMILAR = new EdgeTypeImpl("Similar",
-                                                            EdgeSortOrder.DESCENDING_WEIGHT);
+    public static final EdgeType SIMILAR = new EdgeTypeImpl("Similar", EdgeSortOrder.DESCENDING_WEIGHT);
 
 }

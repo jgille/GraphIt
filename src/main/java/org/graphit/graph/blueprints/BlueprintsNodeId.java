@@ -16,8 +16,8 @@
 
 package org.graphit.graph.blueprints;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.node.domain.NodeId;
-import org.springframework.util.Assert;
 
 /**
  * A blueprints compatible node id.
@@ -33,7 +33,7 @@ public class BlueprintsNodeId {
      * Constructs a new id with the wrapped {@link NodeId}.
      */
     public BlueprintsNodeId(NodeId wrappedNodeId) {
-        Assert.notNull(wrappedNodeId);
+        Preconditions.checkNotNull(wrappedNodeId);
         this.wrappedNodeId = wrappedNodeId;
     }
 

@@ -16,9 +16,8 @@
 
 package org.graphit.graph.node.domain;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.node.schema.NodeType;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * Identifies a node in a graph.
@@ -36,11 +35,15 @@ public class NodeId {
      * Created a new instance.
      */
     public NodeId(NodeType type, String id) {
-        Assert.notNull(type, "A node type must be provided");
-        Assert.isTrue(StringUtils.hasText(id), "A node id must be provided");
+        Preconditions.checkNotNull(type, "A node type must be provided");
+        Preconditions.checkArgument(isNotBlank(id), "A node id must be provided");
         this.type = type;
         this.id = id;
         this.hc = computeHashCode();
+    }
+
+    private boolean isNotBlank(String id) {
+        return id != null && !id.trim().isEmpty();
     }
 
     /**

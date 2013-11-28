@@ -16,10 +16,7 @@
 
 package org.graphit.graph.utils;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.common.base.Preconditions;
 import org.graphit.common.procedures.Procedure;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.schema.EdgeSortOrder;
@@ -32,10 +29,13 @@ import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.schema.GraphMetadata;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.service.PropertyGraphImpl;
+import org.graphit.io.util.ResourceUtils;
 import org.graphit.properties.domain.EnumMapPropertiesFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class imports a graph representing the HetRec 2011 Last.FM dataset:
@@ -98,9 +98,9 @@ public final class LastFMGraph {
      */
     public static PropertyGraph load() throws IOException {
         PropertyGraph graph = new PropertyGraphImpl();
-        Resource resource = new ClassPathResource(String.format(PATH, "LastFMGraph.json"));
+        File file = ResourceUtils.resourceFile(String.format(PATH, "LastFMGraph.json"));
         long t0 = System.currentTimeMillis();
-        graph.importJson(resource.getFile());
+        graph.importJson(file);
         long t1 = System.currentTimeMillis();
         System.out.println("Loaded Last.FM graph in " + (t1 - t0) + " ms.");
         return graph;
@@ -108,12 +108,11 @@ public final class LastFMGraph {
 
     private static void importArtists(final PropertyGraph graph) throws IOException {
         System.out.println("Importing artists...");
-        Resource resource = new ClassPathResource(String.format(PATH, "artists.dat"));
-        String file = resource.getFile().getAbsolutePath();
-        CSVIterator.forEachRow(file, '\t', '\\', new Procedure<CSVRow>() {
+        String file = ResourceUtils.resourceFile(String.format(PATH, "artists.dat")).getAbsolutePath();
+        CsvIterator.forEachRow(file, '\t', '\\', new Procedure<CsvRow>() {
 
             @Override
-            public boolean apply(CSVRow row) {
+            public boolean apply(CsvRow row) {
                 int rowNum = row.getRowNum();
                 if (rowNum == 1) {
                     return true; // Skip header
@@ -124,7 +123,7 @@ public final class LastFMGraph {
         });
     }
 
-    private static void importArtist(PropertyGraph graph, CSVRow row) {
+    private static void importArtist(PropertyGraph graph, CsvRow row) {
         int i = 0;
         String id = row.getColumnData(i++);
         String name = row.getColumnData(i++);
@@ -141,12 +140,11 @@ public final class LastFMGraph {
 
     private static void importListenedTo(final PropertyGraph graph) throws IOException {
         System.out.println("Importing 'ListenedTo' edges...");
-        Resource resource = new ClassPathResource(String.format(PATH, "user_artists.dat"));
-        String file = resource.getFile().getAbsolutePath();
-        CSVIterator.forEachRow(file, '\t', '\\', new Procedure<CSVRow>() {
+        String file = ResourceUtils.resourceFile(String.format(PATH, "user_artists.dat")).getAbsolutePath();
+        CsvIterator.forEachRow(file, '\t', '\\', new Procedure<CsvRow>() {
 
             @Override
-            public boolean apply(CSVRow row) {
+            public boolean apply(CsvRow row) {
                 int rowNum = row.getRowNum();
                 if (rowNum == 1) {
                     return true; // Skip header
@@ -157,7 +155,7 @@ public final class LastFMGraph {
         });
     }
 
-    private static void importListenedTo(PropertyGraph graph, CSVRow row) {
+    private static void importListenedTo(PropertyGraph graph, CsvRow row) {
         int i = 0;
         String userId = row.getColumnData(i++);
         String artistId = row.getColumnData(i++);
@@ -170,7 +168,7 @@ public final class LastFMGraph {
         }
         NodeId aid = new NodeId(ARTIST, artistId);
         Node artist = graph.getNode(aid);
-        Assert.notNull(artist, "Missing artist: " + artistId);
+        Preconditions.checkNotNull(artist, "Missing artist: " + artistId);
 
         graph.addEdge(user.getNodeId(), artist.getNodeId(), LISTENED_TO,
                       Float.valueOf(weight));
@@ -180,14 +178,13 @@ public final class LastFMGraph {
         final Map<String, Tag> tags = importTags();
 
         System.out.println("Importing 'Tagged' edges...");
-        Resource resource =
-            new ClassPathResource(String.format(PATH, "user_taggedartists-timestamps.dat"));
-        String file = resource.getFile().getAbsolutePath();
+        String file =
+                ResourceUtils.resourceFile(String.format(PATH, "user_taggedartists-timestamps.dat")).getAbsolutePath();
 
-        CSVIterator.forEachRow(file, '\t', '\\', new Procedure<CSVRow>() {
+        CsvIterator.forEachRow(file, '\t', '\\', new Procedure<CsvRow>() {
 
             @Override
-            public boolean apply(CSVRow row) {
+            public boolean apply(CsvRow row) {
                 int rowNum = row.getRowNum();
                 if (rowNum == 1) {
                     return true; // Skip header
@@ -198,14 +195,14 @@ public final class LastFMGraph {
         });
     }
 
-    private static void importTagged(PropertyGraph graph, Map<String, Tag> tags, CSVRow row) {
+    private static void importTagged(PropertyGraph graph, Map<String, Tag> tags, CsvRow row) {
         int i = 0;
         String userId = row.getColumnData(i++);
         String artistId = row.getColumnData(i++);
         String tagId = row.getColumnData(i++);
         long timestamp = Long.parseLong(row.getColumnData(i++));
         Tag tag = tags.get(tagId);
-        Assert.notNull(tags);
+        Preconditions.checkNotNull(tags);
 
         NodeId uid = new NodeId(USER, userId);
         Node user = graph.getNode(uid);
@@ -226,15 +223,14 @@ public final class LastFMGraph {
 
     private static Map<String, Tag> importTags() throws IOException {
         System.out.println("Importing tags...");
-        Resource resource =
-            new ClassPathResource(String.format(PATH, "tags.dat"));
-        String file = resource.getFile().getAbsolutePath();
+        String file =
+                ResourceUtils.resourceFile(String.format(PATH, "tags.dat")).getAbsolutePath();
 
         final Map<String, Tag> tags = new HashMap<String, Tag>();
-        CSVIterator.forEachRow(file, '\t', '\\', new Procedure<CSVRow>() {
+        CsvIterator.forEachRow(file, '\t', '\\', new Procedure<CsvRow>() {
 
             @Override
-            public boolean apply(CSVRow row) {
+            public boolean apply(CsvRow row) {
                 int rowNum = row.getRowNum();
                 if (rowNum == 1) {
                     return true; // Skip header
@@ -253,12 +249,12 @@ public final class LastFMGraph {
 
     private static void importFriendsWith(final PropertyGraph graph) throws IOException {
         System.out.println("Importing 'FriendsWith' edges...");
-        Resource resource = new ClassPathResource(String.format(PATH, "user_friends.dat"));
-        String file = resource.getFile().getAbsolutePath();
-        CSVIterator.forEachRow(file, '\t', '\\', new Procedure<CSVRow>() {
+        String file =
+                ResourceUtils.resourceFile(String.format(PATH, "user_friends.dat")).getAbsolutePath();
+        CsvIterator.forEachRow(file, '\t', '\\', new Procedure<CsvRow>() {
 
             @Override
-            public boolean apply(CSVRow row) {
+            public boolean apply(CsvRow row) {
                 int rowNum = row.getRowNum();
                 if (rowNum == 1) {
                     return true; // Skip header
@@ -269,7 +265,7 @@ public final class LastFMGraph {
         });
     }
 
-    private static void importFriendsWith(PropertyGraph graph, CSVRow row) {
+    private static void importFriendsWith(PropertyGraph graph, CsvRow row) {
         int i = 0;
         String userId = row.getColumnData(i++);
         String friendId = row.getColumnData(i);

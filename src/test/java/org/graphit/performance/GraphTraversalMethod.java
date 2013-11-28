@@ -16,12 +16,12 @@
 
 package org.graphit.performance;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.springframework.util.Assert;
 
 /**
  * @author jon
@@ -39,7 +39,7 @@ public abstract class GraphTraversalMethod extends AbstractGraphMethod<Integer> 
 
     @Override
     public void init(String[] params) {
-        Assert.isTrue(params.length == 4);
+        Preconditions.checkArgument(params.length == 4);
         PropertyGraph graph = getGraph();
         int i = 0;
         NodeType nodeType = graph.getNodeType(params[i++]);

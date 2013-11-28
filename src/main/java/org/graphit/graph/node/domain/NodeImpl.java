@@ -16,10 +16,10 @@
 
 package org.graphit.graph.node.domain;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.properties.domain.Properties;
 import org.graphit.properties.domain.PropertiesProxy;
-import org.springframework.util.Assert;
 
 /**
  * Standard {@link Node} implementation.
@@ -41,7 +41,7 @@ public class NodeImpl extends PropertiesProxy implements Node {
 
     private NodeImpl(int nodeIndex, NodeId nodeId, Properties properties, boolean mutable) {
         super(properties, mutable);
-        Assert.isTrue(nodeIndex >= 0, "Node index must not be negative.");
+        Preconditions.checkArgument(nodeIndex >= 0, "Node index must not be negative.");
         this.nodeIndex = nodeIndex;
         this.nodeId = nodeId;
     }

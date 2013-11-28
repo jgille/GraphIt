@@ -16,9 +16,12 @@
 
 package org.graphit.graph.blueprints;
 
-import java.util.Collection;
-import java.util.UUID;
-
+import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
+import com.tinkerpop.blueprints.*;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypeImpl;
@@ -29,18 +32,9 @@ import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypeImpl;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.springframework.util.Assert;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterables;
-import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.blueprints.Edge;
-import com.tinkerpop.blueprints.Element;
-import com.tinkerpop.blueprints.Features;
-import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.Vertex;
+import java.util.Collection;
+import java.util.UUID;
 
 /**
  * A {@link Graph} implementation wrapping a {@link PropertyGraph}.
@@ -162,7 +156,7 @@ public class BlueprintsGraph implements Graph {
 
     @Override
     public Vertex getVertex(Object id) {
-        Assert.notNull(id);
+        Preconditions.checkArgument(id != null);
         NodeId nodeId = getNodeId(id);
         Node node = graph.getNode(nodeId);
         return transformNode(node);
@@ -211,7 +205,7 @@ public class BlueprintsGraph implements Graph {
 
     @Override
     public Edge getEdge(Object id) {
-        Assert.notNull(id);
+        Preconditions.checkArgument(id != null);
         EdgeId edgeId = castEdgeId(id);
         org.graphit.graph.edge.domain.Edge edge = graph.getEdge(edgeId);
         if (edge == null) {

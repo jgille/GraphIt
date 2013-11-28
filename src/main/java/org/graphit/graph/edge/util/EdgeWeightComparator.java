@@ -28,14 +28,6 @@ public class EdgeWeightComparator implements EdgeIndexComparator {
     private final boolean descending;
 
     /**
-     * Creates an ascending comparator, using the provided weigher to get edge
-     * weights.
-     */
-    public EdgeWeightComparator(EdgeWeigher weigher) {
-        this(weigher, false);
-    }
-
-    /**
      * Creates an ascending or descending comparator, using the provided weigher
      * to get edge weights.
      */

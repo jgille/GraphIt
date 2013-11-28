@@ -16,19 +16,14 @@
 
 package org.graphit.graph.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 import org.apache.commons.io.FileUtils;
 import org.graphit.common.collections.IterablePipe;
 import org.graphit.common.collections.IterablePipeImpl;
-import org.graphit.graph.edge.domain.Edge;
-import org.graphit.graph.edge.domain.EdgeId;
-import org.graphit.graph.edge.domain.EdgeImpl;
-import org.graphit.graph.edge.domain.EdgePrimitive;
-import org.graphit.graph.edge.domain.EdgeVector;
+import org.graphit.graph.edge.domain.*;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepository;
 import org.graphit.graph.edge.repository.EdgePrimitivesRepositoryImpl;
 import org.graphit.graph.edge.schema.EdgeSortOrder;
@@ -49,11 +44,11 @@ import org.graphit.properties.repository.EdgePropertiesRepository;
 import org.graphit.properties.repository.NodePropertiesRepository;
 import org.graphit.properties.repository.PropertiesRepository;
 import org.graphit.properties.repository.WriteThroughProperties;
-import org.springframework.util.Assert;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Iterables;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link PropertyGraph} implementation.
@@ -222,7 +217,7 @@ public class PropertyGraphImpl implements PropertyGraph {
 
                 @Override
                 public Edge apply(EdgeId edgeId) {
-                    Assert.notNull(edgeId);
+                    notNull(edgeId);
                     return getEdge(edgeId);
                 }
             }).filter(Predicates.<Edge> notNull());
@@ -236,7 +231,7 @@ public class PropertyGraphImpl implements PropertyGraph {
 
                 @Override
                 public Node apply(EdgeId edgeId) {
-                    Assert.notNull(edgeId);
+                    notNull(edgeId);
                     Edge edge = getEdge(edgeId);
                     if (edge == null) {
                         return null;
@@ -280,12 +275,12 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     private NodeId validateNodeId(NodeId nodeId) {
-        Assert.notNull(nodeId, "Node id is mandatory");
+        notNull(nodeId, "Node id is mandatory");
         NodeType nodeType = nodeId.getNodeType();
-        Assert.notNull(nodeType, "Node type is mandatory.");
+        notNull(nodeType, "Node type is mandatory.");
         String nodeTypeName = nodeId.getNodeType().name();
         String id = nodeId.getId();
-        Assert.notNull(id, "Node type is mandatory.");
+        notNull(id, "Node type is mandatory.");
         // Make sure we use the same node type instance for all nodes of the
         // same type
         NodeType internedNodeType = metadata.getNodeTypes().valueOf(nodeTypeName);
@@ -365,12 +360,12 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     private EdgeId validateEdgeId(EdgeId edgeId) {
-        Assert.notNull(edgeId, "Edge id is mandatory");
+        notNull(edgeId, "Edge id is mandatory");
         EdgeType edgeType = edgeId.getEdgeType();
-        Assert.notNull(edgeType, "Edge type is mandatory.");
+        notNull(edgeType, "Edge type is mandatory.");
         String edgeTypeName = edgeId.getEdgeType().name();
         int index = edgeId.getIndex();
-        Assert.isTrue(index >= 0, "Edge indexes may not be negative.");
+        isTrue(index >= 0, "Edge indexes may not be negative.");
         // Make sure we use the same node type instance for all nodes of the
         // same type (and assert that the edge type exists).
         EdgeType internedEdgeType = metadata.getEdgeTypes().valueOf(edgeTypeName);
@@ -397,9 +392,9 @@ public class PropertyGraphImpl implements PropertyGraph {
         // This will make sure the edge type is valid
         validateEdgeId(new EdgeId(edgeType, 0));
         Node startNode = getNode(startNodeId);
-        Assert.notNull(startNode, "Invalid start node: " + startNodeId);
+        Preconditions.checkArgument(startNode != null, "Invalid start node: " + startNodeId);
         Node endNode = getNode(endNodeId);
-        Assert.notNull(endNode, "Invalid end node: " + endNodeId);
+        Preconditions.checkArgument(endNode != null, "Invalid end node: " + endNodeId);
 
         EdgeId edgeId =
             edgeRepo.addEdge(startNode.getIndex(), endNode.getIndex(), edgeType, weight);
@@ -447,7 +442,7 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public void init() {
-        Assert.isTrue(nodeRepo.size() == 0, "You may no call init for a non empty graph.");
+        isTrue(nodeRepo.size() == 0, "You may no call init for a non empty graph.");
         if (dataDir == null) {
             return;
         }
@@ -580,5 +575,17 @@ public class PropertyGraphImpl implements PropertyGraph {
     @Override
     public NodeType getNodeType(String name) {
         return metadata.getNodeTypes().valueOf(name);
+    }
+
+    private void notNull(Object o) {
+        Preconditions.checkNotNull(o);
+    }
+
+    private void notNull(Object o, String message) {
+        Preconditions.checkNotNull(o, message);
+    }
+
+    private void isTrue(boolean flag, String message) {
+        Preconditions.checkArgument(flag, message);
     }
 }

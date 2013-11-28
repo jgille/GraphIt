@@ -85,8 +85,6 @@ public class EdgePrimitive {
 
     /**
      * Returns a reversed copy of the edge, i.e. A -> B will become B -> A.
-     * 
-     * @return
      */
     public EdgePrimitive reverse() {
         return new EdgePrimitive(edgeId, endNodeIndex, startNodeIndex, weight);

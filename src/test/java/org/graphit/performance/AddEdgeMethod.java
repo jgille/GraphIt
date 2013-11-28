@@ -16,12 +16,12 @@
 
 package org.graphit.performance;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.service.PropertyGraph;
-import org.springframework.util.Assert;
 
 /**
  * @author jon
@@ -40,7 +40,7 @@ public class AddEdgeMethod extends AbstractGraphMethod<Edge> {
 
     @Override
     public void init(String[] params) {
-        Assert.isTrue(params.length == 6);
+        Preconditions.checkArgument(params.length == 6);
         PropertyGraph graph = getGraph();
         int i = 0;
         NodeType fromType = graph.getNodeType(params[i++]);

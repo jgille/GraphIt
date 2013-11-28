@@ -62,16 +62,10 @@ public class CounterImplTest {
         assertEquals(Arrays.asList(1, 2), asList(counter.iterable(CountSortOrder.DESCENDING_COUNT)));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testIllegalSortOrder() {
         CounterImpl<Integer> counter = new CounterImpl<Integer>();
-        boolean exception = false;
-        try {
-            counter.iterable(null);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertTrue(exception);
+        counter.iterable(null);
     }
 
     private List<Integer> asList(Iterable<CountedElement<Integer>> it) {

@@ -16,8 +16,8 @@
 
 package org.graphit.graph.edge.domain;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.springframework.util.Assert;
 
 /**
  * A unique identifier for an edge in a graph. Should normally never be
@@ -40,7 +40,7 @@ public class EdgeId {
      *            The index of the edge.
      */
     public EdgeId(EdgeType edgeType, int index) {
-        Assert.isTrue(index >= 0, "Index must not be negative.");
+        Preconditions.checkArgument(index >= 0, "Index must not be negative.");
         this.edgeType = edgeType;
         this.index = index;
     }

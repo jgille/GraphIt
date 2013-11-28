@@ -16,20 +16,8 @@
 
 package org.graphit.graph.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.codehaus.jackson.JsonEncoding;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
+import com.google.common.base.Preconditions;
+import org.codehaus.jackson.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.graphit.graph.edge.domain.Edge;
@@ -42,7 +30,10 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
 import org.graphit.graph.schema.GraphMetadata;
-import org.springframework.util.Assert;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Utility class for working with graphs represented with json.
@@ -78,7 +69,7 @@ public final class PropertyGraphJsonUtils {
         JsonParser jsonParser = jsonFactory.createJsonParser(in);
 
         JsonToken current = jsonParser.nextToken();
-        Assert.isTrue(current == JsonToken.START_OBJECT);
+        isTrue(current == JsonToken.START_OBJECT);
 
         while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
             String fieldName = jsonParser.getCurrentName();
@@ -106,8 +97,7 @@ public final class PropertyGraphJsonUtils {
 
         String name = (String) metadata.get(NAME);
         String graphName = graph.getMetadata().getGraphName();
-        Assert.isTrue(graphName.isEmpty() || graphName.equals(name), "Unexpected graph name: " +
-            name + ", expected " + graphName);
+        isTrue(graphName.isEmpty() || graphName.equals(name), "Unexpected graph name");
 
         List<String> nodeTypes = (List<String>) metadata.get(NODE_TYPES);
         for (String nodeType : nodeTypes) {
@@ -124,7 +114,7 @@ public final class PropertyGraphJsonUtils {
     private static void importNodes(PropertyGraph graph, JsonParser jsonParser, JsonToken current)
         throws IOException {
         NodeTypes nodeTypes = graph.getMetadata().getNodeTypes();
-        Assert.isTrue(current == JsonToken.START_ARRAY);
+        isTrue(current == JsonToken.START_ARRAY);
         TypeReference<Map<String, Object>> type = new TypeReference<Map<String, Object>>() {
         };
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
@@ -146,7 +136,7 @@ public final class PropertyGraphJsonUtils {
     private static void importEdges(PropertyGraph graph, JsonParser jsonParser, JsonToken current)
         throws IOException {
         EdgeTypes edgeTypes = graph.getMetadata().getEdgeTypes();
-        Assert.isTrue(current == JsonToken.START_ARRAY);
+        isTrue(current == JsonToken.START_ARRAY);
         TypeReference<Map<String, Object>> type = new TypeReference<Map<String, Object>>() {
         };
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
@@ -280,5 +270,13 @@ public final class PropertyGraphJsonUtils {
                 generator.writeObject(map);
         }
         generator.writeEndArray();
+    }
+
+    private static void isTrue(boolean flag) {
+        Preconditions.checkArgument(flag);
+    }
+
+    private static void isTrue(boolean flag, String message) {
+        Preconditions.checkArgument(flag, message);
     }
 }

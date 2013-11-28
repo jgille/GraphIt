@@ -16,23 +16,21 @@
 
 package org.graphit.graph.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
 import org.graphit.graph.exception.DuplicateKeyException;
-import org.springframework.util.Assert;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link MappedList} backed by an {@link ArrayList} and an
  * {@link AbstractObjectIntMap}. All methods are thread safe.
  *
  * @author jon
- *
  */
 public class MappedListImpl<E> implements MappedList<E> {
 
@@ -94,7 +92,7 @@ public class MappedListImpl<E> implements MappedList<E> {
 
     @Override
     public void set(int index, E element) {
-        Assert.isTrue(index >= 0);
+        checkIndex(index);
         synchronized (list) {
             for (int i = list.size(); i <= index; i++) {
                 list.add(null);
@@ -106,7 +104,7 @@ public class MappedListImpl<E> implements MappedList<E> {
 
     @Override
     public E remove(int index) {
-        Assert.isTrue(index >= 0);
+        checkIndex(index);
         E element = get(index);
         if (element == null) {
             return null;
@@ -139,5 +137,9 @@ public class MappedListImpl<E> implements MappedList<E> {
                 }
             });
         }
+    }
+
+    private void checkIndex(int index) {
+        Preconditions.checkArgument(index >= 0);
     }
 }

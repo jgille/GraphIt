@@ -21,7 +21,7 @@ import org.graphit.graph.node.domain.NodeId;
 import org.graphit.properties.domain.Properties;
 
 /**
- * A repository storing edge properties in a {@link ConcurrentHashMap}.
+ * A repository storing edge properties in a {@link java.util.concurrent.ConcurrentHashMap}.
  *
  * @author jon
  *

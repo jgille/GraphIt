@@ -16,10 +16,10 @@
 
 package org.graphit.properties.domain;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Map;
 import java.util.Set;
-
-import org.springframework.util.Assert;
 
 /**
  * A proxy that delegates all requests to the underlying {@link Properties}
@@ -43,7 +43,7 @@ public abstract class PropertiesProxy implements Properties {
      *            {@link IllegalArgumentException}.
      */
     public PropertiesProxy(Properties properties, boolean mutable) {
-        Assert.notNull(properties);
+        Preconditions.checkNotNull(properties);
         this.properties = properties;
         this.mutable = mutable;
     }
@@ -59,13 +59,13 @@ public abstract class PropertiesProxy implements Properties {
 
     @Override
     public void setProperty(String key, Object value) {
-        Assert.isTrue(mutable, "This proxy is immutable");
+        Preconditions.checkState(mutable, "This proxy is immutable");
         properties.setProperty(key, value);
     }
 
     @Override
     public Object removeProperty(String key) {
-        Assert.isTrue(mutable, "This proxy is immutable");
+        Preconditions.checkState(mutable, "This proxy is immutable");
         return properties.removeProperty(key);
     }
 

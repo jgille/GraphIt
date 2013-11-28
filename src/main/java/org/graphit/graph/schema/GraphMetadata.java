@@ -16,11 +16,11 @@
 
 package org.graphit.graph.schema;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.schema.EdgeTypes;
 import org.graphit.graph.node.schema.NodeType;
 import org.graphit.graph.node.schema.NodeTypes;
-import org.springframework.util.Assert;
 
 /**
  * 
@@ -53,7 +53,7 @@ public final class GraphMetadata {
      * Creates a new instance.
      */
     private GraphMetadata(String graphName, NodeTypes nodeTypes, EdgeTypes edgeTypes) {
-        Assert.notNull(graphName);
+        checkGraphName(graphName);
         this.graphName = graphName;
         this.nodeTypes = nodeTypes;
         this.edgeTypes = edgeTypes;
@@ -64,8 +64,12 @@ public final class GraphMetadata {
      * Sets the name of the graph.
      */
     public void setGraphName(String graphName) {
-        Assert.hasText(graphName, "The graph name must not be empty.");
+        checkGraphName(graphName);
         this.graphName = graphName;
+    }
+
+    private void checkGraphName(String graphName) {
+        Preconditions.checkNotNull(graphName);
     }
 
     /**
@@ -90,14 +94,14 @@ public final class GraphMetadata {
     }
 
     /**
-     * Ensures the existance of the given node type, creating it if absent.
+     * Ensures the existence of the given node type, creating it if absent.
      */
     public NodeType getOrCreateNodeType(String nodeTypeName) {
         return nodeTypes.getOrAdd(nodeTypeName);
     }
 
     /**
-     * Ensures the existance of the given edge type, creating it if absent.
+     * Ensures the existence of the given edge type, creating it if absent.
      */
 
     public EdgeType getOrCreateEdgeType(String edgeTypeName) {

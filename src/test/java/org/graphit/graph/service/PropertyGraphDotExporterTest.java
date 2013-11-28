@@ -16,18 +16,17 @@
 
 package org.graphit.graph.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.apache.commons.io.FileUtils;
+import org.graphit.io.util.ResourceUtils;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author jon
@@ -54,9 +53,8 @@ public class PropertyGraphDotExporterTest {
         assertEquals(FileUtils.readFileToString(expected), fileContent);
     }
 
-    private File getResourceFile(String fileName) throws IOException {
-        String path = String.format("/fixtures/%s", fileName);
-        Resource resource = new ClassPathResource(path);
-        return resource.getFile();
+    private File getResourceFile(String fileName) {
+        String path = String.format("fixtures/%s", fileName);
+        return ResourceUtils.resourceFile(path);
     }
 }

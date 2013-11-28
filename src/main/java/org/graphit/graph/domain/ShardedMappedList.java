@@ -16,14 +16,13 @@
 
 package org.graphit.graph.domain;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
+import org.graphit.graph.exception.DuplicateKeyException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.graphit.graph.exception.DuplicateKeyException;
-import org.springframework.util.Assert;
-
-import com.google.common.collect.Iterables;
 
 /**
  * A {@link MappedList} that allows higher concurrency by using multiple backing
@@ -85,7 +84,7 @@ public class ShardedMappedList<E> implements MappedList<E> {
 
     @Override
     public void set(int index, E element) {
-        Assert.isTrue(index >= 0);
+        Preconditions.checkArgument(index >= 0);
         int shardIndex = getShardIndex(index);
         int indexInShard = getIndexInShard(index);
         MappedList<E> shard = shards.get(shardIndex);

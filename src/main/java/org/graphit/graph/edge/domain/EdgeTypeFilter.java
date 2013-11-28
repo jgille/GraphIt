@@ -36,8 +36,6 @@ public class EdgeTypeFilter implements Predicate<Edge> {
 
     /**
      * Creates a new filter.
-     * 
-     * @param edgeTypes
      */
     public EdgeTypeFilter(EdgeType... edgeTypes) {
         this.edgeTypes = new HashSet<EdgeType>(Arrays.asList(edgeTypes));

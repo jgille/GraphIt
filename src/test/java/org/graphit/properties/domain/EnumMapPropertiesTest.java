@@ -33,7 +33,7 @@ import org.junit.Test;
 public class EnumMapPropertiesTest {
 
     private static enum AbcEnum {
-        A, B, C;
+        A, B, C
     }
 
     private Properties createEmptyProperties() {

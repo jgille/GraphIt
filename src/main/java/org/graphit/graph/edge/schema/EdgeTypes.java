@@ -16,21 +16,20 @@
 
 package org.graphit.graph.edge.schema;
 
+import com.google.common.base.Preconditions;
+import org.graphit.common.enumeration.DynamicEnumerationSet;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.graphit.common.enumeration.DynamicEnumerationSet;
-import org.springframework.util.Assert;
-
 /**
  * Dynamic {@link EdgeTypes} implementation keeping {@link EdgeType}s in a
  * {@link HashMap}.
- * 
+ *
  * @author jon
- * 
  */
 public final class EdgeTypes implements DynamicEnumerationSet<EdgeType> {
 
@@ -47,7 +46,7 @@ public final class EdgeTypes implements DynamicEnumerationSet<EdgeType> {
 
     @Override
     public EdgeType valueOf(String name) {
-        Assert.isTrue(edgeTypes.containsKey(name), "No such edge type: " + name);
+        Preconditions.checkArgument(edgeTypes.containsKey(name), "No such edge type: " + name);
         return edgeTypes.get(name);
     }
 
@@ -64,9 +63,9 @@ public final class EdgeTypes implements DynamicEnumerationSet<EdgeType> {
     @Override
     public void add(EdgeType edgeType) {
         String edgeTypeName = edgeType.name();
-        Assert.isTrue(VALID_NAME_PATTERN.matcher(edgeTypeName).matches(),
-                      "Invalid edge type name: " + edgeTypeName);
-        Assert.isTrue(!edgeTypes.containsKey(edgeType.name()));
+        Preconditions.checkArgument(VALID_NAME_PATTERN.matcher(edgeTypeName).matches(),
+                "Invalid edge type name");
+        Preconditions.checkArgument(!edgeTypes.containsKey(edgeType.name()));
         edgeTypes.put(edgeType.name(), edgeType);
     }
 

@@ -36,8 +36,6 @@ public class NodeTypeFilter implements Predicate<Node> {
 
     /**
      * Creates a new filter.
-     * 
-     * @param nodeTypes
      */
     public NodeTypeFilter(NodeType... nodeTypes) {
         this.nodeTypes = new HashSet<NodeType>(Arrays.asList(nodeTypes));

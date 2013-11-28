@@ -63,7 +63,7 @@ public class PropertyGraphImplTest {
 
     private GraphMetadata setupGraphMetadata() {
         return new GraphMetadata("test").addNodeType(PRODUCT).addNodeType(USER)
-            .addEdgeType(BOUGHT).addEdgeType(VIEWED).addEdgeType(SIMILAR);
+                .addEdgeType(BOUGHT).addEdgeType(VIEWED).addEdgeType(SIMILAR);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class PropertyGraphImplTest {
         assertThat(exception, Matchers.is(true));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddEdgeWithNonExistingStartNode() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
 
@@ -110,17 +110,10 @@ public class PropertyGraphImplTest {
 
         NodeId p1 = new NodeId(PRODUCT, "p1");
         graph.addNode(p1);
-
-        boolean exception = false;
-        try {
-            graph.addEdge(u1, p1, BOUGHT);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertThat(exception, Matchers.is(true));
+        graph.addEdge(u1, p1, BOUGHT);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddEdgeWithNonExistingEndNode() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
 
@@ -129,13 +122,7 @@ public class PropertyGraphImplTest {
 
         NodeId p1 = new NodeId(PRODUCT, "p1");
 
-        boolean exception = false;
-        try {
-            graph.addEdge(u1, p1, BOUGHT);
-        } catch (IllegalArgumentException e) {
-            exception = true;
-        }
-        assertThat(exception, Matchers.is(true));
+        graph.addEdge(u1, p1, BOUGHT);
     }
 
     @Test
@@ -229,7 +216,7 @@ public class PropertyGraphImplTest {
 
         NodeId u2 = new NodeId(USER, "u2");
         List<Edge> edges =
-            asList(graph.getEdges(u2, BOUGHT, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(u2, BOUGHT, EdgeDirection.OUTGOING));
         assertThat(edges.size(), Matchers.is(0));
     }
 
@@ -240,7 +227,7 @@ public class PropertyGraphImplTest {
 
         NodeId u2 = new NodeId(USER, "u2");
         List<Edge> edges =
-            asList(graph.getEdges(u2, BOUGHT, EdgeDirection.INCOMING));
+                asList(graph.getEdges(u2, BOUGHT, EdgeDirection.INCOMING));
         assertThat(edges.size(), Matchers.is(0));
     }
 
@@ -252,7 +239,7 @@ public class PropertyGraphImplTest {
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
         List<Edge> edges =
-            asList(graph.getEdges(u1, BOUGHT, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(u1, BOUGHT, EdgeDirection.OUTGOING));
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
@@ -273,7 +260,7 @@ public class PropertyGraphImplTest {
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
         List<Edge> edges =
-            asList(graph.getEdges(p1, BOUGHT, EdgeDirection.INCOMING));
+                asList(graph.getEdges(p1, BOUGHT, EdgeDirection.INCOMING));
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
@@ -290,14 +277,14 @@ public class PropertyGraphImplTest {
     public void testMultipleUnsortedOutgoingEdges() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2")
-            .buy("u1", "p1", "p2");
+                .buy("u1", "p1", "p2");
 
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
         NodeId p2 = new NodeId(PRODUCT, "p2");
 
         List<Edge> edges =
-            asList(graph.getEdges(u1, BOUGHT, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(u1, BOUGHT, EdgeDirection.OUTGOING));
         assertThat(edges.size(), Matchers.is(2));
         Edge edge1 = edges.get(0);
 
@@ -324,14 +311,14 @@ public class PropertyGraphImplTest {
     public void testMultipleUnsortedIncomingEdges() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addUsers("u1", "u2").addProducts("p1", "p2")
-            .buy("u1", "p1", "p2").buy("u2", "p1");
+                .buy("u1", "p1", "p2").buy("u2", "p1");
 
         NodeId u1 = new NodeId(USER, "u1");
         NodeId u2 = new NodeId(USER, "u2");
         NodeId p1 = new NodeId(PRODUCT, "p1");
 
         List<Edge> edges =
-            asList(graph.getEdges(p1, BOUGHT, EdgeDirection.INCOMING));
+                asList(graph.getEdges(p1, BOUGHT, EdgeDirection.INCOMING));
         assertThat(edges.size(), Matchers.is(2));
         Edge edge1 = edges.get(0);
 
@@ -358,7 +345,7 @@ public class PropertyGraphImplTest {
     public void testMultipleSortedOutgoingEdges() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addProducts("p1", "p2", "p3", "p4")
-            .similar("p1", "p2", 1).similar("p1", "p3", 3).similar("p1", "p4", 2);
+                .similar("p1", "p2", 1).similar("p1", "p3", 3).similar("p1", "p4", 2);
 
         NodeId p1 = new NodeId(PRODUCT, "p1");
         NodeId p2 = new NodeId(PRODUCT, "p2");
@@ -366,7 +353,7 @@ public class PropertyGraphImplTest {
         NodeId p4 = new NodeId(PRODUCT, "p4");
 
         List<Edge> edges =
-            asList(graph.getEdges(p1, SIMILAR, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(p1, SIMILAR, EdgeDirection.OUTGOING));
         assertThat(edges.size(), Matchers.is(3));
         Edge edge1 = edges.get(0);
 
@@ -403,7 +390,7 @@ public class PropertyGraphImplTest {
     public void testMultipleSortedIncomingEdges() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addProducts("p1", "p2", "p3", "p4")
-            .similar("p1", "p2", 1).similar("p3", "p2", 3).similar("p4", "p2", 2);
+                .similar("p1", "p2", 1).similar("p3", "p2", 3).similar("p4", "p2", 2);
 
         NodeId p1 = new NodeId(PRODUCT, "p1");
         NodeId p2 = new NodeId(PRODUCT, "p2");
@@ -411,7 +398,7 @@ public class PropertyGraphImplTest {
         NodeId p4 = new NodeId(PRODUCT, "p4");
 
         List<Edge> edges =
-            asList(graph.getEdges(p2, SIMILAR, EdgeDirection.INCOMING));
+                asList(graph.getEdges(p2, SIMILAR, EdgeDirection.INCOMING));
         assertThat(edges.size(), Matchers.is(3));
         Edge edge1 = edges.get(0);
 
@@ -448,12 +435,12 @@ public class PropertyGraphImplTest {
     public void testMultipleOutgoingEdgeTypes() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2").buy("u1", "p1")
-            .view("u1", "p2");
+                .view("u1", "p2");
 
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
         List<Edge> edges =
-            asList(graph.getEdges(u1, BOUGHT, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(u1, BOUGHT, EdgeDirection.OUTGOING));
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
@@ -470,12 +457,12 @@ public class PropertyGraphImplTest {
     public void testMultipleIncomingEdgeTypes() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addUsers("u1").addProducts("p1", "p2").buy("u1", "p1")
-            .view("u1", "p2");
+                .view("u1", "p2");
 
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
         List<Edge> edges =
-            asList(graph.getEdges(p1, BOUGHT, EdgeDirection.INCOMING));
+                asList(graph.getEdges(p1, BOUGHT, EdgeDirection.INCOMING));
         assertThat(edges.size(), Matchers.is(1));
         Edge edge = edges.get(0);
 
@@ -492,14 +479,14 @@ public class PropertyGraphImplTest {
     public void testIterateBothDirections() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").similar("p1", "p2", 0.5f)
-            .similar("p3", "p1", 1.5f).similar("p2", "p1", 0.25f);
+                .similar("p3", "p1", 1.5f).similar("p2", "p1", 0.25f);
 
         NodeId p1 = new NodeId(PRODUCT, "p1");
         NodeId p2 = new NodeId(PRODUCT, "p2");
         NodeId p3 = new NodeId(PRODUCT, "p3");
 
         List<Edge> edges =
-            asList(graph.getEdges(p1, SIMILAR, EdgeDirection.BOTH));
+                asList(graph.getEdges(p1, SIMILAR, EdgeDirection.BOTH));
         assertThat(edges.size(), Matchers.is(3));
 
         Edge edge0 = edges.get(0);
@@ -531,7 +518,7 @@ public class PropertyGraphImplTest {
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
         List<Node> neighbors =
-            asList(graph.getNeighbors(u1, BOUGHT, EdgeDirection.OUTGOING));
+                asList(graph.getNeighbors(u1, BOUGHT, EdgeDirection.OUTGOING));
         assertThat(neighbors.size(), Matchers.is(1));
         Node node = neighbors.get(0);
 
@@ -547,7 +534,7 @@ public class PropertyGraphImplTest {
         NodeId u1 = new NodeId(USER, "u1");
         NodeId p1 = new NodeId(PRODUCT, "p1");
         List<Node> neighbors =
-            asList(graph.getNeighbors(p1, BOUGHT, EdgeDirection.INCOMING));
+                asList(graph.getNeighbors(p1, BOUGHT, EdgeDirection.INCOMING));
         assertThat(neighbors.size(), Matchers.is(1));
         Node node = neighbors.get(0);
 
@@ -559,10 +546,10 @@ public class PropertyGraphImplTest {
     public void testRemoveUnsortedEdge() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")
-            .buy("u1", "p1", "p2", "p3").buy("u2", "p3");
+                .buy("u1", "p1", "p2", "p3").buy("u2", "p3");
 
         List<Edge> edges =
-            asList(graph.getEdges(new NodeId(USER, "u1"), BOUGHT, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(new NodeId(USER, "u1"), BOUGHT, EdgeDirection.OUTGOING));
         assertThat(edges.size(), Matchers.is(3));
 
         Edge e1 = edges.get(0);
@@ -571,7 +558,7 @@ public class PropertyGraphImplTest {
 
         graph.removeEdge(e2.getEdgeId());
         List<Edge> modifiedEdges =
-            asList(graph.getEdges(new NodeId(USER, "u1"), BOUGHT, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(new NodeId(USER, "u1"), BOUGHT, EdgeDirection.OUTGOING));
         assertThat(modifiedEdges.size(), Matchers.is(2));
         assertThat(modifiedEdges, Matchers.is(Arrays.asList(e1, e3)));
     }
@@ -580,10 +567,10 @@ public class PropertyGraphImplTest {
     public void testRemoveSortedEdge() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addProducts("p1", "p2", "p3", "p4")
-            .similar("p1", "p2", 2).similar("p1", "p3", 3).similar("p1", "p4", 1);
+                .similar("p1", "p2", 2).similar("p1", "p3", 3).similar("p1", "p4", 1);
 
         List<Edge> edges =
-            asList(graph.getEdges(new NodeId(PRODUCT, "p1"), SIMILAR, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(new NodeId(PRODUCT, "p1"), SIMILAR, EdgeDirection.OUTGOING));
         assertThat(edges.size(), Matchers.is(3));
 
         Edge e1 = edges.get(0);
@@ -592,7 +579,7 @@ public class PropertyGraphImplTest {
 
         graph.removeEdge(e2.getEdgeId());
         List<Edge> modifiedEdges =
-            asList(graph.getEdges(new NodeId(PRODUCT, "p1"), SIMILAR, EdgeDirection.OUTGOING));
+                asList(graph.getEdges(new NodeId(PRODUCT, "p1"), SIMILAR, EdgeDirection.OUTGOING));
         assertThat(modifiedEdges.size(), Matchers.is(2));
         assertThat(modifiedEdges, Matchers.is(Arrays.asList(e1, e3)));
     }
@@ -601,7 +588,7 @@ public class PropertyGraphImplTest {
     public void testRemoveNode() {
         PropertyGraph graph = new PropertyGraphImpl(setupGraphMetadata());
         new GraphBuilder(graph).addProducts("p1", "p2", "p3").addUsers("u1", "u2")
-            .buy("u1", "p1", "p2", "p3").buy("u2", "p3").view("u1", "p2").similar("p1", "p2", 10);
+                .buy("u1", "p1", "p2", "p3").buy("u2", "p3").view("u1", "p2").similar("p1", "p2", 10);
 
         NodeId p2 = new NodeId(PRODUCT, "p2");
         graph.removeNode(p2);
@@ -644,7 +631,7 @@ public class PropertyGraphImplTest {
         PropertyGraphImpl graph = new PropertyGraphImpl(metadata);
         NodeIdRepository nodeRepo = new NodeIdRepositoryImpl();
         EdgePrimitivesRepository edgeRepo =
-            new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
+                new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
         PropertiesRepository<NodeId> nodePropertiesRepo = new NodePropertiesRepository(1);
         PropertiesRepository<EdgeId> edgePropertiesRepo = new EdgePropertiesRepository(1);
 
@@ -810,7 +797,7 @@ public class PropertyGraphImplTest {
 
         public GraphBuilder similar(String p1, String p2, float weight) {
             graph.addEdge(new NodeId(PRODUCT, p1), new NodeId(PRODUCT, p2), SIMILAR,
-                          weight);
+                    weight);
             return this;
         }
     }

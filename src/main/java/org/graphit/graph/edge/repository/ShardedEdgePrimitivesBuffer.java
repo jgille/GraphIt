@@ -16,13 +16,13 @@
 
 package org.graphit.graph.edge.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Preconditions;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
-import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An {@link EdgePrimitivesBuffer} that consists of multiple buffers for
@@ -97,7 +97,7 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
     }
 
     private EdgePrimitivesBuffer getShard(int index) {
-        Assert.isTrue(index >= 0, "Index must not be negative");
+        Preconditions.checkArgument(index >= 0, "Index must not be negative");
         int i = index % shards.size();
         return shards.get(i);
     }

@@ -27,7 +27,7 @@ import org.graphit.graph.edge.schema.EdgeTypes;
 
 /**
  * An {@link EdgePrimitivesRepository} backed by a collection of
- * {@link ByteBufferTypedEdgePrimitivesRepository} instances.
+ * {@link TypedEdgePrimitivesRepository} instances.
  * 
  * @author jon
  * 

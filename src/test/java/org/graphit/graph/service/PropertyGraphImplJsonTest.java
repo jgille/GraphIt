@@ -16,27 +16,24 @@
 
 package org.graphit.graph.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-
 import org.apache.commons.io.FileUtils;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeSortOrder;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.graph.node.schema.NodeType;
+import org.graphit.io.util.ResourceUtils;
 import org.graphit.properties.domain.PropertiesBuilder;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
 
 /**
  * @author jon
@@ -274,10 +271,9 @@ public class PropertyGraphImplJsonTest {
         return FileUtils.readFileToString(getResourceFile(fileName));
     }
 
-    private File getResourceFile(String fileName) throws IOException {
-        String path = String.format("/fixtures/%s", fileName);
-        Resource resource = new ClassPathResource(path);
-        return resource.getFile();
+    private File getResourceFile(String fileName) {
+        String path = String.format("fixtures/%s", fileName);
+        return ResourceUtils.resourceFile(path);
     }
 
 }

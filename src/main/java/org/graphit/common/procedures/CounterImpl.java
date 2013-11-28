@@ -18,10 +18,10 @@ package org.graphit.common.procedures;
 
 import java.util.Collection;
 
+import com.google.common.base.Preconditions;
 import org.apache.mahout.math.function.ObjectIntProcedure;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
-import org.springframework.util.Assert;
 
 /**
  * A {@link Counter} implementation backed by Mahout collections,
@@ -52,7 +52,7 @@ public class CounterImpl<E> implements Counter<E> {
 
     @Override
     public Iterable<CountedElement<E>> iterable(CountSortOrder sortOrder) {
-        Assert.notNull(sortOrder);
+        Preconditions.checkNotNull(sortOrder);
         final Collection<CountedElement<E>> res = sortOrder.newCollection();
 
         map.forEachPair(new ObjectIntProcedure<E>() {

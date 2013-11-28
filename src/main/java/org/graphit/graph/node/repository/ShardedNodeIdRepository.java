@@ -16,13 +16,12 @@
 
 package org.graphit.graph.node.repository;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
 import org.graphit.common.ConcurrencyConstants;
 import org.graphit.graph.domain.MappedList;
 import org.graphit.graph.domain.ShardedMappedList;
 import org.graphit.graph.node.domain.NodeId;
-import org.springframework.util.Assert;
-
-import com.google.common.collect.Iterables;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.
@@ -49,19 +48,19 @@ public class ShardedNodeIdRepository implements NodeIdRepository {
 
     @Override
     public int getNodeIndex(NodeId nodeId) {
-        Assert.notNull(nodeId);
+        Preconditions.checkNotNull(nodeId);
         return nodes.indexOf(nodeId);
     }
 
     @Override
     public NodeId getNodeId(int nodeIndex) {
-        Assert.isTrue(nodeIndex >= 0, "Illegal node index");
+        Preconditions.checkArgument(nodeIndex >= 0, "Illegal node index");
         return nodes.get(nodeIndex);
     }
 
     @Override
     public int insert(NodeId nodeId) {
-        Assert.notNull(nodeId);
+        Preconditions.checkNotNull(nodeId);
         return nodes.add(nodeId);
     }
 

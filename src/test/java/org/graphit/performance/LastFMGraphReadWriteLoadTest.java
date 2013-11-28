@@ -16,15 +16,8 @@
 
 package org.graphit.performance;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ExecutionException;
-
+import au.com.bytecode.opencsv.CSVWriter;
+import com.google.common.base.Preconditions;
 import org.apache.commons.io.IOUtils;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeTypeFilter;
@@ -33,12 +26,18 @@ import org.graphit.graph.node.domain.NodeTypeFilter;
 import org.graphit.graph.service.PropertyGraph;
 import org.graphit.graph.traversal.EdgeDirection;
 import org.graphit.graph.utils.LastFMGraph;
+import org.graphit.io.util.ResourceUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.Assert;
 
-import au.com.bytecode.opencsv.CSVWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author jon
@@ -98,7 +97,7 @@ public class LastFMGraphReadWriteLoadTest {
     private static void createScenario(PropertyGraph graph,
                                        String fileName, int readPercentage,
                                        int removePercentage, int addPercentage) throws IOException {
-        Assert.isTrue(readPercentage + removePercentage + addPercentage == 100);
+        Preconditions.checkArgument(readPercentage + removePercentage + addPercentage == 100);
         Random random = new Random(1234);
         List<Edge> edges =
             graph.getEdges().filter(new EdgeTypeFilter(LastFMGraph.LISTENED_TO)).asList();
@@ -147,7 +146,7 @@ public class LastFMGraphReadWriteLoadTest {
     }
 
     private File getScenario(String fileName) throws IOException {
-        File scearioDir = new ClassPathResource("performance/scenarios").getFile();
+        File scearioDir = ResourceUtils.resourceFile("performance/scenarios");
         return new File(scearioDir, fileName);
     }
 

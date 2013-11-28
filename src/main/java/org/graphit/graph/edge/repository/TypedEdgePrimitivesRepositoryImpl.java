@@ -16,12 +16,12 @@
 
 package org.graphit.graph.edge.repository;
 
+import com.google.common.base.Preconditions;
 import org.graphit.common.ConcurrencyConstants;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.domain.EdgePrimitive;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.exception.DuplicateKeyException;
-import org.springframework.util.Assert;
 
 /**
  *
@@ -113,7 +113,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
     @Override
     public void setEdgeWeight(EdgeId edgeId, float weight) {
         EdgePrimitive edge = getEdge(edgeId);
-        Assert.notNull(edge);
+        Preconditions.checkNotNull(edge);
         buffer.upsert(edgeId.getIndex(), edge.getStartNodeIndex(), edge.getEndNodeIndex(), weight);
         reindex(new EdgePrimitive(edgeId, edge.getStartNodeIndex(), edge.getEndNodeIndex(), weight));
     }
@@ -128,7 +128,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
     }
 
     private void validate(EdgeId edgeId) {
-        Assert.isTrue(getEdgeType().equals(edgeId.getEdgeType()), "Illegal edge type");
+        Preconditions.checkArgument(getEdgeType().equals(edgeId.getEdgeType()), "Illegal edge type");
     }
 
     @Override

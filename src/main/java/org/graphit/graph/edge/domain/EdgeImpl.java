@@ -16,12 +16,12 @@
 
 package org.graphit.graph.edge.domain;
 
+import com.google.common.base.Preconditions;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.node.domain.Node;
 import org.graphit.graph.node.domain.NodeId;
 import org.graphit.properties.domain.Properties;
 import org.graphit.properties.domain.PropertiesProxy;
-import org.springframework.util.Assert;
 
 /**
  * An edge in a graph.
@@ -86,7 +86,7 @@ public class EdgeImpl extends PropertiesProxy implements Edge {
      * Sets the edge start node.
      */
     public EdgeImpl setStartNode(Node startNode) {
-        Assert.notNull(startNode, "Null start node");
+        Preconditions.checkNotNull(startNode, "Null start node");
         this.startNode = startNode;
         return this;
     }
@@ -95,7 +95,7 @@ public class EdgeImpl extends PropertiesProxy implements Edge {
      * Sets the edge end node.
      */
     public EdgeImpl setEndNode(Node endNode) {
-        Assert.notNull(endNode, "Null end node");
+        Preconditions.checkNotNull(endNode, "Null end node");
         this.endNode = endNode;
         return this;
     }

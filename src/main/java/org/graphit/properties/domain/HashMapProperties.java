@@ -16,11 +16,11 @@
 
 package org.graphit.properties.domain;
 
+import com.google.common.base.Preconditions;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.springframework.util.Assert;
 
 /**
  * A {@link Properties} implementation backed by a {@link HashMap}.
@@ -50,7 +50,7 @@ public class HashMapProperties implements Properties {
      * Crates a new instance with all the entries of the provided map.
      */
     public HashMapProperties(Map<String, Object> initialProperties) {
-        Assert.notNull(initialProperties);
+        Preconditions.checkNotNull(initialProperties);
         this.properties = new HashMap<String, Object>(initialProperties);
     }
 

@@ -16,20 +16,19 @@
 
 package org.graphit.graph.node.schema;
 
+import com.google.common.base.Preconditions;
+import org.graphit.common.enumeration.DynamicEnumerationSet;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.graphit.common.enumeration.DynamicEnumerationSet;
-import org.springframework.util.Assert;
-
 /**
  * A dynamic set of {@link NodeType}s backed by a {@link HashMap}.
  *
  * @author jon
- *
  */
 public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
 
@@ -57,7 +56,7 @@ public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
 
     @Override
     public NodeType valueOf(String name) {
-        Assert.isTrue(nodeTypes.containsKey(name), "No such node type: " + name);
+        Preconditions.checkArgument(nodeTypes.containsKey(name), "No such node type: " + name);
         return nodeTypes.get(name);
     }
 
@@ -74,9 +73,9 @@ public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
     @Override
     public void add(NodeType nodeType) {
         String nodeTypeName = nodeType.name();
-        Assert.isTrue(VALID_NAME_PATTERN.matcher(nodeTypeName).matches(),
-                      "Invalid node type name: " + nodeTypeName);
-        Assert.isTrue(!nodeTypes.containsKey(nodeTypeName));
+        Preconditions.checkArgument(VALID_NAME_PATTERN.matcher(nodeTypeName).matches(),
+                "Invalid node type name");
+        Preconditions.checkArgument(!nodeTypes.containsKey(nodeTypeName));
 
         nodeTypes.put(nodeTypeName, nodeType);
     }

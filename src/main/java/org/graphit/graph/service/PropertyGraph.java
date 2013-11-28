@@ -158,10 +158,8 @@ public interface PropertyGraph {
     Edge addEdge(NodeId startNode, NodeId endNode, EdgeType edgeType, float weight);
 
     /**
-     * Adds a weighted edge. You should normally not use this method, use
-     * {@link #addEdge(EdgeId, NodeId, NodeId, float)} instead. Modifying the
-     * returned edges's properties will take immediate effect in the backing
-     * repository.
+     * Adds a weighted edge. Modifying the returned edges's properties will take
+     * immediate effect in the backing repository.
      */
     Edge addEdge(EdgeId edgeId, int startNodeIndex, int endNodeIndex, float weight);
 

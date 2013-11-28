@@ -32,14 +32,14 @@ import au.com.bytecode.opencsv.CSVReader;
  * @author jon
  *
  */
-public class CSVIterator implements Closeable {
+public class CsvIterator implements Closeable {
 
     private final CSVReader reader;
 
     /**
      * Creates a new iterator.
      */
-    public CSVIterator(CSVReader reader) {
+    public CsvIterator(CSVReader reader) {
         this.reader = reader;
     }
 
@@ -48,11 +48,11 @@ public class CSVIterator implements Closeable {
      * each row in the file.
      */
     public static void forEachRow(String file, char delimiter,
-                                  char escapeChar, Procedure<CSVRow> procedure) throws IOException {
-        CSVIterator iterator = null;
+                                  char escapeChar, Procedure<CsvRow> procedure) throws IOException {
+        CsvIterator iterator = null;
         try {
             iterator =
-                new CSVIterator(new CSVReader(new InputStreamReader(new FileInputStream(file), "UTF8"),
+                new CsvIterator(new CSVReader(new InputStreamReader(new FileInputStream(file), "UTF8"),
                                               delimiter, escapeChar));
             iterator.forEachRow(procedure);
         } finally {
@@ -63,11 +63,11 @@ public class CSVIterator implements Closeable {
     /**
      * Applies the procedure for each row in the csv file.
      */
-    public void forEachRow(Procedure<CSVRow> procedure) throws IOException {
+    public void forEachRow(Procedure<CsvRow> procedure) throws IOException {
         String[] row;
         int rowNum = 1;
         while ((row = reader.readNext()) != null) {
-            CSVRow csvRow = new CSVRow(rowNum++, row);
+            CsvRow csvRow = new CsvRow(rowNum++, row);
             if (!procedure.apply(csvRow)) {
                 break;
             }

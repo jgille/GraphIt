@@ -16,16 +16,16 @@
 
 package org.graphit.graph.edge.domain;
 
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.base.Preconditions;
 import org.apache.mahout.math.function.IntProcedure;
 import org.apache.mahout.math.list.IntArrayList;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.edge.util.EdgeIndexComparator;
 import org.graphit.graph.edge.util.UnsortedEdgeIndexComparator;
 import org.graphit.graph.traversal.EdgeDirection;
-import org.springframework.util.Assert;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * An implementation of an edge vector.
@@ -226,7 +226,7 @@ public class EdgeVectorImpl implements EdgeVector {
 
         @Override
         public EdgeId next() {
-            Assert.isTrue(hasNext(), "No more elements in this edge iterator");
+            Preconditions.checkState(hasNext(), "No more elements in this edge iterator");
             EdgeId res = next;
             next = null;
             return res;

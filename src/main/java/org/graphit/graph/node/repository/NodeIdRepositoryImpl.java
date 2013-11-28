@@ -16,17 +16,16 @@
 
 package org.graphit.graph.node.repository;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 import org.apache.mahout.math.map.AbstractObjectIntMap;
 import org.apache.mahout.math.map.OpenObjectIntHashMap;
 import org.graphit.graph.exception.DuplicateKeyException;
 import org.graphit.graph.node.domain.NodeId;
-import org.springframework.util.Assert;
 
-import com.google.common.base.Predicates;
-import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link NodeIdRepository} implementation storing everything in RAM.
@@ -49,7 +48,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized int getNodeIndex(NodeId nodeId) {
-        Assert.notNull(nodeId);
+        Preconditions.checkNotNull(nodeId);
         if (nodeMap.containsKey(nodeId)) {
             return nodeMap.get(nodeId);
         }
@@ -58,7 +57,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized NodeId getNodeId(int nodeIndex) {
-        Assert.isTrue(nodeIndex >= 0, "Illegal node index");
+        Preconditions.checkArgument(nodeIndex >= 0, "Illegal node index");
         if (nodeIndex >= nodes.size()) {
             return null;
         }
@@ -67,7 +66,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized int insert(NodeId nodeId) {
-        Assert.notNull(nodeId);
+        Preconditions.checkNotNull(nodeId);
         int nodeIndex = nodes.size();
         insert(nodeIndex, nodeId);
         return nodeIndex;
@@ -75,8 +74,10 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized void insert(int nodeIndex, NodeId nodeId) {
-        Assert.isTrue(nodeIndex >= 0, "Illegal node index.");
-        Assert.isTrue(!nodeMap.containsKey(nodeId), "Duplicate node id");
+        Preconditions.checkArgument(nodeIndex >= 0, "Illegal node index.");
+        if (nodeMap.containsKey(nodeId)) {
+            throw new DuplicateKeyException(nodeId);
+        }
         for (int i = nodes.size(); i <= nodeIndex; i++) {
             nodes.add(null);
         }
@@ -89,7 +90,7 @@ public class NodeIdRepositoryImpl implements NodeIdRepository {
 
     @Override
     public synchronized NodeId remove(int nodeIndex) {
-        Assert.isTrue(nodeIndex >= 0, "Illegal node index.");
+        Preconditions.checkArgument(nodeIndex >= 0, "Illegal node index.");
         if (nodeIndex >= nodes.size()) {
             return null;
         }

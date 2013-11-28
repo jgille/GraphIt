@@ -30,7 +30,7 @@ import org.graphit.graph.edge.schema.EdgeTypes;
 public class EdgePrimitivesRepositoryImpl extends AbstractEdgePrimitivesRepository {
 
     /**
-     * Contructs a bew repo.
+     * Constructs a bew repo.
      */
     public EdgePrimitivesRepositoryImpl(EdgeTypes edgeTypes) {
         super(edgeTypes);

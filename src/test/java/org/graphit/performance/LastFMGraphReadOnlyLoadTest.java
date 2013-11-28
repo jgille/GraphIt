@@ -16,14 +16,15 @@
 
 package org.graphit.performance;
 
+import org.graphit.graph.service.PropertyGraph;
+import org.graphit.graph.utils.LastFMGraph;
+import org.graphit.io.util.ResourceUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-import org.graphit.graph.service.PropertyGraph;
-import org.graphit.graph.utils.LastFMGraph;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 
 /**
  * @author jon
@@ -65,8 +66,8 @@ public class LastFMGraphReadOnlyLoadTest {
     }
 
     private File getScenario(String fileName) throws IOException {
-        File scearioDir = new ClassPathResource("performance/scenarios").getFile();
-        return new File(scearioDir, fileName);
+        File scenarioDir = ResourceUtils.resourceFile("performance/scenarios");
+        return new File(scenarioDir, fileName);
     }
 
     public static void main(String[] args) throws IOException, InterruptedException,

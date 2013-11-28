@@ -38,12 +38,6 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-/**
- * Junit tests for {@link DeprecatedEdgeVector}.
- *
- * @author jon
- *
- */
 public class EdgeVectorImplTest {
 
     private EdgeIndexComparator mockEdgeComparator;

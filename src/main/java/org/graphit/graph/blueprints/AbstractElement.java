@@ -16,12 +16,11 @@
 
 package org.graphit.graph.blueprints;
 
-import java.util.Set;
-
-import org.graphit.properties.domain.Properties;
-import org.springframework.util.Assert;
-
+import com.google.common.base.Preconditions;
 import com.tinkerpop.blueprints.Element;
+import org.graphit.properties.domain.Properties;
+
+import java.util.Set;
 
 /**
  * Base implementation of a blueprints {@link Element}.
@@ -46,7 +45,7 @@ public abstract class AbstractElement<T> implements Element {
      * 
      */
     protected AbstractElement(T id, Properties properties) {
-        Assert.notNull(id);
+        Preconditions.checkNotNull(id);
         this.id = id;
         this.properties = properties;
     }

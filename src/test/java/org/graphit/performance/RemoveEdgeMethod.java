@@ -16,13 +16,13 @@
 
 package org.graphit.performance;
 
-import java.util.Arrays;
-
+import com.google.common.base.Preconditions;
 import org.graphit.graph.edge.domain.Edge;
 import org.graphit.graph.edge.domain.EdgeId;
 import org.graphit.graph.edge.schema.EdgeType;
 import org.graphit.graph.service.PropertyGraph;
-import org.springframework.util.Assert;
+
+import java.util.Arrays;
 
 /**
  * @author jon
@@ -38,7 +38,7 @@ public class RemoveEdgeMethod extends AbstractGraphMethod<Edge> {
 
     @Override
     public void init(String[] params) {
-        Assert.isTrue(params.length == 2, "Illegal params: " + Arrays.toString(params));
+        Preconditions.checkArgument(params.length == 2, "Illegal params: " + Arrays.toString(params));
         PropertyGraph graph = getGraph();
         int i = 0;
         EdgeType edgeType = graph.getEdgeType(params[i++]);

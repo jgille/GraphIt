@@ -25,7 +25,7 @@ import java.util.List;
  * @author jon
  *
  */
-public class CSVRow {
+public class CsvRow {
 
     private final int rowNum;
     private final List<String> row;
@@ -33,7 +33,7 @@ public class CSVRow {
     /**
      * Creates a new instance.
      */
-    protected CSVRow(int rowNum, String[] row) {
+    protected CsvRow(int rowNum, String[] row) {
         this.rowNum = rowNum;
         this.row = Arrays.asList(row);
     }
