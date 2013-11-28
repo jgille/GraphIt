@@ -1,0 +1,14 @@
+digraph "test" {
+"user:u1" -> "item:i1" [label="_type=bought, _weight=0" color="#FF8E00" fontsize=9]
+"user:u1" -> "item:i2" [label="_type=bought, _weight=0" color="#FF8E00" fontsize=9]
+"user:u2" -> "item:i2" [label="_type=bought, _weight=0" color="#FF8E00" fontsize=9]
+"user:u2" -> "item:i3" [label="_type=bought, _weight=0" color="#FF8E00" fontsize=9]
+"item:i1" -> "item:i3" [label="_type=recommended, _weight=25" color="#00538A" fontsize=9]
+"item:i1" -> "item:i2" [label="_type=recommended, _weight=15" color="#00538A" fontsize=9]
+"item:i2" -> "item:i3" [label="_type=recommended, _weight=20" color="#00538A" fontsize=9]
+"user:u1" [shape="ellipse" label=<{<br align="left"/>  "_type" : "user",<br align="left"/>  "_id" : "u1"<br align="left"/>}<br align="left"/>> fontsize=9];
+"user:u2" [shape="ellipse" label=<{<br align="left"/>  "_type" : "user",<br align="left"/>  "_id" : "u2"<br align="left"/>}<br align="left"/>> fontsize=9];
+"item:i1" [shape="box" label=<{<br align="left"/>  "_type" : "item",<br align="left"/>  "_id" : "i1"<br align="left"/>}<br align="left"/>> fontsize=9];
+"item:i2" [shape="box" label=<{<br align="left"/>  "_type" : "item",<br align="left"/>  "_id" : "i2"<br align="left"/>}<br align="left"/>> fontsize=9];
+"item:i3" [shape="box" label=<{<br align="left"/>  "_type" : "item",<br align="left"/>  "_id" : "i3"<br align="left"/>}<br align="left"/>> fontsize=9];
+}
