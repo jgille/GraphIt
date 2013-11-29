@@ -96,7 +96,7 @@ public abstract class PropertyFilter<C> implements Predicate<Properties> {
         });
     }
 
-    public static <C> Predicate<Properties> in(String key, final Collection<C> target) {
+    static <C> Predicate<Properties> in(String key, final Collection<C> target) {
         return Predicates.and(notNull(key), new PropertyFilter<C>(key) {
             @Override
             protected boolean accepts(C property) {
@@ -105,7 +105,7 @@ public abstract class PropertyFilter<C> implements Predicate<Properties> {
         });
     }
 
-    public static <C> Predicate<Properties> notIn(String key, Collection<C> target) {
+    static <C> Predicate<Properties> notIn(String key, Collection<C> target) {
         return Predicates.not(in(key, target));
     }
 }
