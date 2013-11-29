@@ -17,18 +17,18 @@
 package org.jon.ivmark.graphit.core.graph.traversal;
 
 import com.google.common.base.Predicate;
-import org.jon.ivmark.graphit.core.graph.node.Node;
-import org.jon.ivmark.graphit.core.graph.node.NodeType;
+import org.jon.ivmark.graphit.core.graph.edge.Edge;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.properties.Properties;
 
-public class NodeFilter extends GraphEntityFilter<Node> {
+public class EdgeFilter extends GraphEntityFilter<Edge> {
 
-    public NodeFilter withNodeTypes(NodeType... nodeTypes) {
-        setTypeFilter(new NodeTypeFilter(nodeTypes));
+    public EdgeFilter withEdgeTypes(EdgeType... edgeTypes) {
+        setTypeFilter(new EdgeTypeFilter(edgeTypes));
         return this;
     }
 
-    public NodeFilter filterOnProperties(Predicate<Properties> propertiesFilter) {
+    public EdgeFilter filterOnProperties(Predicate<Properties> propertiesFilter) {
         setPropertiesFilter(propertiesFilter);
         return this;
     }

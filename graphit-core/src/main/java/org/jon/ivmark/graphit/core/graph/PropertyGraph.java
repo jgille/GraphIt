@@ -85,7 +85,7 @@ public interface PropertyGraph {
 
     /**
      * Gets the node type with the given name, throwing an exception if no such
-     * npde type exists.
+     * node type exists.
      */
     NodeType getNodeType(String name);
 
