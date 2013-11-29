@@ -16,7 +16,7 @@
 
 package org.jon.ivmark.graphit.core.graph;
 
-import org.jon.ivmark.graphit.core.graph.edge.EdgeTypeImpl;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeTypes;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
@@ -45,13 +45,13 @@ public class GraphMetadataTest {
     @Test
     public void testAddEdgeTypes() {
         GraphMetadata metadata = new GraphMetadata("foo");
-        metadata.addEdgeType("A").addEdgeType(new EdgeTypeImpl("B")).addEdgeType("C");
+        metadata.addEdgeType("A").addEdgeType(new EdgeType("B")).addEdgeType("C");
         EdgeTypes edgeTypes = metadata.getEdgeTypes();
         assertNotNull(edgeTypes);
         assertEquals(3, edgeTypes.size());
-        assertEquals(new EdgeTypeImpl("A"), edgeTypes.valueOf("A"));
-        assertEquals(new EdgeTypeImpl("B"), edgeTypes.valueOf("B"));
-        assertEquals(new EdgeTypeImpl("C"), edgeTypes.valueOf("C"));
+        assertEquals(new EdgeType("A"), edgeTypes.valueOf("A"));
+        assertEquals(new EdgeType("B"), edgeTypes.valueOf("B"));
+        assertEquals(new EdgeType("C"), edgeTypes.valueOf("C"));
     }
 
     @Test

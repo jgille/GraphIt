@@ -17,8 +17,6 @@
 package org.jon.ivmark.graphit.core.graph.traversal;
 
 import com.google.common.base.Predicate;
-import org.jon.ivmark.graphit.core.graph.edge.Edge;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.entity.GraphEntity;
 import org.jon.ivmark.graphit.core.properties.Properties;
 

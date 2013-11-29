@@ -32,8 +32,8 @@ public class EdgeTypesTest {
     @Test
     public void testValueOfExisting() {
         EdgeTypes edgeTypes = new EdgeTypes();
-        EdgeType aType = new EdgeTypeImpl("A");
-        EdgeType bType = new EdgeTypeImpl("B");
+        EdgeType aType = new EdgeType("A");
+        EdgeType bType = new EdgeType("B");
         edgeTypes.add(aType);
         edgeTypes.add(bType);
         assertEquals(aType, edgeTypes.valueOf("A"));
@@ -56,7 +56,7 @@ public class EdgeTypesTest {
     public void testAddValidEdgeTypes() {
         EdgeTypes edgeTypes = new EdgeTypes();
         edgeTypes.getOrAdd("A");
-        edgeTypes.add(new EdgeTypeImpl("B-A"));
+        edgeTypes.add(new EdgeType("B-A"));
         edgeTypes.add("C_1");
 
         assertEquals(3, edgeTypes.size());
@@ -90,7 +90,7 @@ public class EdgeTypesTest {
 
             boolean exceptionWhenAddingType = false;
             try {
-                edgeTypes.add(new EdgeTypeImpl(invalidName));
+                edgeTypes.add(new EdgeType(invalidName));
             } catch (IllegalArgumentException e) {
                 exceptionWhenAddingType = true;
             }

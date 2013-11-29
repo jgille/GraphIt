@@ -94,7 +94,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testEmptyEdgeVector() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVector edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         assertThat(edgeVector.size(), Matchers.is(0));
         assertThat(edgeVector.isEmpty(), Matchers.is(true));
         assertThat(edgeVector.getRootNode(), Matchers.is(1));
@@ -109,7 +109,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testAddWeightedEdgesDescendingSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         mockDescendingComparator();
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
@@ -134,7 +134,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testAddWeightedEdgesAscendingSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         mockAscendingComparator();
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
@@ -159,7 +159,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testAddWeightedEdgesUndefinedSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
 
@@ -183,7 +183,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testRemoveWeightedEdgeDescendingSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         mockDescendingComparator();
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
@@ -208,7 +208,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testRemoveWeightedEdgeAscendingWeightSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         mockAscendingComparator();
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
@@ -233,7 +233,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testRemoveWeightedEdgeUndefinedSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
 
@@ -257,7 +257,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testReindexWeightedEdgeDescendingSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         mockDescendingComparator();
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
@@ -285,7 +285,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testReindexWeightedEdgeAscendingSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         mockAscendingComparator();
 
         edgeVector.setEdgeComparator(mockEdgeComparator);
@@ -313,7 +313,7 @@ public class EdgeVectorImplTest {
     @Test
     public void testReindexWeightedEdgeUndefinedSort() {
         EdgeType edgeType = TestEdgeTypes.SIMILAR;
-        EdgeVectorImpl edgeVector = new EdgeVectorImpl(1, edgeType);
+        EdgeVector edgeVector = new EdgeVector(1, edgeType);
         edgeVector.setEdgeComparator(mockEdgeComparator);
         when(mockEdgeComparator.isSorted()).thenReturn(false);
 

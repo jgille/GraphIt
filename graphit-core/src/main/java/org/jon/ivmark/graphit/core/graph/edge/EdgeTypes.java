@@ -71,7 +71,7 @@ public final class EdgeTypes implements DynamicEnumerationSet<EdgeType> {
 
     @Override
     public void add(String edgeTypeName) {
-        add(new EdgeTypeImpl(edgeTypeName));
+        add(new EdgeType(edgeTypeName));
     }
 
     @Override
@@ -83,7 +83,7 @@ public final class EdgeTypes implements DynamicEnumerationSet<EdgeType> {
     public EdgeType getOrAdd(String edgeTypeName) {
         EdgeType edgeType = edgeTypes.get(edgeTypeName);
         if (edgeType == null) {
-            edgeType = new EdgeTypeImpl(edgeTypeName);
+            edgeType = new EdgeType(edgeTypeName);
             add(edgeType);
         }
         return edgeType;

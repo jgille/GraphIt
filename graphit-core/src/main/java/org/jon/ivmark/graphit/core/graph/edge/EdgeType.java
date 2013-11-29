@@ -16,26 +16,56 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
+import org.jon.ivmark.graphit.core.graph.entity.GraphEntityType;
 import org.jon.ivmark.graphit.core.properties.DynamicEnumerableElement;
+import org.jon.ivmark.graphit.core.properties.HashMapPropertiesFactory;
 import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
 
 /**
- * Describes an edge type in a graph.
+ * An edge type. Defaults to being unweighted and unsorted.
  *
  * @author jon
  *
  */
-public interface EdgeType extends DynamicEnumerableElement {
+public class EdgeType extends GraphEntityType implements DynamicEnumerableElement {
+
+    private final EdgeSortOrder sortOrder;
+    private final PropertiesFactory propertiesFactory;
 
     /**
-     * Defines how edges of this type are to be kept sorted.
+     * Creates an unsorted edge type using a {@link HashMapPropertiesFactory}.
      */
-    EdgeSortOrder getSortOrder();
+    public EdgeType(String name) {
+        this(name, EdgeSortOrder.UNDEFINED);
+    }
 
     /**
-     * Returns a factory used to create new {@link org.jon.ivmark.graphit.core.properties.Properties} instances for
-     * edges.
+     * Creates an edge type using a {@link HashMapPropertiesFactory}.
      */
-    PropertiesFactory getPropertiesFactory();
+    public EdgeType(String name, EdgeSortOrder sortOrder) {
+        this(name, sortOrder, new HashMapPropertiesFactory());
+    }
+
+    /**
+     * Creates an edge type.
+     */
+    public EdgeType(String name, EdgeSortOrder sortOrder, PropertiesFactory propertiesFactory) {
+        super(name);
+        this.sortOrder = sortOrder;
+        this.propertiesFactory = propertiesFactory;
+    }
+
+    public EdgeSortOrder getSortOrder() {
+        return sortOrder;
+    }
+
+    @Override
+    public String toString() {
+        return "EdgeType [sortOrder=" + sortOrder + ", name()=" + name() + "]";
+    }
+
+    public PropertiesFactory getPropertiesFactory() {
+        return propertiesFactory;
+    }
 
 }

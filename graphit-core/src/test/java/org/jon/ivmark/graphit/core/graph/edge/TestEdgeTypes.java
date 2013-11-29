@@ -18,10 +18,10 @@ package org.jon.ivmark.graphit.core.graph.edge;
 
 public class TestEdgeTypes {
 
-    public static final EdgeType SIMILAR = new EdgeTypeImpl("SIMILAR",
+    public static final EdgeType SIMILAR = new EdgeType("SIMILAR",
                                                             EdgeSortOrder.DESCENDING_WEIGHT);
-    public static final EdgeType BOUGHT = new EdgeTypeImpl("BOUGHT");
-    public static final EdgeType VIEWED = new EdgeTypeImpl("VIEWED");
+    public static final EdgeType BOUGHT = new EdgeType("BOUGHT");
+    public static final EdgeType VIEWED = new EdgeType("VIEWED");
 
     public static EdgeTypes getEdgeTypes() {
         EdgeTypes edgeTypes = new EdgeTypes();

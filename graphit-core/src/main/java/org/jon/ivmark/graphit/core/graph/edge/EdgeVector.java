@@ -16,86 +16,217 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
+import com.google.common.base.Preconditions;
 import org.apache.mahout.math.function.IntProcedure;
+import org.apache.mahout.math.list.IntArrayList;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * A vector of edges originating from a node.
  *
- * All implementations of this class are immutable, and all modifying operations
+ * This class is immutable, and all modifying operations
  * returns a new instance in a copy on write fashion.
  *
  * @author jon
  */
-public interface EdgeVector {
+public class EdgeVector {
+
+    private EdgeIndexComparator edgeComparator;
+
+    private EdgeDirection direction;
+
+    private final int rootNodeId;
+    private final EdgeType edgeType;
+    private final IntArrayList edges;
+
+    private static final IntArrayList EMPTY_LIST = new IntArrayList(0);
+
+    /**
+     * Creates an edge vector with a default initial capacity rooted at
+     * rootNodeId.
+     *
+     * @param rootNodeId
+     *            The root node.
+     * @param edgeType
+     *            The type of edges in this vector.
+     */
+    public EdgeVector(int rootNodeId, EdgeType edgeType) {
+        this(rootNodeId, edgeType, EMPTY_LIST);
+    }
+
+    private EdgeVector(int rootNodeId, EdgeType edgeType, IntArrayList sortedEdges) {
+        this.rootNodeId = rootNodeId;
+        this.edgeType = edgeType;
+        this.edges = sortedEdges;
+        this.direction = EdgeDirection.OUTGOING;
+        this.edgeComparator = new UnsortedEdgeIndexComparator();
+    }
+
+    public void setEdgeComparator(EdgeIndexComparator edgeComparator) {
+        this.edgeComparator = edgeComparator;
+    }
 
     /**
      * Gets the unique id of the root node for the edges in this vector.
      */
-    int getRootNode();
+    public int getRootNode() {
+        return rootNodeId;
+    }
 
-    /**
-     * Gets the edge type for the edges in this vector.
-     */
-    EdgeType getEdgeType();
+    public void forEachEdgeId(IntProcedure procedure) {
+        edges.forEach(procedure);
+    }
 
-    /**
-     * Gets the direction of the edges (incoming/outgoing).
-     */
-    EdgeDirection getEdgeDirection();
+    private static int findIndexForNewEdge(int edgeId, IntArrayList edges,
+                                           EdgeIndexComparator edgeComparator) {
+        if (edges.isEmpty()) {
+            return 0;
+        }
 
-    /**
-     * Adds an edge to this vector.
-     *
-     * @param edgeId
-     *            The unique id for the new edge.
-     */
-    EdgeVector add(int edgeId);
+        if (!edgeComparator.isSorted()) {
+            return edges.size();
+        }
 
-    /**
-     * Removes an edge.
-     *
-     * @param edgeId
-     *            The unique id for the edge that should be removed.
-     */
-    EdgeVector remove(int edgeId);
+        int low = 0;
+        int high = edges.size() - 1;
+        int mid = 0;
 
-    /**
-     * Reindex an edge in this vector.
-     *
-     * @param edgeId
-     *            The unique id for the edge that should be removed.
-     */
-    EdgeVector reindex(int edgeId);
+        while (low <= high) {
+            mid = (low + high) / 2;
+            int midEdgeId = edges.get(mid);
+            int comparedToNewEdge = edgeComparator.compare(midEdgeId, edgeId);
+            if (comparedToNewEdge < 0) {
+                low = mid + 1;
+            } else if (comparedToNewEdge > 0) {
+                high = mid - 1;
+            } else {
+                return mid + 1;
+            }
+        }
+        int midEdgeId = edges.get(mid);
+        int comparedToNewEdge = edgeComparator.compare(midEdgeId, edgeId);
+        if (comparedToNewEdge <= 0) {
+            return mid + 1;
+        }
+        return mid;
+    }
 
-    /**
-     * Applies the procedure for each edge id in this vector. Stops once a
-     * procedure call returns false.
-     *
-     * @param procedure
-     *            The procedure to apply for each edge id.
-     */
-    void forEachEdgeId(IntProcedure procedure);
+    public EdgeVector add(int edgeId) {
+        int[] newElements = new int[edges.size() + 1];
+        int index = findIndexForNewEdge(edgeId, edges, edgeComparator);
+        System.arraycopy(edges.elements(), 0, newElements, 0, index);
+        newElements[index] = edgeId;
+        System.arraycopy(edges.elements(), index, newElements, index + 1,
+                         newElements.length - index - 1);
 
-    /**
-     * Gets all edges as a list.
-     */
-    List<Integer> asList();
+        IntArrayList newEdges = new IntArrayList(newElements);
+        EdgeVector newEdgeVector = new EdgeVector(rootNodeId, edgeType, newEdges);
+        newEdgeVector.setEdgeComparator(edgeComparator);
+        newEdgeVector.setEdgeDirection(direction);
+        return newEdgeVector;
+    }
 
-    /**
-     * Gets the number of edges.
-     */
-    int size();
+    public EdgeVector remove(final int edgeId) {
+        int index = edges.lastIndexOf(edgeId);
+        if (index < 0) {
+            return this;
+        }
+        int[] newElements = new int[edges.size() - 1];
+        System.arraycopy(edges.elements(), 0, newElements, 0, index);
+        System.arraycopy(edges.elements(), index + 1, newElements, index,
+                         edges.size() - index - 1);
 
-    /**
-     * Returns true if this vector contains no edges, false otherwise.
-     */
-    boolean isEmpty();
+        IntArrayList newEdges = new IntArrayList(newElements);
+        EdgeVector newEdgeVector = new EdgeVector(rootNodeId, edgeType, newEdges);
+        newEdgeVector.setEdgeComparator(edgeComparator);
+        newEdgeVector.setEdgeDirection(direction);
+        return newEdgeVector;
+    }
 
-    /**
-     * Returns the ids of the edges in this vector.
-     */
-    Iterable<EdgeId> iterable();
+    public EdgeVector reindex(int edgeId) {
+        if (!edgeComparator.isSorted()) {
+            return this;
+        }
+        // Removing and then re-adding will keep things sorted.
+        // TODO: This could be made more efficient.
+        return remove(edgeId).add(edgeId);
+    }
+
+    public EdgeType getEdgeType() {
+        return edgeType;
+    }
+
+    public int size() {
+        return edges.size();
+    }
+
+    public boolean isEmpty() {
+        return edges.isEmpty();
+    }
+
+    public void setEdgeDirection(EdgeDirection direction) {
+        this.direction = direction;
+    }
+
+    public EdgeDirection getEdgeDirection() {
+        return direction;
+    }
+
+    public List<Integer> asList() {
+        return edges.toList();
+    }
+
+    public Iterable<EdgeId> iterable() {
+        return new Iterable<EdgeId>() {
+
+            @Override
+            public Iterator<EdgeId> iterator() {
+                return new EdgeIdIterator(edgeType, edges);
+            }
+        };
+    }
+
+    @Override
+    public String toString() {
+        return "EdgeVector [edgeComparator=" + edgeComparator + ", direction=" + direction
+            + ", rootNodeId=" + rootNodeId + ", edgeType=" + edgeType + ", edges=" + edges + "]";
+    }
+
+    private static final class EdgeIdIterator implements Iterator<EdgeId> {
+
+        private final EdgeType edgeType;
+        private final IntArrayList edgeIds;
+
+        private int index = 0;
+        private EdgeId next = null;
+
+        protected EdgeIdIterator(EdgeType edgeType, IntArrayList edgeIds) {
+            this.edgeType = edgeType;
+            this.edgeIds = edgeIds;
+        }
+
+        @Override
+        public boolean hasNext() {
+            while (next == null && index < edgeIds.size()) {
+                next = new EdgeId(edgeType, edgeIds.get(index++));
+            }
+            return next != null;
+        }
+
+        @Override
+        public EdgeId next() {
+            Preconditions.checkState(hasNext(), "No more elements in this edge iterator");
+            EdgeId res = next;
+            next = null;
+            return res;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove is not supported");
+        }
+    }
 
 }

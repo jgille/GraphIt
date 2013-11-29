@@ -284,7 +284,7 @@ public class PropertyGraphImpl implements PropertyGraph {
         int index = nodeRepo.insert(id);
         Properties properties =
             new WriteThroughProperties<NodeId>(id, nodePropertiesRepo);
-        return new NodeImpl(index, id, properties);
+        return new Node(index, id, properties);
     }
 
     @Override
@@ -293,7 +293,7 @@ public class PropertyGraphImpl implements PropertyGraph {
         nodeRepo.insert(index, nodeId);
         Properties properties =
             new WriteThroughProperties<NodeId>(id, nodePropertiesRepo);
-        return new NodeImpl(index, id, properties);
+        return new Node(index, id, properties);
     }
 
     @Override
@@ -302,7 +302,7 @@ public class PropertyGraphImpl implements PropertyGraph {
         if (index < 0) {
             return null;
         }
-        return new NodeImpl(index, nodeId, new WriteThroughProperties<NodeId>(nodeId,
+        return new Node(index, nodeId, new WriteThroughProperties<NodeId>(nodeId,
                                                                               nodePropertiesRepo));
     }
 
@@ -312,7 +312,7 @@ public class PropertyGraphImpl implements PropertyGraph {
         if (nodeId == null) {
             return null;
         }
-        return new NodeImpl(index, nodeId, new WriteThroughProperties<NodeId>(nodeId,
+        return new Node(index, nodeId, new WriteThroughProperties<NodeId>(nodeId,
                                                                               nodePropertiesRepo));
     }
 
@@ -325,7 +325,7 @@ public class PropertyGraphImpl implements PropertyGraph {
         nodeRepo.remove(index);
         Properties properties;
         properties = nodePropertiesRepo.removeProperties(nodeId);
-        NodeImpl node = new NodeImpl(index, nodeId, properties);
+        Node node = new Node(index, nodeId, properties);
         return node.immutableNode();
     }
 
@@ -340,7 +340,7 @@ public class PropertyGraphImpl implements PropertyGraph {
         if (startNode == null || endNode == null) {
             return null;
         }
-        EdgeImpl edge = new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType(),
+        Edge edge = new Edge(edgePrimitive.getIndex(), edgePrimitive.getEdgeType(),
                                      new WriteThroughProperties<EdgeId>(edgeId,
                                                                         edgePropertiesRepo));
 
@@ -389,8 +389,8 @@ public class PropertyGraphImpl implements PropertyGraph {
 
         EdgeId edgeId =
             edgeRepo.addEdge(startNode.getIndex(), endNode.getIndex(), edgeType, weight);
-        EdgeImpl edge =
-            new EdgeImpl(edgeId.getIndex(), edgeType,
+        Edge edge =
+            new Edge(edgeId.getIndex(), edgeType,
                          new WriteThroughProperties<EdgeId>(edgeId, edgePropertiesRepo));
 
         edge.setStartNode(startNode)
@@ -406,8 +406,8 @@ public class PropertyGraphImpl implements PropertyGraph {
             return null;
         }
         Properties properties = edgePropertiesRepo.removeProperties(edgeId);
-        EdgeImpl edge =
-            new EdgeImpl(edgePrimitive.getIndex(), edgePrimitive.getEdgeType(), properties);
+        Edge edge =
+            new Edge(edgePrimitive.getIndex(), edgePrimitive.getEdgeType(), properties);
         return edge;
     }
 
@@ -524,14 +524,14 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public EdgeType createEdgeType(String name) {
-        EdgeType edgeType = new EdgeTypeImpl(name);
+        EdgeType edgeType = new EdgeType(name);
         metadata.addEdgeType(edgeType);
         return edgeType;
     }
 
     @Override
     public EdgeType createEdgeType(String name, EdgeSortOrder sortOrder) {
-        EdgeType edgeType = new EdgeTypeImpl(name, sortOrder);
+        EdgeType edgeType = new EdgeType(name, sortOrder);
         metadata.addEdgeType(edgeType);
         return edgeType;
     }

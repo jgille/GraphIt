@@ -28,23 +28,23 @@ public class EdgeTypeImplTest {
 
     @Test
     public void testGetDefaultEdgeIndexComparator() {
-        EdgeTypeImpl edgeType = new EdgeTypeImpl("A");
+        EdgeType edgeType = new EdgeType("A");
         assertTrue(edgeType.getSortOrder().getEdgeComparator(null).getClass()
             == UnsortedEdgeIndexComparator.class);
     }
 
     @Test
     public void testName() {
-        EdgeTypeImpl edgeType = new EdgeTypeImpl("A");
+        EdgeType edgeType = new EdgeType("A");
         assertEquals("A", edgeType.name());
     }
 
     @Test
     public void testEquals() {
-        EdgeTypeImpl t1 = new EdgeTypeImpl("A");
-        EdgeTypeImpl t2 = new EdgeTypeImpl("A");
-        EdgeTypeImpl t3 = new EdgeTypeImpl("B");
-        EdgeTypeImpl t4 = new EdgeTypeImpl(null);
+        EdgeType t1 = new EdgeType("A");
+        EdgeType t2 = new EdgeType("A");
+        EdgeType t3 = new EdgeType("B");
+        EdgeType t4 = new EdgeType(null);
 
         assertEquals(t1, t1);
         assertEquals(t1, t2);
@@ -58,10 +58,10 @@ public class EdgeTypeImplTest {
 
     @Test
     public void testHashCode() {
-        EdgeTypeImpl t1 = new EdgeTypeImpl("A");
-        EdgeTypeImpl t2 = new EdgeTypeImpl("A");
-        EdgeTypeImpl t3 = new EdgeTypeImpl("B");
-        EdgeTypeImpl t4 = new EdgeTypeImpl(null);
+        EdgeType t1 = new EdgeType("A");
+        EdgeType t2 = new EdgeType("A");
+        EdgeType t3 = new EdgeType("B");
+        EdgeType t4 = new EdgeType(null);
 
         assertEquals(t1.hashCode(), t1.hashCode());
         assertEquals(t1.hashCode(), t2.hashCode());

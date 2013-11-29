@@ -18,7 +18,6 @@ package org.jon.ivmark.graphit.examples;
 
 import org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeTypeImpl;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
 
@@ -32,8 +31,8 @@ public class ExampleConstants {
 
     public static final NodeType USER = new NodeTypeImpl("User");
     public static final NodeType TRACK = new NodeTypeImpl("Track");
-    public static final EdgeType BOUGHT = new EdgeTypeImpl("Bought");
-    public static final EdgeType LISTENED_TO = new EdgeTypeImpl("ListenedTo");
-    public static final EdgeType SIMILAR = new EdgeTypeImpl("Similar", EdgeSortOrder.DESCENDING_WEIGHT);
+    public static final EdgeType BOUGHT = new EdgeType("Bought");
+    public static final EdgeType LISTENED_TO = new EdgeType("ListenedTo");
+    public static final EdgeType SIMILAR = new EdgeType("Similar", EdgeSortOrder.DESCENDING_WEIGHT);
 
 }

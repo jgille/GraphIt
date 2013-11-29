@@ -16,42 +16,124 @@
 
 package org.jon.ivmark.graphit.core.graph.edge;
 
+import com.google.common.base.Preconditions;
 import org.jon.ivmark.graphit.core.graph.entity.GraphEntity;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.properties.Properties;
+import org.jon.ivmark.graphit.core.properties.PropertiesProxy;
 
 /**
  * An edge in a graph.
- * 
+ *
+ * Note: This class is not thread safe.
+ *
  * @author jon
- * 
  */
-public interface Edge extends GraphEntity<EdgeType> {
+public class Edge extends PropertiesProxy implements GraphEntity<EdgeType> {
+
+    private final EdgeId edgeId;
+    private Node startNode;
+    private Node endNode;
+    private float weight;
 
     /**
-     * Gets the id for this edge.
+     * Creates an edge.
+     *
+     * @param index
+     *            The edge index.
+     * @param edgeType
+     *            The edge type.
+     * @param properties
+     *            The edge properties.
      */
-    EdgeId getEdgeId();
+    public Edge(int index, EdgeType edgeType, Properties properties) {
+        super(properties, true);
+        this.edgeId = new EdgeId(edgeType, index);
+    }
+
+    public EdgeType getType() {
+        return edgeId.getEdgeType();
+    }
+
+    public int getIndex() {
+        return edgeId.getIndex();
+    }
+
+    public EdgeId getEdgeId() {
+        return edgeId;
+    }
+
+    public Node getStartNode() {
+        return startNode;
+    }
+
+    public Node getEndNode() {
+        return endNode;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
 
     /**
-     * Gets the start node.
+     * Sets the edge start node.
      */
-    Node getStartNode();
+    public Edge setStartNode(Node startNode) {
+        Preconditions.checkNotNull(startNode, "Null start node");
+        this.startNode = startNode;
+        return this;
+    }
 
     /**
-     * Gets the end node.
+     * Sets the edge end node.
      */
-    Node getEndNode();
+    public Edge setEndNode(Node endNode) {
+        Preconditions.checkNotNull(endNode, "Null end node");
+        this.endNode = endNode;
+        return this;
+    }
 
     /**
-     * Gets the opposite node from the provided node. Throws an exception if the
-     * provided node is neither start or end node of this edge.
+     * Sets the edge weight.
      */
-    Node getOppositeNode(NodeId nodeId);
+    public Edge setWeight(float weight) {
+        this.weight = weight;
+        return this;
+    }
 
-    /**
-     * Gets the edge weight.
-     */
-    float getWeight();
+    @Override
+    public int hashCode() {
+        return edgeId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+        Edge other = (Edge) obj;
+        return edgeId.equals(other.edgeId);
+    }
+
+    @Override
+    public String toString() {
+        return "Edge [edgeId=" + edgeId + ", startNode=" + startNode + ", endNode=" + endNode
+            + ", weight=" + weight + ", properties=" + asPropertyMap() + "]";
+    }
+
+    public Node getOppositeNode(NodeId nodeId) {
+        if (nodeId.equals(startNode.getNodeId())) {
+            return endNode;
+        }
+        if (nodeId.equals(endNode.getNodeId())) {
+            return startNode;
+        }
+        throw new IllegalArgumentException(nodeId + " is not a start or end node for this edge: "
+            + startNode.getNodeId() + " -> " + endNode.getNodeId());
+    }
 
 }

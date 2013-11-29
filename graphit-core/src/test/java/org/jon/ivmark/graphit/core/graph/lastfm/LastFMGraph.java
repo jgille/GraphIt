@@ -23,7 +23,6 @@ import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
 import org.jon.ivmark.graphit.core.graph.edge.Edge;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeTypeImpl;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
@@ -66,11 +65,11 @@ public final class LastFMGraph {
                          new EnumMapPropertiesFactory<ArtistProperty>(ArtistProperty.class));
     public static final NodeType USER = new NodeTypeImpl("User");
 
-    public static final EdgeType FRIENDS_WITH = new EdgeTypeImpl("FriendsWith");
+    public static final EdgeType FRIENDS_WITH = new EdgeType("FriendsWith");
     public static final EdgeType LISTENED_TO =
-        new EdgeTypeImpl("ListenedTo", EdgeSortOrder.DESCENDING_WEIGHT);
+        new EdgeType("ListenedTo", EdgeSortOrder.DESCENDING_WEIGHT);
     public static final EdgeType TAGGED =
-        new EdgeTypeImpl("Tagged", EdgeSortOrder.UNDEFINED,
+        new EdgeType("Tagged", EdgeSortOrder.UNDEFINED,
                          new EnumMapPropertiesFactory<TaggedProperty>(TaggedProperty.class));
 
     public static final GraphMetadata METADATA =

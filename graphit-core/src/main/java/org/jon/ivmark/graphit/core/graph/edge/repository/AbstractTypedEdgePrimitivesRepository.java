@@ -97,7 +97,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
         try {
             EdgeVector outgoingEdges = findOutgoingEdges(startNodeId);
             if (outgoingEdges == null) {
-                EdgeVectorImpl edgeVector = new EdgeVectorImpl(startNodeId, edgeType);
+                EdgeVector edgeVector = new EdgeVector(startNodeId, edgeType);
                 edgeVector.setEdgeDirection(EdgeDirection.OUTGOING);
                 edgeVector.setEdgeComparator(edgeComparator);
                 outgoingEdges = edgeVector;
@@ -133,7 +133,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
 
             EdgeVector incomingEdges = findIncomingEdges(endNodeId);
             if (incomingEdges == null) {
-                EdgeVectorImpl edgeVector = new EdgeVectorImpl(endNodeId, edgeType);
+                EdgeVector edgeVector = new EdgeVector(endNodeId, edgeType);
                 edgeVector.setEdgeDirection(EdgeDirection.INCOMING);
                 edgeVector.setEdgeComparator(edgeComparator);
                 incomingEdges = edgeVector;
@@ -225,7 +225,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
     public EdgeVector getOutgoingEdges(int startNodeIndex) {
         EdgeVector edges = findOutgoingEdges(startNodeIndex);
         if (edges == null) {
-            edges = new EdgeVectorImpl(startNodeIndex, edgeType);
+            edges = new EdgeVector(startNodeIndex, edgeType);
         }
         return edges;
     }
@@ -242,8 +242,8 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
     public EdgeVector getIncomingEdges(int endNodeIndex) {
         EdgeVector edges = findIncomingEdges(endNodeIndex);
         if (edges == null) {
-            edges = new EdgeVectorImpl(endNodeIndex, edgeType);
-            ((EdgeVectorImpl) edges).setEdgeDirection(EdgeDirection.INCOMING);
+            edges = new EdgeVector(endNodeIndex, edgeType);
+            ((EdgeVector) edges).setEdgeDirection(EdgeDirection.INCOMING);
         }
         return edges;
     }
