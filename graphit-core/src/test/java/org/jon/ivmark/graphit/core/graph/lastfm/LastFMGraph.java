@@ -28,7 +28,7 @@ import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
-import org.jon.ivmark.graphit.core.graph.traversal.Procedure;
+import org.jon.ivmark.graphit.core.Procedure;
 import org.jon.ivmark.graphit.core.io.util.CsvIterator;
 import org.jon.ivmark.graphit.core.io.util.CsvRow;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;

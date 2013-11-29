@@ -38,36 +38,44 @@ import static org.jon.ivmark.graphit.examples.ExampleConstants.*;
  * A class that generates the example graph.
  *
  * @author jon
- *
  */
 public class ExampleGraphBuilder {
 
-    private PropertyGraph createGraph() {
+    static final String JOHN = "john.doe";
+    static final String SAM = "sam98";
+    static final String MARY = "mary_j";
+    static final String KARMIN = UUID.randomUUID().toString();
+    static final String THE_STREETS = UUID.randomUUID().toString();
+    static final String RIHANNA = UUID.randomUUID().toString();
+    static final String CHER = UUID.randomUUID().toString();
+    static final String SKEPTA = UUID.randomUUID().toString();
+
+    public static PropertyGraph createGraph() {
         GraphMetadata metadata = new GraphMetadata("Music store");
         metadata.addNodeType(USER)
-            .addNodeType(TRACK)
-            .addEdgeType(BOUGHT)
-            .addEdgeType(LISTENED_TO)
-            .addEdgeType(SIMILAR);
+                .addNodeType(TRACK)
+                .addEdgeType(BOUGHT)
+                .addEdgeType(LISTENED_TO)
+                .addEdgeType(SIMILAR);
 
         PropertyGraph graph = new PropertyGraphImpl(metadata);
 
-        NodeId john = createUser(graph, "john.doe", "John Doe");
-        NodeId sam = createUser(graph, "sam98", "Samantha Fox");
-        NodeId mary = createUser(graph, "mary_j", "Mary J. Blige");
+        NodeId john = createUser(graph, JOHN, "John Doe");
+        NodeId sam = createUser(graph, SAM, "Samantha Fox");
+        NodeId mary = createUser(graph, MARY, "Mary J. Blige");
 
-        NodeId karmin = createTrack(graph, UUID.randomUUID().toString(),
-                                    Arrays.asList("Karmin"), "Crash you party", 0.99);
+        NodeId karmin = createTrack(graph, KARMIN,
+                Arrays.asList("Karmin"), "Crash you party", 0.99);
         NodeId theStreets =
-            createTrack(graph, UUID.randomUUID().toString(),
+                createTrack(graph, THE_STREETS,
                         Arrays.asList("The Streets"), "Blinded by the lights (Nero remix)", 1d);
         NodeId rihanna =
-            createTrack(graph, UUID.randomUUID().toString(),
+                createTrack(graph, RIHANNA,
                         Arrays.asList("Rihanna", "Calvin Harris"), "We found love", 2.2);
-        NodeId cher = createTrack(graph, UUID.randomUUID().toString(),
-                                  Arrays.asList("Cher", "Mike Posner"), "With Ur Love", 1.9);
-        NodeId skepta = createTrack(graph, UUID.randomUUID().toString(),
-                                    Arrays.asList("Skepta"), "Hold On", 1.25);
+        NodeId cher = createTrack(graph, CHER,
+                Arrays.asList("Cher", "Mike Posner"), "With Ur Love", 1.9);
+        NodeId skepta = createTrack(graph, SKEPTA,
+                Arrays.asList("Skepta"), "Hold On", 1.25);
 
         graph.addEdge(john, karmin, BOUGHT);
         graph.addEdge(john, theStreets, BOUGHT);
@@ -95,7 +103,7 @@ public class ExampleGraphBuilder {
         return graph;
     }
 
-    private NodeId createUser(PropertyGraph graph, String userId, String userName) {
+    private static NodeId createUser(PropertyGraph graph, String userId, String userName) {
         Node user = graph.addNode(new NodeId(USER, userId));
         Properties properties = new HashMapProperties(1);
         properties.setProperty("Name", userName);
@@ -103,8 +111,8 @@ public class ExampleGraphBuilder {
         return user.getNodeId();
     }
 
-    private NodeId createTrack(PropertyGraph graph, String trackId,
-                               List<String> artists, String title, double price) {
+    private static NodeId createTrack(PropertyGraph graph, String trackId,
+                                      List<String> artists, String title, double price) {
         Node track = graph.addNode(new NodeId(TRACK, trackId));
         Properties properties = new HashMapProperties(3);
         properties.setProperty("Artists", artists);
@@ -121,7 +129,7 @@ public class ExampleGraphBuilder {
      * such an argument is present.
      */
     public static void main(String[] args) throws IOException {
-        PropertyGraph graph = new ExampleGraphBuilder().createGraph();
+        PropertyGraph graph = ExampleGraphBuilder.createGraph();
         if (args.length > 0) {
             PropertyGraphJsonUtils.exportJson(graph, new File(args[0]), true, true);
         }

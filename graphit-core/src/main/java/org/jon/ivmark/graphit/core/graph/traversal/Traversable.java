@@ -18,6 +18,7 @@ package org.jon.ivmark.graphit.core.graph.traversal;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import org.jon.ivmark.graphit.core.Procedure;
 
 import java.util.Collection;
 import java.util.Comparator;

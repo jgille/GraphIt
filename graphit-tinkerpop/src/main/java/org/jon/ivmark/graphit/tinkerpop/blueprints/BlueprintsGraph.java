@@ -322,6 +322,9 @@ public class BlueprintsGraph implements Graph {
 
         @Override
         public Edge apply(org.jon.ivmark.graphit.core.graph.edge.domain.Edge edge) {
+            if (edge == null) {
+                return null;
+            }
             Node startNode = edge.getStartNode();
             Vertex startVertex = graph.transformNode(startNode);
             Node endNode = edge.getEndNode();
@@ -341,6 +344,9 @@ public class BlueprintsGraph implements Graph {
 
         @Override
         public Vertex apply(Node node) {
+            if (node == null) {
+                return null;
+            }
             return graph.transformNode(node);
         }
 
@@ -358,7 +364,7 @@ public class BlueprintsGraph implements Graph {
 
         @Override
         public boolean apply(Element element) {
-            return value.equals(element.getProperty(key));
+            return element != null && value.equals(element.getProperty(key));
         }
     }
 }

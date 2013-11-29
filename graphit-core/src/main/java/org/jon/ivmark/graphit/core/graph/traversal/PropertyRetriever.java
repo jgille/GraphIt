@@ -16,23 +16,19 @@
 
 package org.jon.ivmark.graphit.core.graph.traversal;
 
-/**
- * A generically typed procedure.
- * 
- * @author jon
- * 
- * @param <T>
- *            The generic type of the objects this procedure may be applied for,
- */
-public interface Procedure<T> {
+import com.google.common.base.Function;
+import org.jon.ivmark.graphit.core.properties.Properties;
 
-    /**
-     * Applies the procedure.
-     * 
-     * Returns a flag that among other things can be used to decide whether or
-     * not to continue a forEach-loop or not.
-     * 
-     */
-    boolean apply(T element);
+public class PropertyRetriever<P extends Properties, E> implements Function<P, E> {
+    private final String key;
 
+    public PropertyRetriever(String key) {
+        this.key = key;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public E apply(P properties) {
+        return (E) properties.getProperty(key);
+    }
 }

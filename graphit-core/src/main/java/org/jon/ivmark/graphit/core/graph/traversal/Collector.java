@@ -17,13 +17,14 @@
 package org.jon.ivmark.graphit.core.graph.traversal;
 
 import com.google.common.base.Predicate;
+import org.jon.ivmark.graphit.core.Procedure;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * A {@link Procedure} that collects processed elements in a list.
+ * A {@link org.jon.ivmark.graphit.core.Procedure} that collects processed elements in a list.
  * 
  * @author jon
  * 

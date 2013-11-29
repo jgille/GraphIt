@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  * @author jon
  * 
  */
-public class CollectorProcedureTest {
+public class Collector  Test {
 
     @Test
     public void testWithoutPredicate() {

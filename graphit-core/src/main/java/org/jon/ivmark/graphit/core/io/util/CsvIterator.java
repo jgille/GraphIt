@@ -18,7 +18,7 @@ package org.jon.ivmark.graphit.core.io.util;
 
 import au.com.bytecode.opencsv.CSVReader;
 import org.apache.commons.io.IOUtils;
-import org.jon.ivmark.graphit.core.graph.traversal.Procedure;
+import org.jon.ivmark.graphit.core.Procedure;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
