@@ -27,9 +27,9 @@ import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePrimitivesRepositor
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePropertiesRepository;
 import org.jon.ivmark.graphit.core.graph.exception.GraphException;
 import org.jon.ivmark.graphit.core.graph.node.*;
+import org.jon.ivmark.graphit.core.graph.node.repository.ConcurrentNodeIdRepository;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodeIdRepository;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodePropertiesRepository;
-import org.jon.ivmark.graphit.core.graph.node.repository.ShardedNodeIdRepository;
 import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
 import org.jon.ivmark.graphit.core.graph.traversal.TraversableImpl;
 import org.jon.ivmark.graphit.core.properties.Properties;
@@ -83,7 +83,7 @@ public class PropertyGraphImpl implements PropertyGraph {
      */
     public PropertyGraphImpl(GraphMetadata metadata) {
         this.metadata = metadata;
-        this.nodeRepo = new ShardedNodeIdRepository();
+        this.nodeRepo = new ConcurrentNodeIdRepository();
         this.edgeRepo = new EdgePrimitivesRepositoryImpl(metadata.getEdgeTypes());
         this.nodePropertiesRepo = new NodePropertiesRepository(DEFAULT_NODE_CAPACITY);
         this.edgePropertiesRepo = new EdgePropertiesRepository(DEFAULT_EDGE_CAPACITY);

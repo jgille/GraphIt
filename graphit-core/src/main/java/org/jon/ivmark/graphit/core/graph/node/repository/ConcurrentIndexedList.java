@@ -25,46 +25,46 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A {@link MappedList} that allows higher concurrency by using multiple backing
- * {@link MappedList}s. Throughput in a multithreaded environment should be
- * higher than for a {@link MappedListImpl} for all methods but
+ * A {@link IndexedList} that allows higher concurrency by using multiple backing
+ * {@link IndexedList}s. Throughput in a multithreaded environment should be
+ * higher than for a {@link IndexedListImpl} for all methods but
  * {@link #indexOf(Object)}.
  *
  * @author jon
  *
  */
-public class ShardedMappedList<E> implements MappedList<E> {
+public class ConcurrentIndexedList<E> implements IndexedList<E> {
 
     private final int concurrencyLevel;
-    private final List<MappedList<E>> shards;
+    private final List<IndexedList<E>> segments;
     private final AtomicInteger nextIndex = new AtomicInteger(-1);
 
     /**
      * Creates a new list split into <code>concurrencyLevel</code> number of
-     * shards.
+     * segments
      */
-    public ShardedMappedList(int concurrencyLevel) {
+    public ConcurrentIndexedList(int concurrencyLevel) {
         this.concurrencyLevel = concurrencyLevel;
-        this.shards = new ArrayList<MappedList<E>>(concurrencyLevel);
+        this.segments = new ArrayList<IndexedList<E>>(concurrencyLevel);
         for (int i = 0; i < concurrencyLevel; i++) {
-            shards.add(new MappedListImpl<E>());
+            segments.add(new IndexedListImpl<E>());
         }
     }
 
-    private int getShardIndex(int index) {
+    private int getSegmentIndex(int index) {
         return Math.abs(index % concurrencyLevel);
     }
 
-    private int getIndexInShard(int index) {
+    private int getIndexInSegment(int index) {
         return index / concurrencyLevel;
     }
 
     @Override
     public E get(int index) {
-        int shardIndex = getShardIndex(index);
-        int indexInShard = getIndexInShard(index);
-        MappedList<E> shard = shards.get(shardIndex);
-        return shard.get(indexInShard);
+        int segmentIndex = getSegmentIndex(index);
+        int indexInSegment = getIndexInSegment(index);
+        IndexedList<E> segment = segments.get(segmentIndex);
+        return segment.get(indexInSegment);
     }
 
     @Override
@@ -85,29 +85,29 @@ public class ShardedMappedList<E> implements MappedList<E> {
     @Override
     public void set(int index, E element) {
         Preconditions.checkArgument(index >= 0);
-        int shardIndex = getShardIndex(index);
-        int indexInShard = getIndexInShard(index);
-        MappedList<E> shard = shards.get(shardIndex);
-        shard.set(indexInShard, element);
+        int segmentIndex = getSegmentIndex(index);
+        int indexInSegment = getIndexInSegment(index);
+        IndexedList<E> segment = segments.get(segmentIndex);
+        segment.set(indexInSegment, element);
     }
 
     @Override
     public E remove(int index) {
-        int shardIndex = getShardIndex(index);
-        int indexInShard = getIndexInShard(index);
-        MappedList<E> shard = shards.get(shardIndex);
-        return shard.remove(indexInShard);
+        int segmentIndex = getSegmentIndex(index);
+        int indexInSegment = getIndexInSegment(index);
+        IndexedList<E> segment = segments.get(segmentIndex);
+        return segment.remove(indexInSegment);
     }
 
     @Override
     public int indexOf(E element) {
-        int shardIndex = 0;
-        for (MappedList<E> shard : shards) {
-            int index = shard.indexOf(element);
+        int segmentIndex = 0;
+        for (IndexedList<E> segment : segments) {
+            int index = segment.indexOf(element);
             if (index >= 0) {
-                return index * concurrencyLevel + shardIndex;
+                return index * concurrencyLevel + segmentIndex;
             }
-            shardIndex++;
+            segmentIndex++;
         }
         return -1;
     }
@@ -115,8 +115,8 @@ public class ShardedMappedList<E> implements MappedList<E> {
     @Override
     public Iterable<E> iterable() {
         List<Iterable<E>> iterables = new ArrayList<Iterable<E>>(concurrencyLevel);
-        for (MappedList<E> shard : shards) {
-            iterables.add(shard.iterable());
+        for (IndexedList<E> segment : segments) {
+            iterables.add(segment.iterable());
         }
         return Iterables.concat(iterables);
     }

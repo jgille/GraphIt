@@ -33,35 +33,35 @@ import java.util.List;
  * @author jon
  *
  */
-public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
+public class ConcurrentEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 
     private final EdgeType edgeType;
-    private final List<EdgePrimitivesBuffer> shards;
+    private final List<EdgePrimitivesBuffer> segments;
 
     /**
      * Creates a new buffer.
      *
      * @param edgeType
      *            The type of the edges in this buffer.
-     * @param nShards
-     *            The number of shards to use (typically related to the number
+     * @param concurrencyLevel
+     *            The number of segments to use (typically related to the number
      *            of processors) .
      * @param inititalCapacity
      *            The initial capaicity, i.e. an estimation of how many edges
      *            this buffer will contain.
      */
-    public ShardedEdgePrimitivesBuffer(EdgeType edgeType, int nShards, int inititalCapacity) {
+    public ConcurrentEdgePrimitivesBuffer(EdgeType edgeType, int concurrencyLevel, int inititalCapacity) {
         this.edgeType = edgeType;
-        this.shards = new ArrayList<EdgePrimitivesBuffer>(nShards);
-        for (int i = 0; i < nShards; i++) {
-            shards.add(new EdgePrimitivesBufferImpl(edgeType, inititalCapacity / nShards));
+        this.segments = new ArrayList<EdgePrimitivesBuffer>(concurrencyLevel);
+        for (int i = 0; i < concurrencyLevel; i++) {
+            segments.add(new EdgePrimitivesBufferImpl(edgeType, inititalCapacity / concurrencyLevel));
         }
     }
 
     @Override
     public int size() {
         int size = 0;
-        for (EdgePrimitivesBuffer buffer : shards) {
+        for (EdgePrimitivesBuffer buffer : segments) {
             size += buffer.size();
         }
         return size;
@@ -69,13 +69,13 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 
     @Override
     public void upsert(int index, int startNode, int endNode, float weight) {
-        EdgePrimitivesBuffer buffer = getShard(index);
+        EdgePrimitivesBuffer buffer = getSegment(index);
         buffer.upsert(mapIndex(index), startNode, endNode, weight);
     }
 
     @Override
     public EdgePrimitive get(int index) {
-        EdgePrimitivesBuffer buffer = getShard(index);
+        EdgePrimitivesBuffer buffer = getSegment(index);
         EdgePrimitive edge = buffer.get(mapIndex(index));
         if (edge == null) {
             return null;
@@ -86,7 +86,7 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 
     @Override
     public EdgePrimitive remove(int index) {
-        EdgePrimitivesBuffer buffer = getShard(index);
+        EdgePrimitivesBuffer buffer = getSegment(index);
         EdgePrimitive edge = buffer.remove(mapIndex(index));
         if (edge == null) {
             return null;
@@ -96,19 +96,14 @@ public class ShardedEdgePrimitivesBuffer implements EdgePrimitivesBuffer {
 
     }
 
-    private EdgePrimitivesBuffer getShard(int index) {
+    private EdgePrimitivesBuffer getSegment(int index) {
         Preconditions.checkArgument(index >= 0, "Index must not be negative");
-        int i = index % shards.size();
-        return shards.get(i);
+        int i = index % segments.size();
+        return segments.get(i);
     }
 
     private int mapIndex(int index) {
-        return index / shards.size();
-    }
-
-    @Override
-    public String toString() {
-        return "ShardedEdgePrimitivesBuffer [shards=" + shards + "]";
+        return index / segments.size();
     }
 
     @Override

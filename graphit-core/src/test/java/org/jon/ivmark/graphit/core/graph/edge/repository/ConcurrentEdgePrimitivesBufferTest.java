@@ -28,12 +28,12 @@ import static org.junit.Assert.*;
  * @author jon
  *
  */
-public class ShardedEdgePrimitivesBufferTest {
+public class ConcurrentEdgePrimitivesBufferTest {
 
     @Test
-    public void testInsertAndGetFromMultipleShards() {
+    public void testInsertAndGetFromMultipleSegments() {
         EdgeType edgeType = BOUGHT;
-        EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
+        EdgePrimitivesBuffer buffer = new ConcurrentEdgePrimitivesBuffer(edgeType, 3, 10);
 
         for (int i = 0; i < 4; i++) {
             buffer.upsert(i, i + 1, i + 2, 0);
@@ -52,9 +52,9 @@ public class ShardedEdgePrimitivesBufferTest {
     }
 
     @Test
-    public void testInsertAndRemoveFromMultipleShards() {
+    public void testInsertAndRemoveFromMultipleSegments() {
         EdgeType edgeType = BOUGHT;
-        EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
+        EdgePrimitivesBuffer buffer = new ConcurrentEdgePrimitivesBuffer(edgeType, 3, 10);
 
         for (int i = 0; i < 4; i++) {
             buffer.upsert(i, i + 1, i + 2, 0);
@@ -79,7 +79,7 @@ public class ShardedEdgePrimitivesBufferTest {
     @Test(expected = IllegalArgumentException.class)
     public void testGetOutOfBounds() {
         EdgeType edgeType = BOUGHT;
-        EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
+        EdgePrimitivesBuffer buffer = new ConcurrentEdgePrimitivesBuffer(edgeType, 3, 10);
 
         buffer.get(-1);
     }
@@ -87,7 +87,7 @@ public class ShardedEdgePrimitivesBufferTest {
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveOutOfBounds() {
         EdgeType edgeType = BOUGHT;
-        EdgePrimitivesBuffer buffer = new ShardedEdgePrimitivesBuffer(edgeType, 3, 10);
+        EdgePrimitivesBuffer buffer = new ConcurrentEdgePrimitivesBuffer(edgeType, 3, 10);
 
         buffer.remove(-1);
     }

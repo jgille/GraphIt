@@ -29,7 +29,7 @@ public final class ConcurrencyConstants {
     private ConcurrencyConstants() {}
 
     /**
-     * The default number of shards/partitions to use when splitting some data
+     * The default number of segments/partitions to use when splitting some data
      * structure to improve concurrency.
      */
     public static final int DEFAULT_CONCURRENCY_LEVEL = Runtime.getRuntime().availableProcessors() + 1;

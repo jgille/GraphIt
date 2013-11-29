@@ -61,7 +61,7 @@ public abstract class AbstractTypedEdgePrimitivesRepository implements
             lockList.add(new ReentrantLock());
         }
         this.locks = Collections.unmodifiableList(lockList);
-        this.edgeVectorIndex = new ShardedEdgeVectorRepository(nofLocks);
+        this.edgeVectorIndex = new ConcurrentEdgeVectorRepository(nofLocks);
         this.edgeComparator = edgeType.getSortOrder().getEdgeComparator(this);
     }
 

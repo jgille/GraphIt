@@ -27,12 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link MappedList} backed by an {@link ArrayList} and an
- * {@link AbstractObjectIntMap}. All methods are thread safe.
+ * An {@link IndexedList} implementation. All methods are thread safe.
  *
  * @author jon
  */
-public class MappedListImpl<E> implements MappedList<E> {
+public class IndexedListImpl<E> implements IndexedList<E> {
 
     private final AbstractObjectIntMap<E> indexMap;
     private final List<E> list;
@@ -40,7 +39,7 @@ public class MappedListImpl<E> implements MappedList<E> {
     /**
      * Creates a new instance.
      */
-    public MappedListImpl() {
+    public IndexedListImpl() {
         this.list = new ArrayList<E>();
         this.indexMap = new OpenObjectIntHashMap<E>();
     }

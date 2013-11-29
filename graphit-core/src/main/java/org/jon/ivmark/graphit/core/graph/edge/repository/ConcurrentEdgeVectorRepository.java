@@ -24,42 +24,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An {@link EdgeVectorRepository} that is split into multiple shards for better
+ * An {@link EdgeVectorRepository} that is split into multiple segments for better
  * concurrency.
  *
  */
-public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
+public class ConcurrentEdgeVectorRepository implements EdgeVectorRepository {
 
-    private final int nofShards;
-    private final List<AbstractIntObjectMap<EdgeVector>> outgoingShards;
-    private final List<AbstractIntObjectMap<EdgeVector>> incomingShards;
+    private final int nofSegments;
+    private final List<AbstractIntObjectMap<EdgeVector>> outgoingSegments;
+    private final List<AbstractIntObjectMap<EdgeVector>> incomingSegments;
 
     /**
-     * Creates a new repo with the provided number of shards.
+     * Creates a new repo with the provided number of segments.
      */
-    public ShardedEdgeVectorRepository(int nofShards) {
-        this.nofShards = nofShards;
-        this.outgoingShards = new ArrayList<AbstractIntObjectMap<EdgeVector>>(nofShards);
-        this.incomingShards = new ArrayList<AbstractIntObjectMap<EdgeVector>>(nofShards);
+    public ConcurrentEdgeVectorRepository(int concurrencyLevel) {
+        this.nofSegments = concurrencyLevel;
+        this.outgoingSegments = new ArrayList<AbstractIntObjectMap<EdgeVector>>(concurrencyLevel);
+        this.incomingSegments = new ArrayList<AbstractIntObjectMap<EdgeVector>>(concurrencyLevel);
 
-        for (int i = 0; i < nofShards; i++) {
-            this.outgoingShards.add(new OpenIntObjectHashMap<EdgeVector>());
-            this.incomingShards.add(new OpenIntObjectHashMap<EdgeVector>());
+        for (int i = 0; i < concurrencyLevel; i++) {
+            this.outgoingSegments.add(new OpenIntObjectHashMap<EdgeVector>());
+            this.incomingSegments.add(new OpenIntObjectHashMap<EdgeVector>());
         }
     }
 
-    private int getShardIndex(int nodeIndex) {
-        return nodeIndex % nofShards;
+    private int getSegmentIndex(int nodeIndex) {
+        return nodeIndex % nofSegments;
     }
 
-    private AbstractIntObjectMap<EdgeVector> getOutgoingShard(int nodeIndex) {
-        int shardIndex = getShardIndex(nodeIndex);
-        return outgoingShards.get(shardIndex);
+    private AbstractIntObjectMap<EdgeVector> getOutgoingSegment(int nodeIndex) {
+        int segmentIndex = getSegmentIndex(nodeIndex);
+        return outgoingSegments.get(segmentIndex);
     }
 
-    private AbstractIntObjectMap<EdgeVector> getIncomingShard(int nodeIndex) {
-        int shardIndex = getShardIndex(nodeIndex);
-        return incomingShards.get(shardIndex);
+    private AbstractIntObjectMap<EdgeVector> getIncomingSegment(int nodeIndex) {
+        int segmentIndex = getSegmentIndex(nodeIndex);
+        return incomingSegments.get(segmentIndex);
     }
 
     private EdgeVector get(AbstractIntObjectMap<EdgeVector> map, int nodeIndex) {
@@ -76,23 +76,23 @@ public class ShardedEdgeVectorRepository implements EdgeVectorRepository {
 
     @Override
     public EdgeVector getOutgoingEdges(int startNodeIndex) {
-        return get(getOutgoingShard(startNodeIndex), startNodeIndex);
+        return get(getOutgoingSegment(startNodeIndex), startNodeIndex);
     }
 
     @Override
     public EdgeVector getIncomingEdges(int endNodeIndex) {
-        return get(getIncomingShard(endNodeIndex), endNodeIndex);
+        return get(getIncomingSegment(endNodeIndex), endNodeIndex);
     }
 
     @Override
     public void setOutgoingEdges(int endNodeIndex, EdgeVector edges) {
         int startNodeIndex = edges.getRootNode();
-        put(getOutgoingShard(startNodeIndex), startNodeIndex, edges);
+        put(getOutgoingSegment(startNodeIndex), startNodeIndex, edges);
     }
 
     @Override
     public void setIncomingEdges(int endNodeIndex, EdgeVector edges) {
-        put(getIncomingShard(endNodeIndex), endNodeIndex, edges);
+        put(getIncomingSegment(endNodeIndex), endNodeIndex, edges);
     }
 
 }

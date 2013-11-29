@@ -23,7 +23,7 @@ package org.jon.ivmark.graphit.core.graph.node.repository;
  * @author jon
  *
  */
-public interface MappedList<E> {
+public interface IndexedList<E> {
 
     /**
      * Gets the element at the provided index. Returns null if the index is out

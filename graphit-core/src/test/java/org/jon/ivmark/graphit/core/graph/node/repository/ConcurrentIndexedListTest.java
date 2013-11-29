@@ -20,11 +20,10 @@ package org.jon.ivmark.graphit.core.graph.node.repository;
  * @author jon
  *
  */
-public class MappedListImplTest extends MappedListTest {
+public class ConcurrentIndexedListTest extends IndexedListTest {
 
     @Override
-    protected MappedList<String> createEmptyList() {
-        return new MappedListImpl<String>();
+    protected IndexedList<String> createEmptyList() {
+        return new ConcurrentIndexedList<String>(2);
     }
-
 }

@@ -20,10 +20,11 @@ package org.jon.ivmark.graphit.core.graph.node.repository;
  * @author jon
  *
  */
-public class ShardedMappedListTest extends MappedListTest {
+public class IndexedListImplTest extends IndexedListTest {
 
     @Override
-    protected MappedList<String> createEmptyList() {
-        return new ShardedMappedList<String>(2);
+    protected IndexedList<String> createEmptyList() {
+        return new IndexedListImpl<String>();
     }
+
 }

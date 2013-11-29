@@ -29,13 +29,13 @@ import static org.junit.Assert.*;
  * @author jon
  *
  */
-public abstract class MappedListTest {
+public abstract class IndexedListTest {
 
-    protected abstract MappedList<String> createEmptyList();
+    protected abstract IndexedList<String> createEmptyList();
 
     @Test
     public void testAddAndGet() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         int index = list.add(str);
         assertEquals(0, index);
@@ -44,7 +44,7 @@ public abstract class MappedListTest {
 
     @Test
     public void testInsert() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         list.insert(1, str);
         assertEquals(1, list.indexOf(str));
@@ -52,7 +52,7 @@ public abstract class MappedListTest {
 
     @Test(expected = DuplicateKeyException.class)
     public void testAddDuplicate() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         list.add(str);
         list.add(str);
@@ -60,7 +60,7 @@ public abstract class MappedListTest {
 
     @Test(expected = DuplicateKeyException.class)
     public void testInsertDuplicate() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         list.add(str);
         list.insert(1, str);
@@ -68,14 +68,14 @@ public abstract class MappedListTest {
 
     @Test
     public void testGetNonExisting() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         assertNull(list.get(0));
         assertNull(list.get(-1));
     }
 
     @Test
     public void testSetAndGet() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         list.set(1, str);
         assertNull(list.get(0));
@@ -84,14 +84,14 @@ public abstract class MappedListTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalSet() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         list.set(-1, str);
     }
 
     @Test
     public void testAddAndRemove() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         int index = list.add(str);
         list.remove(index);
@@ -100,7 +100,7 @@ public abstract class MappedListTest {
 
     @Test
     public void testIndexOf() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         String str = "A";
         assertEquals(-1, list.indexOf(str));
         list.add(str);
@@ -109,7 +109,7 @@ public abstract class MappedListTest {
 
     @Test
     public void testMany() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         List<String> elements = Arrays.asList("A", "B", "C", "D", "E");
         for (String el : elements) {
             list.add(el);
@@ -130,7 +130,7 @@ public abstract class MappedListTest {
 
     @Test
     public void testIterable() {
-        MappedList<String> list = createEmptyList();
+        IndexedList<String> list = createEmptyList();
         List<String> elements = Arrays.asList("A", "B", "C", "D", "E");
         for (String el : elements) {
             list.add(el);

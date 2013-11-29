@@ -50,7 +50,7 @@ public class TypedEdgePrimitivesRepositoryImpl extends AbstractTypedEdgePrimitiv
      */
     public TypedEdgePrimitivesRepositoryImpl(EdgeType edgeType, int initialCapacity) {
         this(edgeType,
-             new ShardedEdgePrimitivesBuffer(edgeType,
+             new ConcurrentEdgePrimitivesBuffer(edgeType,
                                              ConcurrencyConstants.DEFAULT_CONCURRENCY_LEVEL,
                                              initialCapacity));
     }

@@ -27,21 +27,21 @@ import org.jon.ivmark.graphit.core.graph.node.NodeId;
  * @author jon
  *
  */
-public class ShardedNodeIdRepository implements NodeIdRepository {
+public class ConcurrentNodeIdRepository implements NodeIdRepository {
 
-    private final MappedList<NodeId> nodes;
+    private final IndexedList<NodeId> nodes;
 
     /**
      * Creates a new repo.
      */
-    public ShardedNodeIdRepository() {
+    public ConcurrentNodeIdRepository() {
         this(ConcurrencyConstants.DEFAULT_CONCURRENCY_LEVEL);
     }
     /**
      * Creates a new repo.
      */
-    public ShardedNodeIdRepository(int concurrencyLevel) {
-        this.nodes = new ShardedMappedList<NodeId>(concurrencyLevel);
+    public ConcurrentNodeIdRepository(int concurrencyLevel) {
+        this.nodes = new ConcurrentIndexedList<NodeId>(concurrencyLevel);
     }
 
     @Override
