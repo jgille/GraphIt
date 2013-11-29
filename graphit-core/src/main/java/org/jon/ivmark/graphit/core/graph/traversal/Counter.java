@@ -16,28 +16,61 @@
 
 package org.jon.ivmark.graphit.core.graph.traversal;
 
+import com.google.common.base.Preconditions;
+import org.apache.mahout.math.function.ObjectIntProcedure;
+import org.apache.mahout.math.map.AbstractObjectIntMap;
+import org.apache.mahout.math.map.OpenObjectIntHashMap;
+
+import java.util.Collection;
+
 /**
- * 
- * Interface for counting the number of times distinct elements occur in an
+ *
+ * Class for counting the number of times distinct elements occur in an
  * collection of elements.
- * 
+ *
  * @author jon
- * 
+ *
  */
-public interface Counter<E> {
+public class Counter<E> {
+
+    private final AbstractObjectIntMap<E> map;
+
+    /**
+     * Creates a new empty instance.
+     */
+    public Counter() {
+        this.map = new OpenObjectIntHashMap<E>();
+    }
 
     /**
      * Gets the number of times this element occurred.
      */
-    int count(E element);
+    public int count(E element) {
+        return map.get(element);
+    }
 
     /**
      * Adds an element.
      */
-    void add(E element);
+    public void add(E element) {
+        map.adjustOrPutValue(element, 1, 1);
+    }
 
     /**
      * Gets an iterable of all counted elements.
      */
-    Iterable<CountedElement<E>> iterable(CountSortOrder sortOrder);
+    public Iterable<CountedElement<E>> iterable(CountSortOrder sortOrder) {
+        Preconditions.checkNotNull(sortOrder);
+        final Collection<CountedElement<E>> res = sortOrder.newCollection();
+
+        map.forEachPair(new ObjectIntProcedure<E>() {
+
+            @Override
+            public boolean apply(E element, int count) {
+                res.add(new CountedElement<E>(element, count));
+                return true;
+            }
+        });
+        return res;
+    }
 }

@@ -48,7 +48,7 @@ public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
      */
     public NodeType getOrAdd(String nodeTypeName) {
         if (!nodeTypes.containsKey(nodeTypeName)) {
-            NodeType nodeType = new NodeTypeImpl(nodeTypeName);
+            NodeType nodeType = new NodeType(nodeTypeName);
             add(nodeType);
         }
         return nodeTypes.get(nodeTypeName);
@@ -82,7 +82,7 @@ public final class NodeTypes implements DynamicEnumerationSet<NodeType> {
 
     @Override
     public void add(String nodeTypeName) {
-        NodeType nodeType = new NodeTypeImpl(nodeTypeName);
+        NodeType nodeType = new NodeType(nodeTypeName);
         add(nodeType);
     }
 

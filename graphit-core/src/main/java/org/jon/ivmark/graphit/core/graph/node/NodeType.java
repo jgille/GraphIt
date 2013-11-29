@@ -16,7 +16,8 @@
 
 package org.jon.ivmark.graphit.core.graph.node;
 
-import org.jon.ivmark.graphit.core.properties.DynamicEnumerableElement;
+import org.jon.ivmark.graphit.core.graph.entity.GraphEntityType;
+import org.jon.ivmark.graphit.core.properties.HashMapPropertiesFactory;
 import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
 
 /**
@@ -25,12 +26,36 @@ import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
  * @author jon
  *
  */
-public interface NodeType extends DynamicEnumerableElement {
+public class NodeType extends GraphEntityType {
+
+    private final PropertiesFactory propertiesFactory;
+
+    /**
+     * Creates a new instance using a {@link HashMapPropertiesFactory}.
+     */
+    public NodeType(String name) {
+        this(name, new HashMapPropertiesFactory());
+    }
+
+    /**
+     * Creates a new instance.
+     */
+    public NodeType(String name, PropertiesFactory propertiesFactory) {
+        super(name);
+        this.propertiesFactory = propertiesFactory;
+    }
+
+    @Override
+    public String toString() {
+        return "NodeType [name()=" + name() + "]";
+    }
 
     /**
      * Returns a factory used to create new {@link org.jon.ivmark.graphit.core.properties.Properties} instances for
      * nodes.
      */
-    PropertiesFactory getPropertiesFactory();
+    public PropertiesFactory getPropertiesFactory() {
+        return propertiesFactory;
+    }
 
 }

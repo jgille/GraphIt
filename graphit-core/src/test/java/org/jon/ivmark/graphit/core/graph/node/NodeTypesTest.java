@@ -33,7 +33,7 @@ public class NodeTypesTest {
     public void testAddValidNodeTypes() {
         NodeTypes nodeTypes = new NodeTypes();
         nodeTypes.getOrAdd("A");
-        nodeTypes.add(new NodeTypeImpl("B-A"));
+        nodeTypes.add(new NodeType("B-A"));
         nodeTypes.add("C_1");
 
         assertEquals(3, nodeTypes.size());
@@ -67,7 +67,7 @@ public class NodeTypesTest {
 
             boolean exceptionWhenAddingType = false;
             try {
-                nodeTypes.add(new NodeTypeImpl(invalidName));
+                nodeTypes.add(new NodeType(invalidName));
             } catch (IllegalArgumentException e) {
                 exceptionWhenAddingType = true;
             }

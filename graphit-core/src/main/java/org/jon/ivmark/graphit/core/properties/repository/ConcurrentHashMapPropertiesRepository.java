@@ -36,9 +36,9 @@ public abstract class ConcurrentHashMapPropertiesRepository<T>
     /**
      * Creates an empty repo with the specified initial capacity.
      */
-    public ConcurrentHashMapPropertiesRepository(int initalCapacity) {
+    public ConcurrentHashMapPropertiesRepository(int initialCapacity) {
         this.repo =
-            new ConcurrentHashMap<T, Properties>(initalCapacity, LOAD_FACTOR);
+            new ConcurrentHashMap<T, Properties>(initialCapacity, LOAD_FACTOR);
     }
 
     /**

@@ -16,15 +16,9 @@
 
 package org.jon.ivmark.graphit.core.graph.node;
 
-import org.jon.ivmark.graphit.core.properties.HashMapPropertiesFactory;
-import org.jon.ivmark.graphit.core.properties.PropertiesFactory;
+public class TestNodeType {
 
-public enum TestNodeType implements NodeType {
+    public static NodeType USER = new NodeType("USER");
+    public static NodeType PRODUCT = new NodeType("PRODUCT");
 
-    USER, PRODUCT;
-
-    @Override
-    public PropertiesFactory getPropertiesFactory() {
-        return new HashMapPropertiesFactory();
-    }
 }

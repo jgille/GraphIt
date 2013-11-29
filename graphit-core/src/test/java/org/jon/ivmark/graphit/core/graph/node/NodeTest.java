@@ -25,7 +25,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class NodeImplTest {
+public class NodeTest {
 
     @Test
     public void testGetNodeId() {

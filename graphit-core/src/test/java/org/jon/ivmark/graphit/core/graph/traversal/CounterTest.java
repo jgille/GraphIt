@@ -29,11 +29,11 @@ import static org.junit.Assert.assertEquals;
  * @author jon
  * 
  */
-public class CounterImplTest {
+public class CounterTest {
 
     @Test
     public void testEmpty() {
-        CounterImpl<Integer> counter = new CounterImpl<Integer>();
+        Counter<Integer> counter = new Counter<Integer>();
         assertEquals(0, counter.count(1));
         assertEquals(Collections.emptyList(),
                      asList(counter.iterable(CountSortOrder.INSERTION_ORDER)));
@@ -41,7 +41,7 @@ public class CounterImplTest {
 
     @Test
     public void testAscending() {
-        CounterImpl<Integer> counter = new CounterImpl<Integer>();
+        Counter<Integer> counter = new Counter<Integer>();
         counter.add(1);
         counter.add(2);
         counter.add(1);
@@ -52,7 +52,7 @@ public class CounterImplTest {
 
     @Test
     public void testDescending() {
-        CounterImpl<Integer> counter = new CounterImpl<Integer>();
+        Counter<Integer> counter = new Counter<Integer>();
         counter.add(1);
         counter.add(2);
         counter.add(1);
@@ -63,7 +63,7 @@ public class CounterImplTest {
 
     @Test(expected = NullPointerException.class)
     public void testIllegalSortOrder() {
-        CounterImpl<Integer> counter = new CounterImpl<Integer>();
+        Counter<Integer> counter = new Counter<Integer>();
         counter.iterable(null);
     }
 

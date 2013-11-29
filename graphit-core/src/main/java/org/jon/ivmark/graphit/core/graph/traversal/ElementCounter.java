@@ -27,7 +27,7 @@ public class ElementCounter<E> implements Reducer<E, Counter<E>> {
 
     @Override
     public Counter<E> reduce(Iterable<E> input) {
-        Counter<E> counter = new CounterImpl<E>();
+        Counter<E> counter = new Counter<E>();
         for (E element : input) {
             counter.add(element);
         }

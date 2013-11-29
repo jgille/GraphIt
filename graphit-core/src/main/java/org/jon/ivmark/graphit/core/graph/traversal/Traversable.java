@@ -18,109 +18,172 @@ package org.jon.ivmark.graphit.core.graph.traversal;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.TreeMultiset;
 import org.jon.ivmark.graphit.core.Procedure;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  *
  * Use when traversing a graph.
  *
- * Note that an {@link Traversable} is always immutable, all of the methods
- * returns a instance.
+ * This class is immutable, all of the modifying methods returns a instance.
  *
  * @author jon
  *
  */
-public interface Traversable<E> extends Iterable<E> {
+public class Traversable<E> implements Iterable<E> {
+
+    private final Iterable<E> iterable;
 
     /**
-     * Creates a new iterable pipe with the first limit elements of this
-     * iterable pipe.
+     * Constructs a new empty instance.
      */
-    Traversable<E> head(int limit);
+    public Traversable() {
+        this(Collections.<E> emptyList());
+    }
 
     /**
-     * Creates a new iterable pipe with the last limit elements of this iterable
-     * pipe.
-     *
-     * Note that this will iterate the entire pipe to find the number of
-     * elements to skip.
+     * Constructs a new instance containing the provided elements.
      */
-    Traversable<E> tail(int limit);
+    public Traversable(E... elements) {
+        this(Arrays.asList(elements));
+    }
 
     /**
-     * Creates a new iterable pipe which skips the first skip elements of this
-     * iterable pipe.
+     * Constructs a new instance wrapping the provided iterable. Note that
+     * modifications to the wrapped iterable will take effect here as well and
+     * is not thread safe..
      */
-    Traversable<E> skip(int skip);
+    public Traversable(Iterable<E> iterable) {
+        this.iterable = iterable;
+    }
+
+    private static <E> Traversable<E> create(Iterable<E> iterable) {
+        return new Traversable<E>(iterable);
+    }
+
+    public Iterator<E> iterator() {
+        return iterable.iterator();
+    }
 
     /**
-     * Creates a new iterable pipe containing only the elements of this iterable
-     * pipe that matches the filter.
+     * Returns a new instance only including the first 'limit' number of elements.
      */
-    Traversable<E> filter(Predicate<E> filter);
+    public Traversable<E> head(int limit) {
+        return create(Iterables.limit(iterable, limit));
+    }
 
     /**
-     * Creates a new iterable pipe containing the elements of this iterable pipe
-     * transformed to something else.
+     * Returns a new instance only including the last 'limit' number of elements.
      */
-    <T> Traversable<T> transform(Function<E, T> transformer);
+    public Traversable<E> tail(int limit) {
+        int skip = size() - limit;
+        if (skip <= 0) {
+            return this;
+        }
+        return skip(skip);
+    }
 
     /**
-     * Creates a new iterable pipe containing only unique elements.
+     * Returns a new instance discarding the first 'skip' elements.
      */
-    Traversable<E> unique();
+    public Traversable<E> skip(int skip) {
+        return create(Iterables.skip(iterable, skip));
+    }
 
     /**
-     * Performs a map function on the pipe, transforming it to another pipe.
+     * Returns a new instance discarding all elements that does not match the filter.
      */
-    <T> Traversable<T> map(Mapper<E, T> mapper);
+    public Traversable<E> filter(Predicate<E> filter) {
+        return create(Iterables.filter(iterable, filter));
+    }
 
     /**
-     * Performs a reduce function on the pipe, transforming it to something
-     * else.
+     * Returns a new instance where all elements are transformed.
      */
-    <T> T reduce(Reducer<E, T> reducer);
+    public <T> Traversable<T> transform(Function<E, T> transformer) {
+        return create(Iterables.transform(iterable, transformer));
+    }
 
     /**
-     * Performs a two step operation on this iterable. First it is mapped to
-     * another iterable, then it is transformed into a final result.
+     * Returns a new instance discarding all duplicate elements.
      */
-    <M, R> R mapReduce(Mapper<E, M> mapper,
-                       Reducer<M, R> reducer);
+    public Traversable<E> unique() {
+        final Set<E> visited = new HashSet<E>();
+        return filter(new Predicate<E>() {
+
+            @Override
+            public boolean apply(E element) {
+                return visited.add(element);
+            }
+        });
+    }
 
     /**
-     * Gets the number of elements in this iterable pipe.
+     * Maps to a new Traversable.
      */
-    int size();
+    public <T> Traversable<T> map(Mapper<E, T> mapper) {
+        return new Traversable<T>(mapper.map(iterable));
+    }
 
     /**
-     * Returns true if there are no elements in this iterable pipe.
+     * Reduces this Traversable.
      */
-    boolean isEmpty();
+    public <T> T reduce(Reducer<E, T> reducer) {
+        return reducer.reduce(iterable);
+    }
 
     /**
-     * Applies a procedure for each element in the pipe, stopping if a procedure
-     * call return false.
+     * Performs a two step operation on this Traversable, first a map and then a reduce.
      */
-    void forEach(Procedure<E> procedure);
+    public <M, R> R mapReduce(Mapper<E, M> mapper, Reducer<M, R> reducer) {
+        return map(mapper).reduce(reducer);
+    }
 
     /**
-     * Gets the element at index in this iterable pipe.
+     * Gets the size by traversing and counting all elements.
      */
-    E get(int index);
+    public int size() {
+        return Iterables.size(iterable);
+    }
+
+    public boolean isEmpty() {
+        return Iterables.isEmpty(iterable);
+    }
 
     /**
-     * Returns this iterable pipe as a list.
+     * Get the element at the specified position.
      */
-    List<E> asList();
+    public E get(int index) {
+        return Iterables.get(iterable, index);
+    }
+
+    public List<E> asList() {
+        List<E> res = new ArrayList<E>();
+        for (E element : iterable) {
+            res.add(element);
+        }
+        return res;
+    }
+
+    public Collection<E> asSortedCollection(Comparator<E> comparator) {
+        TreeMultiset<E> res = TreeMultiset.create(comparator);
+        for (E element : iterable) {
+            res.add(element);
+        }
+        return res;
+    }
 
     /**
-     * Returns the elements in this iterable pipe sorted according to the
-     * comparator.
+     * Applies a procedure for all elements.
      */
-    Collection<E> asSortedCollection(Comparator<E> comparator);
+    public void forEach(Procedure<E> procedure) {
+        for (E element : iterable) {
+            if (!procedure.apply(element)) {
+                break;
+            }
+        }
+    }
 }

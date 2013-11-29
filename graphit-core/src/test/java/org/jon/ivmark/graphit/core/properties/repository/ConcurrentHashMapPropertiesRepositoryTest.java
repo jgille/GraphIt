@@ -18,7 +18,6 @@ package org.jon.ivmark.graphit.core.properties.repository;
 
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
-import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodePropertiesRepository;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.junit.Test;
@@ -32,7 +31,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class ConcurrentHashMapPropertiesRepositoryTest {
 
-    private static final NodeType NODE_TYPE = new NodeTypeImpl("NT");
+    private static final NodeType NODE_TYPE = new NodeType("NT");
 
     private NodeId createId(String id) {
         return new NodeId(NODE_TYPE, id);

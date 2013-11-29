@@ -37,7 +37,7 @@ public class TraversableImplTest {
 
     @Before
     public void setupPipe() {
-        this.original = new TraversableImpl<Integer>(1, 2, 3, 4, 5);
+        this.original = new Traversable<Integer>(1, 2, 3, 4, 5);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class TraversableImplTest {
     @Test
     public void testIsEmpty() {
         assertFalse(original.isEmpty());
-        assertTrue(new TraversableImpl<Integer>().isEmpty());
+        assertTrue(new Traversable<Integer>().isEmpty());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class TraversableImplTest {
 
     @Test
     public void testUnique() {
-        Traversable<Integer> pipe = new TraversableImpl<Integer>(1, 2, 3, 4, 5, 1, 2);
+        Traversable<Integer> pipe = new Traversable<Integer>(1, 2, 3, 4, 5, 1, 2);
         assertEquals(original.asList(), pipe.unique().asList());
     }
 

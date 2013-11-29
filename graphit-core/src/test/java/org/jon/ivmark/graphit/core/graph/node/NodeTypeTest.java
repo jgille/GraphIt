@@ -25,20 +25,20 @@ import static org.junit.Assert.assertFalse;
  * @author jon
  * 
  */
-public class NodeTypeImplTest {
+public class NodeTypeTest {
 
     @Test
     public void testName() {
-        NodeTypeImpl foo = new NodeTypeImpl("foo");
+        NodeType foo = new NodeType("foo");
         assertEquals("foo", foo.name());
     }
 
     @Test
     public void testEquals() {
-        NodeTypeImpl n1 = new NodeTypeImpl("foo");
-        NodeTypeImpl n2 = new NodeTypeImpl("foo");
-        NodeTypeImpl n3 = new NodeTypeImpl("bar");
-        NodeTypeImpl n4 = new NodeTypeImpl(null);
+        NodeType n1 = new NodeType("foo");
+        NodeType n2 = new NodeType("foo");
+        NodeType n3 = new NodeType("bar");
+        NodeType n4 = new NodeType(null);
         assertEquals(n1, n1);
         assertEquals(n1, n2);
         assertFalse(n1.equals(n3));
@@ -51,10 +51,10 @@ public class NodeTypeImplTest {
 
     @Test
     public void testHashCode() {
-        NodeTypeImpl n1 = new NodeTypeImpl("foo");
-        NodeTypeImpl n2 = new NodeTypeImpl("foo");
-        NodeTypeImpl n3 = new NodeTypeImpl("bar");
-        NodeTypeImpl n4 = new NodeTypeImpl(null);
+        NodeType n1 = new NodeType("foo");
+        NodeType n2 = new NodeType("foo");
+        NodeType n3 = new NodeType("bar");
+        NodeType n4 = new NodeType(null);
         assertEquals(n1.hashCode(), n1.hashCode());
         assertEquals(n1.hashCode(), n2.hashCode());
         assertFalse(n1.hashCode() == n3.hashCode());

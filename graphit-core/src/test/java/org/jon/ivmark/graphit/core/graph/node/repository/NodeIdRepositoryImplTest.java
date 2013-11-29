@@ -19,18 +19,18 @@ package org.jon.ivmark.graphit.core.graph.node.repository;
 import org.jon.ivmark.graphit.core.graph.exception.DuplicateKeyException;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
-import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class NodeIdRepositoryImplTest {
 
-    private static final NodeType USER = new NodeTypeImpl("user");
-    private static final NodeType PRODUCT = new NodeTypeImpl("product");
+    private static final NodeType USER = new NodeType("user");
+    private static final NodeType PRODUCT = new NodeType("product");
 
     private NodeIdRepositoryImpl repo;
 

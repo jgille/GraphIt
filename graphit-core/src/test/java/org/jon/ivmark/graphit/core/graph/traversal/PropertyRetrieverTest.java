@@ -17,7 +17,6 @@
 package org.jon.ivmark.graphit.core.graph.traversal;
 
 import org.jon.ivmark.graphit.core.properties.Properties;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

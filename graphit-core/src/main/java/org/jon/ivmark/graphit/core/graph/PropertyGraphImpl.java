@@ -26,12 +26,13 @@ import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePrimitivesRepositor
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePrimitivesRepositoryImpl;
 import org.jon.ivmark.graphit.core.graph.edge.repository.EdgePropertiesRepository;
 import org.jon.ivmark.graphit.core.graph.exception.GraphException;
-import org.jon.ivmark.graphit.core.graph.node.*;
+import org.jon.ivmark.graphit.core.graph.node.Node;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeType;
 import org.jon.ivmark.graphit.core.graph.node.repository.ConcurrentNodeIdRepository;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodeIdRepository;
 import org.jon.ivmark.graphit.core.graph.node.repository.NodePropertiesRepository;
 import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
-import org.jon.ivmark.graphit.core.graph.traversal.TraversableImpl;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.jon.ivmark.graphit.core.properties.repository.PropertiesRepository;
 import org.jon.ivmark.graphit.core.properties.repository.WriteThroughProperties;
@@ -237,7 +238,7 @@ public class PropertyGraphImpl implements PropertyGraph {
 
         int nodeIndex = getNodeIndex(node);
         if (nodeIndex < 0) {
-            return new TraversableImpl<EdgeId>();
+            return new Traversable<EdgeId>();
         }
         Traversable<EdgeId> iterable;
         switch (direction) {
@@ -246,17 +247,17 @@ public class PropertyGraphImpl implements PropertyGraph {
             EdgeVector incoming = edgeRepo.getIncomingEdges(nodeIndex, edgeType);
             Iterable<EdgeId> outIterable = outgoing.iterable();
             Iterable<EdgeId> inIterable = incoming.iterable();
-            iterable = new TraversableImpl<EdgeId>(Iterables.concat(outIterable, inIterable));
+            iterable = new Traversable<EdgeId>(Iterables.concat(outIterable, inIterable));
             break;
         case OUTGOING:
             EdgeVector oEdges =
                 edgeRepo.getOutgoingEdges(nodeIndex, edgeType);
-            iterable = new TraversableImpl<EdgeId>(oEdges.iterable());
+            iterable = new Traversable<EdgeId>(oEdges.iterable());
             break;
         case INCOMING:
             EdgeVector iEdges =
                 edgeRepo.getIncomingEdges(nodeIndex, edgeType);
-            iterable = new TraversableImpl<EdgeId>(iEdges.iterable());
+            iterable = new Traversable<EdgeId>(iEdges.iterable());
             break;
         default:
             throw new IllegalArgumentException("Illegal direction: " + direction);
@@ -505,7 +506,7 @@ public class PropertyGraphImpl implements PropertyGraph {
                 return getNode(nodeId);
             }
         });
-        return new TraversableImpl<Node>(nodes);
+        return new Traversable<Node>(nodes);
     }
 
     @Override
@@ -519,7 +520,7 @@ public class PropertyGraphImpl implements PropertyGraph {
                 edges.add(outgoingEdges);
             }
         }
-        return new TraversableImpl<Edge>(Iterables.concat(edges));
+        return new Traversable<Edge>(Iterables.concat(edges));
     }
 
     @Override
@@ -538,7 +539,7 @@ public class PropertyGraphImpl implements PropertyGraph {
 
     @Override
     public NodeType createNodeType(String name) {
-        NodeType nodeType = new NodeTypeImpl(name);
+        NodeType nodeType = new NodeType(name);
         metadata.addNodeType(nodeType);
         return nodeType;
     }

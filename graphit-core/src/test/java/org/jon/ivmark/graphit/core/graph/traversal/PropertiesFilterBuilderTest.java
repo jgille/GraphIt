@@ -26,7 +26,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import static org.jon.ivmark.graphit.core.graph.traversal.PropertiesFilterBuilder.*;
+import static org.jon.ivmark.graphit.core.graph.traversal.PropertiesFilterBuilder.where;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;

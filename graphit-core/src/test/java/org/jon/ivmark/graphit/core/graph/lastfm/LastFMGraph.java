@@ -17,6 +17,7 @@
 package org.jon.ivmark.graphit.core.graph.lastfm;
 
 import com.google.common.base.Preconditions;
+import org.jon.ivmark.graphit.core.Procedure;
 import org.jon.ivmark.graphit.core.graph.GraphMetadata;
 import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
@@ -26,8 +27,6 @@ import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeType;
-import org.jon.ivmark.graphit.core.graph.node.NodeTypeImpl;
-import org.jon.ivmark.graphit.core.Procedure;
 import org.jon.ivmark.graphit.core.io.util.CsvIterator;
 import org.jon.ivmark.graphit.core.io.util.CsvRow;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
@@ -61,9 +60,9 @@ public final class LastFMGraph {
     private static final String PATH = "hetrec2011-lastfm-2k/%s";
 
     public static final NodeType ARTIST =
-        new NodeTypeImpl("Artist",
+        new NodeType("Artist",
                          new EnumMapPropertiesFactory<ArtistProperty>(ArtistProperty.class));
-    public static final NodeType USER = new NodeTypeImpl("User");
+    public static final NodeType USER = new NodeType("User");
 
     public static final EdgeType FRIENDS_WITH = new EdgeType("FriendsWith");
     public static final EdgeType LISTENED_TO =
