@@ -17,6 +17,7 @@
         <module>graphit-tinkerpop</module>
         <module>graphit-test</module>
         <module>graphit-examples</module>
+        <module>graphit-recommendation</module>
     </modules>
 
     <properties>
