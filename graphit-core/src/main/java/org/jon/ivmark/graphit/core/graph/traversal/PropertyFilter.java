@@ -54,12 +54,12 @@ public abstract class PropertyFilter<C> implements Predicate<Properties> {
     }
 
     static Predicate<Properties> equalTo(String key, final Object target) {
-        return new PropertyFilter<Object>(key) {
+        return Predicates.and(notNull(key), new PropertyFilter<Object>(key) {
             @Override
             protected boolean accepts(Object property) {
-                return property != null && property.equals(target);
+                return property.equals(target);
             }
-        };
+        });
     }
 
     static Predicate<Properties> notEqualTo(String key, Object target) {
@@ -75,16 +75,31 @@ public abstract class PropertyFilter<C> implements Predicate<Properties> {
         });
     }
 
-    static <C extends Comparable<C>> Predicate<Properties> lessThanOrEqual(String key, C limit) {
-        return Predicates.or(lessThan(key, limit), equalTo(key, limit));
+    static <C extends Comparable<C>> Predicate<Properties> lessThanOrEqual(String key, final C limit) {
+        return Predicates.and(notNull(key), new PropertyFilter<C>(key) {
+            @Override
+            protected boolean accepts(C property) {
+                return property.compareTo(limit) <= 0;
+            }
+        });
     }
 
-    static <C extends Comparable<C>> Predicate<Properties> greaterThan(String key, C limit) {
-        return Predicates.and(notNull(key), Predicates.not(lessThanOrEqual(key, limit)));
+    static <C extends Comparable<C>> Predicate<Properties> greaterThan(String key, final C limit) {
+        return Predicates.and(notNull(key), new PropertyFilter<C>(key) {
+            @Override
+            protected boolean accepts(C property) {
+                return property.compareTo(limit) > 0;
+            }
+        });
     }
 
-    static <C extends Comparable<C>> Predicate<Properties> greaterThanOrEqual(String key, C limit) {
-        return Predicates.or(greaterThan(key, limit), equalTo(key, limit));
+    static <C extends Comparable<C>> Predicate<Properties> greaterThanOrEqual(String key, final C limit) {
+        return Predicates.and(notNull(key), new PropertyFilter<C>(key) {
+            @Override
+            protected boolean accepts(C property) {
+                return property.compareTo(limit) >= 0;
+            }
+        });
     }
 
     static Predicate<Properties> matches(String key, final Pattern pattern) {
@@ -108,4 +123,28 @@ public abstract class PropertyFilter<C> implements Predicate<Properties> {
     static <C> Predicate<Properties> notIn(String key, Collection<C> target) {
         return Predicates.not(in(key, target));
     }
+
+    static <C> Predicate<Properties> disjoint(String key, final Collection<C> target) {
+        return Predicates.or(isNull(key), new PropertyFilter<Collection<C>>(key) {
+            @Override
+            protected boolean accepts(Collection<C> properties) {
+                for (C property : properties) {
+                    if (target.contains(property)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    static <C> Predicate<Properties> contains(String key, final C target) {
+        return Predicates.and(notNull(key), new PropertyFilter<Collection<C>>(key) {
+            @Override
+            protected boolean accepts(Collection<C> property) {
+                return property.contains(target);
+            }
+        });
+    }
+
 }

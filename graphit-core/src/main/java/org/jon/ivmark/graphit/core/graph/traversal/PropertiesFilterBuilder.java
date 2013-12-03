@@ -23,6 +23,7 @@ import org.jon.ivmark.graphit.core.properties.Properties;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public final class PropertiesFilterBuilder {
@@ -103,6 +104,14 @@ public final class PropertiesFilterBuilder {
 
         public <C> PropertiesFilterBuilder notIn(Collection<C> target) {
             return builder.addFilter(PropertyFilter.notIn(key, target));
+        }
+
+        public <C> PropertiesFilterBuilder disjoint(Collection<C> target) {
+            return builder.addFilter(PropertyFilter.disjoint(key, target));
+        }
+
+        public <C> PropertiesFilterBuilder contains(C target) {
+            return builder.addFilter(PropertyFilter.contains(key, target));
         }
     }
 }

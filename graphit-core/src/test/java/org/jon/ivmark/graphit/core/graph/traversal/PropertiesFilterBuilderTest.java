@@ -24,6 +24,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.regex.Pattern;
 
 import static org.jon.ivmark.graphit.core.graph.traversal.PropertiesFilterBuilder.where;
@@ -244,6 +246,46 @@ public class PropertiesFilterBuilderTest {
     public void testNotInWithNull() {
         Predicate<Properties> filter = where("nonExisting").notIn(Arrays.asList(3, 2, 1)).build();
         assertTrue(filter.apply(properties));
+    }
+
+    @Test
+    public void testDisjoint() {
+        when(properties.getProperty("existing")).thenReturn(Collections.singletonList(4));
+        Predicate<Properties> filter = where("existing").disjoint(new HashSet<Integer>(Arrays.asList(3, 2, 1))).build();
+        assertTrue(filter.apply(properties));
+    }
+
+    @Test
+    public void testNegativeDisjoint() {
+        when(properties.getProperty("existing")).thenReturn(Collections.singletonList(1));
+        Predicate<Properties> filter = where("existing").disjoint(new HashSet<Integer>(Arrays.asList(3, 2, 1))).build();
+        assertFalse(filter.apply(properties));
+    }
+
+    @Test
+    public void testDisjointWithNull() {
+        Predicate<Properties> filter = where("existing").disjoint(new HashSet<Integer>(Arrays.asList(3, 2, 1))).build();
+        assertTrue(filter.apply(properties));
+    }
+
+    @Test
+    public void testContains() {
+        when(properties.getProperty("existing")).thenReturn(new HashSet<Integer>(Arrays.asList(3, 2, 1)));
+        Predicate<Properties> filter = where("existing").contains(1).build();
+        assertTrue(filter.apply(properties));
+    }
+
+    @Test
+    public void testNegativeContains() {
+        when(properties.getProperty("existing")).thenReturn(new HashSet<Integer>(Arrays.asList(3, 2, 1)));
+        Predicate<Properties> filter = where("existing").contains(4).build();
+        assertFalse(filter.apply(properties));
+    }
+
+    @Test
+    public void tesContainsWithNull() {
+        Predicate<Properties> filter = where("existing").contains(1).build();
+        assertFalse(filter.apply(properties));
     }
 
     @Test
