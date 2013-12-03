@@ -16,34 +16,24 @@
 
 package org.jon.ivmark.graphit.recommendation;
 
-import org.hamcrest.CoreMatchers;
 import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
 import org.jon.ivmark.graphit.core.properties.HashMapProperties;
-import org.jon.ivmark.graphit.core.properties.Properties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.OUTGOING;
-import static org.jon.ivmark.graphit.recommendation.SimilarityType.OTHERS_ALSO_BOUGHT;
-import static org.jon.ivmark.graphit.recommendation.SimilarityType.OTHERS_ALSO_LIKED;
-import static org.jon.ivmark.graphit.recommendation.SimilarityType.OTHERS_ALSO_VIEWED;
-import static org.mockito.Matchers.isNotNull;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,7 +42,6 @@ public class ItemBasedRecommenderImplTest {
     @Mock
     private PropertyGraph similarities;
 
-    @Mock
     private ItemBasedRecommender recommender;
 
     private final Node node = new Node(1, ItemId.withId("test"), new HashMapProperties());

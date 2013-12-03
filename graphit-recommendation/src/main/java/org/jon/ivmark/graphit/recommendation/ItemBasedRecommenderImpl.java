@@ -22,15 +22,15 @@ import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
 
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.OUTGOING;
-import static org.jon.ivmark.graphit.recommendation.SimilarityType.OTHERS_ALSO_BOUGHT;
-import static org.jon.ivmark.graphit.recommendation.SimilarityType.OTHERS_ALSO_LIKED;
-import static org.jon.ivmark.graphit.recommendation.SimilarityType.OTHERS_ALSO_VIEWED;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_BOUGHT;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_LIKED;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_VIEWED;
 
 public class ItemBasedRecommenderImpl implements ItemBasedRecommender {
 
     private final PropertyGraph similarites;
 
-    ItemBasedRecommenderImpl(PropertyGraph similarites) {
+    public ItemBasedRecommenderImpl(PropertyGraph similarites) {
         this.similarites = similarites;
     }
 

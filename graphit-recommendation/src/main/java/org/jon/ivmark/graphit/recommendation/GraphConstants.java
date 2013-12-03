@@ -17,14 +17,18 @@
 package org.jon.ivmark.graphit.recommendation;
 
 import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.node.NodeType;
 
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeSortOrder.DESCENDING_WEIGHT;
 
-public final class SimilarityType {
+public final class GraphConstants {
 
-    private SimilarityType() {}
+    private GraphConstants() {}
 
     public static final EdgeType OTHERS_ALSO_BOUGHT = new EdgeType("OthersAlsoBought", DESCENDING_WEIGHT);
     public static final EdgeType OTHERS_ALSO_VIEWED = new EdgeType("OthersAlsoViewed", DESCENDING_WEIGHT);
     public static final EdgeType OTHERS_ALSO_LIKED = new EdgeType("OthersAlsoLiked", DESCENDING_WEIGHT);
+
+    public static final NodeType ITEM = new NodeType("Item");
+
 }

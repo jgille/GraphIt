@@ -16,15 +16,20 @@
 
 package org.jon.ivmark.graphit.recommendation;
 
-import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.GraphMetadata;
 
-import static org.jon.ivmark.graphit.recommendation.GraphConstants.ITEM;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.*;
 
-public final class ItemId {
+public final class RecommendationGraphMetadata {
 
-    private ItemId() {}
+    private RecommendationGraphMetadata() {}
 
-    public static NodeId withId(String itemId) {
-        return new NodeId(ITEM, itemId);
+    public static GraphMetadata getMetadata() {
+        GraphMetadata metadata = new GraphMetadata();
+        metadata.addEdgeType(OTHERS_ALSO_BOUGHT);
+        metadata.addEdgeType(OTHERS_ALSO_VIEWED);
+        metadata.addEdgeType(OTHERS_ALSO_LIKED);
+        metadata.addNodeType(ITEM);
+        return metadata;
     }
 }
