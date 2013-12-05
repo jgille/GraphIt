@@ -17,29 +17,21 @@
 package org.jon.ivmark.graphit.recommendation.it;
 
 import com.google.common.base.Preconditions;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
-import org.jon.ivmark.graphit.core.graph.node.repository.NodePropertiesRepository;
-import org.jon.ivmark.graphit.core.properties.HashMapProperties;
-import org.jon.ivmark.graphit.core.properties.Properties;
 import org.jon.ivmark.graphit.recommendation.*;
+import org.jon.ivmark.graphit.recommendation.InMemoryItemRepository;
+import org.jon.ivmark.graphit.recommendation.ItemRepository;
 import org.jon.ivmark.graphit.test.categories.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.jon.ivmark.graphit.core.graph.traversal.PropertiesFilterBuilder.where;
-import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_BOUGHT;
-import static org.jon.ivmark.graphit.recommendation.RecommendationGraphMetadata.getMetadata;
 
 @Category(IntegrationTest.class)
 public class ItemBasedRecommenderTest {
@@ -55,64 +47,73 @@ public class ItemBasedRecommenderTest {
 
     @Before
     public void setUp() {
-        PropertyGraphImpl graph = new PropertyGraphImpl(getMetadata());
-        graph.setNodePropertiesRepo(new NodePropertiesRepository(10));
-
-        addNodes(graph, Arrays.asList(N1, N2, N3, N4, N5, N6));
-
-        graph.setNodeProperties(N1, buildProperties(
+        List<Item> items = new ArrayList<Item>();
+        items.add(item(N1, buildProperties(
                 "Name", "1",
                 "Price", 10,
                 "OnSale", false,
-                "Categories", Arrays.asList("Action", "11+")));
-        graph.setNodeProperties(N2, buildProperties(
+                "Categories", Arrays.asList("Action", "11+"))));
+        items.add(item(N2, buildProperties(
                 "Name", "2",
                 "Price", 20,
                 "OnSale", true,
-                "Categories", Arrays.asList("Action", "11+")));
-        graph.setNodeProperties(N3, buildProperties(
+                "Categories", Arrays.asList("Action", "11+"))));
+        items.add(item(N3, buildProperties(
                 "Name", "3",
                 "Price", 30,
                 "OnSale", false,
-                "Categories", Arrays.asList("Action", "11+")));
-        graph.setNodeProperties(N4, buildProperties(
+                "Categories", Arrays.asList("Action", "11+"))));
+        items.add(item(N4, buildProperties(
                 "Name", "4",
                 "Price", 40,
                 "OnSale", true,
-                "Categories", Arrays.asList("Action", "11+")));
-        graph.setNodeProperties(N5, buildProperties(
+                "Categories", Arrays.asList("Action", "11+"))));
+        items.add(item(N5, buildProperties(
                 "Name", "5",
                 "Price", 50,
                 "OnSale", false,
-                "Categories", Arrays.asList("Action", "11+")));
-        graph.setNodeProperties(N6, buildProperties(
+                "Categories", Arrays.asList("Action", "11+"))));
+        items.add(item(N6, buildProperties(
                 "Name", "6",
                 "Price", 60,
                 "OnSale", true,
-                "Categories", Arrays.asList("Action", "11+")));
+                "Categories", Arrays.asList("Action", "11+"))));
 
-        graph.addEdge(N1, N2, OTHERS_ALSO_BOUGHT, 1f);
-        graph.addEdge(N1, N3, OTHERS_ALSO_BOUGHT, 2f);
-        graph.addEdge(N1, N4, OTHERS_ALSO_BOUGHT, 0.5f);
-        graph.addEdge(N4, N5, OTHERS_ALSO_BOUGHT, 0.5f);
-        graph.addEdge(N4, N6, OTHERS_ALSO_BOUGHT, 1.5f);
+        ItemRepository itemRepository = new InMemoryItemRepository(items);
 
-        this.recommender = new ItemBasedRecommenderImpl(graph);
+        List<Similarity> othersAlsoBought = new ArrayList<Similarity>();
+        List<Similarity> othersAlsoViewed = new ArrayList<Similarity>();
+        List<Similarity> othersAlsoLiked = new ArrayList<Similarity>();
+
+        similarity(othersAlsoBought, N1, N2, 1f);
+        similarity(othersAlsoBought, N1, N3, 2f);
+        similarity(othersAlsoBought, N1, N4, 0.5f);
+        similarity(othersAlsoBought, N4, N5, 0.5f);
+        similarity(othersAlsoBought, N4, N6, 1.5f);
+
+        similarity(othersAlsoLiked, N1, N2, 1f);
+        similarity(othersAlsoViewed, N1, N3, 2f);
+
+        this.recommender = new ItemBasedRecommenderImpl.Builder().items(itemRepository)
+                .othersAlsoBought(othersAlsoBought).othersAlsoLiked(othersAlsoLiked)
+                .othersAlsoViewed(othersAlsoViewed).build();
     }
 
-    private void addNodes(PropertyGraph graph, List<NodeId> nodeIds) {
-        for (NodeId nodeId : nodeIds) {
-            graph.addNode(nodeId);
-        }
+    private void similarity(List<Similarity> similarities, NodeId source, NodeId similar, float weight) {
+        similarities.add(new Similarity(source.getId(), similar.getId(), weight));
     }
 
-    private Properties buildProperties(Object... keyValues) {
+    private Item item(NodeId nodeId, Map<String, Object> properties) {
+        return new Item(nodeId.getId(), properties);
+    }
+
+    private Map<String, Object> buildProperties(Object... keyValues) {
         Preconditions.checkArgument(keyValues.length % 2 == 0);
-        Properties properties = new HashMapProperties();
+        Map<String, Object> properties = new HashMap<String, Object>();
         for (int i = 0; i <= keyValues.length - 1; i += 2) {
             String key = (String) keyValues[i];
             Object value = keyValues[i + 1];
-            properties.setProperty(key, value);
+            properties.put(key, value);
         }
         return properties;
     }
@@ -127,6 +128,26 @@ public class ItemBasedRecommenderTest {
         assertThat(items.get(0).getItemId(), is(N3.getId()));
         assertThat(items.get(1).getItemId(), is(N2.getId()));
         assertThat(items.get(2).getItemId(), is(N4.getId()));
+    }
+
+    @Test
+    public void testOthersAlsoLiked() {
+        Recommendation recommendation = recommender.othersAlsoLiked(N1.getId());
+        assertThat(recommendation, notNullValue());
+        List<Item> items = recommendation.get();
+        assertThat(items, notNullValue());
+        assertThat(items.size(), is(1));
+        assertThat(items.get(0).getItemId(), is(N2.getId()));
+    }
+
+    @Test
+    public void testOthersAlsoViewed() {
+        Recommendation recommendation = recommender.othersAlsoViewed(N1.getId());
+        assertThat(recommendation, notNullValue());
+        List<Item> items = recommendation.get();
+        assertThat(items, notNullValue());
+        assertThat(items.size(), is(1));
+        assertThat(items.get(0).getItemId(), is(N3.getId()));
     }
 
     @Test

@@ -98,4 +98,5 @@ public class HashMapProperties implements Properties {
     public boolean isEmpty() {
         return properties.isEmpty();
     }
+
 }

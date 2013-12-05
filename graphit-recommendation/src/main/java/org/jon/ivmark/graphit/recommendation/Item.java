@@ -16,6 +16,8 @@
 
 package org.jon.ivmark.graphit.recommendation;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +28,8 @@ public class Item {
 
     private final Map<String, Object> properties;
 
-    public Item(String itemId, Map<String, Object> properties) {
+    public Item(@JsonProperty("itemId") String itemId,
+                @JsonProperty("properties") Map<String, Object> properties) {
         this.itemId = itemId;
         this.properties = new HashMap<String, Object>(properties);
     }

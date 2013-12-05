@@ -1,0 +1,5 @@
+log-likelyhood-similarities generated with:
+
+hadoop/bin/hadoop jar mahout-distribution-0.8/core/target/mahout-core-0.8-job.jar org.apache.mahout.cf.taste.hadoop.similarity.item.ItemSimilarityJob --input listened-to.csv --output out  --similarityClassname SIMILARITY_LOGLIKELIHOOD  --maxSimilaritiesPerItem 5000
+
+where listened-to.csv was generated from user_artists.dat using the class LastFmToSimilarities.
