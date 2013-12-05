@@ -23,7 +23,6 @@ import org.jon.ivmark.graphit.core.properties.Properties;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public final class PropertiesFilterBuilder {

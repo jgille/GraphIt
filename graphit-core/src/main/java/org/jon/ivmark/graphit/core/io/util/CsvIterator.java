@@ -51,7 +51,7 @@ public class CsvIterator implements Closeable {
         CsvIterator iterator = null;
         try {
             iterator =
-                new CsvIterator(new CSVReader(new InputStreamReader(new FileInputStream(file), "UTF8"),
+                new CsvIterator(new CSVReader(new InputStreamReader(new FileInputStream(file), "UTF-8"),
                                               delimiter, escapeChar));
             iterator.forEachRow(procedure);
         } finally {

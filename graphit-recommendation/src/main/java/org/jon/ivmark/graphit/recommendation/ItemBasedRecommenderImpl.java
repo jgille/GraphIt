@@ -24,6 +24,7 @@ import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.OUTGOING;
@@ -61,6 +62,11 @@ public class ItemBasedRecommenderImpl implements ItemBasedRecommender {
     public Recommendation othersAlsoLiked(String itemId) {
         Traversable<Node> similar = getSimilarItems(itemId, OTHERS_ALSO_LIKED);
         return new RecommendationImpl(similar);
+    }
+
+    @Override
+    public int numberOfItems() {
+        return similarites.numberOfNodes();
     }
 
     private Traversable<Node> getSimilarItems(String itemId, EdgeType edgeType) {
@@ -103,9 +109,9 @@ public class ItemBasedRecommenderImpl implements ItemBasedRecommender {
 
     public static class Builder {
         private ItemRepository items = new InMemoryItemRepository(Collections.<Item>emptyList());
-        private Iterable<Similarity> othersAlsoBought;
-        private Iterable<Similarity> othersAlsoViewed;
-        private Iterable<Similarity> othersAlsoLiked;
+        private Iterable<Similarity> othersAlsoBought = new ArrayList<Similarity>();
+        private Iterable<Similarity> othersAlsoViewed = new ArrayList<Similarity>();
+        private Iterable<Similarity> othersAlsoLiked = new ArrayList<Similarity>();
 
         public Builder items(ItemRepository items) {
             this.items = items;

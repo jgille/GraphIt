@@ -16,12 +16,11 @@
 
 package org.jon.ivmark.graphit.tinkerpop.blueprints;
 
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.properties.domain.Properties;
-
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
+import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
+import org.jon.ivmark.graphit.core.properties.domain.Properties;
 
 /**
  * An {@link Edge} implmentation.

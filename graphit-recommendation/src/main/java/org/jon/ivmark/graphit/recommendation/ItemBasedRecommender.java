@@ -24,5 +24,6 @@ public interface ItemBasedRecommender {
 
     Recommendation othersAlsoLiked(String itemId);
 
+    int numberOfItems();
 
 }

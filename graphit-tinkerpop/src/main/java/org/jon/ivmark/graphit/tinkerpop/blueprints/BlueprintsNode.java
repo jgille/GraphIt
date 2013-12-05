@@ -16,19 +16,18 @@
 
 package org.jon.ivmark.graphit.tinkerpop.blueprints;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.jon.ivmark.graphit.core.graph.node.domain.Node;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
-
 import com.google.common.collect.Iterables;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.util.DefaultQuery;
+import org.jon.ivmark.graphit.core.graph.node.domain.Node;
+import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * A {@link Vertex} implementation.

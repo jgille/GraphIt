@@ -198,4 +198,7 @@ public interface PropertyGraph {
      * Returns all edges in this graph.
      */
     Traversable<Edge> getEdges();
+
+    int numberOfNodes();
+
 }

@@ -19,8 +19,6 @@ package org.jon.ivmark.graphit.recommendation.it;
 import com.google.common.base.Preconditions;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.recommendation.*;
-import org.jon.ivmark.graphit.recommendation.InMemoryItemRepository;
-import org.jon.ivmark.graphit.recommendation.ItemRepository;
 import org.jon.ivmark.graphit.test.categories.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;

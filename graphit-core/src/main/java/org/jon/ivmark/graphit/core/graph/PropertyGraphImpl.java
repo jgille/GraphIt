@@ -524,6 +524,11 @@ public class PropertyGraphImpl implements PropertyGraph {
     }
 
     @Override
+    public int numberOfNodes() {
+        return nodeRepo.size();
+    }
+
+    @Override
     public EdgeType createEdgeType(String name) {
         EdgeType edgeType = new EdgeType(name);
         metadata.addEdgeType(edgeType);

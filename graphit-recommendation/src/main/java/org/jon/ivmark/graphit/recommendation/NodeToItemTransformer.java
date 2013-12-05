@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 
 class NodeToItemTransformer implements Function<Node, Item> {
+
     @Override
     public Item apply(Node node) {
         return new Item(node.getNodeId().getId(), node.asPropertyMap());

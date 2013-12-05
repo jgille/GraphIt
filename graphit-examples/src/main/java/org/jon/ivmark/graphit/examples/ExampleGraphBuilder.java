@@ -16,13 +16,9 @@
 
 package org.jon.ivmark.graphit.examples;
 
+import org.jon.ivmark.graphit.core.graph.*;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
-import org.jon.ivmark.graphit.core.graph.GraphMetadata;
-import org.jon.ivmark.graphit.core.graph.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.PropertyGraphDotExporter;
-import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
-import org.jon.ivmark.graphit.core.graph.PropertyGraphJsonUtils;
 import org.jon.ivmark.graphit.core.properties.HashMapProperties;
 import org.jon.ivmark.graphit.core.properties.Properties;
 

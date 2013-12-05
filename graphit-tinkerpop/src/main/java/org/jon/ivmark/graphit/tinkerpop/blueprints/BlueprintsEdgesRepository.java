@@ -16,13 +16,12 @@
 
 package org.jon.ivmark.graphit.tinkerpop.blueprints;
 
-import java.util.Collection;
-
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
-
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
+import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+
+import java.util.Collection;
 
 /**
  * A repository containing methods for getting connected edges and neighbors for

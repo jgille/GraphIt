@@ -41,7 +41,11 @@ public class InMemoryItemRepository implements ItemRepository {
         return items.get(itemId);
     }
 
-    public static ItemRepository fromJson(File file) {
+    public int size() {
+        return items.size();
+    }
+
+    public static InMemoryItemRepository fromJson(File file) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             List<Item> items = objectMapper.readValue(file, new TypeReference<List<Item>>() {});

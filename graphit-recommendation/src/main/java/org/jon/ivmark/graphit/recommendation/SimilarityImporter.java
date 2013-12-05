@@ -29,7 +29,7 @@ public final class SimilarityImporter {
 
     private SimilarityImporter() {}
 
-    static List<Similarity> importSimilarities(File file, char delimiter) {
+    public static List<Similarity> importSimilarities(File file, char delimiter) {
         final List<Similarity> similarities = new ArrayList<Similarity>();
         try {
             CsvIterator.forEachRow(file.getAbsolutePath(), delimiter, '\\', new Procedure<CsvRow>() {

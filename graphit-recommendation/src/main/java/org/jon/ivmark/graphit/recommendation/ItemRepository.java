@@ -16,8 +16,6 @@
 
 package org.jon.ivmark.graphit.recommendation;
 
-import org.jon.ivmark.graphit.recommendation.Item;
-
 public interface ItemRepository {
 
     Item get(String itemId);

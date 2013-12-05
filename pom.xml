@@ -212,7 +212,7 @@
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>2.16</version>
                         <configuration>
-                            <groups>org.jon.test.categories.LoadTest</groups>
+                            <groups>org.jon.ivmark.graphit.test.categories.LoadTest</groups>
                         </configuration>
                         <executions>
                             <execution>

@@ -44,7 +44,7 @@ public abstract class AbstractEdgePrimitivesRepository implements EdgePrimitives
 
     protected abstract TypedEdgePrimitivesRepository createRepo(EdgeType edgeType);
 
-    private TypedEdgePrimitivesRepository getOrCreateRepository(EdgeType edgeType) {
+    private synchronized TypedEdgePrimitivesRepository getOrCreateRepository(EdgeType edgeType) {
         if (!repos.containsKey(edgeType)) {
             TypedEdgePrimitivesRepository repo = createRepo(edgeType);
             repos.put(edgeType, repo);
