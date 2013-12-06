@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.traversal;
+package org.jon.ivmark.graphit.core.graph.node;
 
 import com.google.common.base.Predicate;
-import org.jon.ivmark.graphit.core.graph.edge.Edge;
-import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.filter.GraphEntityFilter;
 import org.jon.ivmark.graphit.core.properties.Properties;
 
-public class EdgeFilter extends GraphEntityFilter<Edge> {
+public class NodeFilter extends GraphEntityFilter<Node> {
 
-    public EdgeFilter withEdgeTypes(EdgeType... edgeTypes) {
-        setTypeFilter(new EdgeTypeFilter(edgeTypes));
+    public NodeFilter withNodeTypes(NodeType... nodeTypes) {
+        setTypeFilter(new NodeTypeFilter(nodeTypes));
         return this;
     }
 
-    public EdgeFilter filterOnProperties(Predicate<Properties> propertiesFilter) {
+    public NodeFilter filterOnProperties(Predicate<Properties> propertiesFilter) {
         setPropertiesFilter(propertiesFilter);
         return this;
     }

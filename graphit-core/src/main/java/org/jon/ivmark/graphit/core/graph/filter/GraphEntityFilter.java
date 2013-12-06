@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.traversal;
+package org.jon.ivmark.graphit.core.graph.filter;
 
 import com.google.common.base.Predicate;
 import org.jon.ivmark.graphit.core.graph.entity.GraphEntity;

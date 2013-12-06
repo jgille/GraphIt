@@ -19,8 +19,8 @@ package org.jon.ivmark.graphit.examples;
 import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
-import org.jon.ivmark.graphit.core.graph.traversal.NodeFilter;
-import org.jon.ivmark.graphit.core.graph.traversal.NodeTypeFilter;
+import org.jon.ivmark.graphit.core.graph.node.NodeFilter;
+import org.jon.ivmark.graphit.core.graph.node.NodeTypeFilter;
 import org.jon.ivmark.graphit.core.graph.traversal.PropertyRetriever;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.INCOMING;
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.OUTGOING;
-import static org.jon.ivmark.graphit.core.graph.traversal.PropertiesFilterBuilder.where;
+import static org.jon.ivmark.graphit.core.properties.PropertiesFilterBuilder.where;
 import static org.jon.ivmark.graphit.examples.ExampleConstants.*;
 import static org.jon.ivmark.graphit.examples.ExampleGraphBuilder.JOHN;
 import static org.jon.ivmark.graphit.examples.ExampleGraphBuilder.RIHANNA;

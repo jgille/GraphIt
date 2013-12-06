@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.traversal;
+package org.jon.ivmark.graphit.core.graph.edge;
 
 import com.google.common.base.Predicates;
 import org.jon.ivmark.graphit.core.graph.edge.Edge;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeFilter;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.traversal;
+package org.jon.ivmark.graphit.core.properties;
 
 import com.google.common.base.Predicate;
 import org.jon.ivmark.graphit.core.properties.Properties;
@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
-import static org.jon.ivmark.graphit.core.graph.traversal.PropertiesFilterBuilder.where;
+import static org.jon.ivmark.graphit.core.properties.PropertiesFilterBuilder.where;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;

@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.traversal;
+package org.jon.ivmark.graphit.core.properties;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import org.jon.ivmark.graphit.core.properties.Properties;
 
 import java.util.ArrayList;
 import java.util.Collection;
