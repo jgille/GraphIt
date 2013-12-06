@@ -18,9 +18,9 @@ package org.jon.ivmark.graphit.tinkerpop.blueprints;
 
 import com.tinkerpop.blueprints.*;
 import com.tinkerpop.blueprints.impls.GraphTest;
-import org.jon.ivmark.graphit.core.graph.schema.GraphMetadata;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraphImpl;
+import org.jon.ivmark.graphit.core.graph.GraphMetadata;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
+import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
 import org.jon.ivmark.graphit.test.categories.IntegrationTest;
 import org.junit.experimental.categories.Category;
 

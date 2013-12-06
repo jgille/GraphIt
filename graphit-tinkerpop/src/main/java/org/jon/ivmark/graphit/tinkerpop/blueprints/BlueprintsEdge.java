@@ -19,14 +19,14 @@ package org.jon.ivmark.graphit.tinkerpop.blueprints;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.properties.domain.Properties;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.properties.Properties;
 
 /**
  * An {@link Edge} implmentation.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class BlueprintsEdge extends AbstractElement<EdgeId> implements Edge {
 
@@ -35,7 +35,7 @@ public class BlueprintsEdge extends AbstractElement<EdgeId> implements Edge {
 
     /**
      * Constructs an edge.
-     * 
+     *
      * @param edgeId
      *            The id of this edge.
      * @param startNode

@@ -22,16 +22,14 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.tinkerpop.blueprints.*;
-import org.jon.ivmark.graphit.core.graph.edge.domain.EdgeId;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeType;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeTypeImpl;
-import org.jon.ivmark.graphit.core.graph.edge.schema.EdgeTypes;
-import org.jon.ivmark.graphit.core.graph.node.domain.Node;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
-import org.jon.ivmark.graphit.core.graph.node.schema.NodeType;
-import org.jon.ivmark.graphit.core.graph.node.schema.NodeTypeImpl;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.traversal.EdgeDirection;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeId;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeType;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeTypes;
+import org.jon.ivmark.graphit.core.graph.node.Node;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeType;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
+import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -48,8 +46,8 @@ public class BlueprintsGraph implements Graph {
     private final Features graphFeatures;
     private final BlueprintsEdgesRepository edgesRepo;
 
-    private static final NodeType DEFAULT_NODE_TYPE = new NodeTypeImpl("_default_node_type");
-    private static final EdgeType DEFAULT_EDGE_TYPE = new EdgeTypeImpl("_default_edge_type");
+    private static final NodeType DEFAULT_NODE_TYPE = new NodeType("_default_node_type");
+    private static final EdgeType DEFAULT_EDGE_TYPE = new EdgeType("_default_edge_type");
 
     /**
      * Creates a new instance.
@@ -198,7 +196,7 @@ public class BlueprintsGraph implements Graph {
         EdgeType edgeType = getEdgeType(label);
         NodeId startNodeId = getNodeId(outVertex.getId());
         NodeId endNodeId = getNodeId(inVertex.getId());
-        org.jon.ivmark.graphit.core.graph.edge.domain.Edge edge =
+        org.jon.ivmark.graphit.core.graph.edge.Edge edge =
             graph.addEdge(startNodeId, endNodeId, edgeType);
         return new BlueprintsEdge(edge.getEdgeId(), outVertex, inVertex, edge);
     }
@@ -207,14 +205,14 @@ public class BlueprintsGraph implements Graph {
     public Edge getEdge(Object id) {
         Preconditions.checkArgument(id != null);
         EdgeId edgeId = castEdgeId(id);
-        org.jon.ivmark.graphit.core.graph.edge.domain.Edge edge = graph.getEdge(edgeId);
+        org.jon.ivmark.graphit.core.graph.edge.Edge edge = graph.getEdge(edgeId);
         if (edge == null) {
             return null;
         }
         return transformEdge(edge);
     }
 
-    private Edge transformEdge(org.jon.ivmark.graphit.core.graph.edge.domain.Edge edge) {
+    private Edge transformEdge(org.jon.ivmark.graphit.core.graph.edge.Edge edge) {
         NodeId startNodeId = edge.getStartNode().getNodeId();
         Vertex startNode = getVertex(startNodeId);
         NodeId endNodeId = edge.getEndNode().getNodeId();
@@ -230,11 +228,11 @@ public class BlueprintsGraph implements Graph {
 
     @Override
     public Iterable<Edge> getEdges() {
-        Iterable<org.jon.ivmark.graphit.core.graph.edge.domain.Edge> edges = graph.getEdges();
-        return Iterables.transform(edges, new Function<org.jon.ivmark.graphit.core.graph.edge.domain.Edge, Edge>() {
+        Iterable<org.jon.ivmark.graphit.core.graph.edge.Edge> edges = graph.getEdges();
+        return Iterables.transform(edges, new Function<org.jon.ivmark.graphit.core.graph.edge.Edge, Edge>() {
 
             @Override
-            public Edge apply(org.jon.ivmark.graphit.core.graph.edge.domain.Edge edge) {
+            public Edge apply(org.jon.ivmark.graphit.core.graph.edge.Edge edge) {
                 return transformEdge(edge);
             }
         });
@@ -312,7 +310,7 @@ public class BlueprintsGraph implements Graph {
     }
 
     private static final class EdgeTransformer implements
-        Function<org.jon.ivmark.graphit.core.graph.edge.domain.Edge, Edge> {
+        Function<org.jon.ivmark.graphit.core.graph.edge.Edge, Edge> {
 
         private final BlueprintsGraph graph;
 
@@ -321,7 +319,7 @@ public class BlueprintsGraph implements Graph {
         }
 
         @Override
-        public Edge apply(org.jon.ivmark.graphit.core.graph.edge.domain.Edge edge) {
+        public Edge apply(org.jon.ivmark.graphit.core.graph.edge.Edge edge) {
             if (edge == null) {
                 return null;
             }

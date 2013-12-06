@@ -19,16 +19,20 @@ package org.jon.ivmark.graphit.tinkerpop.examples.tinkerpop;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.gremlin.java.GremlinPipeline;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraph;
-import org.jon.ivmark.graphit.core.graph.service.PropertyGraphImpl;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
+import org.jon.ivmark.graphit.core.graph.PropertyGraph;
+import org.jon.ivmark.graphit.core.graph.PropertyGraphImpl;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
+import org.jon.ivmark.graphit.tinkerpop.ExampleConstants;
 import org.jon.ivmark.graphit.tinkerpop.blueprints.BlueprintsGraph;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.jon.ivmark.graphit.core.examples.ExampleConstants.*;
+import static org.jon.ivmark.graphit.tinkerpop.ExampleConstants.BOUGHT;
+import static org.jon.ivmark.graphit.tinkerpop.ExampleConstants.LISTENED_TO;
+import static org.jon.ivmark.graphit.tinkerpop.ExampleConstants.USER;
+
 
 /**
  * Some examples using Gremlin pipes.

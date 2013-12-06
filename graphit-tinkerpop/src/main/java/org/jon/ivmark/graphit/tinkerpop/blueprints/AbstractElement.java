@@ -18,15 +18,15 @@ package org.jon.ivmark.graphit.tinkerpop.blueprints;
 
 import com.google.common.base.Preconditions;
 import com.tinkerpop.blueprints.Element;
-import org.jon.ivmark.graphit.core.properties.domain.Properties;
+import org.jon.ivmark.graphit.core.properties.Properties;
 
 import java.util.Set;
 
 /**
  * Base implementation of a blueprints {@link Element}.
- * 
+ *
  * @author jon
- * 
+ *
  * @param <T>
  *            The generic type of the element id.
  */
@@ -37,12 +37,12 @@ public abstract class AbstractElement<T> implements Element {
 
     /**
      * Constructs an element.
-     * 
+     *
      * @param id
      *            The id of this element.
      * @param properties
      *            The properties of this element.
-     * 
+     *
      */
     protected AbstractElement(T id, Properties properties) {
         Preconditions.checkNotNull(id);

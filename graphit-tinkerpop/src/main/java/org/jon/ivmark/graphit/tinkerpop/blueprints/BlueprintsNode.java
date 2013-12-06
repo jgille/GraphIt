@@ -22,8 +22,8 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.util.DefaultQuery;
-import org.jon.ivmark.graphit.core.graph.node.domain.Node;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.Node;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,9 +31,9 @@ import java.util.List;
 
 /**
  * A {@link Vertex} implementation.
- * 
+ *
  * @author jon
- * 
+ *
  */
 class BlueprintsNode extends AbstractElement<BlueprintsNodeId> implements Vertex {
 
@@ -41,8 +41,8 @@ class BlueprintsNode extends AbstractElement<BlueprintsNodeId> implements Vertex
     private final BlueprintsEdgesRepository edgesRepo;
 
     /**
-     * Constructs a new {@link org.jon.ivmark.graphit.core.graph.blueprints.BlueprintsNode}.
-     * 
+     * Constructs a new instance..
+     *
      * @param node
      *            The wrapped node.
      * @param edgesRepo

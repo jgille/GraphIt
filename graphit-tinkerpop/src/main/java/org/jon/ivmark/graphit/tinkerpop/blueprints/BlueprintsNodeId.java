@@ -17,13 +17,13 @@
 package org.jon.ivmark.graphit.tinkerpop.blueprints;
 
 import com.google.common.base.Preconditions;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 
 /**
  * A blueprints compatible node id.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public class BlueprintsNodeId {
 

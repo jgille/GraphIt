@@ -19,22 +19,22 @@ package org.jon.ivmark.graphit.tinkerpop.blueprints;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import org.jon.ivmark.graphit.core.graph.node.domain.NodeId;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 
 import java.util.Collection;
 
 /**
  * A repository containing methods for getting connected edges and neighbors for
  * a node.
- * 
+ *
  * @author jon
- * 
+ *
  */
 public interface BlueprintsEdgesRepository {
 
     /**
      * Gets connected edges for a node.
-     * 
+     *
      * @param nodeId
      *            The node id.
      * @param edgeDirection
@@ -46,7 +46,7 @@ public interface BlueprintsEdgesRepository {
 
     /**
      * Gets neighbors for a node.
-     * 
+     *
      * @param nodeId
      *            The node id.
      * @param edgeDirection
