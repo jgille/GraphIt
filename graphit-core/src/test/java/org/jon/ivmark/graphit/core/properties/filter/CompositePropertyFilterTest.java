@@ -42,7 +42,7 @@ public class CompositePropertyFilterTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testWithIllegalConditions() {
-        Map<String, Object> testSettings = Collections.<String, Object>emptyMap();
+        Map<String, Object> testSettings = Collections.emptyMap();
         Map<String, Map<String, Object>> filterSettings = Collections.singletonMap("Test", testSettings);
         new CompositePropertyFilter(filterSettings);
     }

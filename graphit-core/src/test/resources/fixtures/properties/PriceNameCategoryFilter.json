@@ -1,0 +1,10 @@
+{
+    "Price" : {
+        "and" : [
+            { ">=" : 10 },
+            { "<" : 100}
+        ]
+    },
+    "Name" : { "in" : ["Test", "Other"] },
+    "Category" : { "=" : "TestCategory" }
+}
