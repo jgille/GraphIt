@@ -14,34 +14,25 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.edge;
+package org.jon.ivmark.graphit.core.properties.filter;
 
 import com.google.common.base.Predicate;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.regex.Pattern;
 
-/**
- * A filter on edge type.
- *
- * @author jon
- * 
- */
-public class EdgeTypeFilter implements Predicate<Edge> {
+public class MatchesFilter implements Predicate<Object> {
+    private final Pattern pattern;
 
-    private final Set<EdgeType> edgeTypes;
+    public MatchesFilter(String pattern) {
+        this(Pattern.compile(pattern));
+    }
 
-    /**
-     * Creates a new filter.
-     */
-    public EdgeTypeFilter(EdgeType... edgeTypes) {
-        this.edgeTypes = new HashSet<EdgeType>(Arrays.asList(edgeTypes));
+    public MatchesFilter(Pattern pattern) {
+        this.pattern = pattern;
     }
 
     @Override
-    public boolean apply(Edge edge) {
-        return edgeTypes.contains(edge.getType());
+    public boolean apply(Object input) {
+        return input instanceof String && pattern.matcher((String) input).matches();
     }
-
 }

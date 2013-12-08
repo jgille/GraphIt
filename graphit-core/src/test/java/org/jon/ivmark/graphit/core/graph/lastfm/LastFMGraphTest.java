@@ -18,8 +18,8 @@ package org.jon.ivmark.graphit.core.graph.lastfm;
 
 import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeDirection;
-import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.edge.EdgeTypeFilter;
+import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.node.NodeTypeFilter;
 import org.jon.ivmark.graphit.test.categories.IntegrationTest;
 import org.junit.Test;

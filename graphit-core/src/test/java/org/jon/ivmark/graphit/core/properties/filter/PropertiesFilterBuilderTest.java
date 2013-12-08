@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.properties;
+package org.jon.ivmark.graphit.core.properties.filter;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Sets;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,9 +27,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
-import static org.jon.ivmark.graphit.core.properties.PropertiesFilterBuilder.where;
+import static org.jon.ivmark.graphit.core.properties.filter.PropertiesFilterBuilder.where;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -211,60 +213,60 @@ public class PropertiesFilterBuilderTest {
     @Test
     public void testIn() {
         when(properties.getProperty("existing")).thenReturn(1);
-        Predicate<Properties> filter = where("existing").in(Arrays.asList(3, 2, 1)).build();
+        Predicate<Properties> filter = where("existing").in(asSet(3, 2, 1)).build();
         assertTrue(filter.apply(properties));
     }
 
     @Test
     public void testNegativeIn() {
         when(properties.getProperty("existing")).thenReturn(4);
-        Predicate<Properties> filter = where("existing").in(Arrays.asList(3, 2, 1)).build();
+        Predicate<Properties> filter = where("existing").in(asSet(3, 2, 1)).build();
         assertFalse(filter.apply(properties));
     }
 
     @Test
     public void testNullNotInAnything() {
-        Predicate<Properties> filter = where("nonExisting").in(Arrays.asList(3, 2, 1)).build();
+        Predicate<Properties> filter = where("nonExisting").in(asSet(3, 2, 1)).build();
         assertFalse(filter.apply(properties));
     }
 
     @Test
     public void testNotIn() {
         when(properties.getProperty("existing")).thenReturn(4);
-        Predicate<Properties> filter = where("existing").notIn(Arrays.asList(3, 2, 1)).build();
+        Predicate<Properties> filter = where("existing").notIn(asSet(3, 2, 1)).build();
         assertTrue(filter.apply(properties));
     }
 
     @Test
     public void testNegativeNotIn() {
         when(properties.getProperty("existing")).thenReturn(1);
-        Predicate<Properties> filter = where("existing").notIn(Arrays.asList(3, 2, 1)).build();
+        Predicate<Properties> filter = where("existing").notIn(asSet(3, 2, 1)).build();
         assertFalse(filter.apply(properties));
     }
 
     @Test
     public void testNotInWithNull() {
-        Predicate<Properties> filter = where("nonExisting").notIn(Arrays.asList(3, 2, 1)).build();
+        Predicate<Properties> filter = where("nonExisting").notIn(asSet(3, 2, 1)).build();
         assertTrue(filter.apply(properties));
     }
 
     @Test
     public void testDisjoint() {
         when(properties.getProperty("existing")).thenReturn(Collections.singletonList(4));
-        Predicate<Properties> filter = where("existing").disjoint(new HashSet<Integer>(Arrays.asList(3, 2, 1))).build();
+        Predicate<Properties> filter = where("existing").disjoint(asSet(3, 2, 1)).build();
         assertTrue(filter.apply(properties));
     }
 
     @Test
     public void testNegativeDisjoint() {
         when(properties.getProperty("existing")).thenReturn(Collections.singletonList(1));
-        Predicate<Properties> filter = where("existing").disjoint(new HashSet<Integer>(Arrays.asList(3, 2, 1))).build();
+        Predicate<Properties> filter = where("existing").disjoint(asSet(3, 2, 1)).build();
         assertFalse(filter.apply(properties));
     }
 
     @Test
     public void testDisjointWithNull() {
-        Predicate<Properties> filter = where("existing").disjoint(new HashSet<Integer>(Arrays.asList(3, 2, 1))).build();
+        Predicate<Properties> filter = where("existing").disjoint(asSet(3, 2, 1)).build();
         assertTrue(filter.apply(properties));
     }
 
@@ -312,5 +314,9 @@ public class PropertiesFilterBuilderTest {
                 .build();
 
         assertFalse(filter.apply(properties));
+    }
+
+    private Set<Object> asSet(Object... elements) {
+        return Sets.newHashSet(elements);
     }
 }

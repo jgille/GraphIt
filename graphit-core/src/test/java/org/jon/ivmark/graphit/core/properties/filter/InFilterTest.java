@@ -14,34 +14,28 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.edge;
+package org.jon.ivmark.graphit.core.properties.filter;
 
-import com.google.common.base.Predicate;
+import com.google.common.collect.Sets;
+import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-/**
- * A filter on edge type.
- *
- * @author jon
- * 
- */
-public class EdgeTypeFilter implements Predicate<Edge> {
-
-    private final Set<EdgeType> edgeTypes;
-
-    /**
-     * Creates a new filter.
-     */
-    public EdgeTypeFilter(EdgeType... edgeTypes) {
-        this.edgeTypes = new HashSet<EdgeType>(Arrays.asList(edgeTypes));
+public class InFilterTest {
+    @Test
+    public void testNullProperty() {
+        assertFalse(new InFilter(Sets.<Object>newHashSet(1)).apply(null));
     }
 
-    @Override
-    public boolean apply(Edge edge) {
-        return edgeTypes.contains(edge.getType());
+    @Test
+    public void testIn() {
+        assertTrue(new InFilter(Sets.<Object>newHashSet(1, 2)).apply(1));
+    }
+
+    @Test
+    public void testNegativeIn() {
+        assertFalse(new InFilter(Sets.<Object>newHashSet(2, 3)).apply(1));
     }
 
 }

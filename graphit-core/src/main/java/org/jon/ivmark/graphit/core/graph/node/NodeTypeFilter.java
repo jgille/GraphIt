@@ -17,8 +17,6 @@
 package org.jon.ivmark.graphit.core.graph.node;
 
 import com.google.common.base.Predicate;
-import org.jon.ivmark.graphit.core.graph.node.Node;
-import org.jon.ivmark.graphit.core.graph.node.NodeType;
 
 import java.util.Arrays;
 import java.util.HashSet;

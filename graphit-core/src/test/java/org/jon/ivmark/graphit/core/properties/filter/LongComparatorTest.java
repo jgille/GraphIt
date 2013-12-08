@@ -14,34 +14,14 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.edge;
+package org.jon.ivmark.graphit.core.properties.filter;
 
-import com.google.common.base.Predicate;
+import org.junit.Before;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+public class LongComparatorTest extends NumberComparatorTest {
 
-/**
- * A filter on edge type.
- *
- * @author jon
- * 
- */
-public class EdgeTypeFilter implements Predicate<Edge> {
-
-    private final Set<EdgeType> edgeTypes;
-
-    /**
-     * Creates a new filter.
-     */
-    public EdgeTypeFilter(EdgeType... edgeTypes) {
-        this.edgeTypes = new HashSet<EdgeType>(Arrays.asList(edgeTypes));
+    @Before
+    public void init() {
+        this.comparator = new LongComparator(10);
     }
-
-    @Override
-    public boolean apply(Edge edge) {
-        return edgeTypes.contains(edge.getType());
-    }
-
 }

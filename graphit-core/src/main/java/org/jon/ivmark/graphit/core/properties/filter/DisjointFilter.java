@@ -14,34 +14,28 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.graph.edge;
+package org.jon.ivmark.graphit.core.properties.filter;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Sets;
+import org.codehaus.jackson.type.TypeReference;
+import org.jon.ivmark.graphit.core.Json;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A filter on edge type.
- *
- * @author jon
- * 
- */
-public class EdgeTypeFilter implements Predicate<Edge> {
+public class DisjointFilter implements Predicate<Object> {
+    private final Set<Object> target;
 
-    private final Set<EdgeType> edgeTypes;
-
-    /**
-     * Creates a new filter.
-     */
-    public EdgeTypeFilter(EdgeType... edgeTypes) {
-        this.edgeTypes = new HashSet<EdgeType>(Arrays.asList(edgeTypes));
+    public DisjointFilter(Set<Object> target) {
+        this.target = target;
     }
 
     @Override
-    public boolean apply(Edge edge) {
-        return edgeTypes.contains(edge.getType());
+    public boolean apply(Object property) {
+        if (property == null) {
+            return true;
+        }
+        Set<Object> set = Json.OBJECT_MAPPER.convertValue(property, new TypeReference<Set<Object>>() {});
+        return Sets.intersection(target, set).isEmpty();
     }
-
 }

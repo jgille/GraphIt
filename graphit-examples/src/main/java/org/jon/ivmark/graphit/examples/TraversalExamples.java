@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.INCOMING;
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.OUTGOING;
-import static org.jon.ivmark.graphit.core.properties.PropertiesFilterBuilder.where;
+import static org.jon.ivmark.graphit.core.properties.filter.PropertiesFilterBuilder.where;
 import static org.jon.ivmark.graphit.examples.ExampleConstants.*;
 import static org.jon.ivmark.graphit.examples.ExampleGraphBuilder.JOHN;
 import static org.jon.ivmark.graphit.examples.ExampleGraphBuilder.RIHANNA;

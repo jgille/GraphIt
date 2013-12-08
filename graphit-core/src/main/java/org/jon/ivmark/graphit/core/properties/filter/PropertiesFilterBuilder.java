@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.core.properties;
+package org.jon.ivmark.graphit.core.properties.filter;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import org.jon.ivmark.graphit.core.properties.Properties;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public final class PropertiesFilterBuilder {
@@ -76,19 +77,19 @@ public final class PropertiesFilterBuilder {
             return builder.addFilter(PropertyFilter.notEqualTo(key, target));
         }
 
-        public <C extends Comparable<C>> PropertiesFilterBuilder lessThan(C limit) {
+        public PropertiesFilterBuilder lessThan(Number limit) {
             return builder.addFilter(PropertyFilter.lessThan(key, limit));
         }
 
-        public <C extends Comparable<C>> PropertiesFilterBuilder lessThanOrEqualTo(C limit) {
+        public PropertiesFilterBuilder lessThanOrEqualTo(Number limit) {
             return builder.addFilter(PropertyFilter.lessThanOrEqual(key, limit));
         }
 
-        public <C extends Comparable<C>> PropertiesFilterBuilder greaterThan(C limit) {
+        public PropertiesFilterBuilder greaterThan(Number limit) {
             return builder.addFilter(PropertyFilter.greaterThan(key, limit));
         }
 
-        public <C extends Comparable<C>> PropertiesFilterBuilder greaterThanOrEqualTo(C limit) {
+        public PropertiesFilterBuilder greaterThanOrEqualTo(Number limit) {
             return builder.addFilter(PropertyFilter.greaterThanOrEqual(key, limit));
         }
 
@@ -96,19 +97,19 @@ public final class PropertiesFilterBuilder {
             return builder.addFilter(PropertyFilter.matches(key, pattern));
         }
 
-        public <C> PropertiesFilterBuilder in(Collection<C> target) {
+        public PropertiesFilterBuilder in(Set<Object> target) {
             return builder.addFilter(PropertyFilter.in(key, target));
         }
 
-        public <C> PropertiesFilterBuilder notIn(Collection<C> target) {
+        public PropertiesFilterBuilder notIn(Set<Object> target) {
             return builder.addFilter(PropertyFilter.notIn(key, target));
         }
 
-        public <C> PropertiesFilterBuilder disjoint(Collection<C> target) {
+        public PropertiesFilterBuilder disjoint(Set<Object> target) {
             return builder.addFilter(PropertyFilter.disjoint(key, target));
         }
 
-        public <C> PropertiesFilterBuilder contains(C target) {
+        public PropertiesFilterBuilder contains(Object target) {
             return builder.addFilter(PropertyFilter.contains(key, target));
         }
     }
