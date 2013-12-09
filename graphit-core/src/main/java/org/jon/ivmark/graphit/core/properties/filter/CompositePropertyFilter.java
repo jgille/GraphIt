@@ -46,8 +46,6 @@ public class CompositePropertyFilter implements Predicate<Properties> {
         this.composite = Predicates.and(filters);
     }
 
-
-
     @Override
     public boolean apply(Properties properties) {
         return composite.apply(properties);

@@ -16,20 +16,18 @@
 
 package org.jon.ivmark.graphit.core.properties.filter.it;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.type.TypeReference;
 import org.jon.ivmark.graphit.core.Json;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
 import org.jon.ivmark.graphit.core.properties.HashMapProperties;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.jon.ivmark.graphit.core.properties.filter.CompositePropertyFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertyFilterSettings;
 import org.jon.ivmark.graphit.test.categories.IntegrationTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +37,7 @@ public class CompositePropertyFilterTestIt {
 
     @Test
     public void testAllowed() throws IOException {
-        Map<String, Map<String, Object>> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
         CompositePropertyFilter filter = new CompositePropertyFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("TestCategory").withName("Test")
@@ -49,7 +47,7 @@ public class CompositePropertyFilterTestIt {
 
     @Test
     public void testPriceNotWithinRange() throws IOException {
-        Map<String, Map<String, Object>> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
         CompositePropertyFilter filter = new CompositePropertyFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("TestCategory").withName("Test")
@@ -59,7 +57,7 @@ public class CompositePropertyFilterTestIt {
 
     @Test
     public void testNameFilteredOut() throws IOException {
-        Map<String, Map<String, Object>> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
         CompositePropertyFilter filter = new CompositePropertyFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("TestCategory").withName("Unknown")
@@ -69,7 +67,7 @@ public class CompositePropertyFilterTestIt {
 
     @Test
     public void testCategoryFilteredOut() throws IOException {
-        Map<String, Map<String, Object>> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
         CompositePropertyFilter filter = new CompositePropertyFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("Unknown").withName("Test")
@@ -77,9 +75,9 @@ public class CompositePropertyFilterTestIt {
         assertFalse(filter.apply(properties));
     }
 
-    private Map<String, Map<String, Object>> loadSettings(String path) throws IOException {
+    private PropertyFilterSettings loadSettings(String path) throws IOException {
         File file = ResourceUtils.resourceFile(path);
-        return Json.OBJECT_MAPPER.readValue(file, new TypeReference<Map<String, Map<String, Object>>>() {});
+        return Json.OBJECT_MAPPER.readValue(file, PropertyFilterSettings.class);
     }
 
     private static class PropertiesBuilder {
