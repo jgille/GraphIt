@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.repository;
 
-public interface ItemBasedRecommender {
+import org.jon.ivmark.graphit.recommendation.Item;
 
-    Recommendation othersAlsoBought(String itemId);
+public interface ItemRepository {
 
-    Recommendation othersAlsoViewed(String itemId);
-
-    Recommendation othersAlsoLiked(String itemId);
-
-    int numberOfItems();
-
+    Item get(String itemId);
 }

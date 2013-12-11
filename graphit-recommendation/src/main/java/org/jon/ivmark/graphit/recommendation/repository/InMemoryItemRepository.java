@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.repository;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.jon.ivmark.graphit.recommendation.Item;
 
 import java.io.File;
 import java.io.IOException;

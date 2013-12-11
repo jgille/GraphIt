@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.repository;
 
-public interface ItemRepository {
+import org.jon.ivmark.graphit.recommendation.CompositeRecommendationSettings;
 
-    Item get(String itemId);
+public interface RecommendationSettingsRepository {
+
+    void save(CompositeRecommendationSettings recommendationSettings);
+
+    CompositeRecommendationSettings get(String id);
 }

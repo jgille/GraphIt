@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.repository;
 
 import org.jon.ivmark.graphit.core.properties.Properties;
+import org.jon.ivmark.graphit.recommendation.Item;
+import org.jon.ivmark.graphit.recommendation.ItemId;
+import org.jon.ivmark.graphit.recommendation.repository.ItemNodeRepository;
+import org.jon.ivmark.graphit.recommendation.repository.ItemRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

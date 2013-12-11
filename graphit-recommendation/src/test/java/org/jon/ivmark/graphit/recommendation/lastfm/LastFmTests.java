@@ -18,17 +18,20 @@ package org.jon.ivmark.graphit.recommendation.lastfm;
 
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
 import org.jon.ivmark.graphit.recommendation.*;
+import org.jon.ivmark.graphit.recommendation.repository.InMemoryItemRepository;
+import org.jon.ivmark.graphit.recommendation.service.ItemBasedRecommenderImpl;
 import org.jon.ivmark.graphit.test.categories.LoadTest;
-import org.jon.ivmark.graphit.test.categories.SlowTests;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_LIKED;
 
 @Category(LoadTest.class)
 public class LastFmTests {
@@ -64,7 +67,8 @@ public class LastFmTests {
 
         long t0 = System.currentTimeMillis();
         ItemBasedRecommenderImpl recommender =
-                new ItemBasedRecommenderImpl.Builder().items(repository).othersAlsoLiked(othersAlsoLiked).build();
+                new ItemBasedRecommenderImpl(repository,
+                        Collections.singletonList(new Similarities(OTHERS_ALSO_LIKED.name(), othersAlsoLiked)));
         long t1 = System.currentTimeMillis();
         int numberOfItems = recommender.numberOfItems();
 
@@ -73,7 +77,7 @@ public class LastFmTests {
         String coldplay = "65";
 
         long t2 = System.currentTimeMillis();
-        List<Item> items = recommender.othersAlsoLiked(coldplay).get();
+        List<Item> items = recommender.recommend(coldplay, OTHERS_ALSO_LIKED.name()).get();
         long t3 = System.currentTimeMillis();
         assertThat(items, notNullValue());
         assertThat(items.size(), is(4568));
@@ -81,7 +85,7 @@ public class LastFmTests {
 
         long t4 = System.currentTimeMillis();
         for (int i = 0; i < 1000; i++) {
-            recommender.othersAlsoLiked(coldplay).limit(10).get();
+            recommender.recommend(coldplay, OTHERS_ALSO_LIKED.name()).limit(10).get();
         }
         long t5 = System.currentTimeMillis();
         System.out.println(String.format("1000 recommendations in %d ms", (t5 - t4)));

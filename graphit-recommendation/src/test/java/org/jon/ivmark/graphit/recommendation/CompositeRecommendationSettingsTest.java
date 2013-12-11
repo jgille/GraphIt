@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -39,7 +40,8 @@ public class CompositeRecommendationSettingsTest {
         assertThat(compositeRecommendationSettings.getId(), is("test"));
         assertThat(compositeRecommendationSettings.getName(), is("Test settings"));
         assertThat(compositeRecommendationSettings.getMaxNumberOfRecommendedItems(), is(10));
-        assertThat(compositeRecommendationSettings.getFallbackTo(), is("SomeFallback"));
+        assertThat(compositeRecommendationSettings.getFallbackTo(), isA(FallbackSettings.class));
+        assertThat(compositeRecommendationSettings.getFallbackTo().getId(), is("SomeFallback"));
         assertThat(compositeRecommendationSettings.getFilter(), notNullValue());
         assertThat(compositeRecommendationSettings.getRecommendationSettings(), notNullValue());
         assertThat(compositeRecommendationSettings.getRecommendationSettings().size(), is(2));

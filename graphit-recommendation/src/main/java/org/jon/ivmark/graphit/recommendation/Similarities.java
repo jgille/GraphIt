@@ -16,20 +16,21 @@
 
 package org.jon.ivmark.graphit.recommendation;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
+public class Similarities {
 
-public class Fallback implements Iterable<String> {
+    private final String similarityType;
+    private final Iterable<Similarity> similarities;
 
-    private final Collection<String> fallbackItems;
-
-    public Fallback(Collection<String> fallbackItems) {
-        this.fallbackItems = Collections.unmodifiableCollection(fallbackItems);
+    public Similarities(String similarityType, Iterable<Similarity> similarities) {
+        this.similarityType = similarityType;
+        this.similarities = similarities;
     }
 
-    @Override
-    public Iterator<String> iterator() {
-        return fallbackItems.iterator();
+    public String getSimilarityType() {
+        return similarityType;
+    }
+
+    public Iterable<Similarity> getSimilarities() {
+        return similarities;
     }
 }

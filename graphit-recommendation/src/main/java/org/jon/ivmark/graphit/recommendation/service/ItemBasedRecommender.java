@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.service;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
+import org.jon.ivmark.graphit.recommendation.Recommendation;
 
-public class Fallback implements Iterable<String> {
+public interface ItemBasedRecommender {
 
-    private final Collection<String> fallbackItems;
+    Recommendation recommend(String itemId, String similarityType);
 
-    public Fallback(Collection<String> fallbackItems) {
-        this.fallbackItems = Collections.unmodifiableCollection(fallbackItems);
-    }
+    int numberOfItems();
 
-    @Override
-    public Iterator<String> iterator() {
-        return fallbackItems.iterator();
-    }
 }

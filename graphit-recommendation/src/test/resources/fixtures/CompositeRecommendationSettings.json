@@ -2,7 +2,7 @@
     "id" : "test",
     "name" : "Test settings",
     "max_number_of_recommended_items" : 10,
-    "fallback_to" : "SomeFallback",
+    "fallback_to" : { "id" : "SomeFallback" },
     "filter" : { "Price" : { "<" : 1000 } },
     "recommendation_settings" : [
         {

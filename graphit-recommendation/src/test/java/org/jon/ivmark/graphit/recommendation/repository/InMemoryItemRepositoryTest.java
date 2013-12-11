@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.repository;
 
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
+import org.jon.ivmark.graphit.recommendation.Item;
+import org.jon.ivmark.graphit.recommendation.repository.InMemoryItemRepository;
+import org.jon.ivmark.graphit.recommendation.repository.ItemRepository;
 import org.junit.Test;
 
 import java.io.File;

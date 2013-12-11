@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.service;
 
 import org.jon.ivmark.graphit.core.graph.PropertyGraph;
 import org.jon.ivmark.graphit.core.graph.node.Node;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.graph.traversal.Traversable;
 import org.jon.ivmark.graphit.core.properties.HashMapProperties;
+import org.jon.ivmark.graphit.recommendation.Item;
+import org.jon.ivmark.graphit.recommendation.ItemId;
+import org.jon.ivmark.graphit.recommendation.Recommendation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +36,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.jon.ivmark.graphit.core.graph.edge.EdgeDirection.OUTGOING;
-import static org.jon.ivmark.graphit.recommendation.GraphConstants.*;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_BOUGHT;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,29 +56,11 @@ public class ItemBasedRecommenderImplTest {
     }
 
     @Test
-    public void testOthersAlsoBought() {
+    public void testRecommend() {
         NodeId itemId = node.getNodeId();
         when(similarities.getNeighbors(itemId, OTHERS_ALSO_BOUGHT, OUTGOING)).thenReturn(similarNodes);
 
-        Recommendation recommendation = recommender.othersAlsoBought(itemId.getId());
-        checkRecommendation(recommendation);
-    }
-
-    @Test
-    public void testOthersAlsoViewed() {
-        NodeId itemId = node.getNodeId();
-        when(similarities.getNeighbors(itemId, OTHERS_ALSO_VIEWED, OUTGOING)).thenReturn(similarNodes);
-
-        Recommendation recommendation = recommender.othersAlsoViewed(itemId.getId());
-        checkRecommendation(recommendation);
-    }
-
-    @Test
-    public void testOthersAlsoLiked() {
-        NodeId itemId = node.getNodeId();
-        when(similarities.getNeighbors(itemId, OTHERS_ALSO_LIKED, OUTGOING)).thenReturn(similarNodes);
-
-        Recommendation recommendation = recommender.othersAlsoLiked(itemId.getId());
+        Recommendation recommendation = recommender.recommend(itemId.getId(), OTHERS_ALSO_BOUGHT.name());
         checkRecommendation(recommendation);
     }
 

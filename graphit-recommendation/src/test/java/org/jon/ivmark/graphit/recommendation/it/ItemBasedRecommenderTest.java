@@ -19,6 +19,10 @@ package org.jon.ivmark.graphit.recommendation.it;
 import com.google.common.base.Preconditions;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.recommendation.*;
+import org.jon.ivmark.graphit.recommendation.repository.InMemoryItemRepository;
+import org.jon.ivmark.graphit.recommendation.repository.ItemRepository;
+import org.jon.ivmark.graphit.recommendation.service.ItemBasedRecommender;
+import org.jon.ivmark.graphit.recommendation.service.ItemBasedRecommenderImpl;
 import org.jon.ivmark.graphit.test.categories.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +34,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.jon.ivmark.graphit.core.properties.filter.PropertiesFilterBuilder.where;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_BOUGHT;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_LIKED;
+import static org.jon.ivmark.graphit.recommendation.GraphConstants.OTHERS_ALSO_VIEWED;
 
 @Category(IntegrationTest.class)
 public class ItemBasedRecommenderTest {
@@ -92,9 +99,13 @@ public class ItemBasedRecommenderTest {
         similarity(othersAlsoLiked, N1, N2, 1f);
         similarity(othersAlsoViewed, N1, N3, 2f);
 
-        this.recommender = new ItemBasedRecommenderImpl.Builder().items(itemRepository)
-                .othersAlsoBought(othersAlsoBought).othersAlsoLiked(othersAlsoLiked)
-                .othersAlsoViewed(othersAlsoViewed).build();
+        List<Similarities> allSimilarities = Arrays.asList(
+                new Similarities(GraphConstants.OTHERS_ALSO_VIEWED.name(), othersAlsoViewed),
+                new Similarities(OTHERS_ALSO_BOUGHT.name(), othersAlsoBought),
+                new Similarities(GraphConstants.OTHERS_ALSO_LIKED.name(), othersAlsoLiked)
+                );
+
+        this.recommender = new ItemBasedRecommenderImpl(itemRepository, allSimilarities);
     }
 
     private void similarity(List<Similarity> similarities, NodeId source, NodeId similar, float weight) {
@@ -118,7 +129,7 @@ public class ItemBasedRecommenderTest {
 
     @Test
     public void testSimpleRecommendation() {
-        Recommendation recommendation = recommender.othersAlsoBought(N1.getId());
+        Recommendation recommendation = recommender.recommend(N1.getId(), OTHERS_ALSO_BOUGHT.name());
         assertThat(recommendation, notNullValue());
         List<Item> items = recommendation.get();
         assertThat(items, notNullValue());
@@ -130,7 +141,7 @@ public class ItemBasedRecommenderTest {
 
     @Test
     public void testOthersAlsoLiked() {
-        Recommendation recommendation = recommender.othersAlsoLiked(N1.getId());
+        Recommendation recommendation = recommender.recommend(N1.getId(), OTHERS_ALSO_LIKED.name());
         assertThat(recommendation, notNullValue());
         List<Item> items = recommendation.get();
         assertThat(items, notNullValue());
@@ -140,7 +151,7 @@ public class ItemBasedRecommenderTest {
 
     @Test
     public void testOthersAlsoViewed() {
-        Recommendation recommendation = recommender.othersAlsoViewed(N1.getId());
+        Recommendation recommendation = recommender.recommend(N1.getId(), OTHERS_ALSO_VIEWED.name());
         assertThat(recommendation, notNullValue());
         List<Item> items = recommendation.get();
         assertThat(items, notNullValue());
@@ -150,7 +161,7 @@ public class ItemBasedRecommenderTest {
 
     @Test
     public void testLimitedRecommendation() {
-        Recommendation recommendation = recommender.othersAlsoBought(N1.getId()).limit(2);
+        Recommendation recommendation = recommender.recommend(N1.getId(), OTHERS_ALSO_BOUGHT.name()).limit(2);
         assertThat(recommendation, notNullValue());
         List<Item> items = recommendation.get();
         assertThat(items, notNullValue());
@@ -161,7 +172,7 @@ public class ItemBasedRecommenderTest {
 
     @Test
     public void testFilteredRecommendation() {
-        Recommendation recommendation = recommender.othersAlsoBought(N1.getId())
+        Recommendation recommendation = recommender.recommend(N1.getId(), OTHERS_ALSO_BOUGHT.name())
                 .filter(where("Price").greaterThan(20)
                         .and("OnSale").equalTo(true)
                         .build());
@@ -175,7 +186,7 @@ public class ItemBasedRecommenderTest {
     @Test
     public void testRecommendationWithDiscardedItems() {
         Set<String> discarded = new HashSet<String>(Arrays.asList(N2.getId(), N3.getId()));
-        Recommendation recommendation = recommender.othersAlsoBought(N1.getId()).discard(discarded);
+        Recommendation recommendation = recommender.recommend(N1.getId(), OTHERS_ALSO_BOUGHT.name()).discard(discarded);
         assertThat(recommendation, notNullValue());
         List<Item> items = recommendation.get();
         assertThat(items, notNullValue());
@@ -186,7 +197,7 @@ public class ItemBasedRecommenderTest {
     @Test
     public void testCombination() {
         Set<String> discarded = new HashSet<String>(Arrays.asList(N2.getId()));
-        Recommendation recommendation = recommender.othersAlsoBought(N1.getId())
+        Recommendation recommendation = recommender.recommend(N1.getId(), OTHERS_ALSO_BOUGHT.name())
                 .discard(discarded)
                 .filter(where("Price").lessThan(40)
                         .build())

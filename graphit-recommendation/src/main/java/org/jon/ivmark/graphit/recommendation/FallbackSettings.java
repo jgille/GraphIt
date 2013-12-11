@@ -16,20 +16,25 @@
 
 package org.jon.ivmark.graphit.recommendation;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.jon.ivmark.graphit.core.properties.filter.PropertyFilterSettings;
 
-public class Fallback implements Iterable<String> {
+public class FallbackSettings {
 
-    private final Collection<String> fallbackItems;
+    private final String id;
+    private final PropertyFilterSettings filter;
 
-    public Fallback(Collection<String> fallbackItems) {
-        this.fallbackItems = Collections.unmodifiableCollection(fallbackItems);
+    public FallbackSettings(@JsonProperty("id") String id,
+                            @JsonProperty("filter") PropertyFilterSettings filter) {
+        this.id = id;
+        this.filter = filter;
     }
 
-    @Override
-    public Iterator<String> iterator() {
-        return fallbackItems.iterator();
+    public String getId() {
+        return id;
+    }
+
+    public PropertyFilterSettings getFilter() {
+        return filter;
     }
 }

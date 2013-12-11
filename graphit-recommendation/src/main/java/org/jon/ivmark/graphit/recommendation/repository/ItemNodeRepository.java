@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation;
+package org.jon.ivmark.graphit.recommendation.repository;
 
 import com.google.common.base.Preconditions;
 import org.jon.ivmark.graphit.core.graph.node.NodeId;
 import org.jon.ivmark.graphit.core.properties.HashMapProperties;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.jon.ivmark.graphit.core.properties.repository.PropertiesRepository;
+import org.jon.ivmark.graphit.recommendation.GraphConstants;
+import org.jon.ivmark.graphit.recommendation.Item;
 
-class ItemNodeRepository implements PropertiesRepository<NodeId> {
+public class ItemNodeRepository implements PropertiesRepository<NodeId> {
 
     private final ItemRepository items;
 
-    ItemNodeRepository(ItemRepository items) {
+    public ItemNodeRepository(ItemRepository items) {
         this.items = items;
     }
 

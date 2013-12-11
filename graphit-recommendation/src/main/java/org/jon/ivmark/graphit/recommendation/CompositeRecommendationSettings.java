@@ -26,7 +26,7 @@ public class CompositeRecommendationSettings {
     private final String id;
     private final String name;
     private final int maxNumberOfRecommendedItems;
-    private final String fallbackTo;
+    private final FallbackSettings fallbackTo;
     private final PropertyFilterSettings filter;
     private final List<RecommendationSettings> recommendationSettings;
 
@@ -34,7 +34,7 @@ public class CompositeRecommendationSettings {
                                            @JsonProperty("name") String name,
                                            @JsonProperty("max_number_of_recommended_items")
                                            int maxNumberOfRecommendedItems,
-                                           @JsonProperty("fallback_to") String fallbackTo,
+                                           @JsonProperty("fallback_to") FallbackSettings fallbackTo,
                                            @JsonProperty("filter") PropertyFilterSettings defaultFilter,
                                            @JsonProperty("recommendation_settings")
                                            List<RecommendationSettings> recommendationSettings) {
@@ -58,7 +58,7 @@ public class CompositeRecommendationSettings {
         return maxNumberOfRecommendedItems;
     }
 
-    public String getFallbackTo() {
+    public FallbackSettings getFallbackTo() {
         return fallbackTo;
     }
 
