@@ -30,6 +30,10 @@ public class CompositePropertyFilter implements Predicate<Properties> {
     private final Predicate<Properties> composite;
 
     public CompositePropertyFilter(Map<String, Map<String, Object>> filterSettings) {
+        if (filterSettings == null) {
+            this.composite = Predicates.alwaysTrue();
+            return;
+        }
         List<PropertyFilter> filters = new ArrayList<PropertyFilter>(filterSettings.size());
         for (Map.Entry<String, Map<String, Object>> e : filterSettings.entrySet()) {
             String key = e.getKey();

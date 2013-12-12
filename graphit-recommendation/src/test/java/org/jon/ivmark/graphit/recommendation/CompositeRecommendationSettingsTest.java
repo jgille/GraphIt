@@ -42,7 +42,7 @@ public class CompositeRecommendationSettingsTest {
         assertThat(compositeRecommendationSettings.getMaxNumberOfRecommendedItems(), is(10));
         assertThat(compositeRecommendationSettings.getFallbackTo(), isA(FallbackSettings.class));
         assertThat(compositeRecommendationSettings.getFallbackTo().getId(), is("SomeFallback"));
-        assertThat(compositeRecommendationSettings.getFilter(), notNullValue());
+        assertThat(compositeRecommendationSettings.getFilterSettings(), notNullValue());
         assertThat(compositeRecommendationSettings.getRecommendationSettings(), notNullValue());
         assertThat(compositeRecommendationSettings.getRecommendationSettings().size(), is(2));
     }
