@@ -18,10 +18,9 @@ package org.jon.ivmark.graphit.recommendation.repository;
 
 import com.google.common.base.Preconditions;
 import org.jon.ivmark.graphit.recommendation.CompositeRecommendationSettings;
+import org.jon.ivmark.graphit.recommendation.Named;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryRecommendationSettingsRepository implements RecommendationSettingsRepository {
 
@@ -40,5 +39,16 @@ public class InMemoryRecommendationSettingsRepository implements RecommendationS
     @Override
     public CompositeRecommendationSettings get(String id) {
         return storage.get(id);
+    }
+
+    @Override
+    public List<Named> allSettings() {
+        List<Named> all = new ArrayList<Named>();
+        synchronized (storage) {
+            for (Map.Entry<String, CompositeRecommendationSettings> e : storage.entrySet()) {
+                all.add(new Named(e.getKey(), e.getValue().getName()));
+            }
+        }
+        return all;
     }
 }

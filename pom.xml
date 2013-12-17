@@ -18,6 +18,7 @@
         <module>graphit-test</module>
         <module>graphit-examples</module>
         <module>graphit-recommendation</module>
+        <module>graphit-recommendation-service</module>
     </modules>
 
     <properties>

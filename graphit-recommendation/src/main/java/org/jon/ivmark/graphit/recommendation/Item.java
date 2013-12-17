@@ -28,7 +28,7 @@ public class Item {
 
     private final Map<String, Object> properties;
 
-    public Item(@JsonProperty("itemId") String itemId,
+    public Item(@JsonProperty("item_id") String itemId,
                 @JsonProperty("properties") Map<String, Object> properties) {
         this.itemId = itemId;
         this.properties = new HashMap<String, Object>(properties);

@@ -19,7 +19,6 @@ package org.jon.ivmark.graphit.recommendation;
 import org.jon.ivmark.graphit.core.properties.Properties;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +27,7 @@ public class ImmutableItemProperties implements Properties {
     private final Map<String, Object> properties;
 
     public ImmutableItemProperties(Item item) {
-        this.properties = item.getProperties() == null ? new HashMap<String, Object>() : item.getProperties();
+        this.properties = item.getProperties();
     }
 
     @Override

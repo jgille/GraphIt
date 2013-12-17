@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation.repository;
+package org.jon.ivmark.graphit.recommendation.ws.resource;
 
-import org.jon.ivmark.graphit.recommendation.CompositeRecommendationSettings;
-import org.jon.ivmark.graphit.recommendation.Named;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.List;
+public class RecommendationSettingsInfo {
+    private final String name;
+    private final Location location;
 
-public interface RecommendationSettingsRepository {
+    public RecommendationSettingsInfo(@JsonProperty("name") String name,
+                                      @JsonProperty("location") Location location) {
+        this.name = name;
+        this.location = location;
+    }
 
-    void save(CompositeRecommendationSettings recommendationSettings);
+    public String getName() {
+        return name;
+    }
 
-    CompositeRecommendationSettings get(String id);
-
-    List<Named> allSettings();
+    public Location getLocation() {
+        return location;
+    }
 }

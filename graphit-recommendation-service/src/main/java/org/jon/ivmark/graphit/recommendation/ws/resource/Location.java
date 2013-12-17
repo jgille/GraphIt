@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation.repository;
+package org.jon.ivmark.graphit.recommendation.ws.resource;
 
-import org.jon.ivmark.graphit.recommendation.CompositeRecommendationSettings;
-import org.jon.ivmark.graphit.recommendation.Named;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.List;
+public class Location {
+    private final String rel;
+    private final String href;
 
-public interface RecommendationSettingsRepository {
+    public Location(@JsonProperty("rel") String rel,
+                    @JsonProperty("href") String href) {
+        this.rel = rel;
+        this.href = href;
+    }
 
-    void save(CompositeRecommendationSettings recommendationSettings);
+    public String getRel() {
+        return rel;
+    }
 
-    CompositeRecommendationSettings get(String id);
-
-    List<Named> allSettings();
+    public String getHref() {
+        return href;
+    }
 }

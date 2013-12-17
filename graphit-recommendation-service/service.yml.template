@@ -1,0 +1,15 @@
+http:
+  port: 8080
+  adminPort: 8090
+
+# Logging settings.
+logging:
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Settings for logging to stdout.
+  console:
+    # If true, write log statements to stdout.
+    enabled: true
+    # Do not display log statements below this threshold to stdout.
+    threshold: ALL

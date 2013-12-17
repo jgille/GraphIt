@@ -22,7 +22,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.jon.ivmark.graphit.core.properties.filter.CompositePropertyFilter;
-import org.jon.ivmark.graphit.core.properties.filter.PropertyFilterSettings;
 
 import java.util.Collections;
 import java.util.HashMap;

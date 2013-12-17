@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-package org.jon.ivmark.graphit.recommendation.repository;
+package org.jon.ivmark.graphit.recommendation.ws.config;
 
-import org.jon.ivmark.graphit.recommendation.CompositeRecommendationSettings;
-import org.jon.ivmark.graphit.recommendation.Named;
+import com.yammer.dropwizard.config.Configuration;
 
-import java.util.List;
-
-public interface RecommendationSettingsRepository {
-
-    void save(CompositeRecommendationSettings recommendationSettings);
-
-    CompositeRecommendationSettings get(String id);
-
-    List<Named> allSettings();
+public class RecommendationConfig extends Configuration {
 }

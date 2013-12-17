@@ -51,7 +51,7 @@ public class RecommendationSettings {
     }
 
     public Map<String, Map<String, Object>> getFilterSettings() {
-        return Collections.unmodifiableMap(filterSettings);
+        return filterSettings == null ? null : Collections.unmodifiableMap(filterSettings);
     }
 
     @JsonIgnore
