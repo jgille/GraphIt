@@ -16,36 +16,30 @@
 
 package org.jon.ivmark.graphit.core.properties.filter;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import org.jon.ivmark.graphit.core.properties.Properties;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class CompositePropertyFilter implements Predicate<Properties> {
+public class PropertiesFilter implements Predicate<Properties> {
 
     private final Predicate<Properties> composite;
 
-    public CompositePropertyFilter(Map<String, Map<String, Object>> filterSettings) {
+    public PropertiesFilter(List<PropertyFilterSettings> filterSettings) {
         if (filterSettings == null) {
             this.composite = Predicates.alwaysTrue();
             return;
         }
-        List<PropertyFilter> filters = new ArrayList<PropertyFilter>(filterSettings.size());
-        for (Map.Entry<String, Map<String, Object>> e : filterSettings.entrySet()) {
-            String key = e.getKey();
-            Map<String, Object> settings = e.getValue();
-            Preconditions.checkArgument(settings.size() == 1, "Expected a single condition for " + key + ", got " +
-                    settings.size() + " conditions");
-            Map.Entry<String, Object> setting = settings.entrySet().iterator().next();
-            String operatorAlias = setting.getKey();
-            Object condition = setting.getValue();
-            PropertyFilterOperator operator = PropertyFilterOperator.operator(operatorAlias);
-            Predicate<Object> filter = operator.createFilter(condition);
-            filters.add(new PropertyFilter(key, filter));
+        List<PropertyFilter> filters = new ArrayList<PropertyFilter>();
+        for (PropertyFilterSettings propertyFilterSettings : filterSettings) {
+            String key = propertyFilterSettings.getKey();
+            for (FilterCondition fc : propertyFilterSettings.getConditions()) {
+                Predicate<Object> filter = fc.filter();
+                filters.add(new PropertyFilter(key, filter));
+            }
+
         }
         this.composite = Predicates.and(filters);
     }

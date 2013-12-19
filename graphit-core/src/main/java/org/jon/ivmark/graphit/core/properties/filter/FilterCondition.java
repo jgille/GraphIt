@@ -16,26 +16,33 @@
 
 package org.jon.ivmark.graphit.core.properties.filter;
 
+import com.google.common.base.Predicate;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.List;
+public class FilterCondition {
 
-public class PropertyFilterSettings {
+    private final String operator;
+    private final Object target;
 
-    private final String key;
-    private final List<FilterCondition> conditions;
-
-    public PropertyFilterSettings(@JsonProperty("key") String key,
-                                  @JsonProperty("conditions") List<FilterCondition> conditions) {
-        this.key = key;
-        this.conditions = conditions;
+    public FilterCondition(@JsonProperty("op") String operator,
+                           @JsonProperty("target") Object target) {
+        this.operator = operator;
+        this.target = target;
     }
 
-    public String getKey() {
-        return key;
+    @JsonProperty("op")
+    public String getOperator() {
+        return operator;
     }
 
-    public List<FilterCondition> getConditions() {
-        return conditions;
+    public Object getTarget() {
+        return target;
+    }
+
+
+    @JsonIgnore
+    public Predicate<Object> filter() {
+        return PropertyFilterOperator.operator(operator).createFilter(target);
     }
 }

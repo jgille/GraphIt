@@ -1,10 +1,18 @@
-{
-    "Price" : {
-        "and" : [
-            { ">=" : 10 },
-            { "<" : 100}
+[
+    {
+        "key": "Price",
+        "conditions": [
+            { "op": ">=", "target": 10 },
+            { "op": "<",  "target": 100}
         ]
     },
-    "Name" : { "in" : ["Test", "Other"] },
-    "Category" : { "=" : "TestCategory" }
-}
+    {
+        "key": "Name",
+        "conditions":  [{ "op": "in", "target": ["Test", "Other"] }]
+    },
+    {
+        "key": "Category",
+        "conditions":  [{ "op": "=", "target": "TestCategory" }]
+    }
+]
+

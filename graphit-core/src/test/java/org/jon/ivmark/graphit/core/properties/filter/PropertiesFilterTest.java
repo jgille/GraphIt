@@ -20,31 +20,23 @@ import org.jon.ivmark.graphit.core.properties.HashMapProperties;
 import org.jon.ivmark.graphit.core.properties.Properties;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class CompositePropertyFilterTest {
+public class PropertiesFilterTest {
 
     @Test
     public void testWithSingleCondition() {
-        Map<String, Object> testSettings = Collections.<String, Object>singletonMap("lt", 10);
-        Map<String, Map<String, Object>> filterSettings = Collections.singletonMap("Test", testSettings);
-        CompositePropertyFilter compositePropertyFilter = new CompositePropertyFilter(filterSettings);
+        List<PropertyFilterSettings> filterSettings =
+                singletonList(new PropertyFilterSettings("Test", singletonList(new FilterCondition("lt", 10))));
+        PropertiesFilter compositePropertyFilter = new PropertiesFilter(filterSettings);
 
         Properties properties = new HashMapProperties();
         properties.setProperty("Test", 20);
 
         assertThat(compositePropertyFilter.apply(properties), is(false));
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testWithIllegalConditions() {
-        Map<String, Object> testSettings = Collections.emptyMap();
-        Map<String, Map<String, Object>> filterSettings = Collections.singletonMap("Test", testSettings);
-        new CompositePropertyFilter(filterSettings);
-    }
-
 }

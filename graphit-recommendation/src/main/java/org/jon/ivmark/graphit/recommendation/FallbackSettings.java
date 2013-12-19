@@ -20,29 +20,31 @@ import com.google.common.base.Predicate;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jon.ivmark.graphit.core.properties.Properties;
-import org.jon.ivmark.graphit.core.properties.filter.CompositePropertyFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertiesFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertyFilterSettings;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FallbackSettings {
 
     private final String id;
-    private final Map<String, Map<String, Object>> filterSettings;
+    private final List<PropertyFilterSettings> filterSettings;
     private final Predicate<Properties> filter;
 
     public FallbackSettings(@JsonProperty("id") String id,
-                            @JsonProperty("filter") Map<String, Map<String, Object>> filterSettings) {
+                            @JsonProperty("filter") List<PropertyFilterSettings> filterSettings) {
         this.id = id;
-        this.filterSettings = filterSettings == null ? null : new HashMap<String, Map<String, Object>>(filterSettings);
-        this.filter = new CompositePropertyFilter(filterSettings);
+        this.filterSettings = filterSettings;
+        this.filter = new PropertiesFilter(filterSettings);
     }
 
     public String getId() {
         return id;
     }
 
-    public Map<String, Map<String, Object>> getFilterSettings() {
+    public List<PropertyFilterSettings> getFilterSettings() {
         return filterSettings;
     }
 

@@ -20,26 +20,28 @@ import com.google.common.base.Predicate;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jon.ivmark.graphit.core.properties.Properties;
-import org.jon.ivmark.graphit.core.properties.filter.CompositePropertyFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertiesFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertyFilterSettings;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RecommendationSettings {
 
     private final String similarityType;
     private final int maxNumberOfRecommendedItems;
-    private final Map<String, Map<String, Object>> filterSettings;
+    private final List<PropertyFilterSettings> filterSettings;
     private final Predicate<Properties> filter;
 
     public RecommendationSettings(@JsonProperty("similarity_type") String similarityType,
                                   @JsonProperty("max_number_of_recommended_items") int maxNumberOfRecommendedItems,
-                                  @JsonProperty("filter") Map<String, Map<String, Object>> filterSettings) {
+                                  @JsonProperty("filter") List<PropertyFilterSettings> filterSettings) {
         this.similarityType = similarityType;
         this.maxNumberOfRecommendedItems = maxNumberOfRecommendedItems;
-        this.filterSettings = filterSettings == null ? null : new HashMap<String, Map<String, Object>>(filterSettings);
-        this.filter = new CompositePropertyFilter(filterSettings);
+        this.filterSettings = filterSettings;
+        this.filter = new PropertiesFilter(filterSettings);
     }
 
     public String getSimilarityType() {
@@ -50,8 +52,8 @@ public class RecommendationSettings {
         return maxNumberOfRecommendedItems;
     }
 
-    public Map<String, Map<String, Object>> getFilterSettings() {
-        return filterSettings == null ? null : Collections.unmodifiableMap(filterSettings);
+    public List<PropertyFilterSettings> getFilterSettings() {
+        return filterSettings;
     }
 
     @JsonIgnore

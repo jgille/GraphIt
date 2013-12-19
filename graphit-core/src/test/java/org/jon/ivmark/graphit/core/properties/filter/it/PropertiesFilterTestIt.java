@@ -16,11 +16,12 @@
 
 package org.jon.ivmark.graphit.core.properties.filter.it;
 
+import org.codehaus.jackson.type.TypeReference;
 import org.jon.ivmark.graphit.core.Json;
 import org.jon.ivmark.graphit.core.io.util.ResourceUtils;
 import org.jon.ivmark.graphit.core.properties.HashMapProperties;
 import org.jon.ivmark.graphit.core.properties.Properties;
-import org.jon.ivmark.graphit.core.properties.filter.CompositePropertyFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertiesFilter;
 import org.jon.ivmark.graphit.core.properties.filter.PropertyFilterSettings;
 import org.jon.ivmark.graphit.test.categories.IntegrationTest;
 import org.junit.Test;
@@ -28,17 +29,18 @@ import org.junit.experimental.categories.Category;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @Category(IntegrationTest.class)
-public class CompositePropertyFilterTestIt {
+public class PropertiesFilterTestIt {
 
     @Test
     public void testAllowed() throws IOException {
-        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
-        CompositePropertyFilter filter = new CompositePropertyFilter(settings);
+        List<PropertyFilterSettings> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertiesFilter filter = new PropertiesFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("TestCategory").withName("Test")
                 .withPrice(50).build();
@@ -47,8 +49,8 @@ public class CompositePropertyFilterTestIt {
 
     @Test
     public void testPriceNotWithinRange() throws IOException {
-        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
-        CompositePropertyFilter filter = new CompositePropertyFilter(settings);
+        List<PropertyFilterSettings> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertiesFilter filter = new PropertiesFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("TestCategory").withName("Test")
                 .withPrice(1000).build();
@@ -57,8 +59,8 @@ public class CompositePropertyFilterTestIt {
 
     @Test
     public void testNameFilteredOut() throws IOException {
-        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
-        CompositePropertyFilter filter = new CompositePropertyFilter(settings);
+        List<PropertyFilterSettings> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertiesFilter filter = new PropertiesFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("TestCategory").withName("Unknown")
                 .withPrice(50).build();
@@ -67,17 +69,17 @@ public class CompositePropertyFilterTestIt {
 
     @Test
     public void testCategoryFilteredOut() throws IOException {
-        PropertyFilterSettings settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
-        CompositePropertyFilter filter = new CompositePropertyFilter(settings);
+        List<PropertyFilterSettings> settings = loadSettings("fixtures/properties/PriceNameCategoryFilter.json");
+        PropertiesFilter filter = new PropertiesFilter(settings);
 
         Properties properties = new PropertiesBuilder().withCategory("Unknown").withName("Test")
                 .withPrice(50).build();
         assertFalse(filter.apply(properties));
     }
 
-    private PropertyFilterSettings loadSettings(String path) throws IOException {
+    private List<PropertyFilterSettings> loadSettings(String path) throws IOException {
         File file = ResourceUtils.resourceFile(path);
-        return Json.OBJECT_MAPPER.readValue(file, PropertyFilterSettings.class);
+        return Json.OBJECT_MAPPER.readValue(file, new TypeReference<List<PropertyFilterSettings>>() {});
     }
 
     private static class PropertiesBuilder {

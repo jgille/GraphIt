@@ -21,12 +21,10 @@ import com.google.common.base.Predicate;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.jon.ivmark.graphit.core.properties.Properties;
-import org.jon.ivmark.graphit.core.properties.filter.CompositePropertyFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertiesFilter;
+import org.jon.ivmark.graphit.core.properties.filter.PropertyFilterSettings;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CompositeRecommendationSettings {
 
@@ -34,7 +32,7 @@ public class CompositeRecommendationSettings {
     private final String name;
     private final int maxNumberOfRecommendedItems;
     private final FallbackSettings fallbackTo;
-    private final Map<String, Map<String, Object>> filterSettings;
+    private final List<PropertyFilterSettings> filterSettings;
     private final List<RecommendationSettings> recommendationSettings;
     private final Predicate<Properties> filter;
 
@@ -43,15 +41,16 @@ public class CompositeRecommendationSettings {
                                            @JsonProperty("max_number_of_recommended_items")
                                            int maxNumberOfRecommendedItems,
                                            @JsonProperty("fallback_to") FallbackSettings fallbackTo,
-                                           @JsonProperty("filter") Map<String, Map<String, Object>> filterSettings,
+                                           @JsonProperty("filter")
+                                           List<PropertyFilterSettings> filterSettings,
                                            @JsonProperty("recommendation_settings")
                                            List<RecommendationSettings> recommendationSettings) {
         this.id = id;
         this.name = name;
         this.maxNumberOfRecommendedItems = maxNumberOfRecommendedItems;
         this.fallbackTo = fallbackTo;
-        this.filterSettings = filterSettings == null ? null : new HashMap<String, Map<String, Object>>(filterSettings);
-        this.filter = new CompositePropertyFilter(filterSettings);
+        this.filterSettings = filterSettings;
+        this.filter = new PropertiesFilter(filterSettings);
         this.recommendationSettings = recommendationSettings;
         Preconditions.checkArgument(recommendationSettings != null);
     }
@@ -72,8 +71,8 @@ public class CompositeRecommendationSettings {
         return fallbackTo;
     }
 
-    public Map<String, Map<String, Object>> getFilterSettings() {
-        return Collections.unmodifiableMap(filterSettings);
+    public List<PropertyFilterSettings>  getFilterSettings() {
+        return filterSettings;
     }
 
     @JsonIgnore
